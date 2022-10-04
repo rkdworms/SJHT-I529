@@ -12,15 +12,12 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
 
-	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-sign-in.html" />
+	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-sign-up.html" />
 
+	<title>Sign Up | AdminKit Demo</title>
 
-
-	<title>Sign In | AdminKit Demo</title>
-
-	<link href="css/login/login.css" rel="stylesheet">
+	<link href="/css/login/login.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
 
 <body>
@@ -28,38 +25,29 @@
 		<div class="container d-flex flex-column">
 			<div class="row vh-100">
 				<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
-					<div class="d-table-cell align-middle" style="padding-bottom: 215px;">
+					<div class="d-table-cell align-middle" style="padding-bottom: 200px;">
 
 						<div class="text-center mt-4">
+							<h1 class="h2">Get started</h1>
 							<p class="lead">
-								Sign in to your Employee number to continue
+								Start creating the best possible user experience for you customers.
 							</p>
 						</div>
 
 						<div class="card">
 							<div class="card-body">
 								<div class="m-sm-4">
-									<form action="/api/login" method="post">
+									<form action="/join" method="post">
 										<div class="mb-3">
-											<label class="form-label">Employee number</label>
-											<input class="form-control form-control-lg" type="text" name="username" placeholder="Enter your employee number" />
+											<label class="form-label">Name</label>
+											<input class="form-control form-control-lg" type="text" name="username" placeholder="Enter your name" />
 										</div>
 										<div class="mb-3">
-											<label class="form-label">Password</label>
+											<label class="form-label">Name</label>
 											<input class="form-control form-control-lg" type="password" name="password" placeholder="Enter your password" />
 										</div>
-										<div>
-											<label class="form-check">
-            <input class="form-check-input" type="checkbox" value="remember-me" name="remember-me" checked>
-            <span class="form-check-label">
-              Remember me next time
-            </span>
-          </label>
-										</div>
 										<div class="text-center mt-3">
-										<!--	<a href="/api/login" class="btn btn-lg btn-primary" methods="post">Sign in</a>-->
-											<button type="submit" class="btn btn-lg btn-primary">Sign in</button>
-											<a href="/api/join" class="btn btn-lg btn-primary" methods="post">Sign up</a>
+											<button type="submit" class="btn btn-lg btn-primary">Sign up</button>
 										</div>
 									</form>
 								</div>
