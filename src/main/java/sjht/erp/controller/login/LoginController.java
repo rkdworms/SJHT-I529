@@ -23,8 +23,10 @@ import sjht.erp.service.login.LoginService;
 import sjht.erp.service.login.ResponseService;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
+import java.util.Arrays;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,7 +37,11 @@ public class LoginController {
     private final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @GetMapping("/")
-    public String main(){
+    public String main(HttpServletRequest request){
+        Cookie[] cookie = request.getCookies();
+        if(Arrays.stream(cookie).filter(c -> c.getName().equals("token")).findAny().isPresent()){
+            return "redirect:/users";
+        }
         return "login/login";
     }
 

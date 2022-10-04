@@ -26,16 +26,17 @@ public class JwtFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+
         Cookie[] cookies = ((HttpServletRequest) request).getCookies();
 
-
-        String token =  Arrays.stream(cookies).filter(c -> c.getName().equals("token")).findAny().get().getValue();
+        String token =  null;
+        if(Arrays.stream(cookies).filter(c -> c.getName().equals("token")).findAny().isPresent()){
+            token =  Arrays.stream(cookies).filter(c -> c.getName().equals("token")).findAny().get().getValue();
+        }
 
         token = jwtTokenProvider.resolveToken(token);
 
         String requestURI = ((HttpServletRequest) request).getRequestURI();
-
-
 
         if (token != null && jwtTokenProvider.validateToken(token)) {
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
