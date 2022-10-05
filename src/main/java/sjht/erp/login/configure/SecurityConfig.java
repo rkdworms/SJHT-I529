@@ -1,4 +1,4 @@
-package sjht.erp.login.configure.configure;
+package sjht.erp.login.configure;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -50,9 +50,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("token")
 
                 .and()
-                .exceptionHandling().accessDeniedHandler(new sjht.erp.login.configure.configure.CustomAccessDeniedHandler())
+                .exceptionHandling().accessDeniedHandler(new sjht.erp.login.configure.CustomAccessDeniedHandler())
                 .and()
-                .exceptionHandling().authenticationEntryPoint(new sjht.erp.login.configure.configure.CustomAuthenticationEntryPoint())
+                .exceptionHandling().authenticationEntryPoint(new sjht.erp.login.configure.CustomAuthenticationEntryPoint())
 
                 .and()
                 .addFilterBefore(new JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);

@@ -5,11 +5,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ import sjht.erp.login.exception.LoginFailedException;
 import sjht.erp.login.dto.LoginDto;
 import sjht.erp.login.dto.Response.BaseResponse;
 import sjht.erp.login.dto.Response.SingleDataResponse;
-import sjht.erp.login.dto.UserDto;
+import sjht.erp.login.dto.EmployeeDto;
 import sjht.erp.login.service.LoginService;
 import sjht.erp.login.service.ResponseService;
 
@@ -50,10 +51,8 @@ public class LoginController {
     }
 
     @PostMapping("/join")
-    public String join(@ModelAttribute UserDto userDto){
-
-        UserDto savedUser = loginService.join(userDto);
-
+    public String join(@ModelAttribute EmployeeDto employeeDto){
+        loginService.join(employeeDto);
         return "redirect:/";
     }
 
@@ -132,8 +131,8 @@ public class LoginController {
     //thymeleaf
     @GetMapping("/users")
     public String findUserByUsername(final Authentication authentication, Model model){
-        Long userId = ((UserDto)authentication.getPrincipal()).getUserId();
-        UserDto findUser = loginService.findByUserId(userId);
+        Long userId = ((EmployeeDto)authentication.getPrincipal()).getEmpno();
+        EmployeeDto findUser = loginService.findByUserId(userId);
 
 
         model.addAttribute("user", findUser);

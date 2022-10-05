@@ -20,7 +20,11 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+	//thymeleaf
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect'
+
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
