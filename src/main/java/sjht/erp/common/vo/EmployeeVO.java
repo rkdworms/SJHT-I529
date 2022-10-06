@@ -1,11 +1,13 @@
 package sjht.erp.common.vo;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 
 @Data
+@Builder
 public class EmployeeVO {
     private int empno;
     private String password;

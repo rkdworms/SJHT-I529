@@ -1,10 +1,12 @@
 package sjht.erp.common.vo;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
+@Builder
 public class PayRollHistoryVO {
     private int paysequence;
     private EmployeeVO empno;
