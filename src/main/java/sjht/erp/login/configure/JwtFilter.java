@@ -28,20 +28,26 @@ public class JwtFilter extends GenericFilterBean {
 
         Cookie[] cookies = ((HttpServletRequest) request).getCookies();
 
-        String token =  null;
-        if(cookies!=null){
-            if(Arrays.stream(cookies).filter(c -> c.getName().equals("token")).findAny().isPresent()){
-                token =  Arrays.stream(cookies).filter(c -> c.getName().equals("token")).findAny().get().getValue();
-            }
+        if (cookies == null) {
+            chain.doFilter(request, response);
+            return;
+        }
+
+        String token = null;
+
+        if (Arrays.stream(cookies).filter(c -> c.getName().equals("token")).findAny().isPresent()) {
+            token = Arrays.stream(cookies).filter(c -> c.getName().equals("token")).findAny().get().getValue();
         }
 
         token = jwtTokenProvider.resolveToken(token);
 
         String requestURI = ((HttpServletRequest) request).getRequestURI();
 
-        if (token != null && jwtTokenProvider.validateToken(token,(HttpServletResponse) response)) {
+        if (token != null && jwtTokenProvider.validateToken(token, (HttpServletResponse) response)) {
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            request.setAttribute("auth", authentication);
+
             logger.info("Security context에 인증 정보를 저장했습니다. uri: {}", requestURI);
         } else {
             logger.debug("유효한 Jwt 토큰이 없습니다, uti: {}", requestURI);

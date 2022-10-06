@@ -14,7 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import sjht.erp.login.exception.LoginFailedException;
+import sjht.erp.login.repository.exception.LoginFailedException;
 import sjht.erp.login.dto.LoginDto;
 import sjht.erp.login.dto.Response.BaseResponse;
 import sjht.erp.login.dto.Response.SingleDataResponse;

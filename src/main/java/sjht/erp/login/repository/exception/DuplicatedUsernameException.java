@@ -1,4 +1,4 @@
-package sjht.erp.login.exception;
+package sjht.erp.login.repository.exception;
 
 public class DuplicatedUsernameException extends RuntimeException{
     public DuplicatedUsernameException(){
