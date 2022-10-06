@@ -9,7 +9,7 @@ import sjht.erp.login.configure.JwtTokenProvider;
 import sjht.erp.login.exception.LoginFailedException;
 import sjht.erp.login.exception.UserNotFoundException;
 import sjht.erp.login.dto.LoginDto;
-import sjht.erp.login.dto.UserDto;
+import sjht.erp.login.dto.EmployeeDto;
 import sjht.erp.login.repository.UserMapper;
 
 import java.util.Collections;
@@ -24,31 +24,32 @@ public class LoginService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public UserDto join(UserDto userDto){
-        if(userMapper.findUserByUsername(userDto.getUsername()).isPresent()){
+    public void join(EmployeeDto employeeDto){
+        if(userMapper.findUserByEmpno(employeeDto.getEmpno()).isPresent()){
             throw new DuplicatedUsernameException("이미 가입된 유저입니다.");
         }
 
-        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        userMapper.save(userDto);
+        employeeDto.setPassword(passwordEncoder.encode(employeeDto.getPassword()));
+        System.out.println(employeeDto.getName());
+        userMapper.save(employeeDto);
+        System.out.println(employeeDto.getPassword());
 
-        return userMapper.findUserByUsername(userDto.getUsername()).get();
     }
 
     public String login(LoginDto loginDto){
-        UserDto userDto = userMapper.findUserByUsername(loginDto.getUsername())
+        EmployeeDto employeeDto = userMapper.findUserByEmpno(loginDto.getEmpno())
                 .orElseThrow(() -> new LoginFailedException("잘못된 아이디입니다."));
 
-        if(!passwordEncoder.matches(loginDto.getPassword(), userDto.getPassword())){
+        if(!passwordEncoder.matches(loginDto.getPassword(), employeeDto.getPassword())){
             throw new LoginFailedException("잘못된 비밀번호 입니다.");
         }
 
-        return jwtTokenProvider.createToken(userDto.getUserId(), Collections.singletonList(userDto.getRole()));
+        return jwtTokenProvider.createToken(employeeDto.getEmpno(), Collections.singletonList(employeeDto.getUsertype()));
 
     }
 
-    public UserDto findByUserId(Long userId){
-        return userMapper.findByUserId(userId)
+    public EmployeeDto findByUserId(Long userId){
+        return userMapper.findUserByEmpno(userId)
                 .orElseThrow(() -> new UserNotFoundException("없는 유저입니다."));
     }
 }

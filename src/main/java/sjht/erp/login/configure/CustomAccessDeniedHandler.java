@@ -1,4 +1,4 @@
-package sjht.erp.login.configure.configure;
+package sjht.erp.login.configure;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

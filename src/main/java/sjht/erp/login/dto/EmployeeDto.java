@@ -12,13 +12,13 @@ import java.util.Collection;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto implements UserDetails{
-    private Long userId;
-    private String username;
+public class EmployeeDto implements UserDetails{
+    private Long empno;
+    private String name;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    private String role;
+    private String usertype;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Collection<? extends GrantedAuthority> authorities;
@@ -35,7 +35,7 @@ public class UserDto implements UserDetails{
 
     @Override
     public String getUsername() {
-        return this.username;
+        return this.empno.toString();
     }
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
