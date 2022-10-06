@@ -39,6 +39,9 @@ public class LoginController {
     @RequestMapping("/")
     public String main(HttpServletRequest request){
         Cookie[] cookie = request.getCookies();
+
+        if(cookie==null )return "login/login";
+
         if(Arrays.stream(cookie).filter(c -> c.getName().equals("token")).findAny().isPresent()){
             return "redirect:/users";
         }

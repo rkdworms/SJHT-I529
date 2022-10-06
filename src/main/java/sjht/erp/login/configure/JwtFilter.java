@@ -30,7 +30,13 @@ public class JwtFilter extends GenericFilterBean {
 
         Cookie[] cookies = ((HttpServletRequest) request).getCookies();
 
+        if(cookies==null){
+            chain.doFilter(request, response);
+            return;
+        }
+
         String token =  null;
+
         if(Arrays.stream(cookies).filter(c -> c.getName().equals("token")).findAny().isPresent()){
             token =  Arrays.stream(cookies).filter(c -> c.getName().equals("token")).findAny().get().getValue();
         }
