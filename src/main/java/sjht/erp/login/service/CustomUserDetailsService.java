@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import sjht.erp.login.repository.exception.UserNotFoundException;
+import sjht.erp.login.exception.UserNotFoundException;
 import sjht.erp.login.dto.EmployeeDto;
 import sjht.erp.login.repository.UserMapper;
 

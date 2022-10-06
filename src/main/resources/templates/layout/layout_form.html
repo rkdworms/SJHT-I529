@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<th:block th:replace="/templates/layout/header_sidebar :: head"></th:block>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <title>layout</title>
+  <th:block th:replace="layout/config::config"></th:block>
+</head>
 <body>
-<div id="wrap">
-  <th:block layout:fragment="mypage"></th:block>
-</div>
+<th:block th:replace="layout/header_sidebar::header"></th:block>
 </body>
-
 </html>
