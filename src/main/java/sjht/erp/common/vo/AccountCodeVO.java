@@ -9,4 +9,6 @@ public class AccountCodeVO {
     private String divcd;
     private String divname;
 
+
+
 }

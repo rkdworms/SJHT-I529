@@ -1,15 +1,19 @@
 package sjht.erp.common.vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class EmployeeVO {
-    private int empno;
+    private Long empno;
     private String password;
     private BankCodeVO bankcd; // fk
     private DepartmentCodeVO departmentcd; // fk
