@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <th:block th:fragment="header">
 
 <head>
@@ -18,16 +18,16 @@
                 <ul class="sidebar-nav" >
 
                     <li class="mb-1" v-for="(main,i) in mainmenu" key="i">
-                        <a class="sidebar-link" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+                        <a class="sidebar-link" v-bind:href="main.menuurl" role="button" data-bs-toggle="collapse" v-bind:data-bs-target="'#'+main.menuname" aria-expanded="true" >
                             <i class="align-middle" data-feather="book"></i>
                             <span class="align-middle">{{main.menuname}}</span>
                         </a>
 
 
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <div class="collapse" id="home-collapse">
+                                <div class="collapse" v-bind:id="main.menuname">
                                 <li v-for="(sub,j) in submenu" key="j">
-                                    <a v-if="main.groupnumber==sub.groupnumber" href="#" class="collspan list">{{sub.menuname}}</a>
+                                    <a v-if="main.groupnumber===sub.groupnumber" v-bind:href="sub.menuurl" class="collspan list">{{sub.menuname}}</a>
                                 </li>
                                 </div>
                             </ul>
@@ -131,7 +131,7 @@
               submenu:[]
             }
           },
-      
+
           methods: {
             getMenulist(){
               axios.get("http://localhost:8888/api/menu")
@@ -147,11 +147,11 @@
             this.getMenulist();
           }
 
-          
+
         }
-      
+
         Vue.createApp(Menu).mount('#menu')
-      
+
     </script>
 
 </body>
