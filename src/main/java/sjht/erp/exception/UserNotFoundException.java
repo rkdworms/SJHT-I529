@@ -1,4 +1,4 @@
-package sjht.erp.login.repository.exception;
+package sjht.erp.exception;
 
 public class UserNotFoundException extends RuntimeException{
 
