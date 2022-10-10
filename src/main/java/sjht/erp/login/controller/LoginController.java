@@ -14,7 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import sjht.erp.login.repository.exception.LoginFailedException;
+import sjht.erp.exception.LoginFailedException;
 import sjht.erp.login.dto.LoginDto;
 import sjht.erp.login.dto.Response.BaseResponse;
 import sjht.erp.login.dto.Response.SingleDataResponse;
@@ -40,10 +40,10 @@ public class LoginController {
     public String main(HttpServletRequest request){
         Cookie[] cookie = request.getCookies();
 
-        if(cookie==null )return "login/login";
+        if(cookie==null )return "/menu/menu";
 
         if(Arrays.stream(cookie).filter(c -> c.getName().equals("token")).findAny().isPresent()){
-            return "redirect:/users";
+            return "redirect:/menu/menu";
         }
         return "login/login";
     }
@@ -104,7 +104,7 @@ public class LoginController {
             responseEntity = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
-        return "redirect:/users";
+        return "redirect:/menu/menu";
     }
 
     //api 방식

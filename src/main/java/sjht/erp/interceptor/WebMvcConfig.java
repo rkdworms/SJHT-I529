@@ -14,7 +14,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(interceptor())
                 .addPathPatterns("/**") // interceptor 적용 url
-                .excludePathPatterns("/css/**", "/fonts/**", "/plugin/**", "/scripts/**"); // interceptor 적용 제외 url
+                .excludePathPatterns("/api/login","/","/css/**", "/fonts/**", "/plugin/**", "/scripts/**"); // interceptor 적용 제외 url
 
         WebMvcConfigurer.super.addInterceptors(registry);
     }

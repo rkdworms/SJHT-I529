@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import sjht.erp.login.dto.EmployeeDto;
 import sjht.erp.login.repository.UserMapper;
-import sjht.erp.login.repository.exception.UserNotFoundException;
+import sjht.erp.exception.UserNotFoundException;
 
 import java.util.Arrays;
 
