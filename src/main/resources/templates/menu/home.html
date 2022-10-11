@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{layout/layout_form}">
+<th:blcok layout:fragment="content">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="/css/menu/home.css"/>
+  <link rel="stylesheet" href="/css/menu/grid.css"/>
+
+</head>
+<body>
+
+  <div class ="container" id="home">
+    <div class="home notice">
+        <table class="table table-borderless" style = "margin:2%">
+          <thead>
+            <tr>
+              <th>공지사항</th>
+              <th>+</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for = "nlist in notice" key="list">
+              <td colspan = "6"><a>{{nlist.title}}</a></td>
+              <td style = "text-align:right">{{nlist.regdate}}</td>
+            </tr>
+
+          </tbody>
+          
+        </table>
+      
+    </div>
+    <div class="home find">item2</div>
+    <div class="home hrms">item3</div>
+  </div>
+
+  <script>
+    const Home = {
+      data() {
+        return {
+          notice:[]
+        }
+      },
+
+      methods: {
+        getNoticelist(){
+          axios.get("http://localhost:8888/api/home/notice")
+                .then((response)=>{
+                  this.notice=response.data;
+                })
+          .catch(error=>console.error(error))
+        }
+      },
+
+      mounted(){
+        this.getNoticelist();
+      },
+
+    }
+
+    Vue.createApp(Home).mount('#home')
+
+</script>
+
+</body>
+</th:blcok>
+</html>

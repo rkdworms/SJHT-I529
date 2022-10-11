@@ -1,0 +1,29 @@
+.container{
+    display:grid;
+    grid-auto-columns : minmax(160px, 1fr);
+    grid-auto-rows : minmax(160px, 160px);
+    grid-gap: 1rem;
+    padding :2%;
+    margin-top: 3%;
+    grid-template-areas:
+        'a a a a b b'
+        'a a a a b b'
+        'c c c c b b'
+        'c c c c b b'
+    ;
+
+}
+
+.notice{
+    grid-area:a;
+}
+
+.find{
+    grid-area:b;
+}
+
+
+
+.hrms{
+    grid-area:c;
+}
