@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import sjht.erp.login.dto.EmployeeDto;
 import sjht.erp.menu.dto.MenuDto;
@@ -23,6 +24,7 @@ public class MenuController {
 
     // 접근 권한별 메뉴구분
     @GetMapping("/api/menu")
+    @ResponseBody
     public ResponseEntity<List<List<MenuDto>>> menulist(HttpServletRequest request){
 
         //접근권한 및 아이디 참조
@@ -37,7 +39,6 @@ public class MenuController {
 
     @GetMapping("/menu/menu")
     public String menulist(){
-
         return "menu/menu";
     }
 }

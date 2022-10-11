@@ -43,7 +43,7 @@ public class LoginController {
         if(cookie==null )return "/login/login";
 
         if(Arrays.stream(cookie).filter(c -> c.getName().equals("token")).findAny().isPresent()){
-            return "redirect:/menu/menu";
+            return "/menu/home";
         }
         return "login/login";
     }
@@ -104,7 +104,7 @@ public class LoginController {
             responseEntity = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
-        return "redirect:/menu/menu";
+        return "/menu/home";
     }
 
     //api 방식
