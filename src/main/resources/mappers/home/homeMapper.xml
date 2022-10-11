@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sjht.erp.home.Mapper.HomeMapper">
+    <select id="getNoticeList" resultType="sjht.erp.common.vo.BoardVO">
+        SELECT bno, title, regdate
+        FROM board
+        WHERE boardtype = 'A'
+    </select>
+
+    <select id="getExpandInformationList" parameterType="int" resultType="sjht.erp.common.vo.ExpendInformationVO">
+        SELECT dvappyn, dvregdate, dvappdate, dvamt
+        FROM expendinformation
+        WHERE empno = #{empno}
+        ORDER BY dvregdate
+    </select>
+
+    <select id="getWorkTimeManagementList" parameterType="int" resultType="sjht.erp.common.vo.WorkTimeManagementVO">
+        SELECT approveryn, registdate, startdate, enddate
+        FROM worktimemanagement
+        WHERE empno = #{empno}
+        ORDER BY registdate
+    </select>
+
+</mapper>

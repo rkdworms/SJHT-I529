@@ -7,7 +7,7 @@
 
 
     <select id="getMenuList" parameterType="String" resultMap="menuList">
-        SELECT menuid, mm.usertype, menuname, menuurl, groupnumber, odr, level FROM menumaster as mm 
+        SELECT * FROM menumaster as mm
         left join usermaster as um on um.usertype = mm.usertype 
         WHERE mm.usertype = #{usertype}
     </select>
@@ -26,4 +26,5 @@
         </association>
 
     </resultMap>
+
 </mapper>

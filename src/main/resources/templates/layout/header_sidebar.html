@@ -9,7 +9,7 @@
 
 <body>
     <div class="wrapper">
-        <nav id="sidebar" class="sidebar js-sidebar collapsed">
+        <nav id="sidebar" class="sidebar js-sidebar">
             <div class="sidebar-content js-simplebar" id="menu">
                 <a class="sidebar-brand" href="/">
                     <span class="align-middle">I5-29 ERP SYSTEM</span>
@@ -134,7 +134,7 @@
 
           methods: {
             getMenulist(){
-              axios.get("http://localhost:8888/api/menu")
+              axios.post("http://localhost:8888/api/menu")
                     .then((response)=>{
                       this.mainmenu=response.data[0];
                       this.submenu=response.data[1];

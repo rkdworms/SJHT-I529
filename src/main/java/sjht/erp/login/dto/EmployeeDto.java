@@ -13,7 +13,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmployeeDto implements UserDetails{
-    private Long empno;
+    private int empno;
     private String name;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
@@ -35,7 +35,7 @@ public class EmployeeDto implements UserDetails{
 
     @Override
     public String getUsername() {
-        return this.empno.toString();
+        return this.empno+"";
     }
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
