@@ -3,8 +3,8 @@ package sjht.erp.common.vo;
 import lombok.*;
 
 
+@Data
 @Builder
-@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserMasterVO {

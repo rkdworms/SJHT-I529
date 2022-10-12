@@ -20,9 +20,9 @@ public class HrmsApiController {
     /* 사원 리스트 */
     @GetMapping("/hrms")
     @ResponseBody
-    public ResponseEntity<List<EmployeeVO>> getEmplist () {
+    public ResponseEntity<List<EmployeeVO>> getEmpList () {
         // 사원 리스트 불러오기 및 반환
-        return ResponseEntity.status(HttpStatus.OK).body(hrmsApiService.getEmplist());
+        return ResponseEntity.status(HttpStatus.OK).body(hrmsApiService.getEmpList());
     }
 
     @GetMapping("/hrms/list")
@@ -39,9 +39,9 @@ public class HrmsApiController {
         return ResponseEntity.status(HttpStatus.OK).body(hrmsApiService.findEmpByEmpno(empno));
     }
 
-    @GetMapping("/hrms/test/{empno}")
-    public String findEmpByEmpno1 () {
-        // 사원 리스트 불러오기 및 반환
-        return "/hrms/hrms";
-    }
+//    @GetMapping("/hrms/test/{empno}")
+//    public String findEmpByEmpno1 () {
+//        // 사원 리스트 불러오기 및 반환
+//        return "/hrms/hrms";
+//    }
 }

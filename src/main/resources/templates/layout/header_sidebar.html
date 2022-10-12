@@ -27,7 +27,7 @@
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 <div class="collapse" id="home-collapse">
                                 <li v-for="(sub,j) in submenu" key="j">
-                                    <a v-if="main.groupnumber==sub.groupnumber" href="#" class="collspan list">{{sub.menuname}}</a>
+                                    <a v-if="main.groupnumber==sub.groupnumber" v-bind:href="sub.menuurl" class="collspan list">{{sub.menuname}}</a>
                                 </li>
                                 </div>
                             </ul>
