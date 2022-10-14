@@ -134,7 +134,7 @@ public class LoginController {
     //thymeleaf
     @GetMapping("/users")
     public String findUserByUsername(final Authentication authentication, Model model){
-        Long userId = ((EmployeeDto)authentication.getPrincipal()).getEmpno();
+        int userId = ((EmployeeDto)authentication.getPrincipal()).getEmpno();
         EmployeeDto findUser = loginService.findByUserId(userId);
 
 
