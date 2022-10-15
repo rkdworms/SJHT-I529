@@ -23,7 +23,7 @@ import java.util.List;
 public class JwtTokenProvider {
 
     private String secretKey = "test";
-    private long tokenValidMillisecond = 1000l * 60 * 60;
+    private long tokenValidMillisecond = 1000l * 60 * 60 * 24;
 
     private final UserDetailsService userDetailsService;
     private final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
@@ -80,7 +80,7 @@ public class JwtTokenProvider {
         } catch(ExpiredJwtException exception){
 
             Cookie myCookie = new Cookie("token", null);
-            myCookie.setMaxAge(0); // 쿠키의 expiration 타임을 0으로 하여 없앤다.
+            myCookie.setMaxAge(60*60*24); // 쿠키의 expiration 타임을 0으로 하여 없앤다.
             myCookie.setPath("/"); // 모든 경로에서 삭제 됬음을 알린다.
             response.addCookie(myCookie);
 

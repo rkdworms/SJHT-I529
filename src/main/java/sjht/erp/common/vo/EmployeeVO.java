@@ -13,35 +13,36 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmployeeVO {
-    private Long empno;
-    private String password;
-    private BankCodeVO bankcd; // fk
-    private DepartmentCodeVO departmentcd; // fk
-    private GradeCodeVO gradecd; // fk
-    private UserMasterVO usertype; // fk
-    private FileVO fileno;
-    private String name;
-    private String gender;
-    private String mail;
-    private String tel;
-    private String zipcode;
-    private String addr;
-    private String addrdetail;
-    private String regno;
-    private String birthday;
-    private String school;
-    private LocalDateTime entrydate;
-    private LocalDateTime retiredate;
-    private int yearsalary;
-    private int salary;
-    private int retirementpay;
-    private String account;
-    private String memo;
+
+    private int empno; // 사원번호
+    private String password; // 비밀번호
+    private BankCodeVO bankcd; // fk 은행코드
+    private DepartmentCodeVO departmentcd; // fk 부서코드
+    private GradeCodeVO gradecd; // fk 직급코드
+    private UserMasterVO usertype; // fk 권한코드
+    private FileVO fileno; // 파일번호
+    private String name; // 사원이름
+    private String gender; // 성별
+    private String mail; // 이메일
+    private String tel; // 전화번호
+    private String zipcode; // 우편번호
+    private String addr; // 주소
+    private String addrdetail; // 상세주소
+    private String regno; // 주민번호
+    private String birthday; // 생년월일
+    private String school; // 학력
+    private LocalDateTime entrydate; // 입사일자
+    private LocalDateTime retiredate; // 퇴사일자
+    private int yearsalary; // 연봉
+    private int salary; // 월급
+    private int retirementpay; // 퇴직금
+    private String account; // 계좌번호
+    private String memo; // 비고
     private String retireyn; // 퇴직여부 -- y -> 퇴직 n -> 퇴직x
-    private String restyn;
-    private int privateinsurance;
-    private String paymentst; // 지급여부 --
+    private String restyn; // 휴직여부
+    private int privateinsurance; // 사대보험
+    private String paymentst; // 지급여부
     private int totalal; // 총연차
     private int useal; // 사용연차
-    private String retirenote;
+    private String retirenote; // 퇴사사유
 }

@@ -3,45 +3,46 @@ package sjht.erp.hrms.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import sjht.erp.common.vo.EmployeeVO;
-import sjht.erp.hrms.dto.EmployeeDto;
+import sjht.erp.hrms.dto.HrmsDto;
+import sjht.erp.hrms.dto.EmpInfoDto;
 import sjht.erp.hrms.service.HrmsApiService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class HrmsApiController {
 
     private final HrmsApiService hrmsApiService;
+
     /* 사원 리스트 */
-    @GetMapping("/hrms")
-    @ResponseBody
-    public ResponseEntity<List<EmployeeVO>> getEmpList () {
-        // 사원 리스트 불러오기 및 반환
-        return ResponseEntity.status(HttpStatus.OK).body(hrmsApiService.getEmpList());
+    @PostMapping("/api/hrms")
+    public ResponseEntity<List<HrmsDto>> getEmpList () {
+        // 사원 리스트 불러오기
+        List<HrmsDto> empList = hrmsApiService.getEmpList();
+        // 반환
+        return ResponseEntity.status(HttpStatus.OK).body(empList);
     }
 
-    @GetMapping("/hrms/list")
-    public String getEmplists () {
-        // 사원 리스트 불러오기 및 반환
-        return "/hrms/list";
+    /* 사원 등록 */
+    @PostMapping("/api/hrms/regist")
+    public void registEmp (@RequestBody EmpInfoDto empInfoDto) {
+        // 폼 데이터 등록 요청
+        hrmsApiService.registEmp(empInfoDto);
     }
 
-    /* 사원 상세 조회 */
-    @GetMapping("/hrms/list/{empno}")
-    @ResponseBody
-    public ResponseEntity<EmployeeVO> findEmpByEmpno (@PathVariable Long empno) {
-        // 사원 상세 불러오기 및 반환
-        return ResponseEntity.status(HttpStatus.OK).body(hrmsApiService.findEmpByEmpno(empno));
+    /* 사원 정보 수정 */
+    @PatchMapping("/api/hrms/{empno}")
+    public void updateEmp (@RequestBody EmpInfoDto empInfoDto) {
+        // 폼 데이터 수정 요청
+        hrmsApiService.updateEmp(empInfoDto);
     }
 
-//    @GetMapping("/hrms/test/{empno}")
-//    public String findEmpByEmpno1 () {
-//        // 사원 리스트 불러오기 및 반환
-//        return "/hrms/hrms";
-//    }
+
+
+
+
+
+
 }
