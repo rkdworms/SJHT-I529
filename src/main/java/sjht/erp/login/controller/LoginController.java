@@ -94,7 +94,7 @@ public class LoginController {
 
             Cookie cookie = new Cookie("token", URLEncoder.encode("Bearer "+token,"UTF-8"));
             cookie.setPath("/");
-            cookie.setMaxAge(60 * 60);
+            cookie.setMaxAge(60 * 60 * 24);
             respon.addCookie(cookie);
 
         }catch(LoginFailedException exception){
