@@ -15,7 +15,7 @@ public class WorkTimeManagementVO {
 
     private int tano; // PK
     private EmployeeVO empno; // 사원번호
-    private String approvedate; // 승인 일자
+    private LocalDateTime approvedate; // 승인 일자
     private String approver; // 승인자
     private String approveryn; // 승인 여부
     private LocalDateTime registdate; // 등록일자
