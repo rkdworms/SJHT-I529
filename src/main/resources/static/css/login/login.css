@@ -26,3 +26,14 @@
   --bs-popover-body-padding-x: 1rem;
   --bs-popover-body-padding-y: .5rem;
 }
+
+.placeholder-wave{
+  margin:0;
+}
+
+.placeholder{
+  vertical-align: 0;
+  opacity:0;
+  display:-webkit-box;
+  border-radius : 0.25rem 0.25rem 0 0;
+}

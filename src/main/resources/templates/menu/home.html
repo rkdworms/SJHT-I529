@@ -12,10 +12,6 @@
   <body>
 
     <div class="container" id="home">
-    <script>
-      const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-      const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
-    </script>
 
       <!--공지사항 dashboard-->
       <div class="home notice shadow-lg rounded">
@@ -43,6 +39,8 @@
         </table>
 
       </div>
+
+      <button type="button" class="btn btn-primary" data-toggle="popover" title="Popover title" data-content="Lorem Ipsum Dolor Lorem Ipsum Dolor Lorem Ipsum Dolor">Click</button>
 
       <!--직원 검색-->
 
@@ -196,6 +194,11 @@
 
     </script>
 
+    <script>
+      $( function () {
+              $( '[data-toggle="popover"]' ).popover()
+      } );
+    </script>
   </body>
 </th:blcok>
 

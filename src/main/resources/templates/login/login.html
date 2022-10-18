@@ -8,6 +8,7 @@
 					<div class="d-table-cell align-middle" style="padding-bottom: 215px;">
 
 						<div class="text-center mt-4">
+							
 							<p class="lead">
 								Welcome to Sung-jin</br>
 								Spread your wide wing.</br>
@@ -16,6 +17,14 @@
 						</div>
 
 						<div class="card" id="login">
+							<p class="placeholder-wave" style="margin:0;
+							    -webkit-mask-image: linear-gradient(130deg,#0000 55%,rgb(0 0 0 / 43%) 75%,#0000 95%);
+								animation: placeholder-wave 1.56s cubic-bezier(0.7, 0, 0.45, 1) infinite;">
+								<span id="place" class="placeholder col-12 bg-secondary placeholder-xs" style="  vertical-align: 0;
+								opacity:0;
+								display:-webkit-box;
+								border-radius : 0.25rem 0.25rem 0 0;"></span>
+							  </p>
 							<div class="card-body">
 								<div class="m-sm-4">
 									<form class="needs-validation" novalidate action="/api/login" method="post">
@@ -23,7 +32,7 @@
 											<label for="validationEmpno" class="form-label">사번</label>
 											<input class="form-control form-control-lg" v-model="empno" id="validationEmpno" type="text" name="empno" placeholder="사번을 입력하세요." required/>
 											<div class="invalid-feedback">
-												사번을 입력하세요.
+												유효한 사번을 입력하세요.(숫자)
 											</div>
 										</div>
 										<div class="mb-4">
@@ -40,7 +49,7 @@
           									</label>
 										</div>
 										<div class="text-center mt-3">
-											<button type="submit" class="btn btn-lg btn-primary">Sign in</button>
+											<button type="submit" class="btn btn-lg btn-primary" >Sign in</button>
 											<a href="/api/join" class="btn btn-lg btn-primary" methods="post">Sign up</a>
 										</div>
 									</form>
@@ -57,22 +66,32 @@
 	<script>
 
     	(() => {
-  			'use strict'
 
-  			// Fetch all the forms we want to apply custom Bootstrap validation styles to
-  			const forms = document.querySelectorAll('.needs-validation')
+ 			const forms = document.querySelectorAll('.needs-validation')
+  			const element = document.getElementById('place');
 
-  			// Loop over them and prevent submission
   			Array.from(forms).forEach(form => {
     			form.addEventListener('submit', event => {
-      			if (!form.checkValidity()) {
+    			const id = document.getElementById('validationEmpno').value;
+      			if (!form.checkValidity() || isNaN(id)) {
         			event.preventDefault()
         			event.stopPropagation()
       			}
+      			if(isNaN(id)){
+					document.getElementById('validationEmpno').value='';
+					
+				}
+
+				if(form.checkValidity()&&!isNaN(id)){
+					element.style.opacity = '1';
+					sleep(2000)
+				}
 
       			form.classList.add('was-validated')
     			}, false)
   			})
+
+			  
 		})()
     </script>	
 
