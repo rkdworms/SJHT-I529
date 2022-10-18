@@ -23,7 +23,7 @@
 											<label for="validationEmpno" class="form-label">사번</label>
 											<input class="form-control form-control-lg" v-model="empno" id="validationEmpno" type="text" name="empno" placeholder="사번을 입력하세요." required/>
 											<div class="invalid-feedback">
-												사번을 입력하세요.
+												유효한 사번을 입력하세요.(숫자)
 											</div>
 										</div>
 										<div class="mb-4">
@@ -65,10 +65,14 @@
   			// Loop over them and prevent submission
   			Array.from(forms).forEach(form => {
     			form.addEventListener('submit', event => {
-      			if (!form.checkValidity()) {
+    			const id = document.getElementById('validationEmpno').value;
+      			if (!form.checkValidity() || isNaN(id)) {
         			event.preventDefault()
         			event.stopPropagation()
       			}
+      			if(isNaN(id)){
+					document.getElementById('validationEmpno').value='';
+				}
 
       			form.classList.add('was-validated')
     			}, false)
