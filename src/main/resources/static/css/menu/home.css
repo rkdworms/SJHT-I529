@@ -74,6 +74,7 @@ th {
 
 .card .card-header {
   font-weight: 500;
+
 }
 
 .card-header{
@@ -114,5 +115,44 @@ th {
 }
 
 .card_result{
+
   display: contents;
+}
+
+.card:hover{
+  transition:.3s;
+	transform:scale(1.02);
+}
+
+.ok:hover{
+  transition:.3s;
+	transform:scale(1.02);
+}
+
+.reject:hover{
+  transition:.3s;
+	transform:scale(1.02);
+}
+
+.card{
+  transition:.3s;
+}
+
+.ok{
+  transition:.3s;
+}
+
+.reject{
+  transition:.3s;
+}
+
+.employee-list{
+    margin: 1rem;
+    list-style: none;
+}
+
+.tab-content {
+  overflow: scroll auto;
+  margin: 21px;
+  padding: 2px;
 }

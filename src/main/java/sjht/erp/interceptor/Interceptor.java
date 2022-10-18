@@ -22,7 +22,6 @@ public class Interceptor implements HandlerInterceptor {
         if(request.getAttribute("auth")!=null){
             Authentication authentication = (Authentication) request.getAttribute("auth");
             int userId = ((EmployeeDto) authentication.getPrincipal()).getEmpno();
-
             EmployeeDto empNo = loginService.findByUserId(userId);
 
             request.setAttribute("empNo", empNo);

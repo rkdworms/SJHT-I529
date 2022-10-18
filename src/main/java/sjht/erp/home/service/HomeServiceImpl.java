@@ -3,14 +3,17 @@ package sjht.erp.home.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import sjht.erp.common.vo.BoardVO;
+import sjht.erp.common.vo.EmployeeVO;
 import sjht.erp.common.vo.ExpendInformationVO;
 import sjht.erp.common.vo.WorkTimeManagementVO;
 import sjht.erp.home.Mapper.HomeMapper;
+import sjht.erp.home.dto.FindEmployeeDto;
 import sjht.erp.home.dto.HrmsSignDto;
 import sjht.erp.home.dto.NoticeDto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -72,6 +75,19 @@ public class HomeServiceImpl implements HomeService {
         result.add(receiveList);
         result.add(doneList);
 
+        return result;
+    }
+
+    @Override
+    public List<FindEmployeeDto> getEmployeeList() {
+
+        //사원 리스트 가져오기
+        List<EmployeeVO> empList = homeMapper.getEmployeeList();
+
+        //VO->Dto 변환
+        List<FindEmployeeDto> result = empList.stream().map(FindEmployeeDto::new).collect(Collectors.toList());
+
+        //데이터 반환
         return result;
     }
 }

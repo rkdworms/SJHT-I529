@@ -19,6 +19,7 @@
 
 .find{
     grid-area:b;
+    display:block;
 }
 
 .hrms{

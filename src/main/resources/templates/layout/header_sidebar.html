@@ -1,14 +1,39 @@
-<!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <th:block th:fragment="header">
 
-<head>
-    <meta charset="utf-8">
-    <title>I5-29 ERP SYSTEM</title>
-</head>
-
-<body>
     <div class="wrapper">
+        <!--thymeleaf
+        <nav id="sidebar" class="sidebar js-sidebar">
+            <div class="sidebar-content js-simplebar" id="menu">
+                <a class="sidebar-brand" href="/">
+                    <span class="align-middle">I5-29 ERP SYSTEM</span>
+                </a>
+
+                <ul class="sidebar-nav" >
+
+                    <li class="mb-1" th:each="main:${menu}">
+                        <a class="sidebar-link" th:href="@{main.menuurl}" role="button" data-bs-toggle="collapse" th:data-bs-target="'#'+main.menuname" aria-expanded="true" >
+                            <i class="align-middle" data-feather="book"></i>
+                            <span class="align-middle" th:text="${main.menuname}"></span>
+                        </a>
+
+
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <div class="collapse" th:id="main.menuname">
+                                <li th:each="sub:${sub}">
+                                    <a v-if="${main.groupnumber==sub.groupnumber}" th:href="@{sub.menuurl}" class="collspan list" th:text="${sub.menuname}"></a>
+                                </li>
+                                </div>
+                            </ul>
+
+                    </li>
+
+                   
+                </ul>
+
+            </div>
+        </nav>
+        -->
+        <!--사이드 바-->
         <nav id="sidebar" class="sidebar js-sidebar">
             <div class="sidebar-content js-simplebar" id="menu">
                 <a class="sidebar-brand" href="/">
@@ -19,8 +44,8 @@
 
                     <li class="mb-1" v-for="(main,i) in mainmenu" key="i">
                         <a class="sidebar-link" v-bind:href="main.menuurl" role="button" data-bs-toggle="collapse" v-bind:data-bs-target="'#'+main.menuname" aria-expanded="true" >
-                            <i class="align-middle" data-feather="book"></i>
-                            <span class="align-middle">{{main.menuname}}</span>
+                            <i class="align-middle-menu" data-feather="book"></i>
+                            <span class="align-middle-menu" v-bind:style="opacity">{{main.menuname}}</span>
                         </a>
 
 
@@ -34,11 +59,12 @@
 
                     </li>
 
-                    <a href="/dologout" class="collspan list" methods="get">logout</a>
+                   
                 </ul>
+
             </div>
         </nav>
-
+        <!--main 컨텐츠 부분-->
         <div class="main">
             <nav class="navbar navbar-expand navbar-light navbar-bg">
                 <a class="sidebar-toggle js-sidebar-toggle">
@@ -54,6 +80,7 @@
                                     <span class="indicator">4</span>
                                 </div>
                             </a>
+                            
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
                                 <div class="dropdown-menu-header">
                                     4 New Notifications
@@ -112,6 +139,14 @@
                                 </div>
                             </div>
                         </li>
+                        <li class="nav-item">
+                            <a class="logout" href="/dologout" methods="get">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+                                    <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+                                </svg>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -127,6 +162,7 @@
         const Menu = {
           data() {
             return {
+              opacity : "opacity : 0",  
               mainmenu:[],
               submenu:[]
             }
@@ -138,6 +174,7 @@
                     .then((response)=>{
                       this.mainmenu=response.data[0];
                       this.submenu=response.data[1];
+                      this.opacity = "opacity : 1";
                     })
               .catch(error=>console.error(error))
             }
@@ -154,6 +191,5 @@
 
     </script>
 
-</body>
+    
 </th:block>
-</html>

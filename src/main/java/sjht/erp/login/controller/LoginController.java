@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,24 +58,6 @@ public class LoginController {
         return "redirect:/";
     }
 
-  /*  @GetMapping("/api/join")
-    @ResponseBody
-    public ResponseEntity join(@ModelAttribute UserDto userDto){
-        ResponseEntity responseEntity = null;
-        try{
-            UserDto savedUser = loginService.join(userDto);
-            SingleDataResponse<UserDto> response = responseService.getSingleDataResponse(true, "회원가입 성공",savedUser);
-
-            responseEntity = ResponseEntity.status(HttpStatus.CREATED).body(response);
-        }catch (DuplicatedUsernameException exception){
-            logger.debug(exception.getMessage());
-            BaseResponse response = responseService.getBaseResponse(false, exception.getMessage());
-
-            responseEntity = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        }
-        return responseEntity;
-    }*/
-
     @SneakyThrows
     @RequestMapping("/api/login")
     public String login(@ModelAttribute LoginDto loginDto, Model model, HttpServletResponse respon){
@@ -92,11 +73,12 @@ public class LoginController {
 
             responseEntity = ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(response);
 
-            Cookie cookie = new Cookie("token", URLEncoder.encode("Bearer "+token,"UTF-8"));
+            Cookie cookie = new Cookie("token", URLEncoder.encode("Bearer "+ token,"UTF-8"));
             cookie.setPath("/");
-            cookie.setMaxAge(60 * 60);
+            cookie.setMaxAge(60 * 60 * 24);
             respon.addCookie(cookie);
 
+            return "/menu/home";
         }catch(LoginFailedException exception){
             logger.debug(exception.getMessage());
             BaseResponse response = responseService.getBaseResponse(false, exception.getMessage());
@@ -104,42 +86,7 @@ public class LoginController {
             responseEntity = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
-        return "/menu/home";
-    }
+        return "/login/loginfail";
 
-    //api 방식
-/*    @GetMapping("/users")
-    @ResponseBody
-    public ResponseEntity findUserByUsername(final Authentication authentication){
-        ResponseEntity responseEntity = null;
-        try{
-            Long userId = ((UserDto)authentication.getPrincipal()).getUserId();
-            UserDto findUser = loginService.findByUserId(userId);
-
-            SingleDataResponse<UserDto> response = responseService.getSingleDataResponse(true, "조회 성공", findUser);
-
-            responseEntity = ResponseEntity.status(HttpStatus.CREATED).body(response);
-        }catch(LoginFailedException exception){
-            logger.debug(exception.getMessage());
-            BaseResponse response = responseService.getBaseResponse(false, exception.getMessage());
-
-            responseEntity = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        }
-
-        System.out.println(responseEntity.toString());
-
-        return responseEntity;
-    }*/
-
-    //thymeleaf
-    @GetMapping("/users")
-    public String findUserByUsername(final Authentication authentication, Model model){
-        int userId = ((EmployeeDto)authentication.getPrincipal()).getEmpno();
-        EmployeeDto findUser = loginService.findByUserId(userId);
-
-
-        model.addAttribute("user", findUser);
-
-        return "login/test";
     }
 }

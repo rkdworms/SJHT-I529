@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sjht.erp.home.dto.FindEmployeeDto;
 import sjht.erp.home.dto.HrmsSignDto;
 import sjht.erp.home.dto.NoticeDto;
 import sjht.erp.home.service.HomeServiceImpl;
@@ -40,6 +41,17 @@ public class HomeApiController {
 
         return ResponseEntity.status(HttpStatus.OK).body(hrmsSignDtoList);
     }
+
+    //hrms dashboard 사람 찾기
+    @PostMapping("api/home/find")
+    public ResponseEntity<List<FindEmployeeDto>> getEmployeeList(){
+
+        //직원 목륵 불러오기(사번, 이름, 부서, 직급, 번호)
+        List<FindEmployeeDto> empList = homeServiceImpl.getEmployeeList();
+
+        return ResponseEntity.status(HttpStatus.OK).body(empList);
+    }
+
 }
 
 
