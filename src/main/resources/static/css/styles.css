@@ -135,9 +135,9 @@ p {
 
 abbr[title],
 abbr[data-original-title] {
-  text-decoration: underline;
-  -webkit-text-decoration: underline dotted;
-  text-decoration: underline dotted;
+  text-decoration: none;
+  -webkit-text-decoration: none dotted;
+  text-decoration: none dotted;
   cursor: help;
   border-bottom: 0;
   -webkit-text-decoration-skip-ink: none;
@@ -3148,7 +3148,7 @@ select.form-control:focus::-ms-value {
 .form-control-sm {
   height: calc(1em + 1rem + 2px);
   padding: 0.5rem 0.75rem;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   line-height: 1;
   border-radius: 0.25rem;
 }
@@ -6353,12 +6353,12 @@ fieldset:disabled a.btn {
 
 .btn-link:hover {
   color: #0042a6;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .btn-link:focus,
 .btn-link.focus {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .btn-link:disabled,
@@ -8346,7 +8346,7 @@ input[type=button].btn-block {
 }
 
 .breadcrumb-item+.breadcrumb-item:hover::before {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .breadcrumb-item+.breadcrumb-item:hover::before {
@@ -17514,9 +17514,9 @@ a.text-danger-soft:focus {
     box-shadow: none !important;
   }
 
-  a:not(.btn) {
-    text-decoration: underline;
-  }
+  /* a:not(.btn) {
+    text-decoration: none;
+  } */
 
   abbr[title]::after {
     content: " (" attr(title) ")";

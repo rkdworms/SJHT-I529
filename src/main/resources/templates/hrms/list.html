@@ -5,9 +5,8 @@
     <head>
         <meta charset="UTF-8">
         <title>I5-29 > 인사 관리</title>
-        <link href="/css/styles.css" rel="stylesheet" />
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
+        <link href="/css/styles.css" rel="stylesheet" />
 
         <!-- 사원 등록 모달 폼만 정리 / 사원 상세 조회 모달 {{}} 바인딩 / 사원 수정 모달 -->
 
@@ -95,58 +94,67 @@
                             <div class="card-body">
                                 <div class="datatable">
                                     <form>
-                                        <!-- 사원 검색 -->
-                                        <div class="form-group">
+                                        <!-- 사원 검색 Form Row -->
+                                        <div class="form-row">
                                             <!-- 부서 검색 -->
-                                            <label for="departmentFormControlSelect">부서</label>
-                                            <select class="form-select form-control-solid"
-                                                id="departmentFormControlSelect" v-model="department"
-                                                v-on="setDepartments(department)">
-                                                <option v-for="(department, i) in departments"
-                                                    key="department.departmentname">{{ department.departmentname }}
-                                                </option>
-                                            </select>
+                                            <div class="form-group col-md-1.5">
+                                                <label for="departmentFormControlSelect">부서</label>
+                                                <select class="form-select form-control-solid"
+                                                    id="departmentFormControlSelect" v-model="department"
+                                                    v-on="setDepartments(department)">
+                                                    <option v-for="(department, i) in departments"
+                                                        key="department.departmentname">{{ department.departmentname }}
+                                                    </option>
+                                                </select>
+                                            </div>
                                             <!-- 직급 검색 -->
-                                            <label for="gradeFormControlSelect">직급</label>
-                                            <select class="form-select form-control-solid" id="gradeFormControlSelect"
-                                                v-model="grade" v-on="setGrades(grade)">
-                                                <option v-for="(grade, i) in grades" key="grade.gradename">{{
-                                                    grade.gradename }}</option>
-                                            </select>
+                                            <div class="form-group col-md-1.5">
+                                                <label for="gradeFormControlSelect">직급</label>
+                                                <select class="form-select form-control-solid"
+                                                    id="gradeFormControlSelect" v-model="grade" v-on="setGrades(grade)">
+                                                    <option v-for="(grade, i) in grades" key="grade.gradename">{{
+                                                        grade.gradename }}</option>
+                                                </select>
+                                            </div>
                                             <!-- 퇴직여부 검색 -->
-                                            <label for="retireFormControlSelect">퇴직여부</label>
-                                            <select class="form-select form-control-solid" id="retireFormControlSelect"
-                                                v-model="retire">
-                                                <option>전체</option>
-                                                <option>재직자</option>
-                                                <option>퇴직자</option>
-                                            </select>
-
+                                            <div class="form-group col-md-1.5">
+                                                <label for="retireFormControlSelect">퇴직여부</label>
+                                                <select class="form-select form-control-solid"
+                                                    id="retireFormControlSelect" v-model="retire">
+                                                    <option>전체</option>
+                                                    <option>재직자</option>
+                                                    <option>퇴직자</option>
+                                                </select>
+                                            </div>
                                             <!-- 입사일자 검색 -->
 
                                             <!-- 퇴사일자 검색 -->
-
-                                            <!-- text 검색 -->
-                                            <div class="input-group input-group-joined input-group-solid">
-                                                <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
-                                                <ul class="dropdown-menu animated--fade-in"
-                                                    aria-labelledby="dropdownFadeIn">
-                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                    <li>
-                                                        <hr class="dropdown-divider">
-                                                    </li>
-                                                    <li><a class="dropdown-item" href="#">Separated link</a></li>
-                                                </ul>
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">
-                                                        <i data-feather="search"></i>
-                                                    </span>
+                                            <div class="form-group col-md-6">
+                                                <!-- text 검색 -->
+                                                <div class="input-group input-group-joined input-group-solid">
+                                                    <button class="btn btn-outline-secondary dropdown-toggle"
+                                                        type="button" data-bs-toggle="dropdown"
+                                                        aria-expanded="false">Dropdown</button>
+                                                    <ul class="dropdown-menu animated--fade-in"
+                                                        aria-labelledby="dropdownFadeIn">
+                                                        <li><a class="dropdown-item" href="#">Action</a></li>
+                                                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                                                        <li><a class="dropdown-item" href="#">Something else here</a>
+                                                        </li>
+                                                        <li>
+                                                            <hr class="dropdown-divider">
+                                                        </li>
+                                                        <li><a class="dropdown-item" href="#">Separated link</a></li>
+                                                    </ul>
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i data-feather="search"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input class="form-control" type="text"
+                                                        placeholder="Input group prepend..." aria-label="Search">
                                                 </div>
-                                                <input class="form-control" type="text"
-                                                    placeholder="Input group prepend..." aria-label="Search">
+                                                <!-- -->
                                             </div>
                                         </div>
                                     </form>
@@ -361,22 +369,22 @@
                                                 <!-- Form Group (last name) -->
                                                 <div class="form-group col-md-4">
                                                     <label label class="small mb-1" for="name">사원명</label>
-                                                    <input type="text" class="form-control form-control-sm" id="name" placeholder=""
-                                                        v-model="name" required>
+                                                    <input type="text" class="form-control form-control-sm" id="name"
+                                                        placeholder="" v-model="name" required>
                                                     <div class="invalid-feedback">
                                                         사원명을 입력해주세요.
                                                     </div>
 
                                                     <label label class="small mb-1" for="name">사원명</label>
-                                                    <input type="text" class="form-control form-control-sm" id="name" placeholder=""
-                                                        v-model="name" required>
+                                                    <input type="text" class="form-control form-control-sm" id="name"
+                                                        placeholder="" v-model="name" required>
                                                     <div class="invalid-feedback">
                                                         사원명을 입력해주세요.
                                                     </div>
 
                                                     <label label class="small mb-1" for="name">사원명</label>
-                                                    <input type="text" class="form-control form-control-sm" id="name" placeholder=""
-                                                        v-model="name" required>
+                                                    <input type="text" class="form-control form-control-sm" id="name"
+                                                        placeholder="" v-model="name" required>
                                                     <div class="invalid-feedback">
                                                         사원명을 입력해주세요.
                                                     </div>
@@ -384,22 +392,22 @@
                                                 <!-- Form Group (last name) -->
                                                 <div class="form-group col-md-4">
                                                     <label label class="small mb-1" for="regno">주민등록번호</label>
-                                                    <input type="text" class="form-control form-control-sm" id="regno" placeholder=""
-                                                        v-model="regno" required>
+                                                    <input type="text" class="form-control form-control-sm" id="regno"
+                                                        placeholder="" v-model="regno" required>
                                                     <div class="invalid-feedback">
                                                         주민등록번호를 입력해주세요.
                                                     </div>
 
                                                     <label label class="small mb-1" for="regno">주민등록번호</label>
-                                                    <input type="text" class="form-control form-control-sm" id="regno" placeholder=""
-                                                        v-model="regno" required>
+                                                    <input type="text" class="form-control form-control-sm" id="regno"
+                                                        placeholder="" v-model="regno" required>
                                                     <div class="invalid-feedback">
                                                         주민등록번호를 입력해주세요.
                                                     </div>
 
                                                     <label label class="small mb-1" for="name">사원명</label>
-                                                    <input type="text" class="form-control form-control-sm" id="name" placeholder=""
-                                                        v-model="name" required>
+                                                    <input type="text" class="form-control form-control-sm" id="name"
+                                                        placeholder="" v-model="name" required>
                                                     <div class="invalid-feedback">
                                                         사원명을 입력해주세요.
                                                     </div>
@@ -407,8 +415,8 @@
                                                 <!-- Form Group (last name) -->
                                                 <div class="form-group col-md-4">
                                                     <label label class="small mb-1" for="gender">성별</label>
-                                                    <input type="text" class="form-control form-control-sm" id="gender" placeholder=""
-                                                        v-model="gender">
+                                                    <input type="text" class="form-control form-control-sm" id="gender"
+                                                        placeholder="" v-model="gender">
                                                     <div class="invalid-feedback">
                                                         성별을 입력해주세요.
                                                     </div>
@@ -416,8 +424,8 @@
                                                 <!-- Form Group () -->
                                                 <div class="form-group col-md-4">
                                                     <label label class="small mb-1" for="gender">성별</label>
-                                                    <input type="text" class="form-control form-control-sm" id="gender" placeholder=""
-                                                        v-model="gender">
+                                                    <input type="text" class="form-control form-control-sm" id="gender"
+                                                        placeholder="" v-model="gender">
                                                     <div class="invalid-feedback">
                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                                                     </div>
@@ -428,14 +436,15 @@
                                                 <!-- Form Group (phone number)-->
                                                 <div class="form-group col-md-6">
                                                     <label class="small mb-1" for="inputPhone">Phone number</label>
-                                                    <input class="form-control form-control-sm" id="inputPhone" type="tel"
-                                                        placeholder="Enter your phone number" value="555-123-4567" />
+                                                    <input class="form-control form-control-sm" id="inputPhone"
+                                                        type="tel" placeholder="Enter your phone number"
+                                                        value="555-123-4567" />
                                                 </div>
                                                 <!-- Form Group (birthday)-->
                                                 <div class="form-group col-md-6">
                                                     <label class="small mb-1" for="inputBirthday">Birthday</label>
-                                                    <input class="form-control form-control-sm" id="inputBirthday" type="text"
-                                                        name="birthday" placeholder="Enter your birthday"
+                                                    <input class="form-control form-control-sm" id="inputBirthday"
+                                                        type="text" name="birthday" placeholder="Enter your birthday"
                                                         value="06/10/1988" />
                                                 </div>
                                             </div>
@@ -460,8 +469,8 @@
                                             <!-- Form Group (연락처) -->
                                             <div class="form-group">
                                                 <label for="tel">연락처</label>
-                                                <input type="text" class="form-control form-control-sm" id="tel" placeholder="서울특별시 강남구"
-                                                    v-model="tel">
+                                                <input type="text" class="form-control form-control-sm" id="tel"
+                                                    placeholder="서울특별시 강남구" v-model="tel">
                                                 <div class="invalid-feedback">
                                                     주소를 입력해주세요.
                                                 </div>
@@ -505,8 +514,8 @@
                                             <!-- Form Group (부서) -->
                                             <div class="form-group">
                                                 <label for="departmentcd">부서</label>
-                                                <input type="text" class="form-control form-control-sm" id="departmentcd"
-                                                    placeholder="서울특별시 강남구" v-model="departmentcd">
+                                                <input type="text" class="form-control form-control-sm"
+                                                    id="departmentcd" placeholder="서울특별시 강남구" v-model="departmentcd">
                                                 <div class="invalid-feedback">
                                                     주소를 입력해주세요.
                                                 </div>
@@ -586,8 +595,8 @@
                                             <!-- Form Group (퇴직금) -->
                                             <div class="form-group">
                                                 <label for="retirementpay">퇴직금</label>
-                                                <input type="text" class="form-control form-control-sm" id="retirementpay"
-                                                    placeholder="서울특별시 강남구" v-model="retirementpay">
+                                                <input type="text" class="form-control form-control-sm"
+                                                    id="retirementpay" placeholder="서울특별시 강남구" v-model="retirementpay">
                                                 <div class="invalid-feedback">
                                                     주소를 입력해주세요.
                                                 </div>
@@ -625,8 +634,9 @@
                                             <!-- Form Group (보험) -->
                                             <div class="form-group">
                                                 <label for="privateinsurance">보험</label>
-                                                <input type="text" class="form-control form-control-sm" id="privateinsurance"
-                                                    placeholder="서울특별시 강남구" v-model="privateinsurance">
+                                                <input type="text" class="form-control form-control-sm"
+                                                    id="privateinsurance" placeholder="서울특별시 강남구"
+                                                    v-model="privateinsurance">
                                                 <div class="invalid-feedback">
                                                     주소를 입력해주세요.
                                                 </div>
@@ -669,7 +679,8 @@
                                             </div>
                                             <!-- Form Group (email address) -->
                                             <div class="form-group"><label for="exampleFormControlTextarea1">Example
-                                                    textarea</label><textarea class="form-control form-control-sm form-control-solid"
+                                                    textarea</label><textarea
+                                                    class="form-control form-control-sm form-control-solid"
                                                     id="exampleFormControlTextarea1" rows="3"></textarea></div>
                                         </div>
                                         <!-- 버튼 -->
@@ -695,9 +706,6 @@
 
 
 
-        <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-        <script src="https://unpkg.com/vue@next"></script>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 
         <!-- 페이징 -->
@@ -956,7 +964,6 @@
 
         <!-- 팝오버 -->
         <!-- <button type="button" class="btn btn-primary" data-toggle="popover" title="Popover title" data-content="Lorem Ipsum Dolor Lorem Ipsum Dolor Lorem Ipsum Dolor">Click</button> -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 
     </body>
 </th:blcok>
