@@ -6,28 +6,28 @@
         <meta charset="UTF-8">
         <title>I5-29 > 인사 관리</title>
 
-        <link href="/css/styles.css" rel="stylesheet" />
+        <link href="/css/hrms/hrms.css" rel="stylesheet" />
 
         <!-- 사원 등록 모달 폼만 정리 / 사원 상세 조회 모달 {{}} 바인딩 / 사원 수정 모달 -->
 
         <style>
             /* container init */
-            .hrmscontainer {
+            .hrms-container {
                 display: grid;
                 grid-gap: 5px;
                 gap: 30px 10px;
                 grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
                 grid-template-areas:
-                    "i a a"
-                    "b b b "
-                    "c c c"
-                    "d d d"
+                    "i a b"
+                    "i c d "
+                    "i e f"
+                    "i g d"
                     "e e e";
             }
 
             /* All Grid Items */
-            .hrmscontainer>* {
-                background-color: mediumseagreen;
+            .hrms-container>* {
+                background-color: rgb(12, 100, 52);
                 font-size: 80px;
             }
 
@@ -126,11 +126,23 @@
                                                     <option>퇴직자</option>
                                                 </select>
                                             </div>
-                                            <!-- 입사일자 검색 -->
-
-                                            <!-- 퇴사일자 검색 -->
-                                            <div class="form-group col-md-6">
-                                                <!-- text 검색 -->
+                                            <!-- 입사일자 검색 (Date Range Picker) -->
+                                            <div class="form-group col-md-2">
+                                                <label for="retireFormControlSelect">입사일자&nbsp;</label>
+                                                <i class="mr-2 text-primary" data-feather="calendar"></i>
+                                                <input type="text" name="entrydate"
+                                                    class="form-select form-control-solid" id="entrydate" />
+                                            </div>
+                                            <!-- 퇴사일자 검색 (Date Range Picker) -->
+                                            <div class="form-group col-md-2">
+                                                <label for="retireFormControlSelect">퇴사일자&nbsp;</label>
+                                                <i class="mr-2 text-primary" data-feather="calendar"></i>
+                                                <input type="text" name="retiredate"
+                                                    class="form-select form-control-solid" id="retiredate" />
+                                            </div>
+                                            <!-- text 검색 -->
+                                            <div class="form-group col-md-3">
+                                                <label for="retireFormControlSelect">검색</label>
                                                 <div class="input-group input-group-joined input-group-solid">
                                                     <button class="btn btn-outline-secondary dropdown-toggle"
                                                         type="button" data-bs-toggle="dropdown"
@@ -151,11 +163,12 @@
                                                             <i data-feather="search"></i>
                                                         </span>
                                                     </div>
-                                                    <input class="form-control" type="text"
-                                                        placeholder="Input group prepend..." aria-label="Search">
+                                                    <input class="form-control" type="text" placeholder="Search"
+                                                        aria-label="Search">
                                                 </div>
-                                                <!-- -->
                                             </div>
+
+
                                         </div>
                                     </form>
                                     <!-- 사원 리스트 -->
@@ -352,10 +365,10 @@
                                 <div class="card-body pb-3" id="card-body-padding">
                                     <form class="validation-form" novalidate role="form text-left">
                                         <div id="card-scroll">
-                                            <!-- Form Row -->
+                                            <!-- Form Row 1 (기본 정보)-->
                                             <div class="form-row">
-                                                <!-- Form Group (증명사진) -->
-                                                <div class="form-group col-md-4">
+                                                <!-- Form Group -->
+                                                <div class="form-group col-md-4" style="text-align: center">
                                                     <img :src="filepath" style="height: 200; width:150px;"
                                                         onerror="this.src='/images/noProfile.png'" />
                                                     <input class="form-control form-control-sm" id="idPicture"
@@ -365,73 +378,135 @@
                                                         사원의 증명사진을 첨부해주세요.
                                                     </div>
                                                 </div>
-
-                                                <!-- Form Group (last name) -->
+                                                <!-- Form Group -->
                                                 <div class="form-group col-md-4">
-                                                    <label label class="small mb-1" for="name">사원명</label>
-                                                    <input type="text" class="form-control form-control-sm" id="name"
-                                                        placeholder="" v-model="name" required>
-                                                    <div class="invalid-feedback">
-                                                        사원명을 입력해주세요.
-                                                    </div>
+                                                    <label label class="small mb-1" for="empno">사번</label>
+                                                    <input type="text" class="form-control form-control-sm" id="empno"
+                                                        placeholder="" v-model="empno" :value="empno" disabled>
 
                                                     <label label class="small mb-1" for="name">사원명</label>
                                                     <input type="text" class="form-control form-control-sm" id="name"
                                                         placeholder="" v-model="name" required>
                                                     <div class="invalid-feedback">
                                                         사원명을 입력해주세요.
-                                                    </div>
-
-                                                    <label label class="small mb-1" for="name">사원명</label>
-                                                    <input type="text" class="form-control form-control-sm" id="name"
-                                                        placeholder="" v-model="name" required>
-                                                    <div class="invalid-feedback">
-                                                        사원명을 입력해주세요.
-                                                    </div>
-                                                </div>
-                                                <!-- Form Group (last name) -->
-                                                <div class="form-group col-md-4">
-                                                    <label label class="small mb-1" for="regno">주민등록번호</label>
-                                                    <input type="text" class="form-control form-control-sm" id="regno"
-                                                        placeholder="" v-model="regno" required>
-                                                    <div class="invalid-feedback">
-                                                        주민등록번호를 입력해주세요.
                                                     </div>
 
                                                     <label label class="small mb-1" for="regno">주민등록번호</label>
                                                     <input type="text" class="form-control form-control-sm" id="regno"
-                                                        placeholder="" v-model="regno" required>
+                                                        placeholder="900101-1234567" v-model="regno" required>
                                                     <div class="invalid-feedback">
                                                         주민등록번호를 입력해주세요.
                                                     </div>
 
-                                                    <label label class="small mb-1" for="name">사원명</label>
-                                                    <input type="text" class="form-control form-control-sm" id="name"
-                                                        placeholder="" v-model="name" required>
+                                                    <label label class="small mb-1" for="tel">연락처</label>
+                                                    <input type="text" class="form-control form-control-sm" id="tel"
+                                                        placeholder="010-0000-0000" v-model="tel" required>
                                                     <div class="invalid-feedback">
-                                                        사원명을 입력해주세요.
+                                                        전화번호를 입력해주세요.
                                                     </div>
                                                 </div>
-                                                <!-- Form Group (last name) -->
+                                                <!-- Form Group -->
                                                 <div class="form-group col-md-4">
+                                                    <label label class="small mb-1" for="password">비밀번호</label>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        id="password" placeholder="" v-model="password" disabled>
+
                                                     <label label class="small mb-1" for="gender">성별</label>
-                                                    <input type="text" class="form-control form-control-sm" id="gender"
-                                                        placeholder="" v-model="gender">
+                                                    <div class="form-control form-control-sm border-0">
+                                                        <div class="form-check form-check-inline col-md-5">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="inlineRadioOptions" id="gender" v-model="gender">
+                                                            <label class="form-check-label" for="gender">남</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="inlineRadioOptions" id="gender" v-model="gender">
+                                                            <label class="form-check-label" for="gender">여</label>
+                                                        </div>
+                                                    </div>
                                                     <div class="invalid-feedback">
                                                         성별을 입력해주세요.
                                                     </div>
-                                                </div>
-                                                <!-- Form Group () -->
-                                                <div class="form-group col-md-4">
-                                                    <label label class="small mb-1" for="gender">성별</label>
-                                                    <input type="text" class="form-control form-control-sm" id="gender"
-                                                        placeholder="" v-model="gender">
+
+                                                    <label label class="small mb-1" for="school">최종학력</label>
+                                                    <input type="text" class="form-control form-control-sm" id="school"
+                                                        placeholder="중앙대학교" v-model="school" required>
                                                     <div class="invalid-feedback">
-                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        최종학력를 입력해주세요.
+                                                    </div>
+
+                                                    <label label class="small mb-1" for="mail">이메일</label>
+                                                    <input type="mail" class="form-control form-control-sm" id="mail"
+                                                        placeholder="i5-29@erp.com" v-model="mail" required>
+                                                    <div class="invalid-feedback">
+                                                        메일 주소를 입력해주세요.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Form Row 2 (주소) -->
+                                            <div class="form-row">
+                                                <div class="form-group col-md-2">
+                                                    <input type="button" class="btn btn-outline-dark btn-sm"
+                                                        @click="execDaumPostcode()" value="주소 검색"><br>
+                                                </div>
+                                                <!-- Form Group (주소) -->
+                                                <div class="form-group col-md-10">
+                                                    <label class="small mb-1" for="addr">주소</label>
+                                                    <input type="text" class="form-control form-control-sm" id="addr"
+                                                        placeholder="서울특별시 강남구" v-model="addr">
+                                                    <div class="invalid-feedback">
+                                                        주소를 입력해주세요.
+                                                    </div>
+                                                </div>
+                                                <!-- Form Group (상세주소) -->
+                                                <div class="form-group col-md-8">
+                                                    <label class="small mb-1" for="addrdetail">상세주소</label>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        id="addrdetail" placeholder="서울특별시 강남구" v-model="addrdetail">
+                                                    <div class="invalid-feedback">
+                                                        주소를 입력해주세요.
+                                                    </div>
+                                                </div>
+                                                <!-- Form Group (우편번호) -->
+                                                <div class="form-group col-md-4">
+                                                    <label class="small mb-1" for="zipcode">우편번호</label>
+                                                    <input type="text" class="form-control form-control-sm" id="zipcode"
+                                                        placeholder="서울특별시 강남구" v-model="zipcode">
+                                                    <div class="invalid-feedback">
+                                                        주소를 입력해주세요.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Form Row 3 (계좌번호) -->
+                                            <div class="form-row">
+
+                                                <!-- Form Group (은행) -->
+                                                <!-- <div class="form-group col-md-4">
+                                                    <label for="bankcd">은행</label>
+                                                    <select class="form-select form-select-sm" id="bankcd"
+                                                        v-model="bankcd" v-on="setDepartments(department)">
+                                                        <option v-for="(department, i) in departments" 
+                                                            key="department.departmentname">{{ department.departmentname 
+                                                            }}
+                                                        </option>
+                                                    </select>
+                                                    <div class="invalid-feedback">
+                                                        은행을 선택해주세요.
+                                                    </div>
+                                                </div> -->
+
+                                                <!-- Form Group (계좌번호) -->
+                                                <div class="form-group col-md-8">
+                                                    <label for="account">계좌번호</label>
+                                                    <input type="text" class="form-control form-control-sm" id="account"
+                                                        placeholder="1000-121-123753" v-model="account">
+                                                    <div class="invalid-feedback">
+                                                        계좌번호를 입력해주세요.
                                                     </div>
                                                 </div>
                                             </div>
 
+                                            <!-- Form Row 4 -->
                                             <div class="form-row">
                                                 <!-- Form Group (phone number)-->
                                                 <div class="form-group col-md-6">
@@ -446,60 +521,6 @@
                                                     <input class="form-control form-control-sm" id="inputBirthday"
                                                         type="text" name="birthday" placeholder="Enter your birthday"
                                                         value="06/10/1988" />
-                                                </div>
-                                            </div>
-                                            <!-- Form Group (메일) -->
-                                            <div class="form-group">
-                                                <label for="mail">이메일</label>
-                                                <input type="mail" class="form-control form-control-sm" id="mail"
-                                                    placeholder="you@example.com" v-model="mail" required>
-                                                <div class="invalid-feedback">
-                                                    매일 주소를 입력해주세요.
-                                                </div>
-                                            </div>
-                                            <!-- Form Group (최종학력) -->
-                                            <div class="form-group">
-                                                <label for="school">최종학력</label>
-                                                <input type="text" class="form-control form-control-sm" id="school"
-                                                    placeholder="서울특별시 강남구" v-model="school">
-                                                <div class="invalid-feedback">
-                                                    최종학력을 입력해주세요.
-                                                </div>
-                                            </div>
-                                            <!-- Form Group (연락처) -->
-                                            <div class="form-group">
-                                                <label for="tel">연락처</label>
-                                                <input type="text" class="form-control form-control-sm" id="tel"
-                                                    placeholder="서울특별시 강남구" v-model="tel">
-                                                <div class="invalid-feedback">
-                                                    주소를 입력해주세요.
-                                                </div>
-                                            </div>
-                                            <!-- Form Group (주소) -->
-                                            <div class="form-group">
-                                                <label for="addr">주소</label>
-                                                <input type="text" class="form-control form-control-sm" id="addr"
-                                                    placeholder="서울특별시 강남구" v-model="addr">
-                                                <div class="invalid-feedback">
-                                                    주소를 입력해주세요.
-                                                </div>
-                                            </div>
-                                            <!-- Form Group (상세주소) -->
-                                            <div class="form-group">
-                                                <label for="addrdetail">상세주소</label>
-                                                <input type="text" class="form-control form-control-sm" id="addrdetail"
-                                                    placeholder="서울특별시 강남구" v-model="addrdetail">
-                                                <div class="invalid-feedback">
-                                                    주소를 입력해주세요.
-                                                </div>
-                                            </div>
-                                            <!-- Form Group (우편번호) -->
-                                            <div class="form-group">
-                                                <label for="zipcode">우편번호</label>
-                                                <input type="text" class="form-control form-control-sm" id="zipcode"
-                                                    placeholder="서울특별시 강남구" v-model="zipcode">
-                                                <div class="invalid-feedback">
-                                                    주소를 입력해주세요.
                                                 </div>
                                             </div>
                                             <!-- Form Group (연봉) -->
@@ -525,33 +546,6 @@
                                                 <label for="gradecd">직무</label>
                                                 <input type="text" class="form-control form-control-sm" id="gradecd"
                                                     placeholder="서울특별시 강남구" v-model="gradecd">
-                                                <div class="invalid-feedback">
-                                                    주소를 입력해주세요.
-                                                </div>
-                                            </div>
-                                            <!-- Form Group (은행) -->
-                                            <div class="form-group">
-                                                <label for="bankcd">은행</label>
-                                                <input type="text" class="form-control form-control-sm" id="bankcd"
-                                                    placeholder="서울특별시 강남구" v-model="bankcd">
-                                                <div class="invalid-feedback">
-                                                    주소를 입력해주세요.
-                                                </div>
-                                            </div>
-                                            <!-- Form Group (계좌번호) -->
-                                            <div class="form-group">
-                                                <label for="account">계좌번호</label>
-                                                <input type="text" class="form-control form-control-sm" id="account"
-                                                    placeholder="서울특별시 강남구" v-model="account">
-                                                <div class="invalid-feedback">
-                                                    주소를 입력해주세요.
-                                                </div>
-                                            </div>
-                                            <!-- Form Group (비고) -->
-                                            <div class="form-group">
-                                                <label for="memo">비고</label>
-                                                <input type="text" class="form-control form-control-sm" id="memo"
-                                                    placeholder="서울특별시 강남구" v-model="memo">
                                                 <div class="invalid-feedback">
                                                     주소를 입력해주세요.
                                                 </div>
@@ -665,28 +659,17 @@
                                                     가입 경로를 선택해주세요.
                                                 </div>
                                             </div>
-                                            <!-- Form Group (email address) -->
+                                            <!-- Form Group (비고) -->
                                             <div class="form-group">
-                                                <label for="exampleFormControlSelect1">Example select</label><select
-                                                    class="form-control form-control-sm form-control-solid"
-                                                    id="exampleFormControlSelect1">
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
-                                                </select>
+                                                <label for="memo">비고</label>
+                                                <textarea class="form-control" id="memo" v-model="memo"
+                                                    rows="3"></textarea>
                                             </div>
-                                            <!-- Form Group (email address) -->
-                                            <div class="form-group"><label for="exampleFormControlTextarea1">Example
-                                                    textarea</label><textarea
-                                                    class="form-control form-control-sm form-control-solid"
-                                                    id="exampleFormControlTextarea1" rows="3"></textarea></div>
                                         </div>
                                         <!-- 버튼 -->
                                         <div class="text-center">
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-outline-secondary btn-sm"
+                                                <button type="button" class="btn btn-outline-dark btn-sm"
                                                     data-bs-dismiss="modal">닫기
                                                 </button>
                                                 <button class="btn btn-outline-success shadow-sm btn-sm" type="submit"
@@ -706,13 +689,22 @@
 
 
 
-
-
-        <!-- 페이징 -->
+        <!-- 달력 -->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript"
+            src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <link rel="stylesheet" type="text/css"
+            href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
         <script>
-
+            $(function () {
+                $('input[name="daterange"]').daterangepicker({
+                    opens: 'left'
+                }, function (start, end, label) {
+                    console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                });
+            });
         </script>
-
 
 
 
@@ -882,7 +874,7 @@
                             .catch(error => console.error(error))
                     },
 
-                    // // 사진 등록 
+                    // 사진 등록 
                     uploadImage(event) {
                         var input = event.target;
                         if (input.files && input.files[0]) {
@@ -903,25 +895,27 @@
                         }
                     },
 
-                    // uploadImage(event) {
-                    //     var input = event.target;
-                    //     if (input.files && input.files[0]) {
-                    //         var reader = new FileReader();
-                    //         reader.onload = (e) => {
-                    //             var filepath123 = e.target.files;
+                    // 주소 등록 
+                    execDaumPostcode() {
+                        new daum.Postcode({
+                            oncomplete: (result) => {
 
+                                if (this.addrdetail !== '') { // 상세주소 초기화
+                                    this.addrdetail = '';
+                                }
 
-                    //             console.log("filepath" + this.filepath123);
-                    //             console.log("filepath" + this.filepath123[0]);
-                    //             console.log("filesize" + this.filepath123[0].size);
-                    //             console.log("filename" + this.filename123[0].name);
+                                if (result.userSelectedType === 'R') {
+                                    this.addr = result.roadAddress; // 도로명주소 선택
+                                } else {
+                                    this.addr = result.jibunAddress; // 지번주소 선택 
+                                }
 
+                                this.zipcode = result.zonecode; // 새우편번호 
 
-                    //             console.log("e.target.file" + this.file[0]);
-                    //         }
-                    //         reader.readAsDataURL(input.files[0]);
-                    //     }
-                    // },
+                            }
+                        }).open();
+                    },
+
 
                     // 수정 
                     update() {
@@ -935,6 +929,10 @@
             }
             Vue.createApp(RegistEmp).mount('#empRegist');
         </script>
+
+        <!-- 다음 주소 API -->
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 
 
         <script>
@@ -964,6 +962,88 @@
 
         <!-- 팝오버 -->
         <!-- <button type="button" class="btn btn-primary" data-toggle="popover" title="Popover title" data-content="Lorem Ipsum Dolor Lorem Ipsum Dolor Lorem Ipsum Dolor">Click</button> -->
+
+
+        <script>
+            // 입사일자 Date Range Picker 
+            $(function () {
+                var start = moment().subtract(29, "days");
+                var end = moment();
+
+                function cb(start, end) {
+                    $("#entrydate span").html(
+                        start.format("MMMM D, YYYY") + " - " + end.format("MMMM D, YYYY")
+                    );
+                }
+
+                $("#entrydate").daterangepicker(
+                    {
+                        startDate: start,
+                        endDate: end,
+                        ranges: {
+                            Today: [moment(), moment()],
+                            Yesterday: [
+                                moment().subtract(1, "days"),
+                                moment().subtract(1, "days"),
+                            ],
+                            "Last 7 Days": [moment().subtract(6, "days"), moment()],
+                            "Last 30 Days": [moment().subtract(29, "days"), moment()],
+                            "This Month": [
+                                moment().startOf("month"),
+                                moment().endOf("month"),
+                            ],
+                            "Last Month": [
+                                moment().subtract(1, "month").startOf("month"),
+                                moment().subtract(1, "month").endOf("month"),
+                            ],
+                        },
+                    },
+                    cb
+                );
+
+                cb(start, end);
+            });
+
+            // 퇴사일자 Date Range Picker 
+            $(function () {
+                var start = moment().subtract(29, "days");
+                var end = moment();
+
+                function cb(start, end) {
+                    $("#retiredate span").html(
+                        start.dateFormat('MMMM D, YYYY') + " - " + end.format('MMMM D, YYYY')
+                    );
+                }
+
+                $("#retiredate").daterangepicker(
+                    {
+                        startDate: start,
+                        endDate: end,
+                        ranges: {
+                            Today: [moment(), moment()],
+                            Yesterday: [
+                                moment().subtract(1, "days"),
+                                moment().subtract(1, "days"),
+                            ],
+                            "Last 7 Days": [moment().subtract(6, "days"), moment()],
+                            "Last 30 Days": [moment().subtract(29, "days"), moment()],
+                            "This Month": [
+                                moment().startOf("month"),
+                                moment().endOf("month"),
+                            ],
+                            "Last Month": [
+                                moment().subtract(1, "month").startOf("month"),
+                                moment().subtract(1, "month").endOf("month"),
+                            ],
+                        },
+                    },
+                    cb
+                );
+                cb(start, end);
+            });
+        </script>
+
+
 
     </body>
 </th:blcok>
