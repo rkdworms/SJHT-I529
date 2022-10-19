@@ -39,6 +39,14 @@
 						</div>
 
 						<div class="card" id="login">
+							<p class="placeholder-wave" style="margin:0;
+							-webkit-mask-image: linear-gradient(130deg,#0000 55%,rgb(0 0 0 / 43%) 75%,#0000 95%);
+							animation: placeholder-wave 1.56s linear infinite;">
+							<span id="place" class="placeholder col-12 bg-secondary placeholder-xs" style="  vertical-align: 0;
+							opacity:0;
+							display:-webkit-box;
+							border-radius : 0.25rem 0.25rem 0 0;"></span>
+						  </p>
 							<div class="card-body">
 								<div class="m-sm-4">
 									<form class="needs-validation" novalidate action="/api/login" method="post">
@@ -82,10 +90,10 @@
 	<script>
 
     	(() => {
-  			// Fetch all the forms we want to apply custom Bootstrap validation styles to
-  			const forms = document.querySelectorAll('.needs-validation');
+
+			const forms = document.querySelectorAll('.needs-validation')
+			const element = document.getElementById('place');
 			
-			// Loop over them and prevent submission;
   			Array.from(forms).forEach(form => {
     			form.addEventListener('submit', event => {
 				const id = document.getElementById('validationEmpno').value;
@@ -96,6 +104,11 @@
       			}
 				if(isNaN(id)){
 					document.getElementById('validationEmpno').value='';
+				}
+
+				if(form.checkValidity()&&!isNaN(id)){
+					element.style.opacity = '1';
+					sleep(2000)
 				}
 				
       			form.classList.add('was-validated')

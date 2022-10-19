@@ -25,3 +25,14 @@
 .card{
 margin-bottom: 106px;
 }
+
+.placeholder-wave{
+  margin:0;
+}
+
+.placeholder{
+  vertical-align: 0;
+  opacity:0;
+  display:-webkit-box;
+  border-radius : 0.25rem 0.25rem 0 0;
+}
