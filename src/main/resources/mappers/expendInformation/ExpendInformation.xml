@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sjht.erp.expendInformation.repository.ExpendInformationMapper">
+
+    <!-- 지출결의 조건에 따른 select    -->
+    <select id="selectExpendInformation" resultType="sjht.erp.expendInformation.dto.ResultEIDto" parameterType="sjht.erp.expendInformation.dto.ParameterEIDto">
+        SELECT
+        ei.dvno,
+        ei.empno,
+        e.name,
+        ac.divname,
+        dc.departmentname,
+        ei.dvRegDate,
+        ei.dvamt,
+        ei.dvappyn
+        FROM
+        expendInformation AS ei
+        INNER JOIN
+        employee AS e ON ei.empno = e.empno
+        INNER JOIN
+        accountcode AS ac ON ei.divcd = ac.divcd
+        INNER JOIN
+        departmentcode AS dc ON dc.departmentcd = e.departmentcd
+        WHERE
+        (DATE(dvregdate) BETWEEN #{startDvRegDate} AND #{endDvRegDate})
+
+        <if test='(dvappyn=="w") or (dvappyn=="y") or (dvappyn=="n")'>
+            AND dvappyn = #{dvappyn}
+        </if>
+
+        <if test="empno != 0">
+            AND ei.empno = #{empno}
+        </if>
+
+        <if test="name != null">
+            AND e.name = #{name}
+        </if>
+
+        <if test="divcd != null">
+            AND ac.divcd = #{divcd}
+        </if>
+        order by ei.dvno+0 desc
+    </select>
+
+    <!-- 지출결의 dvno에 따른 select one     -->
+    <select id="selectExpendInformationOne" resultType="sjht.erp.expendInformation.dto.ResultEIDto" parameterType="String">
+        SELECT ei.dvno,
+               ei.empno,
+               e.name,
+               ac.divname,
+               dc.departmentname,
+               ei.dvRegDate,
+               ei.dvamt,
+               ei.dvappyn,
+               ei.dvappname,
+               ei.dvmemo,
+               ei.dvusedate,
+               ei.fileno
+        FROM expendInformation AS ei
+                 INNER JOIN
+             employee AS e ON ei.empno = e.empno
+                 INNER JOIN
+             accountcode AS ac ON ei.divcd = ac.divcd
+                 INNER JOIN
+             departmentcode AS dc ON dc.departmentcd = e.departmentcd
+        where dvno = #{dvno}
+    </select>
+
+
+    <!--    승인 날짜 update 추가 해야함-->
+    <update id="updateExpendInformantion" parameterType="sjht.erp.expendInformation.dto.ParameterEIDto">
+        update
+            expendInformation
+        set dvappyn=#{dvappyn}
+        where dvno = #{dvno}
+    </update>
+
+
+</mapper>

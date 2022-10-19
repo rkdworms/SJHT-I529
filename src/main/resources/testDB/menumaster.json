@@ -1,12 +1,3 @@
-/*
-menuid int PK
-usertype varchar(10)
-menuname varchar(100)
-menuurl varchar(500)
-groupnumber int
-odr int
-level smallint
-*/
 
 [
 	{
