@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{layout/layout_form}">
+<th:blcok layout:fragment="content">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>I5-29 > 인사 관리</title>
+        <link href="/css/styles.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+        <!-- 사원 등록 모달 폼만 정리 / 사원 상세 조회 모달 {{}} 바인딩 / 사원 수정 모달 -->
+
+        <style>
+            /* container init */
+            .hrmscontainer {
+                display: grid;
+                grid-gap: 5px;
+                gap: 30px 10px;
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                grid-template-areas:
+                    "i a a"
+                    "b b b "
+                    "c c c"
+                    "d d d"
+                    "e e e";
+            }
+
+            /* All Grid Items */
+            .hrmscontainer>* {
+                background-color: mediumseagreen;
+                font-size: 80px;
+            }
+
+            image {
+                grid-area: i;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="empList">
+            <!-- Example DataTable for Dashboard Demo-->
+
+            <!-- header -->
+            <div id="layoutSidenav_content">
+                <main>
+                    <!-- 메뉴 확인 네비게이터 -->
+                    <header class="page-header page-header-compact page-header-light border-bottom bg-white">
+                        <div class="container-fluid">
+                            <div class="page-header-content">
+                                <div class="row align-items-center justify-content-between pt-3">
+                                    <div class="col-auto mb-3">
+                                        <h1 class="page-header-title">
+                                            <div class="page-header-icon"><i data-feather="user"></i></div>
+                                            HRMS - 사원 조회
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                    <!-- Main page content -->
+                    <header class="page-header page-header-dark bg-gray-900 pb-10">
+                        <div class="container">
+                            <div class="page-header-content pt-4">
+                                <div class="row align-items-center justify-content-between">
+                                    <div class="col-auto mt-4">
+                                    </div>
+                                    <!-- 링크 -->
+                                    <nav class="nav nav-borders">
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-transparent-light"
+                                            data-bs-backdrop="static" data-bs-toggle="modal"
+                                            data-bs-target="#empRegistModal">
+                                            사원 등록
+                                        </button>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                    <!-- Main page content-->
+                    <div class="container mt-n10">
+                        <div class="card mb-4">
+                            <div class="card-header">사원 리스트</div>
+                            <div class="boardTop">
+                                <p>총 {{ empList.length }} 명의 사원</p>
+                                <select v-model="empCount">
+                                    <option value="10"> 10개씩 보기</option>
+                                    <option value="20"> 20개씩 보기</option>
+                                    <option value="30"> 30개씩 보기</option>
+                                </select>
+                            </div>
+                            <div class="card-body">
+                                <div class="datatable">
+                                    <form>
+                                        <!-- 사원 검색 -->
+                                        <div class="form-group">
+                                            <!-- 부서 검색 -->
+                                            <label for="departmentFormControlSelect">부서</label>
+                                            <select class="form-select form-control-solid"
+                                                id="departmentFormControlSelect" v-model="department"
+                                                v-on="setDepartments(department)">
+                                                <option v-for="(department, i) in departments"
+                                                    key="department.departmentname">{{ department.departmentname }}
+                                                </option>
+                                            </select>
+                                            <!-- 직급 검색 -->
+                                            <label for="gradeFormControlSelect">직급</label>
+                                            <select class="form-select form-control-solid" id="gradeFormControlSelect"
+                                                v-model="grade" v-on="setGrades(grade)">
+                                                <option v-for="(grade, i) in grades" key="grade.gradename">{{
+                                                    grade.gradename }}</option>
+                                            </select>
+                                            <!-- 퇴직여부 검색 -->
+                                            <label for="retireFormControlSelect">퇴직여부</label>
+                                            <select class="form-select form-control-solid" id="retireFormControlSelect"
+                                                v-model="retire">
+                                                <option>전체</option>
+                                                <option>재직자</option>
+                                                <option>퇴직자</option>
+                                            </select>
+
+                                            <!-- 입사일자 검색 -->
+
+                                            <!-- 퇴사일자 검색 -->
+
+                                            <!-- text 검색 -->
+                                            <div class="input-group input-group-joined input-group-solid">
+                                                <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
+                                                <ul class="dropdown-menu animated--fade-in"
+                                                    aria-labelledby="dropdownFadeIn">
+                                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                                    <li>
+                                                        <hr class="dropdown-divider">
+                                                    </li>
+                                                    <li><a class="dropdown-item" href="#">Separated link</a></li>
+                                                </ul>
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i data-feather="search"></i>
+                                                    </span>
+                                                </div>
+                                                <input class="form-control" type="text"
+                                                    placeholder="Input group prepend..." aria-label="Search">
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- 사원 리스트 -->
+                                    <table class="table table-bordered table-hover" id="dataTable" width="100%"
+                                        cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th class="d-none d-xl-table-cell"
+                                                    v-for="(headerNameList, i) in headerNameList" :key="i">{{
+                                                    headerNameList }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th class="d-none d-xl-table-cell"
+                                                    v-for="(headerNameList, i) in headerNameList" :key="i">{{
+                                                    headerNameList }}</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody v-for="(emp, i) in empList" key="emp.empno">
+                                            <!-- 사원 검색 조건 -->
+                                            <tr
+                                                v-show="(emp.departmentname === department || department==='전체') &&(emp.gradename===grade || grade==='전체')">
+                                                <td>
+                                                    <div style="text-align: center">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="checkboxNoLabel" value="" aria-label="...">
+                                                    </div>
+                                                </td>
+                                                <td class="d-none d-xl-table-cell">{{ emp.empno }}</td>
+                                                <td class="d-none d-xl-table-cell">{{ emp.username }}</td>
+                                                <td class="d-none d-xl-table-cell">{{ emp.name }}</td>
+                                                <td><span class="badge bg-success">{{ emp.departmentname }}</span></td>
+                                                <td class="d-none d-md-table-cell">{{ emp.gradename }}</td>
+                                                <td class="d-none d-xl-table-cell">{{ emp.tel }}</td>
+                                                <td class="d-none d-xl-table-cell">{{ emp.mail }}</td>
+                                                <td class="d-none d-xl-table-cell">{{ emp.entrydate }}</td>
+                                                <td class="d-none d-xl-table-cell">{{ emp.retireyn }}</td>
+                                                <td class="d-none d-xl-table-cell">{{ emp.retiredate }}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-facebook btn-xs"
+                                                        data-bs-backdrop="static" data-bs-toggle="modal"
+                                                        data-bs-target="#empDetailModal" @click="getEmp(i)">상세보기
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button
+                                                        class="btn btn-datatable btn-icon btn-transparent-dark mr-2"><i
+                                                            data-feather="more-vertical"></i></button>
+                                                    <button class="btn btn-datatable btn-icon btn-transparent-dark"><i
+                                                            data-feather="trash-2"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <footer>
+                                        <!-- 페이징 처리 하기 -->
+
+
+
+                                    </footer>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="footer mt-auto footer-light">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6 small">Copyright &copy; I5-29 ERP SYSTEM 2022</div>
+                            <div class="col-md-6 text-md-right small">
+                                <a href="#!">Privacy Policy</a>
+                                &middot;
+                                <a href="#!">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+
+
+
+
+
+            <!-- 사원 상세 조회 Modal (id="empList" 에 포함되어 있어야 함) -->
+            <div class="modal fade" id="empDetailModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="empDetailModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <!-- 헤더 -->
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="empDetailModalLabel">사원 조회</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- 본문 -->
+                            <div class="container">
+                                <div class="d-none d-xl-table-cell" id="item color1">{{ empDetail.empno }}
+                                </div>
+                                <div class="d-none d-xl-table-cell" id="item item2 color2">
+                                    {{ empDetail.name }}
+                                </div>
+                                <div class="d-none d-xl-table-cell" id="item color1">{{ empDetail.gender }}
+                                </div>
+                                <div><span class="badge bg-success" id="item color1">{{
+                                        empDetail.mail }}</span></div>
+
+                                <div class="d-none d-md-table-cell" id="item color1">{{ empDetail.tel }}
+                                </div>
+                                <div class="d-none d-xl-table-cell" id="item color1">{{ empDetail.zipcode }}
+                                </div>
+                                <div class="d-none d-xl-table-cell" id="item color1">{{ empDetail.addr }}
+                                </div>
+                                <div class="d-none d-xl-table-cell" id="item color1">{{ empDetail.birthday
+                                    }}
+                                </div>
+                                <div class="d-none d-xl-table-cell" id="item color1">{{ empDetail.school
+                                    }}
+                                </div>
+                                <div class="d-none d-xl-table-cell" id="item color1">{{ empDetail.yearsalary
+                                    }}
+                                </div>
+
+                                <div class="d-none d-xl-table-cell" id="item color1">{{
+                                    empDetail.retirementpay
+                                    }}
+                                </div>
+                                <div class="d-none d-xl-table-cell" id="item color1">{{ empDetail.account
+                                    }}
+                                </div>
+                                <div class="d-none d-xl-table-cell" id="item color1">{{ empDetail.memo
+                                    }}
+                                </div>
+                                <div class="d-none d-xl-table-cell" id="item color1">{{ empDetail.retireyn
+                                    }}
+                                </div>
+                                <div class="d-none d-xl-table-cell" id="item color1">{{ empDetail.restyn
+                                    }}
+                                </div>
+                                <div class="d-none d-xl-table-cell" id="item color1">{{ empDetail.retirenote
+                                    }}
+                                </div>
+                                <div class="d-none d-xl-table-cell" id="item color1">{{ empDetail.bankname
+                                    }}
+                                </div>
+                                <div class="d-none d-xl-table-cell" id="item color1">{{
+                                    empDetail.departmentname
+                                    }}
+                                </div>
+                                <div class="d-none d-xl-table-cell" id="item color1">{{ empDetail.gradename
+                                    }}
+                                </div>
+                                <div class="d-none d-xl-table-cell" id="item color1">{{ empDetail.username
+                                    }}
+                                </div>
+                                <div class="d-none d-xl-table-cell" id="item color1">{{ empDetail.fileno
+                                    }}
+                                </div>
+                                <div class="d-none d-xl-table-cell" id="item color1">{{ empDetail.gradename
+                                    }}
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <!-- modal-footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                            </button>
+                            <button type="button" class="btn btn-primary">Understood</button>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /사원 상세 조회 Modal -->
+        </div>
+        <!--empList 끝 -->
+
+
+        <!-- 사원 등록 Modal 시작 -->
+        <div class="col-xl-8" id="empRegist">
+
+            <div class="modal fade" id="empRegistModal" data-bs-backdrop="static" tabindex="-1" role="dialog"
+                aria-labelledby="empRegistModalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+
+                    <div class="modal-content">
+                        <div class="modal-body p-0">
+
+                            <!-- details card -->
+                            <div class="card mb-4">
+                                <div class="card-header">사원 등록</div>
+
+                                <!-- card-body -->
+                                <div class="card-body pb-3" id="card-body-padding">
+                                    <form class="validation-form" novalidate role="form text-left">
+                                        <div id="card-scroll">
+                                            <!-- Form Row -->
+                                            <div class="form-row">
+                                                <!-- Form Group (증명사진) -->
+                                                <div class="form-group col-md-4">
+                                                    <img :src="filepath" style="height: 200; width:150px;"
+                                                        onerror="this.src='/images/noProfile.png'" />
+                                                    <input class="form-control form-control-sm" id="idPicture"
+                                                        type="file" v-model="filename" @change="uploadImage"
+                                                        accept="image/*" />
+                                                    <div class="invalid-feedback">
+                                                        사원의 증명사진을 첨부해주세요.
+                                                    </div>
+                                                </div>
+
+                                                <!-- Form Group (last name) -->
+                                                <div class="form-group col-md-4">
+                                                    <label label class="small mb-1" for="name">사원명</label>
+                                                    <input type="text" class="form-control form-control-sm" id="name" placeholder=""
+                                                        v-model="name" required>
+                                                    <div class="invalid-feedback">
+                                                        사원명을 입력해주세요.
+                                                    </div>
+
+                                                    <label label class="small mb-1" for="name">사원명</label>
+                                                    <input type="text" class="form-control form-control-sm" id="name" placeholder=""
+                                                        v-model="name" required>
+                                                    <div class="invalid-feedback">
+                                                        사원명을 입력해주세요.
+                                                    </div>
+
+                                                    <label label class="small mb-1" for="name">사원명</label>
+                                                    <input type="text" class="form-control form-control-sm" id="name" placeholder=""
+                                                        v-model="name" required>
+                                                    <div class="invalid-feedback">
+                                                        사원명을 입력해주세요.
+                                                    </div>
+                                                </div>
+                                                <!-- Form Group (last name) -->
+                                                <div class="form-group col-md-4">
+                                                    <label label class="small mb-1" for="regno">주민등록번호</label>
+                                                    <input type="text" class="form-control form-control-sm" id="regno" placeholder=""
+                                                        v-model="regno" required>
+                                                    <div class="invalid-feedback">
+                                                        주민등록번호를 입력해주세요.
+                                                    </div>
+
+                                                    <label label class="small mb-1" for="regno">주민등록번호</label>
+                                                    <input type="text" class="form-control form-control-sm" id="regno" placeholder=""
+                                                        v-model="regno" required>
+                                                    <div class="invalid-feedback">
+                                                        주민등록번호를 입력해주세요.
+                                                    </div>
+
+                                                    <label label class="small mb-1" for="name">사원명</label>
+                                                    <input type="text" class="form-control form-control-sm" id="name" placeholder=""
+                                                        v-model="name" required>
+                                                    <div class="invalid-feedback">
+                                                        사원명을 입력해주세요.
+                                                    </div>
+                                                </div>
+                                                <!-- Form Group (last name) -->
+                                                <div class="form-group col-md-4">
+                                                    <label label class="small mb-1" for="gender">성별</label>
+                                                    <input type="text" class="form-control form-control-sm" id="gender" placeholder=""
+                                                        v-model="gender">
+                                                    <div class="invalid-feedback">
+                                                        성별을 입력해주세요.
+                                                    </div>
+                                                </div>
+                                                <!-- Form Group () -->
+                                                <div class="form-group col-md-4">
+                                                    <label label class="small mb-1" for="gender">성별</label>
+                                                    <input type="text" class="form-control form-control-sm" id="gender" placeholder=""
+                                                        v-model="gender">
+                                                    <div class="invalid-feedback">
+                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <!-- Form Group (phone number)-->
+                                                <div class="form-group col-md-6">
+                                                    <label class="small mb-1" for="inputPhone">Phone number</label>
+                                                    <input class="form-control form-control-sm" id="inputPhone" type="tel"
+                                                        placeholder="Enter your phone number" value="555-123-4567" />
+                                                </div>
+                                                <!-- Form Group (birthday)-->
+                                                <div class="form-group col-md-6">
+                                                    <label class="small mb-1" for="inputBirthday">Birthday</label>
+                                                    <input class="form-control form-control-sm" id="inputBirthday" type="text"
+                                                        name="birthday" placeholder="Enter your birthday"
+                                                        value="06/10/1988" />
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (메일) -->
+                                            <div class="form-group">
+                                                <label for="mail">이메일</label>
+                                                <input type="mail" class="form-control form-control-sm" id="mail"
+                                                    placeholder="you@example.com" v-model="mail" required>
+                                                <div class="invalid-feedback">
+                                                    매일 주소를 입력해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (최종학력) -->
+                                            <div class="form-group">
+                                                <label for="school">최종학력</label>
+                                                <input type="text" class="form-control form-control-sm" id="school"
+                                                    placeholder="서울특별시 강남구" v-model="school">
+                                                <div class="invalid-feedback">
+                                                    최종학력을 입력해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (연락처) -->
+                                            <div class="form-group">
+                                                <label for="tel">연락처</label>
+                                                <input type="text" class="form-control form-control-sm" id="tel" placeholder="서울특별시 강남구"
+                                                    v-model="tel">
+                                                <div class="invalid-feedback">
+                                                    주소를 입력해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (주소) -->
+                                            <div class="form-group">
+                                                <label for="addr">주소</label>
+                                                <input type="text" class="form-control form-control-sm" id="addr"
+                                                    placeholder="서울특별시 강남구" v-model="addr">
+                                                <div class="invalid-feedback">
+                                                    주소를 입력해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (상세주소) -->
+                                            <div class="form-group">
+                                                <label for="addrdetail">상세주소</label>
+                                                <input type="text" class="form-control form-control-sm" id="addrdetail"
+                                                    placeholder="서울특별시 강남구" v-model="addrdetail">
+                                                <div class="invalid-feedback">
+                                                    주소를 입력해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (우편번호) -->
+                                            <div class="form-group">
+                                                <label for="zipcode">우편번호</label>
+                                                <input type="text" class="form-control form-control-sm" id="zipcode"
+                                                    placeholder="서울특별시 강남구" v-model="zipcode">
+                                                <div class="invalid-feedback">
+                                                    주소를 입력해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (연봉) -->
+                                            <div class="form-group">
+                                                <label for="yearsalary">연봉</label>
+                                                <input type="text" class="form-control form-control-sm" id="yearsalary"
+                                                    placeholder="서울특별시 강남구" v-model="yearsalary">
+                                                <div class="invalid-feedback">
+                                                    주소를 입력해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (부서) -->
+                                            <div class="form-group">
+                                                <label for="departmentcd">부서</label>
+                                                <input type="text" class="form-control form-control-sm" id="departmentcd"
+                                                    placeholder="서울특별시 강남구" v-model="departmentcd">
+                                                <div class="invalid-feedback">
+                                                    주소를 입력해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (직무) -->
+                                            <div class="form-group">
+                                                <label for="gradecd">직무</label>
+                                                <input type="text" class="form-control form-control-sm" id="gradecd"
+                                                    placeholder="서울특별시 강남구" v-model="gradecd">
+                                                <div class="invalid-feedback">
+                                                    주소를 입력해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (은행) -->
+                                            <div class="form-group">
+                                                <label for="bankcd">은행</label>
+                                                <input type="text" class="form-control form-control-sm" id="bankcd"
+                                                    placeholder="서울특별시 강남구" v-model="bankcd">
+                                                <div class="invalid-feedback">
+                                                    주소를 입력해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (계좌번호) -->
+                                            <div class="form-group">
+                                                <label for="account">계좌번호</label>
+                                                <input type="text" class="form-control form-control-sm" id="account"
+                                                    placeholder="서울특별시 강남구" v-model="account">
+                                                <div class="invalid-feedback">
+                                                    주소를 입력해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (비고) -->
+                                            <div class="form-group">
+                                                <label for="memo">비고</label>
+                                                <input type="text" class="form-control form-control-sm" id="memo"
+                                                    placeholder="서울특별시 강남구" v-model="memo">
+                                                <div class="invalid-feedback">
+                                                    주소를 입력해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (권한) -->
+                                            <div class="form-group">
+                                                <label for="usertype">권한</label>
+                                                <input type="text" class="form-control form-control-sm" id="usertype"
+                                                    placeholder="서울특별시 강남구" v-model="usertype">
+                                                <div class="invalid-feedback">
+                                                    주소를 입력해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (퇴사사유) -->
+                                            <div class="form-group">
+                                                <label for="retirenote">퇴사사유</label>
+                                                <input type="text" class="form-control form-control-sm" id="retirenote"
+                                                    placeholder="서울특별시 강남구" v-model="retirenote">
+                                                <div class="invalid-feedback">
+                                                    주소를 입력해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (입사일) -->
+                                            <div class="form-group">
+                                                <label for="entrydate">입사일</label>
+                                                <input type="text" class="form-control form-control-sm" id="entrydate"
+                                                    placeholder="서울특별시 강남구" v-model="entrydate">
+                                                <div class="invalid-feedback">
+                                                    주소를 입력해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (퇴사일) -->
+                                            <div class="form-group">
+                                                <label for="retiredate">퇴사일</label>
+                                                <input type="text" class="form-control form-control-sm" id="retiredate"
+                                                    placeholder="서울특별시 강남구" v-model="retiredate">
+                                                <div class="invalid-feedback">
+                                                    주소를 입력해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (퇴직금) -->
+                                            <div class="form-group">
+                                                <label for="retirementpay">퇴직금</label>
+                                                <input type="text" class="form-control form-control-sm" id="retirementpay"
+                                                    placeholder="서울특별시 강남구" v-model="retirementpay">
+                                                <div class="invalid-feedback">
+                                                    주소를 입력해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group () -->
+                                            <div class="col-md-8 mb-3">
+                                                <label for="root">부서</label>
+                                                <select class="custom-select d-block w-100" id="root">
+                                                    <option value=""></option>
+                                                    <option>검색</option>
+                                                    <option>카페</option>
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    가입 경로를 선택해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (퇴직여부) -->
+                                            <div class="form-group">
+                                                <label for="retireyn">퇴직여부</label>
+                                                <input type="text" class="form-control form-control-sm" id="retireyn"
+                                                    placeholder="서울특별시 강남구" v-model="retireyn">
+                                                <div class="invalid-feedback">
+                                                    주소를 입력해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (휴직여부) -->
+                                            <div class="form-group">
+                                                <label for="restyn">휴직여부</label>
+                                                <input type="text" class="form-control form-control-sm" id="restyn"
+                                                    placeholder="서울특별시 강남구" v-model="restyn">
+                                                <div class="invalid-feedback">
+                                                    주소를 입력해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (보험) -->
+                                            <div class="form-group">
+                                                <label for="privateinsurance">보험</label>
+                                                <input type="text" class="form-control form-control-sm" id="privateinsurance"
+                                                    placeholder="서울특별시 강남구" v-model="privateinsurance">
+                                                <div class="invalid-feedback">
+                                                    주소를 입력해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (email address) -->
+                                            <div class="col-md-8 mb-3">
+                                                <label for="root">직무</label>
+                                                <select class="custom-select d-block w-100" id="root">
+                                                    <option value=""></option>
+                                                    <option>검색</option>
+                                                    <option>카페</option>
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    가입 경로를 선택해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (email address) -->
+                                            <div class="col-md-8 mb-3">
+                                                <label for="root">직급</label>
+                                                <select class="custom-select d-block w-100" id="root">
+                                                    <option value=""></option>
+                                                    <option>검색</option>
+                                                    <option>카페</option>
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    가입 경로를 선택해주세요.
+                                                </div>
+                                            </div>
+                                            <!-- Form Group (email address) -->
+                                            <div class="form-group">
+                                                <label for="exampleFormControlSelect1">Example select</label><select
+                                                    class="form-control form-control-sm form-control-solid"
+                                                    id="exampleFormControlSelect1">
+                                                    <option>1</option>
+                                                    <option>2</option>
+                                                    <option>3</option>
+                                                    <option>4</option>
+                                                    <option>5</option>
+                                                </select>
+                                            </div>
+                                            <!-- Form Group (email address) -->
+                                            <div class="form-group"><label for="exampleFormControlTextarea1">Example
+                                                    textarea</label><textarea class="form-control form-control-sm form-control-solid"
+                                                    id="exampleFormControlTextarea1" rows="3"></textarea></div>
+                                        </div>
+                                        <!-- 버튼 -->
+                                        <div class="text-center">
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-outline-secondary btn-sm"
+                                                    data-bs-dismiss="modal">닫기
+                                                </button>
+                                                <button class="btn btn-outline-success shadow-sm btn-sm" type="submit"
+                                                    @click="regist">등록
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 사원 등록 모달 끝 -->
+
+
+
+        <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+        <script src="https://unpkg.com/vue@next"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+        <!-- 페이징 -->
+        <script>
+
+        </script>
+
+
+
+
+        <script>
+            // 사원 조회 (리스트, 상세정보)
+            // 사원 조회 시 검색 기능 (부서, 직급, 입사일자, 퇴사일자, 사번, 사원명)
+            // 페이징 
+            const EmpList = {
+                data() {
+                    return {
+                        empList: [],
+                        empDetail: [],
+                        headerNameList: ['no', '사번', '구분', '사원명', '부서', '직급', '휴대폰', '이메일', '입사일자', '재직여부', '퇴사일자', 'test', 'test'],
+                        empCount: 10,
+                        departments: [],
+                        grades: [],
+                        department: '전체',
+                        grade: '전체',
+                        retireyn: ''
+                    }
+                },
+
+                methods: {
+                    // 사원
+                    getEmpList() {
+                        axios.post("http://localhost:8888/api/hrms")
+                            .then((response) => {
+                                this.empList = response.data;
+
+                            })
+                            .catch(error => console.error(error))
+                    },
+
+                    getEmp(empno) {
+                        this.empDetail = this.empList[empno];
+                    },
+
+                    // 부서 
+                    findByDepartment() {
+                        axios.post("http://localhost:8888/api/hrms/departmentList")
+                            .then((response) => {
+                                all = { 'departmentcd': '0000', 'departmentname': '전체' }
+                                this.departments = response.data;
+                                this.departments.unshift(all);
+                            })
+                            .catch(error => console.error(error))
+                    },
+
+                    setDepartments(department) {
+                        this.department = department;
+                        console.log(department)
+                    },
+
+                    // 직급
+                    findByGrade() {
+                        axios.post("http://localhost:8888/api/hrms/gradeList")
+                            .then((response) => {
+                                all = { 'gradecd': '0000', 'gradename': '전체' }
+                                this.grades = response.data;
+                                this.grades.unshift(all);
+                            })
+                            .catch(error => console.error(error))
+                    },
+
+                    setGrades(grade) {
+                        this.grade = grade;
+                        console.log(grade)
+                    }
+
+                },
+
+                mounted() {
+                    this.getEmpList();
+                    this.findByDepartment();
+                    this.findByGrade();
+                }
+            }
+            Vue.createApp(EmpList).mount('#empList');
+        </script>
+
+        <script>
+            // 사원 정보 등록
+            // 사원 정보 수정
+            const RegistEmp = {
+                data() {
+                    return {
+                        password: '',
+                        bankcd: '',
+                        departmentcd: '',
+                        gradecd: '',
+                        usertype: '',
+                        name: '',
+                        gender: '',
+                        mail: '',
+                        tel: '',
+                        zipcode: '',
+                        addr: '',
+                        addrdetail: '',
+                        regno: '',
+                        birthday: '',
+                        school: '',
+                        entrydate: '',
+                        retiredate: '',
+                        yearsalary: '',
+                        salary: '',
+                        retirementpay: '',
+                        account: '',
+                        memo: '',
+                        retireyn: '',
+                        restyn: '',
+                        privateinsurance: '',
+                        paymentst: '',
+                        totalal: '',
+                        useal: '',
+                        retirenote: '',
+
+                        file: '',
+                        fileno: '',
+                        filename: '',
+                        filepath: '',
+                        filesize: ''
+                    }
+                },
+
+                methods: {
+                    // 등록 
+                    regist() {
+                        axios.post("http://localhost:8888/api/hrms/regist", {
+                            password: this.password,
+                            bankcd: this.bankcd,
+                            departmentcd: this.departmentcd,
+                            gradecd: this.gradecd,
+                            usertype: this.usertype,
+                            name: this.name,
+                            gender: this.gender,
+                            mail: this.mail,
+                            tel: this.tel,
+                            zipcode: this.zipcode,
+                            addr: this.addr,
+                            addrdetail: this.addrdetail,
+                            regno: this.regno,
+                            birthday: this.birthday,
+                            school: this.school,
+                            entrydate: this.entrydate,
+                            retiredate: this.retiredate,
+                            yearsalary: this.yearsalary,
+                            salary: this.salary,
+                            retirementpay: this.retirementpay,
+                            account: this.account,
+                            memo: this.memo,
+                            retireyn: this.retireyn,
+                            restyn: this.restyn,
+                            privateinsurance: this.privateinsurance,
+                            paymentst: this.paymentst,
+                            totalal: this.totalal,
+                            useal: this.useal,
+                            retirenote: this.retirenote,
+
+                            fileno: this.fileno,
+                            filename: this.filename,
+                            filepath: this.filepath,
+                            filesize: this.filesize
+                        })
+                            .then((response) => {
+                                console.log(this.name);
+                            })
+                            .catch(error => console.error(error))
+                    },
+
+                    // // 사진 등록 
+                    uploadImage(event) {
+                        var input = event.target;
+                        if (input.files && input.files[0]) {
+                            var reader = new FileReader();
+                            reader.onload = (e) => {
+                                this.filepath = e.target.result;
+                                this.filesize = e.target.result.size;
+                                this.filename = e.target.result.name;
+                                console.log(e.target.result);
+                                console.log("filepath" + this.filepath);
+                                console.log("filesize" + this.filesize);
+                                console.log("filename" + this.filename);
+
+
+                                console.log("e.target.file" + this.file[0]);
+                            }
+                            reader.readAsDataURL(input.files[0]);
+                        }
+                    },
+
+                    // uploadImage(event) {
+                    //     var input = event.target;
+                    //     if (input.files && input.files[0]) {
+                    //         var reader = new FileReader();
+                    //         reader.onload = (e) => {
+                    //             var filepath123 = e.target.files;
+
+
+                    //             console.log("filepath" + this.filepath123);
+                    //             console.log("filepath" + this.filepath123[0]);
+                    //             console.log("filesize" + this.filepath123[0].size);
+                    //             console.log("filename" + this.filename123[0].name);
+
+
+                    //             console.log("e.target.file" + this.file[0]);
+                    //         }
+                    //         reader.readAsDataURL(input.files[0]);
+                    //     }
+                    // },
+
+                    // 수정 
+                    update() {
+                        axios.patch("http://localhost:8888/api/hrms/" + empno)
+                            .then((response) => {
+                                console.log(this.name);
+                            })
+                            .catch(error => console.error(error))
+                    }
+                }
+            }
+            Vue.createApp(RegistEmp).mount('#empRegist');
+        </script>
+
+
+        <script>
+            window.addEventListener('load', () => {
+                const forms = document.getElementsByClassName('validation-form');
+
+                Array.prototype.filter.call(forms, (form) => {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        </script>
+
+
+        <script>
+            // 팝오버 초기화
+            $(function () {
+                $('[data-toggle="popover"]').popover()
+            });
+        </script>
+
+        <!-- 팝오버 -->
+        <!-- <button type="button" class="btn btn-primary" data-toggle="popover" title="Popover title" data-content="Lorem Ipsum Dolor Lorem Ipsum Dolor Lorem Ipsum Dolor">Click</button> -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    </body>
+</th:blcok>
+
+</html>

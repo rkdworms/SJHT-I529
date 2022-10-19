@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- #{}, #{}, #{}, #{}, #{}, #{}, #{}, #{}, #{}, #{}, #{}, #{}, #{}, #{}, #{}, #{}, #{}, #{}, #{}, #{}, #{} -->
+
+<mapper namespace="sjht.erp.hrms.repository.HrmsMapper">
+
+    <!-- 사원 등록 -->
+    <insert id="registEmp" parameterType="map">
+        INSERT INTO employee
+        (password,
+        bankcd,
+        departmentcd,
+        gradecd,
+        usertype,
+        fileno,
+        name,
+        gender,
+        mail,
+        tel,
+        zipcode,
+        addr,
+        addrdetail,
+        regno,
+        birthday,
+        school,
+        entrydate,
+        retiredate,
+        yearsalary,
+        salary,
+        retirementpay,
+        account,
+        memo,
+        retireyn,
+        restyn,
+        privateinsurance,
+        paymentst,
+        totalal,
+        useal,
+        retirenote)
+        VALUES
+        ( #{password},
+        #{bankcd},
+        #{departmentcd},
+        #{gradecd},
+        #{usertype},
+        #{fileno},
+        #{name},
+        #{gender},
+        #{mail},
+        #{tel},
+        #{zipcode},
+        #{addr},
+        #{addrdetail},
+        #{regno},
+        #{birthday},
+        #{school},
+        #{entrydate},
+        #{retiredate},
+        #{yearsalary},
+        #{salary},
+        #{retirementpay},
+        #{account},
+        #{memo},
+        #{retireyn},
+        #{restyn},
+        #{privateinsurance},
+        #{paymentst},
+        #{totalal},
+        #{useal},
+        #{retirenote} );
+
+        INSERT INTO file
+        (filename,
+        filepath,
+        filesize)
+        VALUES ( #{filename},
+        #{filepath},
+        #{filesize} )
+    </insert>
+
+    <!-- 사원 상세 조회 -->
+    <select id="findEmpByEmpno" parameterType="Long" resultType="sjht.erp.common.vo.EmployeeVO" >
+        SELECT * FROM employee
+        WHERE empno = #{empno}
+    </select>
+
+    <!-- 사원 리스트 ▼ -->
+    <select id="getEmpList" resultMap="empList">
+        Select * FROM employee as e
+        LEFT JOIN bankcode as b
+        ON e.bankcd = b.bankcd
+        LEFT JOIN departmentcode as d
+        ON e.departmentcd = d.departmentcd
+        LEFT JOIN gradecode as g
+        ON e.gradecd = g.gradecd
+        LEFT JOIN usermaster as u
+        ON e.usertype = u.usertype
+        LEFT JOIN file as f
+        ON e.fileno = f.fileno
+    </select>
+
+    <resultMap id="empList" type="sjht.erp.common.vo.EmployeeVO">
+        <id column="empno" property="empno"/>
+
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="gender" property="gender"/>
+        <result column="mail" property="mail"/>
+        <result column="tel" property="tel"/>
+        <result column="zipcode" property="zipcode"/>
+        <result column="addr" property="addr"/>
+        <result column="addrdetail" property="addrdetail"/>
+        <result column="regno" property="regno"/>
+        <result column="birthday" property="birthday"/>
+        <result column="school" property="school"/>
+        <result column="entrydate" property="entrydate"/>
+        <result column="retiredate" property="retiredate"/>
+        <result column="yearsalary" property="yearsalary"/>
+        <result column="salary" property="salary"/>
+        <result column="retirementpay" property="retirementpay"/>
+        <result column="account" property="account"/>
+        <result column="memo" property="memo"/>
+        <result column="retireyn" property="retireyn"/>
+        <result column="restyn" property="restyn"/>
+        <result column="privateinsurance" property="privateinsurance"/>
+        <result column="paymentst" property="paymentst"/>
+        <result column="totalal" property="totalal"/>
+        <result column="useal" property="useal"/>
+        <result column="retirenote" property="retirenote"/>
+
+        <association property="bankcd" javaType="sjht.erp.common.vo.BankCodeVO" resultMap="bankcdResultMap"/>
+        <association property="departmentcd" javaType="sjht.erp.common.vo.DepartmentCodeVO" resultMap="departmentcdResultMap"/>
+        <association property="gradecd" javaType="sjht.erp.common.vo.GradeCodeVO" resultMap="gradecdResultMap"/>
+        <association property="usertype" javaType="sjht.erp.common.vo.UserMasterVO" resultMap="usertypeResultMap"/>
+<!--        <association property="fileno" javaType="sjht.erp.common.vo.FileVO" resultMap="filenoResultMap"/>-->
+    </resultMap>
+
+    <resultMap id="bankcdResultMap" type="sjht.erp.common.vo.BankCodeVO">
+        <id column="bankcd" property="bankcd"/>
+        <result column="bankname" property="bankname"/>
+    </resultMap>
+    <resultMap id="departmentcdResultMap" type="sjht.erp.common.vo.DepartmentCodeVO">
+        <id column="departmentcd" property="departmentcd"/>
+        <result column="departmentname" property="departmentname"/>
+    </resultMap>
+    <resultMap id="gradecdResultMap" type="sjht.erp.common.vo.GradeCodeVO">
+        <id column="gradecd" property="gradecd"/>
+        <result column="gradename" property="gradename"/>
+    </resultMap>
+    <resultMap id="usertypeResultMap" type="sjht.erp.common.vo.UserMasterVO">
+        <id column="usertype" property="usertype"/>
+        <result column="username" property="username"/>
+    </resultMap>
+<!--    <resultMap id="filenoResultMap" type="sjht.erp.common.vo.FileVO">-->
+<!--        <id column="fileno" property="fileno"/>-->
+<!--        <result column="filename" property="filename"/>-->
+<!--        <result column="filepath" property="filepath"/>-->
+<!--        <result column="filesize" property="filesize"/>-->
+<!--    </resultMap>-->
+    <!-- 사원 리스트 ▲ -->
+
+    <update id="updateEmp" parameterType="map">
+        UPDATE employee
+        SET
+        (
+        password = #{password},
+        bankcd = #{bankcd},
+        departmentcd = #{departmentcd},
+        gradecd = #{gradecd},
+        usertype = #{usertype},
+        fileno = #{fileno},
+        name = #{name},
+        gender = #{gender},
+        mail = #{mail},
+        tel = #{tel},
+        zipcode = #{zipcode},
+        addr = #{addr},
+        addrdetail = #{addrdetail},
+        regno = #{regno},
+        birthday = #{birthday},
+        school = #{school},
+        entrydate = #{entrydate},
+        retiredate = #{retiredate},
+        yearsalary = #{yearsalary},
+        salary = #{salary},
+        retirementpay = #{retirementpay},
+        account = #{account},
+        memo = #{memo},
+        retireyn = #{retireyn},
+        restyn = #{restyn},
+        privateinsurance = #{privateinsurance},
+        paymentst = #{paymentst},
+        totalal = #{totalal},
+        useal = #{useal},
+        retirenote = #{retirenote}
+        )
+        WHERE  empno = #{empno}
+    </update>
+
+    <!-- 부서 리스트 -->
+    <select id="getDepartmentList" resultType="sjht.erp.common.vo.DepartmentCodeVO">
+        select * from departmentcode
+    </select>
+
+    <!-- 직급 리스트 -->
+    <select id="getGradeList" resultType="sjht.erp.common.vo.GradeCodeVO">
+        select * from gradecode
+    </select>
+
+</mapper>
+
