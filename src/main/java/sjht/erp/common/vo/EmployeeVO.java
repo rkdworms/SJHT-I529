@@ -28,7 +28,7 @@ public class EmployeeVO {
     private String zipcode; // 우편번호
     private String addr; // 주소
     private String addrdetail; // 상세주소
-    private String regno; // 주민번호
+    private String regno; // 주민등록번호
     private String birthday; // 생년월일
     private String school; // 학력
     private LocalDateTime entrydate; // 입사일자

@@ -7,6 +7,6 @@ import java.util.Optional;
 
 @Mapper
 public interface UserMapper{
-        Optional<EmployeeDto> findUserByEmpno(Long empno);
+        Optional<EmployeeDto> findUserByEmpno(int empno);
         void save(EmployeeDto employeeDto);
 }

@@ -20,7 +20,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        return userMapper.findUserByEmpno(Long.valueOf(userId))
+        return userMapper.findUserByEmpno(Integer.valueOf(userId))
                 .map(user -> addAuthorities(user))
                 .orElseThrow(() -> new UserNotFoundException(userId + ">찾을 수 없습니다."));
     }

@@ -49,7 +49,7 @@ public class LoginService {
 
     }
 
-    public EmployeeDto findByUserId(Long userId){
+    public EmployeeDto findByUserId(int userId){
         return userMapper.findUserByEmpno(userId)
                 .orElseThrow(() -> new UserNotFoundException("없는 유저입니다."));
     }
