@@ -1,16 +1,14 @@
 .container{
-    display:grid;
-    grid-auto-columns : minmax(160px, 160px);
-    grid-auto-rows : minmax(130px, 130px);
+    display: grid;
+    grid-auto-columns: minmax(33%, 303px);
+    grid-auto-rows: minmax(142px, 130px);
     grid-gap: 3rem;
-    padding :2%;
+    padding-right: 7%;
     margin-top: 5%;
-    grid-template-areas:
-        'a a a a b b'
-        'a a a a b b'
-        'c c c c b b'
-        'c c c c b b'
-    ;
+    grid-template-areas: 'a a b'
+        'a a b'
+        'c c b'
+        'c c b';
 }
 
 .notice{

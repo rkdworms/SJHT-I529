@@ -1,38 +1,6 @@
 <th:block th:fragment="header">
 
     <div class="wrapper">
-        <!--thymeleaf
-        <nav id="sidebar" class="sidebar js-sidebar">
-            <div class="sidebar-content js-simplebar" id="menu">
-                <a class="sidebar-brand" href="/">
-                    <span class="align-middle">I5-29 ERP SYSTEM</span>
-                </a>
-
-                <ul class="sidebar-nav" >
-
-                    <li class="mb-1" th:each="main:${menu}">
-                        <a class="sidebar-link" th:href="@{main.menuurl}" role="button" data-bs-toggle="collapse" th:data-bs-target="'#'+main.menuname" aria-expanded="true" >
-                            <i class="align-middle" data-feather="book"></i>
-                            <span class="align-middle" th:text="${main.menuname}"></span>
-                        </a>
-
-
-                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <div class="collapse" th:id="main.menuname">
-                                <li th:each="sub:${sub}">
-                                    <a v-if="${main.groupnumber==sub.groupnumber}" th:href="@{sub.menuurl}" class="collspan list" th:text="${sub.menuname}"></a>
-                                </li>
-                                </div>
-                            </ul>
-
-                    </li>
-
-
-                </ul>
-
-            </div>
-        </nav>
-        -->
         <!--사이드 바-->
         <nav id="sidebar" class="sidebar js-sidebar">
             <div class="sidebar-content js-simplebar" id="menu">
@@ -43,7 +11,7 @@
                 <ul class="sidebar-nav" >
 
                     <li class="mb-1" v-for="(main,i) in mainmenu" key="i">
-                        <a class="sidebar-link" v-bind:href="main.menuurl" role="button" data-bs-toggle="collapse" v-bind:data-bs-target="'#'+main.menuname" aria-expanded="true" >
+                        <a class="sidebar-link" v-bind:href="main.menuurl" role="button" data-bs-toggle="collapse" v-bind:data-bs-target="'#'+main.menuname" aria-expanded="false" >
                             <i class="align-middle-menu" data-feather="book"></i>
                             <span class="align-middle-menu" v-bind:style="opacity">{{main.menuname}}</span>
                         </a>
@@ -153,11 +121,7 @@
             <th:block layout:fragment="content"></th:block>
         </div>
     </div>
-
-    <script src="/./js/layout/header_sidebar.js"></script>
-    <script src="https://unpkg.com/vue@next"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
+    
     <script>
         const Menu = {
           data() {
