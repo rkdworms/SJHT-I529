@@ -112,6 +112,7 @@ th {
 .tab-content{
   overflow: scroll auto;
   margin: 23px;
+  padding: 16px;
 }
 
 .card_result{
@@ -149,10 +150,4 @@ th {
 .employee-list{
     margin: 1rem;
     list-style: none;
-}
-
-.tab-content {
-  overflow: scroll auto;
-  margin: 21px;
-  padding: 2px;
 }

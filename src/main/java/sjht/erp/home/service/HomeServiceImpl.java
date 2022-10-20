@@ -65,7 +65,7 @@ public class HomeServiceImpl implements HomeService {
         }
 
         for (int i = 0; i < wvo.size(); i++) {
-            if(evo.get(i).getDvappyn().equals("w")){
+            if(wvo.get(i).getApproveryn().equals("w")){
                 receiveList.add(new HrmsSignDto(wvo.get(i)));
             }else {
                 doneList.add(new HrmsSignDto(wvo.get(i)));
