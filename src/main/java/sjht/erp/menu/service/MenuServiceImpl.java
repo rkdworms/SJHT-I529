@@ -19,7 +19,7 @@ public class MenuServiceImpl implements MenuService {
     public List<List<MenuDto>> getMenuList(String usertype) {
 
 
-        //메뉴VO 불러오기 및 Dto 변환
+        //메뉴VO 불러오기 및 UpdateDto 변환
         List<MenuMasterVO> menuVo = menuMapper.getMenuList(usertype);
         List<MenuDto> menuDto = new ArrayList();
 

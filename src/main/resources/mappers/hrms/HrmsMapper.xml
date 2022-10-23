@@ -81,6 +81,11 @@
         #{filesize} )
     </insert>
 
+    <!-- 사원 등록 시 사번 보여주기 -->
+    <select id="getEmpno" resultType="int">
+        SELECT IFNULL( max(empno) , 0 ) + 1 FROM employee
+    </select>
+
     <!-- 사원 상세 조회 -->
     <select id="findEmpByEmpno" parameterType="Long" resultType="sjht.erp.common.vo.EmployeeVO" >
         SELECT * FROM employee
@@ -162,6 +167,7 @@
 <!--    </resultMap>-->
     <!-- 사원 리스트 ▲ -->
 
+    <!-- 사원 데이터 수정 -->
     <update id="updateEmp" parameterType="map">
         UPDATE employee
         SET
@@ -209,6 +215,31 @@
     <select id="getGradeList" resultType="sjht.erp.common.vo.GradeCodeVO">
         select * from gradecode
     </select>
+
+    <!-- 은행 리스트 -->
+    <select id="getBankList" resultType="sjht.erp.common.vo.BankCodeVO">
+        select * from bankcode
+    </select>
+
+    <!-- 권한 리스트 -->
+    <select id="getUserMasterList" resultType="sjht.erp.common.vo.UserMasterVO">
+        select * from usermaster
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </mapper>
 

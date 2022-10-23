@@ -4,16 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import sjht.erp.common.vo.EmployeeVO;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmpInfoDto {
+public class UpdateDto {
 
     /* Employee */
     private String password;
@@ -32,8 +28,8 @@ public class EmpInfoDto {
     private String regno;
     private String birthday;
     private String school;
-    private LocalDateTime entrydate;
-    private LocalDateTime retiredate;
+    private String entrydate;
+    private String retiredate;
     private int yearsalary;
     private int salary;
     private int retirementpay;

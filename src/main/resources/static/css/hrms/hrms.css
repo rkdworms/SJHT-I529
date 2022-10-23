@@ -3146,7 +3146,7 @@ select.form-control:focus::-ms-value {
 }
 
 .form-control-sm {
-  height: calc(1em + 1rem + 2px);
+  height: calc(0.7em + 1rem + 2px);
   padding: 0.5rem 0.75rem;
   font-size: 0.8rem;
   line-height: 1;
@@ -18067,7 +18067,7 @@ body {
 }
 
 .bg-gray-900 {
-  background-color: #212832 !important;
+  background-color: #222e3c !important;
 }
 
 .bg-white-25 {

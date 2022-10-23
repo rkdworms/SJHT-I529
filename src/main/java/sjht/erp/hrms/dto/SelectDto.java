@@ -6,14 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import sjht.erp.common.vo.*;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class HrmsDto {
+public class SelectDto {
 
     /*  Employee */
     private int empno; // 사원번호
@@ -70,8 +69,8 @@ public class HrmsDto {
     private String filepath;
     private int filesize;
 
-    /* employeeVO -> HrmsDto */
-    public HrmsDto(EmployeeVO employeeVO) {
+    /* employeeVO -> SelectDto */
+    public SelectDto(EmployeeVO employeeVO) {
 
         this.empno = employeeVO.getEmpno();
         this.password = employeeVO.getPassword();
@@ -102,14 +101,14 @@ public class HrmsDto {
         if (employeeVO.getEntrydate() == null) {
             this.entrydate = "";
         } else {
-            this.entrydate = employeeVO.getEntrydate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            this.entrydate = employeeVO.getEntrydate().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         }
 
         // retiredate 초기화 시 null 체크
         if (employeeVO.getRetiredate() == null) {
             this.retiredate = "";
         } else {
-            this.retiredate = employeeVO.getRetiredate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            this.retiredate = employeeVO.getRetiredate().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         }
 
         // Bank 초기화 시 null 체크
@@ -163,16 +162,32 @@ public class HrmsDto {
 
     }
 
-    /* DepartmentCodeVO -> HrmsDto */
-    public HrmsDto (DepartmentCodeVO departmentCodeVO) {
+    /* DepartmentCodeVO -> SelectDto
+    * 부서코드 가져오기 */
+    public SelectDto(DepartmentCodeVO departmentCodeVO) {
         this.departmentcd = departmentCodeVO.getDepartmentcd();
         this.departmentname = departmentCodeVO.getDepartmentname();
     }
 
-    /* GradeCodeVO -> HrmsDto */
-    public HrmsDto(GradeCodeVO gradeCodeVO) {
+    /* GradeCodeVO -> SelectDto
+    *  직급코드 가져오기 */
+    public SelectDto(GradeCodeVO gradeCodeVO) {
         this.gradecd = gradeCodeVO.getGradecd();
         this.gradename = gradeCodeVO.getGradename();
+    }
+
+    /* BankCodeVO -> SelectDto
+     *  은행코드 가져오기 */
+    public SelectDto(BankCodeVO bankCodeVO) {
+        this.bankcd = bankCodeVO.getBankcd();
+        this.bankname = bankCodeVO.getBankname();
+    }
+
+    /* UserMasterVO -> SelectDto
+     *  권한코드 가져오기 */
+    public SelectDto(UserMasterVO userMasterVO) {
+        this.usertype = userMasterVO.getUsertype();
+        this.username = userMasterVO.getUsername();
     }
 
 }
