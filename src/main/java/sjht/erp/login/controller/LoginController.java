@@ -49,7 +49,7 @@ public class LoginController {
 
     @GetMapping("/api/join")
     public String join(){
-        return "login/signup";
+            return "login/signup";
     }
 
     @PostMapping("/join")
@@ -60,12 +60,13 @@ public class LoginController {
 
     @SneakyThrows
     @RequestMapping("/api/login")
-    public String login(@ModelAttribute LoginDto loginDto, Model model, HttpServletResponse respon){
+    public String login(@ModelAttribute LoginDto loginDto, Model model, HttpServletResponse respon,HttpServletRequest request){
         ResponseEntity responseEntity = null;
 
         try{
+
+
             String token = loginService.login(loginDto);
-            System.out.println(token);
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("Authoriztion","Bearer "+token);
 
@@ -78,15 +79,21 @@ public class LoginController {
             cookie.setMaxAge(60 * 60 * 24);
             respon.addCookie(cookie);
 
-            return "/menu/home";
+            return "redirect:/";
         }catch(LoginFailedException exception){
             logger.debug(exception.getMessage());
             BaseResponse response = responseService.getBaseResponse(false, exception.getMessage());
 
+            Cookie[] cookie = request.getCookies();
+            if(cookie!=null && Arrays.stream(cookie).filter(c -> c.getName().equals("token")).findAny().isPresent()){
+                return "redirect:/";
+            }
+
             responseEntity = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return "/login/loginfail";
         }
 
-        return "/login/loginfail";
+
 
     }
 }

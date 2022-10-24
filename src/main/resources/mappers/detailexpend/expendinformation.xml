@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sjht.erp.detailexpend.repository.ExpendInsertMapper">
+    <select id="selectOneEmployee" resultType="sjht.erp.detailexpend.dto.request.SelectEmployeeDto"
+            parameterType="Integer">
+        select *
+        from employee
+        where empno = #{empno}
+    </select>
+
+    <select id="selectLastOne" resultType="String">
+        SELECT dvno
+        FROM expendinformation
+        ORDER BY dvno DESC
+        LIMIT 1
+    </select>
+
+    <select id="selectAll" resultType="String">
+        SELECT dvno
+        FROM expendinformation
+    </select>
+
+    <insert id="insertDvno" parameterType="String">
+        insert into expendinformation(dvno, dvappyn)
+        values (#{dvno}, 'w')
+    </insert>
+
+    <insert id="insertExpend" parameterType="sjht.erp.detailexpend.dto.request.InsertRequestDto">
+        insert into detailexpend(dvno, dvusedate, price, dvmemo, divcd, detailuse)
+        values (#{dvno},#{dvusedate},#{price},#{dvmemo},#{divcd},#{detailuse})
+        <selectKey keyProperty="dno" resultType="Integer" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="insertFile" parameterType="sjht.erp.detailexpend.dto.request.FileRequestDto">
+        insert into file
+            (filename, physicalpath, filesize, empno, kind, relatedpath, dno)
+        values (#{filename},
+                #{physicalpath},
+                #{filesize},
+                #{empno},
+                #{kind},
+                #{relatedpath},
+                #{dno})
+    </insert>
+
+    <update id="updateExpendInformation" parameterType="sjht.erp.detailexpend.dto.request.UpdateRequestDto">
+        update expendinformation
+        set empno=#{empno},
+            departmentcd=#{departmentcd},
+            dvregdate=#{dvregdate},
+            dvamt=#{dvamt}
+        where dvno = #{dvno}
+    </update>
+
+    <select id="selectDetailExpend" resultType="sjht.erp.detailexpend.dto.response.DetailResponseDto"
+            parameterType="String">
+        select *
+        from detailexpend
+        where dvno = #{dvno}
+    </select>
+
+    <delete id="deleteDetailExpend" parameterType="Integer">
+        delete
+        from detailexpend
+        where dno = #{dno}
+    </delete>
+
+</mapper>
