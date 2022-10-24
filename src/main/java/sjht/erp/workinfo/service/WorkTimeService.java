@@ -8,4 +8,5 @@ import java.util.List;
 public interface WorkTimeService {
 
     List<WorkInfoResponseDto> selectWhereWorkInfo(WorkInfoRequestDto workInfoRequestDto);
+    List<WorkInfoResponseDto> myWorkTimeList(int empno);
 }

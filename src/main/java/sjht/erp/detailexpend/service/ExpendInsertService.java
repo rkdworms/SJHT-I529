@@ -16,7 +16,7 @@ public interface ExpendInsertService {
 
     int insertFile(FileRequestDto fileRequestDto, EmployeeDto employeeDto, MultipartFile multipartFile) throws IOException;
 
-    int updateExpendInformation(EmployeeDto employeeDto,UpdateRequestDto updateRequestDto);
+    int updateExpendInformation(EmployeeDto employeeDto, UpdateRequestDto updateRequestDto);
 
     List<DetailResponseDto> selectAllDetailExpend(String dvno);
 

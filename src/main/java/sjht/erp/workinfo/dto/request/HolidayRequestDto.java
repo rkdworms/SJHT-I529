@@ -2,6 +2,7 @@ package sjht.erp.workinfo.dto.request;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -9,15 +10,16 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class HolidayRequestDto {
     private int empno;
-    private LocalDateTime startdate;
-    private LocalDateTime enddate;
+    private LocalDate startdate;
+    private LocalDate enddate;
     private String reasonholiday;
-    private String approveryn;
+    private String approveryn = "w";
     private LocalDateTime registdate;
 
-    public HolidayRequestDto(int empno, LocalDateTime startdate, LocalDateTime enddate, String reasonholiday) {
+    public HolidayRequestDto(int empno, LocalDate startdate, LocalDate enddate, String reasonholiday) {
         this.empno = empno;
         this.startdate = startdate;
         this.enddate = enddate;

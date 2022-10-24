@@ -4,5 +4,5 @@ import sjht.erp.workinfo.dto.request.HolidayRequestDto;
 
 public interface HolidayRegistryService {
 
-    int insert(HolidayRequestDto holidayRequestDto);
+    boolean insert(HolidayRequestDto holidayRequestDto);
 }

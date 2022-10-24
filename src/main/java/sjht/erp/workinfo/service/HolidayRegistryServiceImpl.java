@@ -12,7 +12,7 @@ public class HolidayRegistryServiceImpl implements HolidayRegistryService{
     HolidayRegistryMapper holidayRegistryMapper;
 
     @Override
-    public int insert(HolidayRequestDto holidayRequestDto) {
-        return holidayRegistryMapper.insertHoliday(holidayRequestDto);
+    public boolean insert(HolidayRequestDto holidayRequestDto) {
+        return holidayRegistryMapper.insertHoliday(holidayRequestDto)!=0;
     }
 }
