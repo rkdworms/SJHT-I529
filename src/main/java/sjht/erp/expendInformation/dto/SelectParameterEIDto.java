@@ -11,15 +11,17 @@ import java.util.HashMap;
 @Builder
 @AllArgsConstructor
 @ToString
-public class ParameterEIDto {
+public class SelectParameterEIDto {
     private LocalDate startDvRegDate;
     private LocalDate endDvRegDate;
     private String dvappyn;
 
     private int empno;
     private String name;
+
     private String divcd;
-    public ParameterEIDto() {
+
+    public SelectParameterEIDto() {
         this.startDvRegDate = LocalDate.now();
         this.endDvRegDate = LocalDate.now();
         this.dvappyn = "w";
@@ -29,7 +31,7 @@ public class ParameterEIDto {
     }
 
     //map -> dto
-    public ParameterEIDto(HashMap<String, String> map) {
+    public SelectParameterEIDto(HashMap<String, String> map) {
         if (!map.get("empno").isEmpty())
             this.empno = Integer.parseInt(map.get("empno"));
 

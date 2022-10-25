@@ -1,10 +1,13 @@
 package sjht.erp.expendInformation.service;
 
-import sjht.erp.expendInformation.dto.ParameterEIDto;
-import sjht.erp.expendInformation.dto.ResultEIDto;
+import org.springframework.transaction.annotation.Transactional;
+import sjht.erp.expendInformation.dto.SelectParameterEIDto;
+import sjht.erp.expendInformation.dto.SelectResultEIDto;
+import sjht.erp.expendInformation.dto.UpdateParameterEIDto;
 import sjht.erp.expendInformation.repository.ExpendInformationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import sjht.erp.login.dto.EmployeeDto;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,27 +17,58 @@ import java.util.List;
 public class ExpendInformationServiceImpl implements ExpendInformationService {
     private final ExpendInformationMapper mapper;
 
-    //지출 결의 조건에 맞는 리스트 select 메소드
+    /**
+     * 지출 결의 조건에 맞는 리스트 select 메소드
+     **/
     @Override
-    public List<ResultEIDto> selectEIByCondition(ParameterEIDto parameterEIDto) {
-        List<ResultEIDto> result = mapper.selectExpendInformation(parameterEIDto);
+    public List<SelectResultEIDto> selectEIByCondition(SelectParameterEIDto selectParameterEIDto) {
+        List<SelectResultEIDto> result = mapper.selectExpendInformation(selectParameterEIDto);
         return result;
     }
 
+    /**
+     * 상세보기 dto select
+     **/
     @Override
-    public List<ResultEIDto> selectEIByDvnoOne(String dvno) {
-        List<ResultEIDto> result = mapper.selectExpendInformationOne(dvno);
+    public List<SelectResultEIDto> selectEIByDvnoOne(String dvno) {
+        List<SelectResultEIDto> result = mapper.selectExpendInformationOne(dvno);
         return result;
     }
 
+    /**
+     * 승인 반려 업데이트
+     **/
     @Override
-    public Long updateEI() {
-        Long result = mapper.updateExpendInformation();
-        return result;
+    @Transactional
+    public void updateEI(UpdateParameterEIDto updateParameterEIDto) {
+        System.out.println("updateEI before");
+        System.out.println("updateParameterEIDto = " + updateParameterEIDto);
+        //for문 돌릴떄 list.size() 파라미터 값 dto
+        mapper.updateExpendInformation(updateParameterEIDto);
+
+        if(updateParameterEIDto.getDvappyn().equals("y")){
+            System.out.println("insert before");
+
+            System.out.println(selectEIByDvnoOne(updateParameterEIDto.getDvno()));
+            //insertEH(updateParameterEIDto.getDvno());
+
+            System.out.println("insert after");
+        }
+
+        System.out.println("updateEI after");
     }
 
+//    @Override
+//    public void insertEH(String dvno) {
+//
+//        mapper.insertExpendHistory();
+//    }
+
+    /**
+     * 조건에 따른 디폴트 값 설정
+     **/
     @Override
-    public ParameterEIDto checkParam(HashMap<String, String> map) {
+    public SelectParameterEIDto checkParam(HashMap<String, String> map) {
         int count = 0;
 
         for (String i : map.values()) {
@@ -43,8 +77,8 @@ public class ExpendInformationServiceImpl implements ExpendInformationService {
         }
 
         if (count == map.size()) {
-            return new ParameterEIDto();
+            return new SelectParameterEIDto();
         } else
-            return new ParameterEIDto(map);
+            return new SelectParameterEIDto(map);
     }
 }

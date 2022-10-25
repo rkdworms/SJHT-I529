@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequiredArgsConstructor
 public class ExpendInformationController {
+
     private final ExpendInformationService service;
 
     @RequestMapping("/expend")
