@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DepartmentCodeVO {
-    private String departmentcd;
-    private String departmentname;
+    private String departmentcd; // 부서 코드
+    private String departmentname; // 부서 이름
 }

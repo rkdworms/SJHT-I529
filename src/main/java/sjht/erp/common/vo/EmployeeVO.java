@@ -20,7 +20,6 @@ public class EmployeeVO {
     private DepartmentCodeVO departmentcd; // fk 부서코드
     private GradeCodeVO gradecd; // fk 직급코드
     private UserMasterVO usertype; // fk 권한코드
-    private FileVO fileno; // 파일번호
     private String name; // 사원이름
     private String gender; // 성별
     private String mail; // 이메일
@@ -29,7 +28,6 @@ public class EmployeeVO {
     private String addr; // 주소
     private String addrdetail; // 상세주소
     private String regno; // 주민등록번호
-    private String birthday; // 생년월일
     private String school; // 학력
     private LocalDateTime entrydate; // 입사일자
     private LocalDateTime retiredate; // 퇴사일자

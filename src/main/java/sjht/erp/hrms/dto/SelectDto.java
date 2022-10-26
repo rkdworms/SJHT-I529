@@ -16,12 +16,7 @@ public class SelectDto {
 
     /*  Employee */
     private int empno; // 사원번호
-    private String password; // 비밀번호
-    //    private BankCodeVO bankcd; // fk 은행코드
-//    private DepartmentCodeVO departmentcd; // fk 부서코드
-//    private GradeCodeVO gradecd; // fk 직급코드
-//    private UserMasterVO usertype; // fk 권한코드
-//    private FileVO fileno; // 파일번호
+    private String password;
     private String name; // 사원이름
     private String gender; // 성별
     private String mail; // 이메일
@@ -30,7 +25,6 @@ public class SelectDto {
     private String addr; // 주소
     private String addrdetail; // 상세주소
     private String regno; // 주민번호
-    private String birthday; // 생년월일
     private String school; // 학력
     private String entrydate; // 입사일자
     private String retiredate; // 퇴사일자
@@ -64,13 +58,17 @@ public class SelectDto {
     private String username;
 
     /* File */
-    private int fileno;
-    private String filename;
-    private String filepath;
-    private int filesize;
+    private int fileno; // pk 파일번호
+    private String filename; // 파일이름
+    private String physicalpath; // 물리경로
+    private String relatedpath; // 상대경로
+    private int filesize; // 파일사이즈
+    //private int empno; // fk 사원번호
+    private String kind; // 파일종류
+    private int dno; //
 
-    /* employeeVO -> SelectDto */
-    public SelectDto(EmployeeVO employeeVO) {
+    /* employeeVO, fileVO -> SelectDto */
+    public SelectDto(EmployeeVO employeeVO, FileVO fileVO) {
 
         this.empno = employeeVO.getEmpno();
         this.password = employeeVO.getPassword();
@@ -82,7 +80,6 @@ public class SelectDto {
         this.addr = employeeVO.getAddr();
         this.addrdetail = employeeVO.getAddrdetail();
         this.regno = employeeVO.getRegno();
-        this.birthday = employeeVO.getBirthday();
         this.school = employeeVO.getSchool();
         this.yearsalary = employeeVO.getYearsalary();
         this.salary = employeeVO.getSalary();
@@ -147,19 +144,24 @@ public class SelectDto {
             this.username = employeeVO.getUsertype().getUsername();
         }
 
-        // File 초기화 시 null 체크
-        if (employeeVO.getFileno() == null) {
+        // FileVO 초기화 시 null 체크
+        if (fileVO == null) {
             this.fileno = -1;
             this.filename = "";
-            this.filepath = "";
+            this.physicalpath = "";
+            this.relatedpath = "";
             this.filesize = -1;
+            this.kind = "";
+            this.dno = -1;
         } else {
-            this.fileno = employeeVO.getFileno().getFileno();
-            this.filename = employeeVO.getFileno().getFilename();
-            this.filepath = employeeVO.getFileno().getFilepath();
-            this.filesize = employeeVO.getFileno().getFilesize();
+            this.fileno =  fileVO.getFileno();
+            this.filename = fileVO.getFilename();
+            this.physicalpath = fileVO.getPhysicalpath();
+            this.relatedpath = fileVO.getRelatedpath();
+            this.filesize = fileVO.getFilesize();
+            this.kind = fileVO.getKind();
+            this.dno = fileVO.getDno();
         }
-
     }
 
     /* DepartmentCodeVO -> SelectDto
@@ -190,4 +192,6 @@ public class SelectDto {
         this.username = userMasterVO.getUsername();
     }
 
+    public SelectDto(EmployeeVO employeeVO, Object fileVO) {
+    }
 }

@@ -12,6 +12,9 @@ public interface HrmsMapper {
     /* 사원 리스트 */
     List<EmployeeVO> getEmpList();
 
+    /* 사원 조회 시 증명사진 불러오기 */
+    List<FileVO> getIdPicture();
+
     /* 사원 등록 (회계,총무) */
     void registEmp(UpdateDto updateDto);
 

@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BankCodeVO {
-    private String bankcd;
-    private String bankname;
+    private String bankcd; // 은행코드
+    private String bankname; // 은행이름
 }

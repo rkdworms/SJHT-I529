@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GradeCodeVO {
-    private String gradecd;
-    private String gradename;
+    private String gradecd; // 직급 코드
+    private String gradename; // 직급 이름
 }
