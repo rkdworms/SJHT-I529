@@ -45,13 +45,16 @@
         <div class="search">
           <input type="text" class="form-control" placeholder="검색할 임직원의 이름이나 부서를 입력하세요." aria-label="First name" v-model="find" v-on="findEmployee(find)">
         </div>
-        <div class="list-group employee-list">
-          <div v-for="list in employee" key="list">
-            <button type="button" class="list-group-item list-group-item-action" v-show="find === '' || list.name.includes(find) || list.department.includes(find)">
-              {{list.department}}&nbsp>&nbsp{{list.name}}&nbsp{{list.grade}}
-            </button>
+        <div style="overflow : auto;">
+          <div class="list-group employee-list">
+            <div v-for="list in employee" key="list">
+              <button type="button" class="list-group-item list-group-item-action" v-show="find === '' || list.name.includes(find) || list.department.includes(find)">
+                {{list.department}}&nbsp>&nbsp{{list.name}}&nbsp{{list.grade}}
+              </button>
+            </div>
           </div>
         </div>
+        
       </div>
 
       <!--결제함 dashboard-->

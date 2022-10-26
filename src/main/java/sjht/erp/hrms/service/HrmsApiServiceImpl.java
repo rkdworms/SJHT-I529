@@ -65,8 +65,6 @@ public class HrmsApiServiceImpl implements HrmsApiService {
            if ( employeeVOList.get(i).getEmpno() == fileVOList.get(i).getEmpno() ) {
                selectDtoList.add(new SelectDto(employeeVOList.get(i), fileVOList.get(i)));
            }
-
-           if (employeeVOList.get(i).get )
         }
         // 반환
         return selectDtoList;

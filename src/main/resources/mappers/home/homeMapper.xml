@@ -5,7 +5,7 @@
 
 <mapper namespace="sjht.erp.home.Mapper.HomeMapper">
     <select id="getNoticeList" resultType="sjht.erp.common.vo.BoardVO">
-        SELECT bno, title, regdate
+        SELECT bno, title, createtime
         FROM board
         WHERE boardtype = 'A'
     </select>

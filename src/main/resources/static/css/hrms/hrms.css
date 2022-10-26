@@ -5301,6 +5301,17 @@ fieldset:disabled a.btn {
   box-shadow: 0 0 0 0.2rem rgba(242, 246, 252, 0.5);
 }
 
+.btn-outline-erp{
+  color: #212e3c;
+  border-color: #212e3c;
+}
+
+.btn-outline-erp:hover {
+  color: #fff;
+  background-color: #212e3c;
+  border-color: #212e3c;
+}
+
 .btn-outline-dark {
   color: #212832;
   border-color: #212832;
