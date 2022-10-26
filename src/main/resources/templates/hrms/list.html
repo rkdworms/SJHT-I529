@@ -115,7 +115,6 @@
                                                 <div class="form-group col-md-3">
                                                     <label for="retireFormControlSelect">검색</label>
                                                     <div class="input-group input-group-joined input-group-solid">
-
                                                         <select class="form-select form-control-solid"
                                                             id="retireFormControlSelect" v-model="menu"
                                                             v-on="setMenu(menu)">
@@ -123,14 +122,11 @@
                                                             <option value="searchName">사원명</option>
                                                             <option value="searchEmpno">사번</option>
                                                         </select>
-
                                                         <input class="form-control form-control-sm" type="text"
                                                             placeholder="Search" aria-label="Search" v-model="search"
                                                             v-on="searchEmp(search)">
                                                     </div>
                                                 </div>
-
-
                                             </div>
                                         </form>
 
@@ -229,7 +225,7 @@
 여기를 수정중 입니다. 
 여기를 수정중 입니다. -->
 
-            <!-- 사원 상세 조회 Modal 시작 -->
+            <!-- 사원 상세 조회 모달 시작 -->
             <div class="col-xl-8">
                 <div class="modal fade" id="empDetailModal" data-bs-backdrop="static" data-bs-keyboard="false"
                     tabindex="-1" role="dialog" aria-labelledby="empDetailModalLabel" aria-hidden="true">
@@ -263,34 +259,33 @@
                                                         <label label class="small mb-1" for="regno">주민등록번호</label>
                                                         <div>
                                                             <input type="text" class="form-control form-control-sm"
-                                                                id="regno1" :placeholder="empDetail.regno"
+                                                                id="regno1" :placeholder="preregno"
                                                                 style="width: 47%; display: inline-block" readonly>-
                                                             <input type="text" class="form-control form-control-sm"
-                                                                id="regno2" :placeholder="empDetail.regno"
+                                                                id="regno2" :placeholder="sufregno"
                                                                 style="width: 48%; display: inline-block;" readonly>
                                                         </div>
 
                                                         <label label class="small mb-1" for="tel">연락처</label>
                                                         <div>
                                                             <input type="tel" class="form-control form-control-sm"
-                                                                id="tel1" :placeholder="empDetail.tel"
+                                                                id="tel1" :placeholder="tel1"
                                                                 style="width: 30%; display: inline-block;" readonly>-
                                                             <input type=" tel" class="form-control form-control-sm"
-                                                                id="tel2" :placeholder="empDetail.tel"
+                                                                id="tel2" :placeholder="tel2"
                                                                 style="width: 30%; display: inline-block;" readonly>-
                                                             <input type="tel" class="form-control form-control-sm"
-                                                                id="tel3" :placeholder="empDetail.tel"
+                                                                id="tel3" :placeholder="tel3"
                                                                 style="width: 30%; display: inline-block;" readonly>
                                                         </div>
                                                     </div>
                                                     <!-- Form Group (개인정보2) -->
                                                     <div class="form-group col-md-4">
                                                         <label label class="small mb-1" for="password">비밀번호</label>
-                                                        <input type="text" class="form-control form-control-sm"
+                                                        <input type="password" class="form-control form-control-sm"
                                                             id="password" :placeholder="empDetail.password" readonly>
 
-                                                        <label label class="small mb-1" for="gender">성별
-                                                            {{empDetail.gender}} </label>
+                                                        <label label class="small mb-1" for="gender">성별</label>
                                                         <div class="form-control form-control-sm border-0">
                                                             <div class="form-check form-check-inline col-md-5">
                                                                 <input class="form-check-input" type="radio"
@@ -333,7 +328,6 @@
                                                         <input type="text" class="form-control form-control-sm"
                                                             id="addrdetail" :placeholder="empDetail.addrdetail"
                                                             readonly>
-
                                                     </div>
                                                     <!-- Form Group (우편번호) -->
                                                     <div class="form-group col-md-4">
@@ -447,7 +441,6 @@
                                                             readonly>
                                                     </div>
                                                 </div>
-
                                                 <!-- 기타 -->
                                                 <div class="form-row">
                                                     <!-- Form Group (퇴사사유 등록) -->
@@ -488,7 +481,7 @@
         <!-- empList 끝 -->
 
 
-        <!-- 사원 등록 Modal 시작 -->
+        <!-- 사원 등록 모달 시작 -->
         <div class="col-xl-8" id="empRegist">
             <div class="modal fade" id="empRegistModal" data-bs-backdrop="static" tabindex="-1" role="dialog"
                 aria-labelledby="empRegistModalTitle" aria-hidden="true">
@@ -765,10 +758,6 @@
                                                         id="retiredate" placeholder="-" disabled>
                                                 </div>
                                             </div>
-
-
-
-
                                             <!-- Form Row 6 (근무연차/연봉/퇴직금 등록) yearsalary retirementpay  privateinsurance -->
                                             <div class="form-row">
                                                 <!-- Form Group (근무연차) -->
@@ -864,7 +853,16 @@
                         search: '', // text검색 - 검색어
                         checked: '',
 
-                        empCnt: ''
+                        empCnt: '',
+
+                        // 사원 주민번호 조회 관련 필드
+                        preregno: '', 
+                        sufregno: '', 
+
+                        // 사원 전화번호 조회 관련 필드
+                        tel1: '', 
+                        tel2: '',
+                        tel3: ''
                     }
                 },
 
@@ -882,7 +880,15 @@
                     // 사원 추출
                     getEmp(empno) {
                         this.empDetail = this.empList[empno];
-                        this.checked = this.empDetail.gender === '여'
+                        
+                        // 주민번호 앞/뒤자리 처리
+                        this.preregno = (this.empDetail.regno).substr(0, 6);
+                        this.sufregno = (this.empDetail.regno).substr(7,13);
+
+                        // 연락처 앞/뒤자리 처리
+                        this.tel1 = (this.empDetail.tel).substr(0, 3);
+                        this.tel2 = (this.empDetail.tel).substr(3, 4);
+                        this.tel3 = (this.empDetail.tel).substr(7, 4);
                     },
 
                     // 사원 검색 시 조간: 부서
@@ -1039,7 +1045,7 @@
                             memo: this.memo,
                             retireyn: this.retireyn,
                             restyn: this.restyn,
-                            privateinsurance: this.privateinsurance,
+                            privateinsurance: (this.yearsalary * 0.03945),
                             paymentst: this.paymentst,
                             totalal: this.totalal,
                             useal: this.useal,
