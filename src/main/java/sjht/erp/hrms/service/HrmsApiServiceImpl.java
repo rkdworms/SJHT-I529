@@ -54,9 +54,10 @@ public class HrmsApiServiceImpl implements HrmsApiService {
 
         // 사원 리스트 VO로 가져오기
         List<EmployeeVO> employeeVOList = hrmsMapper.getEmpList();
+
         // 사원 사진 VO로 가져오기
         List<FileVO> fileVOList = hrmsMapper.getIdPicture();
-        // empno이 같은 자료 추출하기
+        // empno가 같은 자료 추출하기
         // VO -> DTO
         List<SelectDto> selectDtoList = new ArrayList<SelectDto>();
 
@@ -64,6 +65,8 @@ public class HrmsApiServiceImpl implements HrmsApiService {
            if ( employeeVOList.get(i).getEmpno() == fileVOList.get(i).getEmpno() ) {
                selectDtoList.add(new SelectDto(employeeVOList.get(i), fileVOList.get(i)));
            }
+
+           if (employeeVOList.get(i).get )
         }
         // 반환
         return selectDtoList;
