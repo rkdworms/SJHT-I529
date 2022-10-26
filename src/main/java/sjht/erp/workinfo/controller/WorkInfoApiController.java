@@ -26,9 +26,21 @@ public class WorkInfoApiController {
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
         // 리턴 리스폰스 디티오 타입 서비스 로직
         System.out.println(workInfoRequestDto.toString());
-        List<WorkInfoResponseDto> listDto =
-                workTimeService.selectWhereWorkInfo(workInfoRequestDto);
-
-        return listDto;
+        return workTimeService.selectWhereWorkInfo(workInfoRequestDto);
+    }
+    @PostMapping("api/getMyWorkTime")
+    public List<WorkInfoResponseDto> getMyWorkTime(HttpServletRequest request){
+        EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
+        return workTimeService.myWorkTimeList(employeeDto.getEmpno());
+    }
+    @PostMapping("api/getROLE")
+    public String getRole(HttpServletRequest request){
+        EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
+        return employeeDto.getUsertype();
+    }
+    @PostMapping("api/getName")
+    public String getName(HttpServletRequest request){
+        EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
+        return employeeDto.getName();
     }
 }

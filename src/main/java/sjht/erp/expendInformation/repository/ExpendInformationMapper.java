@@ -1,20 +1,25 @@
 package sjht.erp.expendInformation.repository;
 
-import sjht.erp.expendInformation.dto.ParameterEIDto;
-import sjht.erp.expendInformation.dto.ResultEIDto;
+import sjht.erp.expendInformation.dto.SelectParameterEIDto;
+import sjht.erp.expendInformation.dto.SelectResultEIDto;
 import org.apache.ibatis.annotations.Mapper;
+import sjht.erp.expendInformation.dto.UpdateParameterEIDto;
 
 import java.util.List;
 
 @Mapper
 public interface ExpendInformationMapper {
 
-    //지출결의 조건 검색
-    List<ResultEIDto> selectExpendInformation(ParameterEIDto parameterEIDto);
+    // 지출결의 조건 검색
+    List<SelectResultEIDto> selectExpendInformation(SelectParameterEIDto selectParameterEIDto);
 
-    //지출결의 dvno에 따른 데이터 상세내역 검색
-    List<ResultEIDto> selectExpendInformationOne(String dvno);
+    // 지출결의 dvno에 따른 데이터 상세내역 검색
+    List<SelectResultEIDto> selectExpendInformationOne(String dvno);
 
-    Long updateExpendInformation();
+    // 승인 반려에 따른 update
+    void updateExpendInformation(UpdateParameterEIDto updateParameterEIDto);
+
+    // 승인 처리한 한 건에 대한 insert
+    //void insertExpendHistory();
 
 }

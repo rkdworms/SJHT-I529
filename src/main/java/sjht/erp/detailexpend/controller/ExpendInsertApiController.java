@@ -1,5 +1,6 @@
 package sjht.erp.detailexpend.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,11 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 
-
 @RestController
+@RequiredArgsConstructor
 public class ExpendInsertApiController {
-    @Autowired
-    ExpendInsertService expendInsertService;
+
+    private final ExpendInsertService expendInsertService;
 
     @PostMapping("api/insertExpend")
     public boolean insertExpend(
@@ -63,5 +64,4 @@ public class ExpendInsertApiController {
     public boolean deleteInformation(@PathVariable(name = "dno") int dno) {
         return expendInsertService.deleteDetail(dno);
     }
-
 }

@@ -1,7 +1,9 @@
 package sjht.erp.expendInformation.service;
 
-import sjht.erp.expendInformation.dto.ParameterEIDto;
-import sjht.erp.expendInformation.dto.ResultEIDto;
+import sjht.erp.expendInformation.dto.SelectParameterEIDto;
+import sjht.erp.expendInformation.dto.SelectResultEIDto;
+import sjht.erp.expendInformation.dto.UpdateParameterEIDto;
+import sjht.erp.login.dto.EmployeeDto;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,12 +11,18 @@ import java.util.List;
 
 public interface ExpendInformationService {
 
-    //지출 결의 조건에 맞는 리스트 select 메소드
-    List<ResultEIDto> selectEIByCondition(ParameterEIDto parameterEIDto);
+    // 지출 결의 조건에 맞는 리스트 select 메소드
+    List<SelectResultEIDto> selectEIByCondition(SelectParameterEIDto selectParameterEIDto);
 
-    List<ResultEIDto> selectEIByDvnoOne(String dvno);
+    // 결의 번호에 따른 상세 내역 select 메소드
+    List<SelectResultEIDto> selectEIByDvnoOne(String dvno);
 
-    Long updateEI();
+    // 승인 반려에 따른 update 메소드
+    void updateEI(UpdateParameterEIDto updateParameterEIDto);
 
-    ParameterEIDto checkParam(HashMap<String,String> map);
+    // 승인 처리한 한 건에 대한 insert 메소드
+   // void insertEH(String dvno);
+
+    //결의 조건 검증 메소드
+    SelectParameterEIDto checkParam(HashMap<String,String> map);
 }

@@ -22,4 +22,8 @@ public class WorkTimeServiceImpl implements WorkTimeService {
         }
         return null;
     }
+    public List<WorkInfoResponseDto> myWorkTimeList(int empno){
+        return workTimeManagerMapper.selectMyWorkTime(empno);
+    }
+
 }

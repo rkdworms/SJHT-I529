@@ -57,8 +57,6 @@
                         <div class="col-md-2">
                             <button type="submit" @click="postParam()" class="form-control" id="submitBtn">조회</button>
                         </div>
-
-
                     </div>
                 </div>
 
@@ -77,24 +75,12 @@
 
                             <!--   상세 검색 폼 : 사원 이름   -->
                             <label for="empname" class="col-md-2">사원 이름</label>
-                            <input v-model="empname" id="empname" class="col-md-2" type="text"
+                            <input v-model="name" id="empname" class="col-md-2" type="text"
                                    style="width:100px">
                         </div>
-
-                        <!--   상세 검색 폼 : 계정 과목   -->
-                        <div class="col-6">
-                            <label for="divcd" class="col-sm-3">계정 과목</label>
-                            <select v-model="divcd" id="divcd" class="col-sm-4">
-                                <option value="">계정과목</option>
-                                <option value="AC001">pr</option>
-                                <option value="AC002">ab</option>
-                                <option value="AC003">cd</option>
-                                <option value="AC004">su</option>
-                            </select>
-                        </div>
-
                     </div>
                 </div>
+
             </form>
 
 
@@ -109,7 +95,6 @@
                         <th>이름</th>
                         <th>부서</th>
                         <th>신청날짜</th>
-                        <th>계정과목</th>
                         <th>지출금액</th>
                         <th>승인여부</th>
                         <th>상세보기</th>
@@ -118,7 +103,7 @@
 
                     <!-- 데이터 출력 부분 -->
                     <tbody class="allContent">
-                    <tr v-for="result in expendList" :key="result.dvno">
+                    <tr id="expendList" v-for="result in expendList" :key="result.dvno">
 
                         <!-- 결의 번호 -->
                         <td>
@@ -145,11 +130,6 @@
                             {{result.dvRegDate}}
                         </td>
 
-                        <!-- 계정과목 명 -->
-                        <td>
-                            {{result.divname}}
-                        </td>
-
                         <!-- 총 금액 -->
                         <td>
                             {{result.dvamt}}
@@ -163,319 +143,303 @@
                         <!-- 상세 조회 버튼 -->
                         <td class="detail-btn">
                             <button type="button" class="modal-btn" data-toggle="modal"
-                                    onclick="modalShow()" @click="getDvno(result.dvno)">상세보기
+                                    onclick="detail_modalShow()" @click="getDvno(result.dvno)">상세보기
                             </button>
                         </td>
-
                     </tr>
 
                     </tbody>
-
                 </table>
+            </div>
 
-                <!--modal-->
-                <div class="modal fade" tabindex="-1" id="detail_modal" role="dialog" data-backdrop="static">
-                    <div class="modal-dialog modal-xl">
-                        <div class="modal-content">
 
-                            <!--modal header-->
-                            <div class="modal-header">
-                                <button type="button" class="btn-close" aria-label="Close" data-dismiss="modal"
-                                        onclick="modalHide()"></button>
-                            </div>
+            <!--modal-->
+            <div class="modal fade" tabindex="-1" id="detail_modal" role="dialog" data-backdrop="static">
+                <div class="modal-dialog modal-xl modal-dialog-centered">
+                    <div class="modal-content">
 
-                            <!--modal body-->
-                            <div class="modal-body">
-                                <div id="div_title">
-                                    <table style="border: solid rgb(255, 255, 255); width: 100%; border-collapse: collapse;">
-                                        <tbody>
-                                        <tr>
-                                            <td style="background: white; height: 60px; text-align: center; color: black; font-size: 25px; font-weight: bold; vertical-align: middle;"
-                                                colspan="2">
-                                                지출결의서
-                                            </td>
-                                        </tr>
-                                        <tr v-for="result in modalList" :key="result">
-                                            <td style="background: white; padding: 0px; color: black; font-size: 12px; font-weight: normal;">
-                                                <table
-                                                        style="border: 1px solid rgb(0, 0, 0); margin-top: 1px; border-collapse: collapse;">
-                                                    <colgroup>
-                                                        <col width="120">
-                                                        <col width="180">
-                                                    </colgroup>
+                        <!--modal header-->
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" aria-label="Close" data-dismiss="modal"
+                                    onclick="detail_modalHide()"></button>
+                        </div>
 
-                                                    <tbody>
+                        <!--modal body-->
+                        <div class="modal-body">
+                            <div id="div_title">
+                                <table style="border: solid rgb(255, 255, 255); width: 100%; border-collapse: collapse;">
+                                    <tbody>
+                                    <tr>
+                                        <td style="background: white; height: 60px; text-align: center; color: black; font-size: 25px; font-weight: bold; vertical-align: middle;"
+                                            colspan="2">
+                                            지출결의서
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background: white; padding: 0px; color: black; font-size: 12px; font-weight: normal;">
+                                            <table
+                                                    style="border: 1px solid rgb(0, 0, 0); margin-top: 1px; border-collapse: collapse;">
+                                                <colgroup>
+                                                    <col width="120">
+                                                    <col width="180">
+                                                </colgroup>
 
-                                                    <!-- 결의 번호 -->
-                                                    <tr>
-                                                        <td class="header" style="border: 1px solid black">
-                                                            결의번호
-                                                        </td>
-                                                        <td class="header_detail">
-                                                            <div tyle="display: none; font-size: 9pt;">
-                                                                {{result.dvno}}
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                <tbody>
+                                                <!-- 결의 번호 -->
+                                                <tr>
+                                                    <td class="header" style="border: 1px solid black">
+                                                        결의번호
+                                                    </td>
+                                                    <td class="header_detail">
+                                                        <div style="font-size: 9pt;">
+                                                            {{dvno}}
+                                                        </div>
+                                                    </td>
+                                                </tr>
 
-                                                    <!-- 기안일 -->
-                                                    <tr>
-                                                        <td class="header">
-                                                            기안일
-                                                        </td>
-                                                        <td class="header_detail">
+                                                <!-- 기안일 -->
+                                                <tr>
+                                                    <td class="header">
+                                                        기안일
+                                                    </td>
+                                                    <td class="header_detail">
+                                                        <div style="font-size: 9pt;">
+                                                            {{dvRegDate}}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                <!-- 소속명 -->
+                                                <tr>
+                                                    <td class="header">
+                                                        소속
+                                                    </td>
+                                                    <td class="header_detail">
+                                                        <div>
                                                             <div style="font-size: 9pt;">
-                                                                {{result.dvRegDate}}
+                                                                {{departmentname}}
                                                             </div>
-                                                        </td>
-                                                    </tr>
+                                                        </div>
+                                                    </td>
+                                                </tr>
 
-                                                    <!-- 소속명 -->
-                                                    <tr>
-                                                        <td class="header">
-                                                            소속
-                                                        </td>
-                                                        <td class="header_detail">
-                                                            <div>
-                                                                <div style="font-size: 9pt;">
-                                                                    {{result.divname}}
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                <!-- 기안자 -->
+                                                <tr>
+                                                    <td class="header_title">
+                                                        기안자
+                                                    </td>
+                                                    <td class="header_detail">
+                                                        {{empname}}
+                                                    </td>
+                                                </tr>
 
-                                                    <!-- 기안자 -->
-                                                    <tr>
-                                                        <td class="header_title">
-                                                            기안자
-                                                        </td>
-                                                        <td class="header_detail">
-                                                            {{result.name}}
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
+                                                </tbody>
+                                            </table>
+                                        </td>
 
-                                            <td style="padding: 0px; border: currentColor; text-align: right; color: black; font-size: 12px; font-weight: normal; vertical-align: top;">
-                                                <div>
+                                        <td style="padding: 0px; border: currentColor; text-align: right; color: black; font-size: 12px; font-weight: normal; vertical-align: top;">
+                                            <div>
                                             <span>
                                                 <strong>신청</strong>
                                             </span>
-                                                    &nbsp;&nbsp;
-                                                    <span>
+                                                &nbsp;&nbsp;
+                                                <span>
                                                  <strong>승인</strong>
                                            </span>
-                                                </div>
-                                            </td>
-
-                                        </tr>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <br>
-
-                                <table style="border-collapse: collapse; width: 100%; height: 140px;">
-                                    <colgroup>
-                                        <col width="75">
-                                        <col width="30">
-                                        <col width="50">
-                                        <col width="70">
-                                        <col width="85">
-                                        <col width="50">
-                                        <col width="70">
-                                        <col width="150">
-                                    </colgroup>
-
-                                    <tbody style="border-style: solid;">
-                                    <tr class="form-table" v-for="result in modalList" :key="result">
-
-                                        <!-- 작성 일자 -->
-                                        <td class="form_title">
-                                            <strong style="font-size: 9pt;">
-                                                작성일자
-                                            </strong>
-                                        </td>
-
-                                        <td class="form_detail" colspan="5">
-                                            <input type="text" style="width: 100%; height: 100%; border: 0;"
-                                                   :value="result.dvRegDate" readonly>
-                                        </td>
-
-                                        <!-- 소속 -->
-                                        <td class="form_title">
-                                            <strong style="font-size: 9pt;">소 속</strong>
-                                        </td>
-
-                                        <td class="form_detail" colspan="5">
-                                            <input type="text" style="width: 100%; height: 100%; border: 0;"
-                                                   :value="result.departmentname" readonly>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr v-for="result in modalList" :key="result">
-                                        <!-- 작성자 -->
-                                        <td class="form_title">
-                                            <strong style="font-size: 9pt;">작 성 자</strong>
-                                        </td>
-
-                                        <td class="form_detail" colspan="5">
-                                            <input type="text" style="width: 100%; height: 100%; border: 0;"
-                                                   :value="result.name" readonly>
-                                        </td>
-
-                                        <!-- 금액 -->
-                                        <td class="form_title">
-                                            <strong style="font-size: 9pt;">금 액</strong>
-                                        </td>
-                                        <td class="form_detail" colspan="4">
-                                            <input type="text" style="width: 100%; height: 100%; border: 0;"
-                                                   :value="result.dvamt" readonly>
+                                            </div>
                                         </td>
 
                                     </tr>
 
                                     </tbody>
                                 </table>
+                            </div>
 
-                                <div id="expendInformationWrapper">
-                                    <table class="detailEI" style="width:100%; height: 100px;">
-                                        <colgroup>
-                                            <col width="140">
-                                            <col width="180">
-                                            <col width="250">
-                                            <col width="110">
-                                            <col width="120">
-                                        </colgroup>
+                            <br>
 
-                                        <tbody>
+                            <div id="expendInformationWrapper" style="margin-top: 10px">
+                                <table class="detailEI" style="width:100%; height: 100px;">
+                                    <colgroup>
+                                        <col width="140">
+                                        <col width="180">
+                                        <col width="250">
+                                        <col width="110">
+                                        <col width="120">
+                                    </colgroup>
 
-                                        <div id="insertDetail">
-                                            <tr>
-                                                <!-- 사용 일자 -->
-                                                <td class="subjectColumn">
-                                                    <div style="font-size: 9pt;">
-                                                        일 자
-                                                    </div>
-                                                </td>
+                                    <tbody>
+                                    <div id="insertDetail">
+                                        <tr>
+                                            <!-- 사용 일자 -->
+                                            <td class="subjectColumn">
+                                                <div style="font-size: 9pt;">
+                                                    일 자
+                                                </div>
+                                            </td>
 
-                                                <!-- 분류 -->
-                                                <td class="subjectColumn">
-                                                    <div style="font-size: 9pt;">
-                                                        분 류
-                                                    </div>
-                                                </td>
+                                            <!-- 분류 -->
+                                            <td class="subjectColumn">
+                                                <div style="font-size: 9pt;">
+                                                    분 류
+                                                </div>
+                                            </td>
 
-                                                <!-- 사용 내역 -->
-                                                <td class="subjectColumn">
-                                                    <div style="font-size: 9pt;">
-                                                        사용 내역
-                                                    </div>
-                                                </td>
+                                            <!-- 사용 내역 -->
+                                            <td class="subjectColumn">
+                                                <div style="font-size: 9pt;">
+                                                    사용 내역
+                                                </div>
+                                            </td>
 
-                                                <!-- 금액 -->
-                                                <td class="subjectColumn">
-                                                    <div style="font-size: 9pt;">
-                                                        금 액
-                                                    </div>
-                                                </td>
+                                            <!-- 금액 -->
+                                            <td class="subjectColumn">
+                                                <div style="font-size: 9pt;">
+                                                    금 액
+                                                </div>
+                                            </td>
 
-                                                <!-- 비고 -->
-                                                <td class="subjectColumn">
-                                                    <div style="font-size: 9pt;">
-                                                        비 고
-                                                    </div>
-                                                </td>
+                                            <!-- 비고 -->
+                                            <td class="subjectColumn">
+                                                <div style="font-size: 9pt;">
+                                                    비 고
+                                                </div>
+                                            </td>
 
-                                            </tr>
-
-                                            <tr v-for="result in modalList" :key="result">
-                                                <!-- 사용 일자  -->
-                                                <td class="detailColumn" style="height: 29px;">
-                                                    <input type="text" style="width: 100%; height: 100%; border: 0;"
-                                                           :value="result.dvRegDate" readonly>
-                                                </td>
-
-                                                <!-- 분류 -->
-                                                <td class="detailColumn">
-                                                    <input type="text" style="width: 100%; height: 100%; border: 0;"
-                                                           :value="result.divname" readonly>
-                                                </td>
-
-                                                <!-- 사용 내역 -->
-                                                <td class="detailColumn" style="height: 29px;">
-                                                    <input type="text" style="width: 100%; height: 100%; border: 0;"
-                                                           readonly>
-                                                </td>
-
-                                                <!-- 금액 -->
-                                                <td style="height: 29px;">
-                                                    <input type="text" style="width: 100%; height: 100%; border: 0;"
-                                                           :value="result.dvamt" readonly>
-                                                </td>
-
-                                                <!-- 비고 -->
-                                                <td class="detailColumn" style="height: 29px;">
-                                                    <input type="text" style="width: 100%; height: 100%; border: 0;"
-                                                           :value="result.dvmemo" readonly>
-                                                </td>
-                                            </tr>
-                                        </div>
+                                        </tr>
 
                                         <tr v-for="result in modalList" :key="result">
-                                            <td colspan="3" class="subjectColumn">
-                                                합계
+
+                                            <!-- 사용 일자  -->
+                                            <td class="detailColumn" style="height: 29px;">
+                                                <input type="text" style="width: 100%; height: 100%; border: 0;"
+                                                       :value="result.dvUseDate" readonly>
                                             </td>
 
-                                            <!-- 총 금액이 나와야함 -->
-                                            <!-- 총 금액  -->
-                                            <td id="total_amount" class="detailColumn">
-                                                {{result.dvamt}}
+                                            <!-- 분류 -->
+                                            <td class="detailColumn">
+                                                <input type="text" style="width: 100%; height: 100%; border: 0;"
+                                                       :value="result.divname" readonly>
                                             </td>
 
-                                            <!-- 비고 내용이 나와야함 -->
+                                            <!-- 사용 내역 -->
+                                            <td class="detailColumn" style="height: 29px;">
+                                                <input type="text" style="width: 100%; height: 100%; border: 0;"
+                                                       :value="result.detailuse" readonly>
+                                            </td>
+
+                                            <!-- 금액 -->
+                                            <td class="detailColumn" style="height: 29px;">
+                                                <input type="text" style="width: 100%; height: 100%; border: 0;"
+                                                       :value="result.price" readonly>
+                                            </td>
+
                                             <!-- 비고 -->
-                                            <td id="note" class="detailColumn">
-                                                {{result.dvmemo}}
+                                            <td class="detailColumn" style="height: 29px;">
+                                                <input type="text" style="width: 100%; height: 100%; border: 0;"
+                                                       :value="result.dvmemo" readonly>
                                             </td>
                                         </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    </div>
 
+                                    <tr>
+                                        <td colspan="3" class="subjectColumn">
+                                            합계
+                                        </td>
+
+                                        <!-- 총 금액이 나와야함 -->
+                                        <!-- 총 금액  -->
+                                        <td id="total_amount" class="detailColumn">
+                                            {{dvamt}}
+                                        </td>
+
+                                        <!-- 비고 내용이 나와야함 -->
+                                        <!-- 비고 -->
+                                        <td id="note" class="detailColumn">
+
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
-
-                            <!--modal footer-->
-                            <div class="modal-footer">
-                                <button type="button" class="button" id="apporve" onclick="">승인</button>
-                                <button type="button" class="button" id="refer" onclick="">반려</button>
-                                <button type="button" class="button" id="download" onclick="">다운로드</button>
-                                <button type="button" class="button" id="close" onclick="modalHide()">닫기</button>
-                            </div>
-
                         </div>
+
+                        <!--modal footer-->
+                        <div class="modal-footer">
+                            <div v-if="usertype">
+                                <button type="button" class="button" id="dvappy" value="y"
+                                        @click="updateDvapp($event)" onclick="confirm_modalShow()">승인
+                                </button>
+                                <button type="button" class="button" id="dvappn" value="n"
+                                        @click="updateDvapp($event)" onclick="confirm_modalShow()"
+                                        style="margin-left: 10px">반려
+                                </button>
+                            </div>
+                            <button type="button" class="button" id="download" onclick="">다운로드</button>
+                            <button type="button" class="button" id="close" onclick="detail_modalHide()">닫기</button>
+                        </div>
+
+
+                        <!--confirm modal-->
+                        <div class="modal fade" tabindex="-1" id="confirm_modal" role="dialog" data-backdrop="static">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+
+                                    <!--modal header-->
+                                    <div class="modal-header">
+                                        <button type="button" class="btn-close" aria-label="Close"
+                                                data-dismiss="modal"
+                                                onclick="confirm_modalHide(); detail_modalHide();"></button>
+                                    </div>
+
+                                    <!--modal body-->
+                                    <div class="modal-body">
+                                        <label>처리되었습니다.</label>
+                                    </div>
+
+                                    <!--modal footer-->
+                                    <div class="modal-footer">
+                                        <button type="button" class="button" id="confirm"
+                                                onclick="confirm_modalHide(); detail_modalHide(); ">확인
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- confirm modal fin-->
                     </div>
                 </div>
             </div>
+            <!-- detail modal fin-->
 
         </div>
     </div>
 
+
     <script>
 
         // modalshow
-        function modalShow() {
+        function detail_modalShow() {
             console.log("show");
             $("#detail_modal").modal("show");
         }
 
         // modal hide
-        function modalHide() {
+        function detail_modalHide() {
             console.log("hide");
             $("#detail_modal").modal("hide");
+        }
+
+        // modalshow
+        function confirm_modalShow() {
+            console.log("show");
+            $("#confirm_modal").modal("show");
+        }
+
+        // modal hide
+        function confirm_modalHide() {
+            console.log("hide");
+            $("#confirm_modal").modal("hide");
         }
 
     </script>
@@ -486,21 +450,34 @@
         const expend = {
             data() {
                 return {
-                    empno: '',
-                    empname: '',
-                    dvappyn: '',
-                    startDvRegDate: '',
-                    endDvRegDate: '',
-                    divcd: '',
-                    dvno: '',
-                    expendList: [],
-                    modalList: []
+                    usertype: true,             //유저 권한
+                    empno: '',                  //사원 번호
+                    empname: '',                //사원 이름
+                    name: '',                    //검색 이름
+                    dvappyn: '',                //승인 여부
+                    startDvRegDate: '',         //시작 날짜
+                    endDvRegDate: '',           //종료 날짜
+                    dvRegDate: '',              //작성 날짜
+                    departmentname: '',         //부서명
+                    dvamt: '',                  //총금액
+                    divcd: '',                  //계정 과목 번호
+                    dvno: '',                   //결의 번호
+                    expendList: [],             //검색 리스트 배열
+                    modalList: []               //상세 내역 리스트 배열
                 }
             },
 
             methods: {
 
-                // 조건 parameter post
+                // 로그인 된 아이디의 usertype 가져오기
+                getUserType() {
+                    axios.post("http://localhost:8888/api/usertype")
+                        .then((response) => {
+                            this.usertype = response.data === 'ROLE_C';
+                        })
+                },
+
+                // 조건에 따른 parameter post, 전체적인 리스트
                 postParam() {
                     let today = new Date();
 
@@ -514,7 +491,7 @@
                     axios.post("http://localhost:8888/api/param",
                         {
                             empno: this.empno,
-                            empname: this.empname,
+                            empname: this.name,
                             dvappyn: this.dvappyn,
                             startDvRegDate: this.startDvRegDate,
                             endDvRegDate: this.endDvRegDate,
@@ -525,21 +502,43 @@
                     }).catch(error => console.error(error))
                 },
 
+
+                // 결의 번호에 따른 데이터 받는 메소드, 결의 번호 상세 정보
                 getDvno: function (dvno) {
+
                     axios.post("http://localhost:8888/api/detail",
                         {
                             dvno: dvno
                         })
                         .then((response) => {
                             this.modalList = response.data;
-                            console.log("getRowValue modalList", this.modalList);
+                            this.dvno = this.modalList[0].dvno;
+                            this.dvRegDate = this.modalList[0].dvRegDate;
+                            this.departmentname = this.modalList[0].departmentname;
+                            this.empname = this.modalList[0].name;
+                            this.dvamt = this.modalList[0].dvamt;
                         })
                         .catch(error => console.error(error))
 
                 },
 
+                // 승인 반려에 따른 업데이트 메소드
+                updateDvapp: function (event) {
+                    let dvappButton = event.currentTarget.value;
+                    let data = this.dvno;
+                    axios.post("http://localhost:8888/api/update", {
+                        dvno: data,
+                        dvappyn: dvappButton
+                    })
+                },
 
             },
+
+            // 로그인 된 아이디의 usertype 가져오기
+            created() {
+                this.getUserType();
+            },
+
 
         }
 
@@ -554,6 +553,7 @@
 
             return date.getFullYear() + '-' + month + '-' + day;
         }
+
 
         Vue.createApp(expend).mount('#app');
 

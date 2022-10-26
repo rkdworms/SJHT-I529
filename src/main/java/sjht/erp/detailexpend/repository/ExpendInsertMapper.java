@@ -28,4 +28,6 @@ public interface ExpendInsertMapper {
     List<DetailResponseDto> selectDetailExpend(String dvno);
 
     int deleteDetailExpend(int dno);
+
+
 }
