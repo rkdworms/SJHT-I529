@@ -39,7 +39,7 @@ public class ExpendRestController {
     // 결의 번호 (dvno)에 따른 상세 내역을 반환
     @RequestMapping("/api/detail")
     public ResponseEntity<List<SelectResultEIDto>> expendOne(@RequestBody HashMap<String, String> map) {
-        List<SelectResultEIDto> result = service.selectEIByDvnoOne(map.get("dvno"));
+        List<SelectResultEIDto> result = service.selectEIByDvno(map.get("dvno"));
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
@@ -47,13 +47,7 @@ public class ExpendRestController {
     @PostMapping("/api/update")
     public void updateDvappyn(@RequestBody HashMap<String,String> map, HttpServletRequest request) {
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
-        UpdateParameterEIDto updateParameterEIDto = UpdateParameterEIDto.builder()
-                .dvappdate(LocalDate.now())
-                .dvappname(employeeDto.getName())
-                .dvno(map.get("dvno"))
-                .dvappyn(map.get("dvappyn"))
-                .build();
-        service.updateEI(updateParameterEIDto);
+        service.updateEI(map, employeeDto);
     }
 
 

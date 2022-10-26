@@ -1,5 +1,6 @@
 package sjht.erp.expendInformation.repository;
 
+import sjht.erp.expendInformation.dto.InsertParameterEIDto;
 import sjht.erp.expendInformation.dto.SelectParameterEIDto;
 import sjht.erp.expendInformation.dto.SelectResultEIDto;
 import org.apache.ibatis.annotations.Mapper;
@@ -20,6 +21,6 @@ public interface ExpendInformationMapper {
     void updateExpendInformation(UpdateParameterEIDto updateParameterEIDto);
 
     // 승인 처리한 한 건에 대한 insert
-    //void insertExpendHistory();
+    void insertExpendHistory(InsertParameterEIDto insertParameterEIDto);
 
 }
