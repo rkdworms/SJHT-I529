@@ -12,14 +12,12 @@ import java.util.HashMap;
 @AllArgsConstructor
 @ToString
 public class SelectParameterEIDto {
-    private LocalDate startDvRegDate;
-    private LocalDate endDvRegDate;
-    private String dvappyn;
-
-    private int empno;
-    private String name;
-
-    private String divcd;
+    private LocalDate startDvRegDate;       //검색 시작 날짜
+    private LocalDate endDvRegDate;         //검색 끝 날짜
+    private String dvappyn;                 //승인 여부
+    private int empno;                      //사번
+    private String name;                    //사원 이름
+    private String divcd;                   //계정 과목
 
     public SelectParameterEIDto() {
         this.startDvRegDate = LocalDate.now();

@@ -43,28 +43,29 @@
             AND ac.divcd = #{divcd}
         </if>
         order by
-            substr(ei.dvno from 1 for 4),
-            cast(substr(ei.dvno from 5) AS UNSIGNED)
+        substr(ei.dvno from 1 for 4),
+        cast(substr(ei.dvno from 5) AS UNSIGNED)
     </select>
 
     <!-- 지출결의 dvno에 따른 select one     -->
     <!-- 2022.10.25 / 추후 파일 업로드 다운로드 관련 커리 추가 예정  -->
     <select id="selectExpendInformationOne" resultType="sjht.erp.expendInformation.dto.SelectResultEIDto"
             parameterType="String">
-        SELECT
-            ei.dvno,
-            ei.empno,
-            e.name,
-            ac.divname,
-            dc.departmentname,
-            ei.dvRegDate,
-            de.price,
-            ei.dvappyn,
-            ei.dvappname,
-            ei.dvamt,
-            de.dvmemo,
-            de.dvUseDate,
-            de.detailuse
+        SELECT ei.dvno,
+               ei.empno,
+               e.name,
+               ac.divname,
+               ac.divcd,
+               dc.departmentname,
+               ei.dvRegDate,
+               de.price,
+               ei.dvappyn,
+               ei.dvappname,
+               ei.dvamt,
+               de.dvmemo,
+               de.dvUseDate,
+               de.detailuse,
+               ei.dvappdate
         FROM expendInformation AS ei
                  INNER JOIN
              employee AS e ON ei.empno = e.empno
@@ -89,10 +90,10 @@
     </update>
 
     <!--    결의번호 급여번호 대분류코드 사번 지출금액 날짜 -->
-    <!--    <insert id="insertExpendHistory" parameterType="sjht.erp.expendInformation.dto.">-->
-    <!--        insert into erp.expendhistory(dvno, divcd, empno, dvamt, edate)-->
-    <!--            values (#{dvno},#{divcd},#{empno},#{dvamt},#{dvAppDate})-->
-    <!--    </insert>-->
+    <insert id="insertExpendHistory" parameterType="sjht.erp.expendInformation.dto.InsertParameterEIDto">
+        insert into erp.expendhistory(dvno, divcd, empno, dvamt, dvappdate)
+        values (#{dvno}, #{divcd}, #{empno}, #{dvamt}, #{dvappdate})
+    </insert>
 
 
 </mapper>

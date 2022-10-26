@@ -1,5 +1,6 @@
 package sjht.erp.expendInformation.service;
 
+import sjht.erp.expendInformation.dto.InsertParameterEIDto;
 import sjht.erp.expendInformation.dto.SelectParameterEIDto;
 import sjht.erp.expendInformation.dto.SelectResultEIDto;
 import sjht.erp.expendInformation.dto.UpdateParameterEIDto;
@@ -15,13 +16,13 @@ public interface ExpendInformationService {
     List<SelectResultEIDto> selectEIByCondition(SelectParameterEIDto selectParameterEIDto);
 
     // 결의 번호에 따른 상세 내역 select 메소드
-    List<SelectResultEIDto> selectEIByDvnoOne(String dvno);
+    List<SelectResultEIDto> selectEIByDvno(String dvno);
 
     // 승인 반려에 따른 update 메소드
-    void updateEI(UpdateParameterEIDto updateParameterEIDto);
+    void updateEI(HashMap<String, String> map, EmployeeDto employeeDto);
 
     // 승인 처리한 한 건에 대한 insert 메소드
-   // void insertEH(String dvno);
+    void insertEH(InsertParameterEIDto insertParameterEIDto);
 
     //결의 조건 검증 메소드
     SelectParameterEIDto checkParam(HashMap<String,String> map);
