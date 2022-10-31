@@ -42,8 +42,10 @@ public class HrmsApiController {
     }
 
     /* 사원 정보 수정 */
-    @PatchMapping("/api/hrms/{empno}")
+    @PatchMapping("/api/hrms/update")
     public void updateEmp (@RequestBody UpdateDto updateDto) {
+        System.out.println("수정 컨트롤러 ~~~~~~~~~~~~~~~~~~~~~~~~     ~~~~~~~~~~~~~~~~~~~~~~~~~        ~~~~~~~~~~");
+        System.out.println("ddd" + updateDto.getSchool());
         // 폼 데이터 수정 요청
         hrmsApiService.updateEmp(updateDto);
     }
