@@ -33,253 +33,256 @@
         <div class="container mt-n10">
             <div class="card mb-4">
                 <div class="card-header">휴가/지출결의 신청</div>
-                <div id="app">
-                    <div>
+                <div class="card-body">
+                    <div id="app">
                         <div>
                             <div>
-                                <form v-if="ROLE">
-                                    <table class="table tab-content">
-                                        <tr>
-                                            <td>
-                                                <label>시작날짜:&numsp;</label><input v-model="startDvRegDate" type="date"
-                                                    id="startDvRegDate" name="startDate" placeholder="날짜입력">
-                                            </td>
-                                            <td>
-                                                <label>종료날짜:&numsp;</label><input v-model="endDvRegDate" type="date"
-                                                    id="endDvRegDate" name="endDate" placeholder="날짜입력">
-                                            </td>
-                                            <td>
-                                                <input type="text" id="employeeName" v-model="employeeName"
-                                                    name="employeeName" placeholder="사원명">
-                                            </td>
-                                            <td>
-                                                <input type="text" id="employeeNo" v-model="employeeNo"
-                                                    name="employeeNo" placeholder="사번">
-                                            </td>
-                                            <td>
-                                                <select class="form-select" name="approveryn" id="approveryn"
-                                                    v-model="approveryn">
-                                                    <option value="y" selected>승인</option>
-                                                    <option value="w">미승인</option>
-                                                    <option value="n">반려</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <button type="button" @click="getWorkTimeList"
-                                                    class="btn btn-dark btn-md">조회
+                                <div>
+                                    <form v-if="ROLE">
+                                        <table class="table tab-content">
+                                            <tr>
+                                                <td>
+                                                    <label>시작날짜:&numsp;</label><input v-model="startDvRegDate" type="date"
+                                                        id="startDvRegDate" name="startDate" placeholder="날짜입력">
+                                                </td>
+                                                <td>
+                                                    <label>종료날짜:&numsp;</label><input v-model="endDvRegDate" type="date"
+                                                        id="endDvRegDate" name="endDate" placeholder="날짜입력">
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="employeeName" v-model="employeeName"
+                                                        name="employeeName" placeholder="사원명">
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="employeeNo" v-model="employeeNo"
+                                                        name="employeeNo" placeholder="사번">
+                                                </td>
+                                                <td>
+                                                    <select class="form-select" name="approveryn" id="approveryn"
+                                                        v-model="approveryn">
+                                                        <option value="y" selected>승인</option>
+                                                        <option value="w">미승인</option>
+                                                        <option value="n">반려</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <button type="button" @click="getWorkTimeList"
+                                                        class="btn btn-dark btn-md">조회
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </form>
+                                    <div class="container" style="margin-top: 20px">
+                                        <!-- 조건입력-->
+                                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                                                    data-bs-target="#home" type="button" role="tab" aria-controls="home"
+                                                    aria-selected="true">휴가리스트
                                                 </button>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </form>
-                                <div class="container" style="margin-top: 20px">
-                                    <!-- 조건입력-->
-                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
-                                                data-bs-target="#home" type="button" role="tab" aria-controls="home"
-                                                aria-selected="true">휴가리스트
-                                            </button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                                                data-bs-target="#profile" type="button" role="tab"
-                                                aria-controls="profile" aria-selected="false">
-                                                지출결의리스트
-                                            </button>
-                                        </li>
-                                    </ul>
-                                    <div class="tab-content" id="myTabContent">
-                                        <div class="tab-pane fade show active" id="home" role="tabpanel"
-                                            aria-labelledby="home-tab">
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">번호</th>
-                                                        <th scope="col">사번</th>
-                                                        <th scope="col">사원명</th>
-                                                        <th scope="col">부서</th>
-                                                        <th scope="col">시작일자</th>
-                                                        <th scope="col">종료일자</th>
-                                                        <th scope="col">등록일자</th>
-                                                        <th scope="col">검토일자</th>
-                                                        <th scope="col">승인자</th>
-                                                        <th scope="col">승인여부</th>
-                                                        <th scope="col" v-if="ROLE">상세보기</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody v-for="(resultpk,i) in allWorkTimeList" key="resultpk.tano">
-                                                    <tr>
-                                                        <td>{{resultpk.tano}}</td>
-                                                        <td>{{resultpk.empno}}</td>
-                                                        <td>{{resultpk.name}}</td>
-                                                        <td>{{resultpk.departmentname}}</td>
-                                                        <td>{{resultpk.startdate}}</td>
-                                                        <td>{{resultpk.enddate}}</td>
-                                                        <td>{{resultpk.registdate}}</td>
-                                                        <td>{{resultpk.approverdate}}</td>
-                                                        <td>{{resultpk.approver}}</td>
-                                                        <td>{{resultpk.approveryn}}</td>
-                                                        <td v-if="ROLE"><a class="btn btn-dark p-2"
-                                                                onclick="ConfirmHolidayModal()"
-                                                                @click="getOne(i)">상세보기</a>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <nav aria-label="Page navigation example" class="align-content-xl-center">
-                                                <ul class="pagination" style="justify-content: center">
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Previous">
-                                                            <span aria-hidden="true">&laquo;</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Next">
-                                                            <span aria-hidden="true">&raquo;</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                        </div>
-                                        <div class="tab-pane fade" id="profile" role="tabpanel"
-                                            aria-labelledby="profile-tab">
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">결의번호</th>
-                                                        <th scope="col">사번</th>
-                                                        <th scope="col">이름</th>
-                                                        <th scope="col">부서</th>
-                                                        <th scope="col">신청일자</th>
-                                                        <th scope="col">지출금액</th>
-                                                        <th scope="col">승인여부</th>
-                                                        <th scope="col" v-if="ROLE">상세보기</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody v-for="(result,i) in myExpendList" key="result.dvno">
-                                                    <tr>
-                                                        <td>{{result.dvno}}</td>
-                                                        <td>{{result.empno}}</td>
-                                                        <td>{{result.name}}</td>
-                                                        <td>{{result.departmentname}}</td>
-                                                        <td>{{result.dvRegDate}}</td>
-                                                        <td>{{result.dvamt}}</td>
-                                                        <td>{{result.dvappyn}}</td>
-                                                        <td v-if="ROLE"><a class="btn btn-dark" onclick=""
-                                                                @click="">상세보기</a>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <nav aria-label="Page navigation example" class="align-content-xl-center">
-                                                <ul class="pagination" style="justify-content: center">
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Previous">
-                                                            <span aria-hidden="true">&laquo;</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Next">
-                                                            <span aria-hidden="true">&raquo;</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 휴가신청 자세히보기-->
-                                <div class="modal fade" tabindex="-1" id="detail_workTime_modal" role="dialog"
-                                    data-backdrop="static">
-                                    <div class="modal-dialog modal-md">
-                                        <div class="modal-content">
-                                            <!--modal header-->
-                                            <div class="modal-header">
-                                                <h4 style="justify-content: center">휴가신청서</h4>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                                                    data-bs-target="#profile" type="button" role="tab"
+                                                    aria-controls="profile" aria-selected="false">
+                                                    지출결의리스트
+                                                </button>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content" id="myTabContent">
+                                            <div class="tab-pane fade show active" id="home" role="tabpanel"
+                                                aria-labelledby="home-tab">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">번호</th>
+                                                            <th scope="col">사번</th>
+                                                            <th scope="col">사원명</th>
+                                                            <th scope="col">부서</th>
+                                                            <th scope="col">시작일자</th>
+                                                            <th scope="col">종료일자</th>
+                                                            <th scope="col">등록일자</th>
+                                                            <th scope="col">검토일자</th>
+                                                            <th scope="col">승인자</th>
+                                                            <th scope="col">승인여부</th>
+                                                            <th scope="col" v-if="ROLE">상세보기</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody v-for="(resultpk,i) in allWorkTimeList" key="resultpk.tano">
+                                                        <tr>
+                                                            <td>{{resultpk.tano}}</td>
+                                                            <td>{{resultpk.empno}}</td>
+                                                            <td>{{resultpk.name}}</td>
+                                                            <td>{{resultpk.departmentname}}</td>
+                                                            <td>{{resultpk.startdate}}</td>
+                                                            <td>{{resultpk.enddate}}</td>
+                                                            <td>{{resultpk.registdate}}</td>
+                                                            <td>{{resultpk.approverdate}}</td>
+                                                            <td>{{resultpk.approver}}</td>
+                                                            <td>{{resultpk.approveryn}}</td>
+                                                            <td v-if="ROLE"><a class="btn btn-dark p-2"
+                                                                    onclick="ConfirmHolidayModal()"
+                                                                    @click="getOne(i)">상세보기</a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <nav aria-label="Page navigation example" class="align-content-xl-center">
+                                                    <ul class="pagination" style="justify-content: center">
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="#" aria-label="Previous">
+                                                                <span aria-hidden="true">&laquo;</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="#" aria-label="Next">
+                                                                <span aria-hidden="true">&raquo;</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
                                             </div>
-                                            <div class="modal-body">
-                                                <div class="col-6">
-                                                    <table class="table table-bordered">
-                                                        <colgroup>
-                                                            <col width="50%" />
-                                                            <col width="50%" />
-                                                        </colgroup>
+                                            <div class="tab-pane fade" id="profile" role="tabpanel"
+                                                aria-labelledby="profile-tab">
+                                                <table class="table table-bordered">
+                                                    <thead>
                                                         <tr>
-                                                            <td class="table-light">신청인</td>
-                                                            <td><label>{{workTimeDetail.name}}</label></td>
+                                                            <th scope="col">결의번호</th>
+                                                            <th scope="col">사번</th>
+                                                            <th scope="col">이름</th>
+                                                            <th scope="col">부서</th>
+                                                            <th scope="col">신청일자</th>
+                                                            <th scope="col">지출금액</th>
+                                                            <th scope="col">승인여부</th>
+                                                            <th scope="col" v-if="ROLE">상세보기</th>
                                                         </tr>
-                                                    </table>
-                                                </div>
-                                                <div class="col-12">
-                                                    <table class="table table-bordered">
-                                                        <colgroup>
-                                                            <col width="34%" />
-                                                            <col width="33%" />
-                                                            <col width="33%" />
-                                                        </colgroup>
+                                                    </thead>
+                                                    <tbody v-for="(result,i) in myExpendList" key="result.dvno">
                                                         <tr>
-                                                            <td class="table-light">날짜</td>
-                                                            <td><label
-                                                                    class="form-control">{{workTimeDetail.startdate}}</label>
-                                                            </td>
-                                                            <td><label
-                                                                    class="form-control">{{workTimeDetail.enddate}}</label>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                                <div class="col-12">
-                                                    <table class="table table-bordered">
-                                                        <colgroup>
-                                                            <col width="34%" />
-                                                            <col width="33%" />
-                                                            <col width="33%" />
-                                                        </colgroup>
-                                                        <tr>
-                                                            <td rowspan="2" class="table-light">사유</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td colspan="3"><textarea
-                                                                    class="form-control">{{workTimeDetail.reasonholiday}}</textarea>
+                                                            <td>{{result.dvno}}</td>
+                                                            <td>{{result.empno}}</td>
+                                                            <td>{{result.name}}</td>
+                                                            <td>{{result.departmentname}}</td>
+                                                            <td>{{result.dvRegDate}}</td>
+                                                            <td>{{result.dvamt}}</td>
+                                                            <td>{{result.dvappyn}}</td>
+                                                            <td v-if="ROLE"><a class="btn btn-dark" onclick=""
+                                                                    @click="">상세보기</a>
                                                             </td>
                                                         </tr>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn btn-dark" id="accept"
-                                                    @click="updateAccept()">
-                                                    승인
-                                                </button>
-                                                <button type="submit" class="btn btn-dark" id="denied"
-                                                    @click="updateDenied()">
-                                                    반려
-                                                </button>
-                                                <button type="button" class="btn btn-dark" id="detailclose"
-                                                    onclick="ConfirmHolidayModalClose()">
-                                                    닫기
-                                                </button>
+                                                    </tbody>
+                                                </table>
+                                                <nav aria-label="Page navigation example" class="align-content-xl-center">
+                                                    <ul class="pagination" style="justify-content: center">
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="#" aria-label="Previous">
+                                                                <span aria-hidden="true">&laquo;</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="#" aria-label="Next">
+                                                                <span aria-hidden="true">&raquo;</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- 신청하기 버튼-->
-                                <div class="col-4">
-                                    <button type="button" onclick="ExpendModalInput()" id="holiday"
-                                        class="btn btn-dark">휴가신청
-                                    </button>
-                                    &numsp;
-                                    <button type="button" @click="inputEXPENDDVNO" onclick="DetailModalShow()"
-                                        id="expend" class="btn btn-dark">지출결의서신청
-                                    </button>
+                                    <!-- 휴가신청 자세히보기-->
+                                    <div class="modal fade" tabindex="-1" id="detail_workTime_modal" role="dialog"
+                                        data-backdrop="static">
+                                        <div class="modal-dialog modal-md">
+                                            <div class="modal-content">
+                                                <!--modal header-->
+                                                <div class="modal-header">
+                                                    <h4 style="justify-content: center">휴가신청서</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="col-6">
+                                                        <table class="table table-bordered">
+                                                            <colgroup>
+                                                                <col width="50%" />
+                                                                <col width="50%" />
+                                                            </colgroup>
+                                                            <tr>
+                                                                <td class="table-light">신청인</td>
+                                                                <td><label>{{workTimeDetail.name}}</label></td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <table class="table table-bordered">
+                                                            <colgroup>
+                                                                <col width="34%" />
+                                                                <col width="33%" />
+                                                                <col width="33%" />
+                                                            </colgroup>
+                                                            <tr>
+                                                                <td class="table-light">날짜</td>
+                                                                <td><label
+                                                                        class="form-control">{{workTimeDetail.startdate}}</label>
+                                                                </td>
+                                                                <td><label
+                                                                        class="form-control">{{workTimeDetail.enddate}}</label>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <table class="table table-bordered">
+                                                            <colgroup>
+                                                                <col width="34%" />
+                                                                <col width="33%" />
+                                                                <col width="33%" />
+                                                            </colgroup>
+                                                            <tr>
+                                                                <td rowspan="2" class="table-light">사유</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="3"><textarea
+                                                                        class="form-control">{{workTimeDetail.reasonholiday}}</textarea>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-dark" id="accept"
+                                                        @click="updateAccept()">
+                                                        승인
+                                                    </button>
+                                                    <button type="submit" class="btn btn-dark" id="denied"
+                                                        @click="updateDenied()">
+                                                        반려
+                                                    </button>
+                                                    <button type="button" class="btn btn-dark" id="detailclose"
+                                                        onclick="ConfirmHolidayModalClose()">
+                                                        닫기
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 신청하기 버튼-->
+                                    <div class="col-4">
+                                        <button type="button" onclick="ExpendModalInput()" id="holiday"
+                                            class="btn btn-dark">휴가신청
+                                        </button>
+                                        &numsp;
+                                        <button type="button" @click="inputEXPENDDVNO" onclick="DetailModalShow()"
+                                            id="expend" class="btn btn-dark">지출결의서신청
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                
             </div>
         </div>
 
