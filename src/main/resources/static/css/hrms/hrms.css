@@ -3573,10 +3573,49 @@ fieldset:disabled a.btn {
   pointer-events: none;
 }
 
-.btn-primary {
+.btn-hrms {
+  color:#fff;
+  background-color: #212e3c;
+  border-color: #212e3c;
+  border:0px;
+  border-radius: 0.2rem;
+  padding: 0.2rem 0.5rem;
+  margin: 0.2rem;
+}
+
+.btn-hrms:hover {
   color: #fff;
-  background-color: #0061f2;
-  border-color: #0061f2;
+  background-color: #283849;
+  border-color: #283849;
+}
+
+.btn-hrms:focus,
+.btn-hrms.focus {
+  color: #fff;
+  background-color: #283849;
+  border-color: #283849;
+  box-shadow: none;
+}
+
+.btn-hrms.disabled,
+.btn-hrms:disabled {
+  color: #fff;
+  background-color: #212d3b5f;
+  border-color: #212f3d5f;
+}
+
+.btn-hrms:not(:disabled):not(.disabled):active,
+.btn-hrms:not(:disabled):not(.disabled).active,
+.show>.btn-hrms.dropdown-toggle {
+  color: #fff;
+  background-color: #212d3b;
+  border-color: #212d3b;
+
+}
+
+.btn-hrms:not(:disabled):not(.disabled).active:focus,
+.show>.btn-hrms.dropdown-toggle:focus {
+  box-shadow: none;
 }
 
 .btn-primary:hover {
@@ -7588,7 +7627,7 @@ input[type=button].btn-block {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem 1rem;
+  padding: 0.875rem 1.375rem;
 }
 
 .navbar .container,
@@ -20509,7 +20548,7 @@ body {
 }
 
 .card:not([class*=bg-]) .card-header {
-  color: #3b5998;
+  color: #212e3c;
 }
 
 .card.bg-dark .card-header,

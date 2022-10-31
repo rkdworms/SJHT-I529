@@ -4,14 +4,13 @@
 
   <head>
     <meta charset="UTF-8">
-    <title>Title</title>
     <link rel="stylesheet" href="/css/menu/home.css" />
     <link rel="stylesheet" href="/css/menu/grid.css" />
   </head>
 
   <body>
 
-    <div class="container" id="home">
+    <div class="container mb-4" id="home">
 
       <!--공지사항 dashboard-->
       <div class="home notice shadow-lg rounded">
@@ -132,8 +131,9 @@
           </div>
         </div>
       </div>
+      
     </div>
-
+    <th:block th:replace="layout/footer::footer"></th:block>
     <script>
       const Home = {
         data() {
