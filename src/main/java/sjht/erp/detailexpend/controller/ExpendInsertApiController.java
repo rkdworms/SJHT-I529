@@ -1,67 +1,81 @@
 package sjht.erp.detailexpend.controller;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import sjht.erp.detailexpend.dto.request.FileRequestDto;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import sjht.erp.detailexpend.dto.request.InsertRequestDto;
-import sjht.erp.detailexpend.dto.request.UpdateRequestDto;
 import sjht.erp.detailexpend.dto.response.DetailResponseDto;
 import sjht.erp.detailexpend.service.ExpendInsertService;
 import sjht.erp.login.dto.EmployeeDto;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 public class ExpendInsertApiController {
+    @Autowired
+    ExpendInsertService expendInsertService;
 
-    private final ExpendInsertService expendInsertService;
 
-    @PostMapping("api/insertExpend")
-    public boolean insertExpend(
-            @RequestBody InsertRequestDto insertRequestDto,
+    @PostMapping("api/insertDVNO")
+    public String inputEXPENDDVNO(
             HttpServletRequest request
     ) {
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
-
-        return expendInsertService.insertExpend(insertRequestDto);
+        return expendInsertService.inputExpend();
     }
 
-    @PostMapping("api/insertFile")
-    public boolean insertFile(
-            @RequestPart MultipartFile multipartFile,
-            HttpServletRequest request
-    ) throws IOException {
-        EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
-        FileRequestDto fileRequestDto = new FileRequestDto();
-        return expendInsertService.insertFile(fileRequestDto, employeeDto, multipartFile) != 0;
-    }
-
-    @PatchMapping("api/UpdateExpendInformation")
-    public boolean updateExpendInformation(
-            HttpServletRequest request
+    @PostMapping("api/insertDetail")
+    public List<DetailResponseDto> inputDETAIL(
+            HttpServletRequest request,
+            @RequestBody InsertRequestDto insertRequestDto
+//            @RequestPart MultipartFile multipartFile
     ) {
-        EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
-        UpdateRequestDto updateRequestDto = new UpdateRequestDto();
-        return expendInsertService.updateExpendInformation(employeeDto, updateRequestDto) != 0;
+        request.getAttribute("empNo");
+        System.out.println(insertRequestDto.toString());
+        List<DetailResponseDto> detailResponseDtoList = null;
+        System.out.println(insertRequestDto.toString());
+        // 파일입력부분이 들어가야 된다.
+        if (expendInsertService.inputDetail(insertRequestDto/*, multipartFile*/) != -1) {
+            String dvno = insertRequestDto.getDvno();
+            detailResponseDtoList = expendInsertService.selectDetailExpend(dvno);
+        }
+        return detailResponseDtoList;
     }
 
-    @GetMapping("api/selectDetailExpend/{dvno}")
-    public List<DetailResponseDto> selectAllByDVNO(
-            @PathVariable(name = "dvno") String dvno,
-            HttpServletRequest request
-    ) {
+    @PostMapping("api/updateExpendInformation")
+    public boolean updateExpendInfo(HttpServletRequest request,@RequestBody HashMap<String,String>map) {
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
-
-        return expendInsertService.selectAllDetailExpend(dvno);
+        String dvno = map.get("dvnoOne");
+        return expendInsertService.updateExpend(employeeDto.getEmpno(),dvno);
     }
 
-    @DeleteMapping("api/deleteDetailExpend/{dno}")
-    public boolean deleteInformation(@PathVariable(name = "dno") int dno) {
-        return expendInsertService.deleteDetail(dno);
+    @PostMapping("api/deleteData")
+    public boolean deleteExpendData(
+            HttpServletRequest request,
+            @RequestBody HashMap<String,String>map
+
+    ){
+        String dvno = map.get("dvnoOne");
+        EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
+        return expendInsertService.deleteData(dvno);
+    }
+    @PostMapping("api/deleteDetailData")
+    public boolean deleteExpendDetailData(
+            HttpServletRequest request,
+            @RequestBody HashMap<String,String>map
+
+    ){
+        String dvno = map.get("dvnoOne");
+        EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
+        return expendInsertService.deleteDetailData(dvno);
+    }
+
+    @PostMapping("api/getDepartment")
+    public String getDepartmentName(HttpServletRequest request){
+        EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
+        return expendInsertService.getDepartment(employeeDto.getEmpno());
     }
 }

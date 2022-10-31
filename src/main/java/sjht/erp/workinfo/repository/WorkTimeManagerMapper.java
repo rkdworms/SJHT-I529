@@ -9,5 +9,8 @@ import java.util.List;
 @Mapper
 public interface WorkTimeManagerMapper {
     List<WorkInfoResponseDto> findWorkTimeInfo(WorkInfoRequestDto workInfoRequestDto);
+
     List<WorkInfoResponseDto> selectMyWorkTime(int empno);
+
+    WorkInfoResponseDto selectWorkTimeByTano(int tano);
 }
