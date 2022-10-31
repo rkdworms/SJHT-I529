@@ -50,7 +50,7 @@
                             <div class="boardTop">
                                 <div class="card-body">
                                     <div>
-                                        <span>총 {{ empList.length }} 명의 사원 중 검색 결과 : {{ empCnt }} 명</span>
+                                        <span>총 {{ empList.length }} 명의 사원 중 검색 결과 : {{ pageList.length }} 명</span>
                                         <!-- Button trigger modal -->
                                         <button type="button" class="btn btn-facebook button-middle"
                                             data-bs-backdrop="static" data-bs-toggle="modal"
@@ -69,7 +69,7 @@
                                                     <label for="departmentFormControlSelect">부서</label>
                                                     <select class="form-select form-control-solid"
                                                         id="departmentFormControlSelect" v-model="department"
-                                                        @click="setDepartments(department)">
+                                                        @change="setDepartments(department)">
                                                         <option v-for="(department, i) in departmentList"
                                                             key="department.departmentname">{{ department.departmentname
                                                             }}
@@ -81,7 +81,7 @@
                                                     <label for="gradeFormControlSelect">직급</label>
                                                     <select class="form-select form-control-solid"
                                                         id="gradeFormControlSelect" v-model="grade"
-                                                        @click="setGrades(grade)">
+                                                        @change="setGrades(grade)">
                                                         <option v-for="(grade, i) in gradeList" key="grade.gradename">{{
                                                             grade.gradename }}</option>
                                                     </select>
@@ -91,7 +91,7 @@
                                                     <label for="retireFormControlSelect">퇴직여부</label>
                                                     <select class="form-select form-control-solid"
                                                         id="retireFormControlSelect" v-model="retireyn"
-                                                        @click="setRetireyn(retireyn)">
+                                                        @change="setRetireyn(retireyn)">
                                                         <option value="전체">전체</option>
                                                         <option value="n">재직자</option>
                                                         <option value="y">퇴직자</option>
@@ -115,7 +115,6 @@
                                                 <div class="form-group col-md-3">
                                                     <label for="retireFormControlSelect">검색</label>
                                                     <div class="input-group input-group-joined input-group-solid">
-
                                                         <select class="form-select form-control-solid"
                                                             id="retireFormControlSelect" v-model="menu"
                                                             v-on="setMenu(menu)">
@@ -123,14 +122,11 @@
                                                             <option value="searchName">사원명</option>
                                                             <option value="searchEmpno">사번</option>
                                                         </select>
-
                                                         <input class="form-control form-control-sm" type="text"
                                                             placeholder="Search" aria-label="Search" v-model="search"
                                                             v-on="searchEmp(search)">
                                                     </div>
                                                 </div>
-
-
                                             </div>
                                         </form>
 
@@ -153,12 +149,10 @@
                                                 </tr>
                                             </tfoot>
                                             <!-- 사원 검색 필터 -->
-                                            <tbody v-for="(emp, i) in empList" key="emp.empno">
+                                            <tbody v-for="(emp, i) in paginatedData" key="emp.empno">
 
 
-                                                <tr v-show="(emp.departmentname === department || department === '전체') &&
-                                            (emp.gradename === grade || grade === '전체') &&
-                                            (emp.retireyn === retireyn || retireyn === '전체')">
+                                                <tr>
 
 
                                                     <!-- <tr v-show="(emp.departmentname === department || department === '전체') &&
@@ -199,37 +193,27 @@
                                         </table>
                                         <footer>
                                             <!-- 페이징 처리 하기 -->
-
-
-
+                                            <div class="btn-cover" style="text-align: right">
+                                                <button :disabled="pageNum === 0" @click="prevPage" class="btn-hrms">
+                                                  이전
+                                                </button>
+                                                <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
+                                                <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="btn-hrms">
+                                                  다음
+                                                </button>
+                                            </div>
                                         </footer>
                                     </div>
                                 </div>
                             </div>
                         </div>
                 </main>
-                <footer class="footer mt-auto footer-light">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-6 small">Copyright &copy; I5-29 ERP SYSTEM 2022</div>
-                            <div class="col-md-6 text-md-right small">
-                                <a href="#!">Privacy Policy</a>
-                                &middot;
-                                <a href="#!">Terms &amp; Conditions</a>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+                <th:block th:replace="layout/footer::footer"></th:block>
             </div>
             <!-- 여기를 수정중 입니다. 
-여기를 수정중 입니다. 
-여기를 수정중 입니다.
-여기를 수정중 입니다. 
-여기를 수정중 입니다. 
-여기를 수정중 입니다. 
-여기를 수정중 입니다. -->
+여기를 수정중 입니다.-->
 
-            <!-- 사원 상세 조회 Modal 시작 -->
+            <!-- 사원 상세 조회 모달 시작 -->
             <div class="col-xl-8">
                 <div class="modal fade" id="empDetailModal" data-bs-backdrop="static" data-bs-keyboard="false"
                     tabindex="-1" role="dialog" aria-labelledby="empDetailModalLabel" aria-hidden="true">
@@ -263,34 +247,33 @@
                                                         <label label class="small mb-1" for="regno">주민등록번호</label>
                                                         <div>
                                                             <input type="text" class="form-control form-control-sm"
-                                                                id="regno1" :placeholder="empDetail.regno"
+                                                                id="regno1" :placeholder="preregno"
                                                                 style="width: 47%; display: inline-block" readonly>-
                                                             <input type="text" class="form-control form-control-sm"
-                                                                id="regno2" :placeholder="empDetail.regno"
+                                                                id="regno2" :placeholder="sufregno"
                                                                 style="width: 48%; display: inline-block;" readonly>
                                                         </div>
 
                                                         <label label class="small mb-1" for="tel">연락처</label>
                                                         <div>
                                                             <input type="tel" class="form-control form-control-sm"
-                                                                id="tel1" :placeholder="empDetail.tel"
+                                                                id="tel1" :placeholder="tel1"
                                                                 style="width: 30%; display: inline-block;" readonly>-
                                                             <input type=" tel" class="form-control form-control-sm"
-                                                                id="tel2" :placeholder="empDetail.tel"
+                                                                id="tel2" :placeholder="tel2"
                                                                 style="width: 30%; display: inline-block;" readonly>-
                                                             <input type="tel" class="form-control form-control-sm"
-                                                                id="tel3" :placeholder="empDetail.tel"
+                                                                id="tel3" :placeholder="tel3"
                                                                 style="width: 30%; display: inline-block;" readonly>
                                                         </div>
-                                                    </div>
+                                                    </div>ㅇㅇ 
                                                     <!-- Form Group (개인정보2) -->
                                                     <div class="form-group col-md-4">
                                                         <label label class="small mb-1" for="password">비밀번호</label>
-                                                        <input type="text" class="form-control form-control-sm"
+                                                        <input type="password" class="form-control form-control-sm"
                                                             id="password" :placeholder="empDetail.password" readonly>
 
-                                                        <label label class="small mb-1" for="gender">성별
-                                                            {{empDetail.gender}} </label>
+                                                        <label label class="small mb-1" for="gender">성별</label>
                                                         <div class="form-control form-control-sm border-0">
                                                             <div class="form-check form-check-inline col-md-5">
                                                                 <input class="form-check-input" type="radio"
@@ -333,7 +316,6 @@
                                                         <input type="text" class="form-control form-control-sm"
                                                             id="addrdetail" :placeholder="empDetail.addrdetail"
                                                             readonly>
-
                                                     </div>
                                                     <!-- Form Group (우편번호) -->
                                                     <div class="form-group col-md-4">
@@ -388,21 +370,21 @@
                                                             id="empStatus">
                                                             <div class="form-check form-check-inline">
                                                                 <input class="form-check-input" type="radio"
-                                                                    name="empStatus" id="retire_n" 
-                                                                    value="n" :checked="empDetail.retireyn === 'n'" disabled>
+                                                                    name="empStatus" id="retire_n" value="n"
+                                                                    :checked="empDetail.retireyn === 'n'" disabled>
                                                                 <label class="form-check-label"
                                                                     for="retire_n">재직</label>
                                                             </div>
                                                             <div class="form-check form-check-inline">
                                                                 <input class="form-check-input" type="radio"
-                                                                    name="empStatus" id="rest_y" 
-                                                                    value="y" :checked="empDetail.restyn === 'y'" disabled>
+                                                                    name="empStatus" id="rest_y" value="y"
+                                                                    :checked="empDetail.restyn === 'y'" disabled>
                                                                 <label class="form-check-label" for="rest_y">휴직</label>
                                                             </div>
                                                             <div class="form-check form-check-inline">
                                                                 <input class="form-check-input" type="radio"
-                                                                    name="empStatus" id="retire_y" 
-                                                                    value="y" :checked="empDetail.retireyn === 'y'" disabled>
+                                                                    name="empStatus" id="retire_y" value="y"
+                                                                    :checked="empDetail.retireyn === 'y'" disabled>
                                                                 <label class="form-check-label"
                                                                     for="retire_y">퇴직</label>
                                                             </div>
@@ -447,7 +429,6 @@
                                                             readonly>
                                                     </div>
                                                 </div>
-
                                                 <!-- 기타 -->
                                                 <div class="form-row">
                                                     <!-- Form Group (퇴사사유 등록) -->
@@ -488,7 +469,7 @@
         <!-- empList 끝 -->
 
 
-        <!-- 사원 등록 Modal 시작 -->
+        <!-- 사원 등록 모달 시작 -->
         <div class="col-xl-8" id="empRegist">
             <div class="modal fade" id="empRegistModal" data-bs-backdrop="static" tabindex="-1" role="dialog"
                 aria-labelledby="empRegistModalTitle" aria-hidden="true">
@@ -765,10 +746,6 @@
                                                         id="retiredate" placeholder="-" disabled>
                                                 </div>
                                             </div>
-
-
-
-
                                             <!-- Form Row 6 (근무연차/연봉/퇴직금 등록) yearsalary retirementpay  privateinsurance -->
                                             <div class="form-row">
                                                 <!-- Form Group (근무연차) -->
@@ -864,7 +841,30 @@
                         search: '', // text검색 - 검색어
                         checked: '',
 
-                        empCnt: ''
+                        empCnt: '',
+
+                        // 사원 주민번호 조회 관련 필드
+                        preregno: '',
+                        sufregno: '',
+
+                        // 사원 전화번호 조회 관련 필드
+                        tel1: '',
+                        tel2: '',
+                        tel3: '',
+
+
+                        // pagination
+                        pageNum : 0,
+                        pageList:[]
+                    }
+                },
+                
+                // pagination
+                props:{
+                    pageSize: {
+                        type : Number,
+                        required: false,
+                        default: 1
                     }
                 },
 
@@ -874,15 +874,25 @@
                         axios.post("http://localhost:8888/api/hrms")
                             .then((response) => {
                                 this.empList = response.data;
+                                this.pageList = response.data;
 
                             })
                             .catch(error => console.error(error))
                     },
 
+
                     // 사원 추출
                     getEmp(empno) {
-                        this.empDetail = this.empList[empno];
-                        this.checked = this.empDetail.gender === '여'
+                        this.empDetail = this.pageList[empno];
+
+                        // 주민번호 앞/뒤자리 처리
+                        this.preregno = (this.empDetail.regno).substr(0, 6);
+                        this.sufregno = (this.empDetail.regno).substr(7, 13);
+
+                        // 연락처 앞/뒤자리 처리
+                        this.tel1 = (this.empDetail.tel).substr(0, 3);
+                        this.tel2 = (this.empDetail.tel).substr(3, 4);
+                        this.tel3 = (this.empDetail.tel).substr(7, 4);
                     },
 
                     // 사원 검색 시 조간: 부서
@@ -899,10 +909,12 @@
                     // 선택한 부서로 셋팅 
                     setDepartments(department) {
                         this.department = department;
-                        console.log(department)
+                        console.log(department);
+                        this.setPageList();
+                        
                     },
 
-                    // 사원 검색 시 조간: 직급
+                    // 사원 검색 시 조건: 직급
                     findByGrade() {
                         axios.post("http://localhost:8888/api/hrms/gradeList")
                             .then((response) => {
@@ -917,12 +929,14 @@
                     setGrades(grade) {
                         this.grade = grade;
                         console.log(grade);
+                        this.setPageList();
                     },
 
                     // 선택한 퇴직여부로 셋팅
                     setRetireyn(retireyn) {
                         this.retireyn = retireyn;
                         console.log(retireyn);
+                        this.setPageList();
                     },
 
                     // 선택한 검색 메뉴로 셋팅
@@ -936,6 +950,51 @@
                         console.log(this.search);
                     },
 
+                    //pagination
+                    nextPage(){
+                        this.pageNum += 1;
+                    },
+
+                    prevPage(){
+                        this.pageNum -= 1;
+                    },
+
+                    setPageList(){
+                        let temp = [];
+                        for(emp of this.empList){
+                            if((emp.departmentname === this.department || this.department === '전체') &&
+                                (emp.gradename === this.grade || this.grade === '전체') &&
+                                (emp.retireyn === this.retireyn || this.retireyn === '전체')){
+                                    temp.push(emp);
+                                    console.log(emp);
+                                }
+                        }
+                        this.pageList = temp;
+                        console.log(temp);
+                        console.log(this.empList);
+                        console.log(this.pageList);
+                    }
+                },
+                
+                computed:{
+                    pageCount(){
+                        let listLeng = this.pageList.length;
+                            listSize = this.pageSize,
+                            page = Math.floor(listLeng / listSize);
+
+                        if (listLeng==0)return 1;
+                        if(listLeng % listSize > 0) page += 1;
+
+                        return page;
+                    },
+
+                    paginatedData(){
+
+                        let start = this.pageNum * this.pageSize,
+                              end = start + this.pageSize;
+                            
+                        return this.pageList.slice(start, end);
+                    }
                 },
 
                 created() {
@@ -1009,6 +1068,7 @@
                         departmentList: [],
                         gradeList: [],
                         usertypeList: []
+
                     }
                 },
 
@@ -1039,7 +1099,7 @@
                             memo: this.memo,
                             retireyn: this.retireyn,
                             restyn: this.restyn,
-                            privateinsurance: this.privateinsurance,
+                            privateinsurance: (this.yearsalary * 0.03945),
                             paymentst: this.paymentst,
                             totalal: this.totalal,
                             useal: this.useal,
@@ -1151,7 +1211,7 @@
                     //         .catch(error => console.error(error))
                     // }
 
-
+                   
                 },
 
                 mounted() {
@@ -1241,8 +1301,9 @@
                 let end = moment();
 
                 function cb(start, end) {
-                    $(".date span").html(
-                        start.format('MMMM D, YYYY') + " - " + end.format('YYYY-MM-DD')
+                    $(".date").html(
+                        start.format('YY-MM-DD') + " / " + end.format('YY-MM-DD'),
+                        
                     );
                 }
 
@@ -1250,6 +1311,10 @@
                     {
                         startDate: start,
                         endDate: end,
+                        locale: {
+                            "separator": " ~ ",
+                            "format": 'YY-MM-DD',
+                        },
                         ranges: {
                             "오늘": [moment(), moment()],
                             "어제": [
@@ -1268,10 +1333,9 @@
                             ],
                         },
                     },
-                    cb
+                    cb(start, end)
                 );
 
-                cb(start, end);
             });
         </script>
         <!-- 달력 end -->

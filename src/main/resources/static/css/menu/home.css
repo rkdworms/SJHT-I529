@@ -151,3 +151,32 @@ th {
     margin: 1rem;
     list-style: none;
 }
+
+.footer {
+  height: 5rem;
+  display: flex;
+  align-items: center;
+}
+
+.footer.footer-light {
+  color: #a7aeb8;
+}
+
+.small {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+a {
+  color: #a7aeb8;
+  text-decoration: none;
+}
+
+a:hover{
+  color: #a7aeb8;
+  text-decoration: none;
+}
+
+.text-md-right {
+  text-align: right !important;
+}

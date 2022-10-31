@@ -9,4 +9,5 @@ public interface WorkTimeService {
 
     List<WorkInfoResponseDto> selectWhereWorkInfo(WorkInfoRequestDto workInfoRequestDto);
     List<WorkInfoResponseDto> myWorkTimeList(int empno);
+    public WorkInfoResponseDto selectOne(int tano);
 }

@@ -3,6 +3,7 @@ package sjht.erp.workinfo.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sjht.erp.login.dto.EmployeeDto;
 import sjht.erp.workinfo.dto.request.WorkInfoRequestDto;
@@ -10,6 +11,7 @@ import sjht.erp.workinfo.dto.response.WorkInfoResponseDto;
 import sjht.erp.workinfo.service.WorkTimeService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -42,5 +44,13 @@ public class WorkInfoApiController {
     public String getName(HttpServletRequest request){
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
         return employeeDto.getName();
+    }
+
+    @RequestMapping("api/getOne")
+    public WorkInfoResponseDto getOne(HttpServletRequest request, @RequestBody HashMap<String,String> map){
+        request.getAttribute("empNo");
+        int tano = Integer.parseInt(map.get("tanos"));
+        System.out.println(tano);
+        return workTimeService.selectOne(tano);
     }
 }

@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -13,10 +13,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class DetailResponseDto {
     private String dvno;
-    private LocalDateTime dvusedate;
+    private LocalDate dvusedate;
     private int price;
     private String dememo;
     private String divcd;
-    private int detailuse;
+    private String briefs;
+    private String detailuse;
     private int dno;
 }

@@ -34,3 +34,17 @@ function ExpendModalClose() {
     console.log("hide");
     $("#workTime_modal").modal("hide");
 }
+
+function ConfirmHolidayModal() {
+    $('#detail_workTime_modal').modal({backdrop: 'static', keyboard: false})
+    console.log("show");
+    $("#detail_workTime_modal").modal("show");
+}
+
+// modal hide
+function ConfirmHolidayModalClose() {
+    console.log("hide");
+    $("#detail_workTime_modal").modal("hide");
+}
+
+

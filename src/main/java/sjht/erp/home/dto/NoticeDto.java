@@ -21,7 +21,7 @@ public class NoticeDto {
     public NoticeDto(BoardVO boardVO) {
         this.bno = boardVO.getBno();
         this.title = boardVO.getTitle();
-        this.regdate = boardVO.getRegdate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        this.regdate = boardVO.getCreatetime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
     }
 

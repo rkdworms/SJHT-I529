@@ -1,16 +1,14 @@
 package sjht.erp.detailexpend.repository;
 
 import org.apache.ibatis.annotations.Mapper;
-import sjht.erp.detailexpend.dto.request.FileRequestDto;
-import sjht.erp.detailexpend.dto.request.InsertRequestDto;
-import sjht.erp.detailexpend.dto.request.SelectEmployeeDto;
-import sjht.erp.detailexpend.dto.request.UpdateRequestDto;
+import sjht.erp.detailexpend.dto.request.*;
 import sjht.erp.detailexpend.dto.response.DetailResponseDto;
 
 import java.util.List;
 
 @Mapper
 public interface ExpendInsertMapper {
+
     SelectEmployeeDto selectOneEmployee(int empno);
 
     String selectLastOne();
@@ -27,7 +25,15 @@ public interface ExpendInsertMapper {
 
     List<DetailResponseDto> selectDetailExpend(String dvno);
 
-    int deleteDetailExpend(int dno);
+    int deleteDetailExpendInteger(int dno);
 
+    int sumPrice(String dvno);
 
+    int deleteDetailExpend(String dvno);
+
+    int deleteExpendInformation(String dvno);
+
+    int updateDetailDVNO(UpdateDvnoRequestDto updateDvnoRequestDtoList);
+
+    String selectOneDepartmentName(String departmentcd);
 }
