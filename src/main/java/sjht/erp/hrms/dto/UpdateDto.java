@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -37,7 +39,7 @@ public class UpdateDto {
     private String retireyn; // 퇴직여부 -- y -> 퇴직 n -> 퇴직x
     private String restyn; // 휴직여부
     private int privateinsurance; // 보험
-    private String paymentst; // 지급여부 --
+    private Date paymentst; // 월급 지급 여부
     private int totalal; // 총연차
     private int useal; // 사용연차
     private String retirenote; // 퇴사사유

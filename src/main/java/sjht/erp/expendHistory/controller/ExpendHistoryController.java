@@ -9,7 +9,7 @@ import sjht.erp.expendInformation.service.ExpendInformationService;
 @RequiredArgsConstructor
 public class ExpendHistoryController {
 
-    @RequestMapping("/expendHistory")
+    @RequestMapping("/expendhistory")
     public String expendHistory(){
             System.out.println("Controller expendHistory");
         return "expendHistory/expendHistory";

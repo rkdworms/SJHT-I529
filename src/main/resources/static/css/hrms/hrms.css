@@ -23158,3 +23158,54 @@ pre[class*=language-] {
   padding-left: 20px;
   padding-right: 20px;
 }
+
+.table th, .table td{
+  padding : 0.35rem
+}
+
+.paycontents{
+  height : 7rem;
+  text-align: left;
+  display: inline-table;
+}
+
+.paycontents-br{
+  border-right: 1.3px solid rgba(0, 0, 0, 0.09);
+}
+
+.paycontents-bb{
+  border-bottom:1.3px solid rgba(0, 0, 0, 0.09);
+}
+
+.paycontents-bt{
+  border-top:1.3px solid rgba(0, 0, 0, 0.09);
+}
+
+.p-subtitle{
+  padding-left:1rem;
+}
+
+.p-content{
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.p-target{
+  margin: 0.3rem;
+  text-align: right;
+  opacity: 0.6;
+}
+
+.p-title{
+  text-align: left;
+  color: black;
+}
+
+.t-middle{
+  text-align : center;
+}
+
+.checkbox{
+  text-align : center;
+  vertical-align: middle;
+}
