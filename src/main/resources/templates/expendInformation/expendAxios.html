@@ -55,9 +55,9 @@
                                     <!--   검색 폼 : 날짜   -->
                                     <div class="col-md-6">
                                         <label class="col-sm-2">날짜</label>
-                                        <input v-model="startDvRegDate" id="startDvRegDate" class="col-sm-4" type="date">
+                                        <input v-model="startDvRegDate" id="startDvRegDate" class="col-sm-4 form-controll" type="date">
                                         <label class="col-sm-1">-</label>
-                                        <input v-model="endDvRegDate" id="endDvRegDate" class="col-sm-4" type="date">
+                                        <input v-model="endDvRegDate" id="endDvRegDate" class="col-sm-4 form-controll" type="date">
                                     </div>
         
         
@@ -91,12 +91,12 @@
                                         <!--for의 값과 input의 id 값이 다르면 오류-->
                                         <!--   상세 검색 폼 : 사번   -->
                                         <label for="empno" class="col-md-2">사원 번호</label>
-                                        <input v-model="empno" id="empno" class="col-md-2" type="text" style="width:100px">
+                                        <input v-model="empno" id="empno" class="col-md-2 form-control" type="text">
                                         &nbsp;
         
                                         <!--   상세 검색 폼 : 사원 이름   -->
                                         <label for="empname" class="col-md-2">사원 이름</label>
-                                        <input v-model="name" id="empname" class="col-md-2" type="text" style="width:100px">
+                                        <input v-model="name" id="empname" class="col-md-2 form-control" type="text">
                                     </div>
                                 </div>
                             </div>
@@ -334,7 +334,7 @@
         
                                                             <!-- 사용 일자  -->
                                                             <td class="detailColumn" style="height: 29px;">
-                                                                <input type="text" style="width: 100%; height: 100%; border: 0;"
+                                                                <input type="text" class="form-control"
                                                                     :value="result.dvUseDate" readonly>
                                                             </td>
         
@@ -346,19 +346,19 @@
         
                                                             <!-- 사용 내역 -->
                                                             <td class="detailColumn" style="height: 29px;">
-                                                                <input type="text" style="width: 100%; height: 100%; border: 0;"
+                                                                <input type="text" class="form-control"
                                                                     :value="result.detailuse" readonly>
                                                             </td>
         
                                                             <!-- 금액 -->
                                                             <td class="detailColumn" style="height: 29px;">
-                                                                <input type="text" style="width: 100%; height: 100%; border: 0;"
+                                                                <input type="text" class="form-control"
                                                                     :value="result.price" readonly>
                                                             </td>
         
                                                             <!-- 비고 -->
                                                             <td class="detailColumn" style="height: 29px;">
-                                                                <input type="text" style="width: 100%; height: 100%; border: 0;"
+                                                                <input type="text" class="form-control"
                                                                     :value="result.dvmemo" readonly>
                                                             </td>
                                                         </tr>

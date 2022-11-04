@@ -17,7 +17,7 @@
   --purple: #6900c7;
   --pink: #e30059;
   --red: #e81500;
-  --orange: #f76400;
+  --orange: #190e07;
   --yellow: #f4a100;
   --green: #00ac69;
   --teal: #00ba94;
@@ -23208,4 +23208,8 @@ pre[class*=language-] {
 .checkbox{
   text-align : center;
   vertical-align: middle;
+}
+
+.form-control{
+  height : 32.59px;
 }

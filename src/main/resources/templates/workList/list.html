@@ -35,43 +35,65 @@
                 <div class="card-header">휴가/지출결의 신청</div>
                 <div class="card-body">
                     <div id="app">
-                        <div>
+                        <div class="datatable">
                             <div>
                                 <div>
                                     <form v-if="ROLE">
-                                        <table class="table tab-content">
-                                            <tr>
-                                                <td>
-                                                    <label>시작날짜:&numsp;</label><input v-model="startDvRegDate" type="date"
-                                                        id="startDvRegDate" name="startDate" placeholder="날짜입력">
-                                                </td>
-                                                <td>
-                                                    <label>종료날짜:&numsp;</label><input v-model="endDvRegDate" type="date"
-                                                        id="endDvRegDate" name="endDate" placeholder="날짜입력">
-                                                </td>
-                                                <td>
-                                                    <input type="text" id="employeeName" v-model="employeeName"
-                                                        name="employeeName" placeholder="사원명">
-                                                </td>
-                                                <td>
-                                                    <input type="text" id="employeeNo" v-model="employeeNo"
-                                                        name="employeeNo" placeholder="사번">
-                                                </td>
-                                                <td>
-                                                    <select class="form-select" name="approveryn" id="approveryn"
-                                                        v-model="approveryn">
-                                                        <option value="y" selected>승인</option>
-                                                        <option value="w">미승인</option>
-                                                        <option value="n">반려</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <button type="button" @click="getWorkTimeList"
-                                                        class="btn btn-dark btn-md">조회
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </table>
+                                        <div class="form-row">
+                                            <!--시작 날짜 검색-->
+                                            <div class="form-group col-md-2">
+                                                <label for="startdate">시작날짜:&numsp;</label>
+                                                <i class="mr-2 text-primary" data-feather="calendar"></i>
+                                                <input class="form-control form-control-solid"
+                                                    v-model="startDvRegDate" type="date" id="startDvRegDate"
+                                                    name="startDate" placeholder="날짜입력">
+                                            </div>
+
+                                            <!--종료 날짜 검색-->
+                                            <div class="form-group col-md-2">
+                                                <label for="enddate">퇴사일자&nbsp;</label>
+                                                <i class="mr-2 text-primary" data-feather="calendar"></i>
+                                                <input class="form-control form-control-solid"
+                                                    v-model="endDvRegDate" type="date" id="endDvRegDate" name="endDate"
+                                                    placeholder="날짜입력">
+                                            </div>
+
+                                            <!--사원명 검색-->
+                                            <div class="form-group col-md-2">
+                                                <label for="empname">사원명</label>
+                                                <div class="input-group input-group-joined input-group-solid">
+                                                    <input type="text" class="form-control form-control-sm" id="employeeName" v-model="employeeName"
+                                                        name="employeeName">
+                                                </div>
+                                            </div>
+
+                                            <!--사번 검색-->
+                                            <div class="form-group col-md-2">
+                                                <label for="empno">사번</label>
+                                                <div class="input-group input-group-joined input-group-solid">
+                                                    <input class="form-control form-control-sm" type="text"
+                                                        id="employeeNo" v-model="employeeNo" name="employeeNo">
+                                                </div>
+                                            </div>
+
+                                            <!--승인 여부 검색-->
+                                            <div class="form-group col-md-2">
+                                                <label for="approveyn">승인 여부</label>
+                                                <select class="form-select form-control-solid" name="approveryn"
+                                                    id="approveryn" v-model="approveryn">
+                                                    <option value="all" selected>전체</option>
+                                                    <option value="y">승인</option>
+                                                    <option value="w">미승인</option>
+                                                    <option value="n">반려</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-md-2" style="display: grid; padding:1rem;">
+                                                <button type="button" @click="getWorkTimeList"
+                                                    class="btn btn-dark btn-md">조회
+                                                </button>
+                                            </div>
+                                        </div>
                                     </form>
                                     <div class="container" style="margin-top: 20px">
                                         <!-- 조건입력-->
@@ -128,7 +150,8 @@
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                                <nav aria-label="Page navigation example" class="align-content-xl-center">
+                                                <nav aria-label="Page navigation example"
+                                                    class="align-content-xl-center">
                                                     <ul class="pagination" style="justify-content: center">
                                                         <li class="page-item">
                                                             <a class="page-link" href="#" aria-label="Previous">
@@ -174,7 +197,8 @@
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                                <nav aria-label="Page navigation example" class="align-content-xl-center">
+                                                <nav aria-label="Page navigation example"
+                                                    class="align-content-xl-center">
                                                     <ul class="pagination" style="justify-content: center">
                                                         <li class="page-item">
                                                             <a class="page-link" href="#" aria-label="Previous">
@@ -282,7 +306,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
 
@@ -504,7 +528,7 @@
                         endDvRegDate: "",
                         employeeName: "",
                         employeeNo: "",
-                        approveryn: "",
+                        approveryn: "all",
                         allWorkTimeList: [],
                         name: "",
                         dvno: "",
