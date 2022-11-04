@@ -15,4 +15,14 @@
             approver    = #{approver}
         where tano = #{tano}
     </update>
+    <update id="updateMyHoliday" parameterType="sjht.erp.workinfo.dto.request.UpdateHolidayRequestDto">
+        update worktimemanagement
+        set startdate     = #{startdate},
+            enddate       = #{enddate},
+            reasonholiday = #{reasonholiday}
+        where tano = #{tano}
+    </update>
+    <delete id="deleteMyHoliday" parameterType="Integer">
+        delete from worktimemanagement where tano = #{tano}
+    </delete>
 </mapper>

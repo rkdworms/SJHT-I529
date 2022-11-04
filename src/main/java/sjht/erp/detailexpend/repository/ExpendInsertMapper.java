@@ -3,6 +3,7 @@ package sjht.erp.detailexpend.repository;
 import org.apache.ibatis.annotations.Mapper;
 import sjht.erp.detailexpend.dto.request.*;
 import sjht.erp.detailexpend.dto.response.DetailResponseDto;
+import sjht.erp.detailexpend.dto.response.MyExpendListResponseDto;
 
 import java.util.List;
 
@@ -36,4 +37,10 @@ public interface ExpendInsertMapper {
     int updateDetailDVNO(UpdateDvnoRequestDto updateDvnoRequestDtoList);
 
     String selectOneDepartmentName(String departmentcd);
+
+    List<MyExpendListResponseDto> findExpendInformationsByEmpnoAndApproveryn(int empno);
+
+    DetailResponseDto selectMyDetailExpend(int dno);
+
+    int updateMyDetailExpend(UpdateMyDetailExpendRequestDto updateMyDetailExpendRequestDto);
 }

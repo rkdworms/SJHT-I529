@@ -20,7 +20,6 @@
     <select id="selectLastOne" resultType="String">
         SELECT dvno
         FROM expendinformation
-        ORDER BY dvno DESC
         LIMIT 1
     </select>
 
@@ -107,4 +106,35 @@
         from expendinformation
         where dvno = #{dvno}
     </delete>
+    <select id="findExpendInformationsByEmpnoAndApproveryn" parameterType="Integer"
+            resultType="sjht.erp.detailexpend.dto.response.MyExpendListResponseDto">
+        select dvno
+             , i.empno
+             , e.name
+             , d.departmentname
+             , i.dvregdate
+             , i.dvamt
+             , i.dvappyn
+        from expendinformation i
+                 left join employee e on i.empno = e.empno
+                 left join departmentcode d on e.departmentcd = d.departmentcd
+        where i.dvappyn = 'w'
+          and i.empno = #{empno}
+    </select>
+    <select id="selectMyDetailExpend" parameterType="Integer"
+            resultType="sjht.erp.detailexpend.dto.response.DetailResponseDto">
+        select *
+        from detailexpend
+        where dno = #{dno}
+    </select>
+    <update id="updateMyDetailExpend" parameterType="sjht.erp.detailexpend.dto.request.UpdateMyDetailExpendRequestDto">
+        update detailexpend
+        set dvusedate = #{dvusedate},
+            divcd     = #{divcd},
+            briefs    = #{briefs},
+            detailuse = #{detailuse},
+            price     = #{price},
+            dvmemo    = #{dvmemo}
+        where dno = #{dno}
+    </update>
 </mapper>
