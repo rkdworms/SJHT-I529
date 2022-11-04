@@ -26,7 +26,7 @@
         left join departmentcode d
         on e.departmentcd = d.departmentcd
         <where>
-            <if test="approveryn !=''">
+            <if test="approveryn !='' and approveryn != 'all'">
                 approveryn = (#{approveryn})
             </if>
             <if test="start != null and end != null">

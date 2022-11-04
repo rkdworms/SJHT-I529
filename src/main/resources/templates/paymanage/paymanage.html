@@ -34,60 +34,62 @@
                 <div class="card mb-4">
                     <div class="card-header">급여 대상자</div>
                     <!-- card-body -->
-                    <div class="card-body pb-3" id="card-body-padding">
-                        <form>
-                            <div>
-                                <span>총 {{ empList.length }} 명의 급여 대상자 중 {{ selectList.length }} 명 선택</span>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-hrms button-middle mb-4" data-bs-backdrop="static"
-                                    data-bs-toggle="modal" data-bs-target="#salary" v-on:click="getPaySum()" :disabled="selectList.length==0">
-                                    급여 지급
-                                </button>
-                            </div>
-                            <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade show active" id="home" role="tabpanel"
-                                    aria-labelledby="home-tab">
-                                    <table class="table table-bordered">
-                                        <thead class=t-middle>
-                                            <tr class="table-light">
-                                                <th scope="col" class="checkbox"><input class="checkbox" type="checkbox"
-                                                        value="all" v-model="allSelected"></th>
-                                                <th scope="col">사번</th>
-                                                <th scope="col">이름</th>
-                                                <th scope="col">부서</th>
-                                                <th scope="col">직급</th>
-                                                <th scope="col">재직 여부</th>
-                                                <th scope="col">소정 근무</th>
-                                                <th scope="col">월 급여(A)</th>
-                                                <th scope="col">공제 액수(B)</th>
-                                                <th scope="col">경비 정산(C)</th>
-                                                <th scope="col">실 지급액(A-B+C)</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="(emp, i) in empList" key="i">
-                                                <td scope="col" class="checkbox"><input class="checkbox" type="checkbox"
-                                                        v-model="selectList" :id="emp" :value="emp" :key="i"
-                                                        :disabled="emp.restyn === 'y'"></td>
-                                                <td scope="col">{{emp.empno}}</td>
-                                                <td scope="col">{{emp.name}}</td>
-                                                <td scope="col">{{emp.departmentname}}</td>
-                                                <td scope="col">{{emp.gradename}}</td>
-                                                <td clsss="rest" v-if="emp.restyn=='y'">휴직</td>
-                                                <td class="working" v-else>재직</td>
-                                                <td scope="col">209시간</td>
-                                                <td scope="col">{{currency(emp.salary)}}</td>
-                                                <td scope="col">{{currency(emp.privateinsurance)}}</td>
-                                                <td scope="col">{{currency(emp.expend)}}</td>
-                                                <td scope="col">{{currency(emp.salary - emp.privateinsurance +
-                                                    emp.expend)}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                    <div class="card-body">
+                        <div class="datatable">
+                            <form>
+                                <div>
+                                    <span>총 {{ empList.length }} 명의 급여 대상자 중 {{ selectList.length }} 명 선택</span>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-hrms button-middle mb-4"
+                                        data-bs-backdrop="static" data-bs-toggle="modal" data-bs-target="#salary"
+                                        v-on:click="getPaySum()" :disabled="selectList.length==0">
+                                        급여 지급
+                                    </button>
                                 </div>
-                            </div>
-                        </form>
-
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="home" role="tabpanel"
+                                        aria-labelledby="home-tab">
+                                        <table class="table table-bordered">
+                                            <thead class=t-middle>
+                                                <tr class="table-light">
+                                                    <th scope="col" class="checkbox"><input class="checkbox"
+                                                            type="checkbox" value="all" v-model="allSelected"></th>
+                                                    <th scope="col">사번</th>
+                                                    <th scope="col">이름</th>
+                                                    <th scope="col">부서</th>
+                                                    <th scope="col">직급</th>
+                                                    <th scope="col">재직 여부</th>
+                                                    <th scope="col">소정 근무</th>
+                                                    <th scope="col">월 급여(A)</th>
+                                                    <th scope="col">공제 액수(B)</th>
+                                                    <th scope="col">경비 정산(C)</th>
+                                                    <th scope="col">실 지급액(A-B+C)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(emp, i) in empList" key="i">
+                                                    <td scope="col" class="checkbox"><input class="checkbox"
+                                                            type="checkbox" v-model="selectList" :id="emp" :value="emp"
+                                                            :key="i" :disabled="emp.restyn === 'y'"></td>
+                                                    <td scope="col">{{emp.empno}}</td>
+                                                    <td scope="col">{{emp.name}}</td>
+                                                    <td scope="col">{{emp.departmentname}}</td>
+                                                    <td scope="col">{{emp.gradename}}</td>
+                                                    <td clsss="rest" v-if="emp.restyn=='y'">휴직</td>
+                                                    <td class="working" v-else>재직</td>
+                                                    <td scope="col">209시간</td>
+                                                    <td scope="col">{{currency(emp.salary)}}</td>
+                                                    <td scope="col">{{currency(emp.privateinsurance)}}</td>
+                                                    <td scope="col">{{currency(emp.expend)}}</td>
+                                                    <td scope="col">{{currency(emp.salary - emp.privateinsurance +
+                                                        emp.expend)}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -165,7 +167,7 @@
                                             </div>
                                         </div>
                                     </form>
-                                    
+
                                 </div>
                             </div>
                             <!-- 버튼 -->
@@ -222,17 +224,17 @@
                     //급여 지급
                     paySalary() {
 
-                        for(emp of this.selectList){
+                        for (emp of this.selectList) {
                             emp.paymentst = this.payday
                         }
 
                         axios.post("http://localhost:8888/api/hrms/paysalary", this.selectList)
-                        .then(console.log("급여 완료"))
-                        .catch(error => console.error(error));
+                            .then(console.log("급여 완료"))
+                            .catch(error => console.error(error));
 
                         //location.reload();
 
-                        
+
                     },
 
                     getPaySum() {

@@ -21,7 +21,7 @@ public class ExpendInsertApiController {
     ExpendInsertService expendInsertService;
 
 
-    @PostMapping("api/insertDVNO")
+    @PostMapping("/api/insertDVNO")
     public String inputEXPENDDVNO(
             HttpServletRequest request
     ) {
@@ -29,7 +29,7 @@ public class ExpendInsertApiController {
         return expendInsertService.inputExpend();
     }
 
-    @PostMapping("api/insertDetail")
+    @PostMapping("/api/insertDetail")
     public List<DetailResponseDto> inputDETAIL(
             HttpServletRequest request,
             @RequestBody InsertRequestDto insertRequestDto
@@ -47,7 +47,7 @@ public class ExpendInsertApiController {
         return detailResponseDtoList;
     }
 
-    @PostMapping("api/updateExpendInformation")
+    @PostMapping("/api/updateExpendInformation")
     public boolean updateExpendInfo(HttpServletRequest request, @RequestBody HashMap<String, String> map) {
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
         String dvno = map.get("dvnoOne");

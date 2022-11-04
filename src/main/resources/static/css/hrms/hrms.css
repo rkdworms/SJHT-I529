@@ -23213,3 +23213,13 @@ pre[class*=language-] {
 .form-control{
   height : 32.59px;
 }
+textarea{
+  
+  resize: none;
+}
+
+.worktextarea{
+  background: white;
+  border: none;
+  padding: 1rem;
+}
