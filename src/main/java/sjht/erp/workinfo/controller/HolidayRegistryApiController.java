@@ -29,6 +29,7 @@ public class HolidayRegistryApiController {
         return holidayRegistryService.insert(holidayRequestDto);
     }
 
+    // worktimemanagement테이블의 데이터의 approveryn을 승인또는 반려로 바꾸기 위한 컨트롤러
     @PostMapping("api/updateHoliday")
     public boolean update(
             HttpServletRequest request,
@@ -39,6 +40,7 @@ public class HolidayRegistryApiController {
         return holidayRegistryService.updateHoliday(updateHolidayRequestDto);
     }
 
+    // 로그인 한 대상의 worktimemanagement 데이터를 수정하기 위한 컨트롤러
     @PostMapping("api/updateMyHoliday")
     public boolean update(
             HttpServletRequest request,
@@ -49,6 +51,7 @@ public class HolidayRegistryApiController {
         return holidayRegistryService.updateMyHoliday(updateMyHolidayRequestDto);
     }
 
+    // 로그인한 대상의 휴가를 삭제할수 있게 해주는 컨트롤러
     @PostMapping("api/deleteMyHoliday")
     public boolean delete(
             HttpServletRequest request,

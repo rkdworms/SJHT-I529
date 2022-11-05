@@ -21,6 +21,7 @@ public class ExpendInsertApiController {
     ExpendInsertService expendInsertService;
 
 
+    // 지출결의서를 작성하기 위해서 먼저 expendInformation 테이블의 dvno를 먼저 입력해주는 컨트롤러
     @PostMapping("/api/insertDVNO")
     public String inputEXPENDDVNO(
             HttpServletRequest request
@@ -29,6 +30,8 @@ public class ExpendInsertApiController {
         return expendInsertService.inputExpend();
     }
 
+    // 지출결의서를 입력해줄때 하나의 dvno에 여러개의 detailexpend 데이터가 들어갈수 있기 때문에
+    // 출력값을 리스트로 함
     @PostMapping("/api/insertDetail")
     public List<DetailResponseDto> inputDETAIL(
             HttpServletRequest request,
@@ -47,6 +50,7 @@ public class ExpendInsertApiController {
         return detailResponseDtoList;
     }
 
+    // detailexpend 테이블에 데이터를 입력하고 난 다음, expendinformation테이블의 해당 Dvno를 입력한 데이터를 토대로 계산한 값을 업데이트 해줌
     @PostMapping("/api/updateExpendInformation")
     public boolean updateExpendInfo(HttpServletRequest request, @RequestBody HashMap<String, String> map) {
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
@@ -55,6 +59,7 @@ public class ExpendInsertApiController {
         return isUpdate;
     }
 
+    // expendinformation 테이블의 dvno의 데이터를 지울때 사용한다. 지울때 Detailexpend 테이블의 데이터도 같이 지워짐
     @PostMapping("api/deleteData")
     public boolean deleteExpendData(
             HttpServletRequest request,
@@ -65,7 +70,7 @@ public class ExpendInsertApiController {
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
         return expendInsertService.deleteData(dvno);
     }
-
+    // expendinformation 테이블의 dvno의 데이터를 지울때 사용한다. 지울때 Detailexpend 테이블의 데이터도 같이 지워짐
     @PostMapping("api/deleteDetailData")
     public boolean deleteExpendDetailData(
             HttpServletRequest request,
@@ -76,6 +81,7 @@ public class ExpendInsertApiController {
         return expendInsertService.deleteDetailData(dvno);
     }
 
+    // detailexpend 테이블의 dno의 데이터를 지우고 싶을 때 사용함
     @PostMapping("api/deleteDetailDataOne")
     public boolean deleteExpendDetailDataOne(
             HttpServletRequest request,
@@ -86,12 +92,14 @@ public class ExpendInsertApiController {
         return expendInsertService.deleteOneData(dno);
     }
 
+    // 로그인한 대상의 부서정보를 출력하기 위해 사용하는 컨트롤러
     @PostMapping("api/getDepartment")
     public String getDepartmentName(HttpServletRequest request) {
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
         return expendInsertService.getDepartment(employeeDto.getEmpno());
     }
 
+    // expendinformtaion 정보를 리스트로 출력하기 위해서 사용하는 컨트롤러
     @PostMapping("api/showMyExpendList")
     public List<MyExpendListResponseDto> getMyExpendList(
             HttpServletRequest request
@@ -101,6 +109,7 @@ public class ExpendInsertApiController {
         return expendInsertService.selectExpendInfo(employeeDto.getEmpno());
     }
 
+    // detailexpend정보를 리스트로 출력하기 위해서 사용하는 컨트롤러
     @PostMapping("api/showMyDetailExpendList")
     public List<DetailResponseDto> showListDetail(
             HttpServletRequest request,
@@ -111,6 +120,7 @@ public class ExpendInsertApiController {
         return expendInsertService.selectDetailExpend(dvno);
     }
 
+    // detailexpend 테이블을 수정하기 위해 사용하는 컨트롤러 기존의 데이터를 화면상에 뿌려주기 위해 사용함
     @PostMapping("api/chooseMyDetailExpend")
     public DetailResponseDto update(
             HttpServletRequest request,
@@ -121,6 +131,7 @@ public class ExpendInsertApiController {
         return expendInsertService.chooseDetailExpend(dno);
     }
 
+    // detailexpend테이블의 데이터를 입력해주고 수정하기 버튼을 클릭시 수정하는 컨트롤러
     @PostMapping("api/updateMyDetailExpend")
     public boolean updateMyDetailExpend(
             HttpServletRequest request,

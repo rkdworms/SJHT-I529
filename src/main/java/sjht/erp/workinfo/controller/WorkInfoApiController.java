@@ -19,6 +19,7 @@ public class WorkInfoApiController {
 
     private final WorkTimeService workTimeService;
 
+    // 전체 사원의 휴가 신청 리스트를 조회하는 컨트롤러
     @PostMapping("/api/workList")
     public List<WorkInfoResponseDto> workTimeInfo(HttpServletRequest request, @RequestBody WorkInfoRequestDto workInfoRequestDto) {
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
@@ -27,24 +28,28 @@ public class WorkInfoApiController {
         return workTimeService.selectWhereWorkInfo(workInfoRequestDto);
     }
 
+    // 로그인한 대상의 휴가신청리스트를 조회하는 컨트롤러
     @PostMapping("api/getMyWorkTime")
     public List<WorkInfoResponseDto> getMyWorkTime(HttpServletRequest request) {
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
         return workTimeService.myWorkTimeList(employeeDto.getEmpno());
     }
 
+    // 로그인한 대상의 유저타입을 출력해주는 컨트롤러
     @PostMapping("api/getROLE")
     public String getRole(HttpServletRequest request) {
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
         return employeeDto.getUsertype();
     }
 
+    // 로그인한 대상의 사원이름을 출력해주는 컨트롤러
     @PostMapping("api/getName")
     public String getName(HttpServletRequest request) {
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
         return employeeDto.getName();
     }
 
+    // 휴가신청 리스트를 중 하나의 데이터를 상세보기 하기 위한 컨트롤러
     @PostMapping("api/getOne")
     public WorkInfoResponseDto getOne(HttpServletRequest request, @RequestBody HashMap<String, String> map) {
         request.getAttribute("empNo");
@@ -55,6 +60,7 @@ public class WorkInfoApiController {
         return workInfoResponseDto;
     }
 
+    // 로그인한 대상의 empno를 확인하기 위한 컨트롤러
     @PostMapping("api/checkMyId")
     public int checkMyEmpno(HttpServletRequest request) {
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
