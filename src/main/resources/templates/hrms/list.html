@@ -50,7 +50,7 @@
                             <div class="boardTop">
                                 <div class="card-body">
                                     <div>
-                                        <span>총 {{ empList.length }} 명의 사원 중 검색 결과 : {{ empCnt }} 명</span>
+                                        <span>총 {{ empList.length }} 명의 사원 중 검색 결과 : {{ pageList.length }} 명</span>
                                         <!-- Button trigger modal -->
                                         <button type="button" class="btn btn-facebook button-middle"
                                             data-bs-backdrop="static" data-bs-toggle="modal"
@@ -69,7 +69,7 @@
                                                     <label for="departmentFormControlSelect">부서</label>
                                                     <select class="form-select form-control-solid"
                                                         id="departmentFormControlSelect" v-model="department"
-                                                        @click="setDepartments(department)">
+                                                        @change="setDepartments(department)">
                                                         <option v-for="(department, i) in departmentList"
                                                             key="department.departmentname">{{ department.departmentname
                                                             }}
@@ -81,7 +81,7 @@
                                                     <label for="gradeFormControlSelect">직급</label>
                                                     <select class="form-select form-control-solid"
                                                         id="gradeFormControlSelect" v-model="grade"
-                                                        @click="setGrades(grade)">
+                                                        @change="setGrades(grade)">
                                                         <option v-for="(grade, i) in gradeList" key="grade.gradename">{{
                                                             grade.gradename }}</option>
                                                     </select>
@@ -91,25 +91,24 @@
                                                     <label for="retireFormControlSelect">퇴직여부</label>
                                                     <select class="form-select form-control-solid"
                                                         id="retireFormControlSelect" v-model="retireyn"
-                                                        @click="setRetireyn(retireyn)">
-                                                        <option value="전체">전체</option>
+                                                        @change="setRetireyn(retireyn)">
+                                                        <option value="전체" selected>전체</option>
                                                         <option value="n">재직자</option>
                                                         <option value="y">퇴직자</option>
                                                     </select>
                                                 </div>
                                                 <!-- 입사일자 검색 (Date Range Picker) -->
                                                 <div class="form-group col-md-2">
-                                                    <label for="entrydate">{{entrydateSearch}}{{entrydateSearch.start}}
-                                                        입사일자&nbsp; {{entrydateSearch.startDate}}</label>
+                                                    <label for="entrydate">입사일자&nbsp;</label>
                                                     <i class="mr-2 text-primary" data-feather="calendar"></i>
-                                                    <input type="date" name="entrydateSearch" v-model="entrydateSearch"
+                                                    <input type="text" name="entrydate"
                                                         class="form-select form-control-solid date" />
                                                 </div>
                                                 <!-- 퇴사일자 검색 (Date Range Picker) -->
                                                 <div class="form-group col-md-2">
                                                     <label for="retiredate">퇴사일자&nbsp;</label>
                                                     <i class="mr-2 text-primary" data-feather="calendar"></i>
-                                                    <input type="text" name="retiredate" v-model="retiredateSearch"
+                                                    <input type="text" name="retiredate"
                                                         class="form-select form-control-solid date" />
                                                 </div>
                                                 <!-- text 검색 -->
@@ -151,19 +150,19 @@
                                                 </tr>
                                             </tfoot>
                                             <!-- 사원 검색 필터 -->
-                                            <tbody v-for="(emp, i) in empList" key="emp.empno">
-                                                <tr v-show="(emp.departmentname === department || department === '전체') &&
-                                                            (emp.gradename === grade || grade === '전체') &&
-                                                            (emp.retireyn === retireyn || retireyn === '전체') &&
+                                            <tbody v-for="(emp, i) in paginatedData" key="emp.empno">
 
-                                                            <!-- ( entrydateSearch.startDate == emp.entrydate ) && 
 
-                                                            ( 
+                                                <tr>
+
+                                                            <!-- ( entrydateSearch.startDate == emp.entrydate ) &&
+
+                                                            (
                                                             (menu === '전체' && ( search == '' || emp.empno == search || emp.name.includes(search) || emp.mail.includes(search) || emp.tel.includes(search) ) ) ||
                                                             (menu === 'searchEmpno' && ( emp.empno == search || search == '' ) ) ||
                                                             (menu === 'searchName' && emp.name.includes(search) )
                                                             ) ">
-                                                    <!-- <tr v-show="(emp.departmentname === department || department === '전체') &&
+                                                     <tr v-show="(emp.departmentname === department || department === '전체') &&
                                             (emp.gradename === grade || grade === '전체') &&
                                             (emp.retireyn === retireyn || retireyn === '전체') &&
 
@@ -201,35 +200,25 @@
                                         </table>
                                         <footer>
                                             <!-- 페이징 처리 하기 -->
-
-
-
+                                            <div class="btn-cover" style="text-align: right">
+                                                <button :disabled="pageNum === 0" @click="prevPage" class="btn-hrms">
+                                                  이전
+                                                </button>
+                                                <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
+                                                <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="btn-hrms">
+                                                  다음
+                                                </button>
+                                            </div>
                                         </footer>
                                     </div>
                                 </div>
                             </div>
                         </div>
                 </main>
-                <footer class="footer mt-auto footer-light">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-6 small">Copyright &copy; I5-29 ERP SYSTEM 2022</div>
-                            <div class="col-md-6 text-md-right small">
-                                <a href="#!">Privacy Policy</a>
-                                &middot;
-                                <a href="#!">Terms &amp; Conditions</a>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+                
             </div>
             <!-- 여기를 수정중 입니다. 
-여기를 수정중 입니다. 
-여기를 수정중 입니다.
-여기를 수정중 입니다. 
-여기를 수정중 입니다. 
-여기를 수정중 입니다. 
-여기를 수정중 입니다. -->
+여기를 수정중 입니다.-->
 
             <!-- 사원 상세 조회 모달 시작 -->
             <div class="col-xl-8">
@@ -282,7 +271,7 @@
                                                             <input type="tel" class="form-control form-control-sm"
                                                                 id="tel1" v-model="tel1"
                                                                 style="width: 30%; display: inline-block;">-
-                                                            <input type=" tel" class="form-control form-control-sm"
+                                                            <input type="tel" class="form-control form-control-sm"
                                                                 id="tel2" v-model="tel2"
                                                                 style="width: 30%; display: inline-block;">-
                                                             <input type="tel" class="form-control form-control-sm"
@@ -417,7 +406,7 @@
                                                     </div>
                                                     <!-- Form Group (입사일) -->
                                                     <div class="form-group col-md-4">
-                                                        <label class="small mb-1" for="entrydate">입사일 </label>
+                                                        <label class="small mb-1" for="entrydate">입사일</label>
                                                         <input type="text" class="form-control form-control-sm"
                                                             id="entrydate" :value="empDetail.entrydate" readonly>
                                                     </div>
@@ -469,6 +458,9 @@
                                             <!-- 버튼 -->
                                             <div class="text-center">
                                                 <div class="modal-footer">
+                                                    <!-- <button class="btn btn-outline-danger btn-sm"
+                                                        type="submit" @click="retire">퇴사 처리
+                                                    </button> -->
                                                     <button type="button" class="btn btn-outline-dark btn-sm"
                                                         data-bs-dismiss="modal" style="width: 4rem">닫기
                                                     </button>
@@ -840,7 +832,8 @@
         <script>
             // 사원 조회 (리스트, 상세정보)
             // 사원 조회 시 검색 기능 (부서, 직급, 입사일자, 퇴사일자, 사번, 사원명)
-            // 페이징 
+            // 페이징
+            // 사원 퇴사 처리
             const EmpList = {
                 data() {
                     return {
@@ -924,7 +917,24 @@
                         dno: '',
 
                         entrydateSearch: '20221027 ~ 20221027',
-                        retiredateSearch: ''
+                        retiredateSearch: '',
+
+                          // 사원 퇴사처리
+                        retire: '',
+
+
+                        // pagination
+                        pageNum : 0,
+                        pageList:[]
+                    }
+                },
+
+                // pagination
+                props:{
+                    pageSize: {
+                        type : Number,
+                        required: false,
+                        default: 10
                     }
                 },
 
@@ -935,14 +945,16 @@
                         axios.post("http://localhost:8888/api/hrms")
                             .then((response) => {
                                 this.empList = response.data;
+                                this.pageList = response.data;
 
                             })
                             .catch(error => console.error(error))
                     },
 
+
                     // 사원 추출
                     getEmp(empno) {
-                        this.empDetail = this.empList[empno];
+                        this.empDetail = this.pageList[empno];
 
                         // 주민번호 앞/뒤자리 처리
                         this.preregno = (this.empDetail.regno).substr(0, 6);
@@ -953,7 +965,7 @@
                         this.tel2 = (this.empDetail.tel).substr(3, 4);
                         this.tel3 = (this.empDetail.tel).substr(7, 4);
 
-                        // 경력 연차 
+                        // 경력 연차
                         if (this.empDetail.retireyn === 'y') { // 퇴사자일 경우 퇴직날짜 기준으로 계산
                             this.careeryears = (parseInt((this.empDetail.retiredate).substr(0, 4)) - parseInt((this.empDetail.entrydate).substr(0, 4)));
                             console.log((this.empDetail.retiredate) - (this.empDetail.entrydate));
@@ -984,7 +996,9 @@
                     // 선택한 부서로 셋팅 
                     setDepartments(department) {
                         this.department = department;
-                        console.log(department)
+                        console.log(department);
+                        this.setPageList();
+
                     },
 
                     // 사원 검색 시 조건: 직급
@@ -1002,12 +1016,14 @@
                     setGrades(grade) {
                         this.grade = grade;
                         console.log(grade);
+                        this.setPageList();
                     },
 
                     // 선택한 퇴직여부로 셋팅
                     setRetireyn(retireyn) {
                         this.retireyn = retireyn;
                         console.log(retireyn);
+                        this.setPageList();
                     },
 
                     // 선택한 검색 메뉴로 셋팅
@@ -1061,12 +1077,67 @@
                             dno: this.empDetail.dno
                         })
                             .then((response) => {
-                                console.log(this.name);
+                                console.log("사원 정보 수정 요청");
 
                             })
                             .catch(error => console.error(error))
-                    }
+                    },
 
+                    retire() {
+                        axios.patch("http://localhost:8888/api/hrms/retire", {
+                            empno: this.empno,
+                            retireyn: 'y'
+                        }).then((response) => {
+                            console.log("퇴사 처리 요청");
+                        }).catch(error => console.error(error))
+                    },
+
+
+                    //pagination
+                    nextPage(){
+                        this.pageNum += 1;
+                    },
+
+                    prevPage(){
+                        this.pageNum -= 1;
+                    },
+
+                    setPageList(){
+                        let temp = [];
+                        for(emp of this.empList){
+                            if((emp.departmentname === this.department || this.department === '전체') &&
+                                (emp.gradename === this.grade || this.grade === '전체') &&
+                                (emp.retireyn === this.retireyn || this.retireyn === '전체')){
+                                    temp.push(emp);
+                                    console.log(emp);
+                                }
+                        }
+                        this.pageList = temp;
+                        console.log(temp);
+                        console.log(this.empList);
+                        console.log(this.pageList);
+                    }
+                },
+
+                computed:{
+                    pageCount(){
+                        let listLeng = this.pageList.length;
+                            listSize = this.pageSize,
+                            page = Math.floor(listLeng / listSize);
+
+                        if (listLeng==0)return 1;
+                        if(listLeng % listSize > 0) page += 1;
+
+                        return page;
+                    },
+
+                    paginatedData(){
+
+                        let start = this.pageNum * this.pageSize,
+                              end = start + this.pageSize;
+
+                        return this.pageList.slice(start, end);
+                    }
                 },
 
                 created() {
@@ -1140,6 +1211,7 @@
                         departmentList: [],
                         gradeList: [],
                         usertypeList: []
+
                     }
                 },
 
@@ -1170,7 +1242,7 @@
                             memo: this.memo,
                             retireyn: this.retireyn,
                             restyn: this.restyn,
-                            privateinsurance: (this.yearsalary * 0.03945),
+                            privateinsurance: ((this.yearsalary / 12) * 0.03945),
                             paymentst: this.paymentst,
                             totalal: this.totalal,
                             useal: this.useal,
@@ -1273,6 +1345,16 @@
                             .catch(error => console.error(error))
                     },
 
+                    // // 수정
+                    // update() {
+                    //     axios.patch("http://localhost:8888/api/hrms/" + empno)
+                    //         .then((response) => {
+                    //             console.log(this.name);
+                    //         })
+                    //         .catch(error => console.error(error))
+                    // }
+
+
                 },
 
                 mounted() {
@@ -1361,13 +1443,20 @@
                 let start = moment().subtract(29, "days");
                 let end = moment();
 
+                function cb(start, end) {
+                    $(".date").html(
+                        start.format('YY-MM-DD') + " / " + end.format('YY-MM-DD'),
+
+                    );
+                }
+
                 $(".date").daterangepicker(
                     {
                         startDate: start,
                         endDate: end,
                         locale: {
                             "separator": " ~ ",
-                            "format": 'YYYY/MM/DD',
+                            "format": 'YY-MM-DD',
                         },
                         ranges: {
                             "오늘": [moment(), moment()],
@@ -1387,7 +1476,9 @@
                             ],
                         },
                     },
+                    cb(start, end)
                 );
+
             });
         </script>
         <!-- 달력 end -->
