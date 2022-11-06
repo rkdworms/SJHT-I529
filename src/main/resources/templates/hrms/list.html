@@ -152,10 +152,12 @@
                                             <!-- 사원 검색 필터 -->
                                             <tbody v-for="(emp, i) in paginatedData" key="emp.empno">
 
-
                                                 <tr>
 
-                                                            <!-- ( entrydateSearch.startDate == emp.entrydate ) &&
+
+
+                                                    <!-- <tr v-show="(emp.departmentname === department || department === '전체') &&
+                                                             ( entrydateSearch.startDate == emp.entrydate ) &&
 
                                                             (
                                                             (menu === '전체' && ( search == '' || emp.empno == search || emp.name.includes(search) || emp.mail.includes(search) || emp.tel.includes(search) ) ) ||
@@ -167,7 +169,7 @@
                                             (emp.retireyn === retireyn || retireyn === '전체') &&
 
                                             ( (menu === '전체') && ( emp.name.includes(search) || emp.empno==search || search=='' ) ||
-                                            (menu === 'searchName' && (emp.name.includes(search) ||search==='')) ||
+                                            (menu === 'searhName' && (emp.name.includes(search) ||search==='')) ||
                                             (menu === 'searchEmpno' && (emp.empno == search || search==='')) )"> -->
 
                                                     <td>
@@ -215,7 +217,6 @@
                             </div>
                         </div>
                 </main>
-                
             </div>
             <!-- 여기를 수정중 입니다. 
 여기를 수정중 입니다.-->
@@ -897,13 +898,19 @@
                         //useal: '',
                         retirenote: '',
 
-                        // 사원 주민번호 저장 관련 필드
-                        regno1: '',
-                        regno2: '',
 
-                        // 사원 전화번호 저장 관련 필드
-                        tel1: '',
-                        tel2: '',
+                        // pagination
+                        pageNum : 0,
+                        pageList:[]
+                    }
+                },
+
+                // pagination
+                props:{
+                    pageSize: {
+                        type : Number,
+                        required: false,
+                        default: 1
                         tel3: '',
 
                         // 사원 사진 저장 관련 필드
@@ -1093,6 +1100,51 @@
                     },
 
 
+                    //pagination
+                    nextPage(){
+                        this.pageNum += 1;
+                    },
+
+                    prevPage(){
+                        this.pageNum -= 1;
+                    },
+
+                    setPageList(){
+                        let temp = [];
+                        for(emp of this.empList){
+                            if((emp.departmentname === this.department || this.department === '전체') &&
+                                (emp.gradename === this.grade || this.grade === '전체') &&
+                                (emp.retireyn === this.retireyn || this.retireyn === '전체')){
+                                    temp.push(emp);
+                                    console.log(emp);
+                                }
+                        }
+                        this.pageList = temp;
+                        console.log(temp);
+                        console.log(this.empList);
+                        console.log(this.pageList);
+                    }
+                },
+
+                computed:{
+                    pageCount(){
+                        let listLeng = this.pageList.length;
+                            listSize = this.pageSize,
+                            page = Math.floor(listLeng / listSize);
+
+                        if (listLeng==0)return 1;
+                        if(listLeng % listSize > 0) page += 1;
+
+                        return page;
+                    },
+
+                    paginatedData(){
+
+                        let start = this.pageNum * this.pageSize,
+                              end = start + this.pageSize;
+
+                        return this.pageList.slice(start, end);
+                    }
                     //pagination
                     nextPage(){
                         this.pageNum += 1;

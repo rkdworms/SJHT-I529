@@ -26,4 +26,7 @@ public class WorkTimeServiceImpl implements WorkTimeService {
         return workTimeManagerMapper.selectMyWorkTime(empno);
     }
 
+    public WorkInfoResponseDto selectOne(int tano){
+        return workTimeManagerMapper.selectWorkTimeByTano(tano);
+    }
 }

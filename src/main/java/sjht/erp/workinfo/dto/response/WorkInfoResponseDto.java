@@ -23,6 +23,7 @@ public class WorkInfoResponseDto {
     private LocalDate approverdate;
     private String approver;
     private String approveryn;
+    private String reasonholiday;
 
     // VO -> DTO
     public WorkInfoResponseDto(WorkTimeManagementVO workTimeManagementVO) {

@@ -8,6 +8,6 @@ public class HolidayRegistryController {
 
     @GetMapping("/insert")
     public String holidayReg(){
-        return "/workList/insertHoliday";
+        return "/workList/list";
     }
 }

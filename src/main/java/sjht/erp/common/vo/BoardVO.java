@@ -15,8 +15,9 @@ public class BoardVO {
     private int bno;
     private EmployeeVO empno;
     private String title;
-    private LocalDateTime regdate;
-    private String contents;
+    private LocalDateTime createtime;
+    private LocalDateTime modifiedtime;
+    private String content;
     private String boardtype;
     private int boardcount;
 }
