@@ -35,4 +35,7 @@ public interface HrmsMapper {
 
     /* 권한 리스트 */
     List<UserMasterVO> getUserMasterList();
+
+    /* 퇴사 처리 */
+    void retireEmp(UpdateDto updateDto);
 }

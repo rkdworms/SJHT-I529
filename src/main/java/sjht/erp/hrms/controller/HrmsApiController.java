@@ -42,7 +42,7 @@ public class HrmsApiController {
     }
 
     /* 사원 정보 수정 */
-    @PatchMapping("/api/hrms/{empno}")
+    @PatchMapping("/api/hrms/update")
     public void updateEmp (@RequestBody UpdateDto updateDto) {
         // 폼 데이터 수정 요청
         hrmsApiService.updateEmp(updateDto);
@@ -88,8 +88,12 @@ public class HrmsApiController {
 
 
 
-    /* 퇴사 처리 */
-
+    /* 퇴사 처리 (사원 삭제가 아니라 재직여부가 바뀜) */
+    @PatchMapping("/api/hrms/retire")
+    public void retireEmp(@RequestBody UpdateDto updateDto) {
+        // 사원 재직여부를 재직에서 퇴사로 변경 요청
+        hrmsApiService.retireEmp(updateDto);
+    }
 
 
 

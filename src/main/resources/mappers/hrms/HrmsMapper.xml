@@ -232,5 +232,10 @@
         select * from usermaster
     </select>
 
+    <!-- 퇴사 처리 -->
+    <update id="retireEmp" parameterType="sjht.erp.hrms.dto.UpdateDto">
+        UPDATE employee SET retireyn = 'y'
+        WHERE empno = #{empno}
+    </update>
 </mapper>
 

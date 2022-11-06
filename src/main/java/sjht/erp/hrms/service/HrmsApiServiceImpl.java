@@ -160,7 +160,12 @@ public class HrmsApiServiceImpl implements HrmsApiService {
         return selectDtoList;
     }
 
-
+    /* 퇴사 처리 */
+    @Override
+    public void retireEmp(UpdateDto updateDto) {
+        // 사원 재직여부를 재직 -> 퇴사로 변경 요청
+        hrmsMapper.retireEmp(updateDto);
+    }
 
 
 }

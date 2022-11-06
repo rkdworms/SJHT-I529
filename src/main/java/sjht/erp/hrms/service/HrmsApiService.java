@@ -30,4 +30,7 @@ public interface HrmsApiService {
 
     /* 권한 리스트 */
     List<SelectDto> getUserMasterList();
+
+    /* 퇴사 처리 */
+    void retireEmp(UpdateDto updateDto);
 }

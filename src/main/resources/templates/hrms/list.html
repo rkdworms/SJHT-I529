@@ -123,7 +123,8 @@
                                                             <option value="searchEmpno">사번</option>
                                                         </select>
                                                         <input class="form-control form-control-sm" type="text"
-                                                            placeholder="Search" aria-label="Search" v-model="search"
+                                                            placeholder="검색할 직원의 사번, 이름, 연락처, 이메일을 입력해주세요."
+                                                            aria-label="Search" v-model="search"
                                                             v-on="searchEmp(search)">
                                                     </div>
                                                 </div>
@@ -150,20 +151,24 @@
                                             </tfoot>
                                             <!-- 사원 검색 필터 -->
                                             <tbody v-for="(emp, i) in empList" key="emp.empno">
-
-
                                                 <tr v-show="(emp.departmentname === department || department === '전체') &&
-                                            (emp.gradename === grade || grade === '전체') &&
-                                            (emp.retireyn === retireyn || retireyn === '전체')">
+                                                            (emp.gradename === grade || grade === '전체') &&
+                                                            (emp.retireyn === retireyn || retireyn === '전체') &&
 
+                                                            <!-- ( entrydateSearch.startDate == emp.entrydate ) && 
 
+                                                            ( 
+                                                            (menu === '전체' && ( search == '' || emp.empno == search || emp.name.includes(search) || emp.mail.includes(search) || emp.tel.includes(search) ) ) ||
+                                                            (menu === 'searchEmpno' && ( emp.empno == search || search == '' ) ) ||
+                                                            (menu === 'searchName' && emp.name.includes(search) )
+                                                            ) ">
                                                     <!-- <tr v-show="(emp.departmentname === department || department === '전체') &&
                                             (emp.gradename === grade || grade === '전체') &&
                                             (emp.retireyn === retireyn || retireyn === '전체') &&
 
                                             ( (menu === '전체') && ( emp.name.includes(search) || emp.empno==search || search=='' ) ||
                                             (menu === 'searchName' && (emp.name.includes(search) ||search==='')) ||
-                                            (menu === 'searchEmpno' && (emp.empno==search || search==='')) )"> -->
+                                            (menu === 'searchEmpno' && (emp.empno == search || search==='')) )"> -->
 
                                                     <td>
                                                         <div style="text-align: center">
@@ -244,69 +249,76 @@
                                                     <!-- Form Group (사원 증명사진) -->
                                                     <div class="form-group col-md-4" style="text-align: center">
                                                         <img :src="physicalpath" style="height: 200; width:143px"
-                                                            onerror="this.src='/images/noProfile.png'" />
+                                                            v-model="file" onerror="this.src='/images/noProfile.png'" />
+                                                        <input class="form-control form-control-sm" id="idPicture"
+                                                            type="file" @change="uploadImage" accept="image/*" />
+                                                        <div class="invalid-feedback">
+                                                            사원의 증명사진을 첨부해주세요.
+                                                        </div>
                                                     </div>
                                                     <!-- Form Group (개인정보) -->
                                                     <div class="form-group col-md-4">
                                                         <label label class="small mb-1" for="empno">사번</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="empno" :placeholder="empDetail.empno" readonly>
+                                                            id="empno" :value="empDetail.empno" readonly>
 
                                                         <label label class="small mb-1" for="name">사원명</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="name" :placeholder="empDetail.name" readonly>
+                                                            id="name" v-model="empDetail.name">
 
                                                         <label label class="small mb-1" for="regno">주민등록번호</label>
                                                         <div>
                                                             <input type="text" class="form-control form-control-sm"
-                                                                id="regno1" :placeholder="preregno"
+                                                                id="regno1" :value="preregno"
                                                                 style="width: 47%; display: inline-block" readonly>-
                                                             <input type="text" class="form-control form-control-sm"
-                                                                id="regno2" :placeholder="sufregno"
+                                                                id="regno2" :value="sufregno"
                                                                 style="width: 48%; display: inline-block;" readonly>
                                                         </div>
 
                                                         <label label class="small mb-1" for="tel">연락처</label>
                                                         <div>
                                                             <input type="tel" class="form-control form-control-sm"
-                                                                id="tel1" :placeholder="tel1"
-                                                                style="width: 30%; display: inline-block;" readonly>-
-                                                            <input type=" tel" class="form-control form-control-sm"
-                                                                id="tel2" :placeholder="tel2"
-                                                                style="width: 30%; display: inline-block;" readonly>-
+                                                                id="tel1" v-model="tel1"
+                                                                style="width: 30%; display: inline-block;">-
                                                             <input type="tel" class="form-control form-control-sm"
-                                                                id="tel3" :placeholder="tel3"
-                                                                style="width: 30%; display: inline-block;" readonly>
+                                                                id="tel2" v-model="tel2"
+                                                                style="width: 30%; display: inline-block;">-
+                                                            <input type="tel" class="form-control form-control-sm"
+                                                                id="tel3" v-model="tel3"
+                                                                style="width: 30%; display: inline-block;">
                                                         </div>
                                                     </div>
                                                     <!-- Form Group (개인정보2) -->
                                                     <div class="form-group col-md-4">
                                                         <label label class="small mb-1" for="password">비밀번호</label>
                                                         <input type="password" class="form-control form-control-sm"
-                                                            id="password" :placeholder="empDetail.password" readonly>
+                                                            id="password" v-model="empDetail.password" readonly>
 
                                                         <label label class="small mb-1" for="gender">성별</label>
                                                         <div class="form-control form-control-sm border-0">
                                                             <div class="form-check form-check-inline col-md-5">
                                                                 <input class="form-check-input" type="radio"
                                                                     name="gender" id="gender" value="남"
+                                                                    v-model="empDetail.gender"
                                                                     :checked="empDetail.gender === '남'" disabled>
                                                                 <label class="form-check-label" for="gender">남</label>
                                                             </div>
                                                             <div class="form-check form-check-inline">
                                                                 <input class="form-check-input" type="radio"
                                                                     name="gender" id="gender" value="여"
+                                                                    v-model="empDetail.gender"
                                                                     :checked="empDetail.gender === '여'" disabled>
                                                                 <label class="form-check-label" for="gender">여</label>
                                                             </div>
                                                         </div>
                                                         <label label class="small mb-1" for="school">최종학력</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="school" :placeholder="empDetail.school" readonly>
+                                                            id="school" v-model="empDetail.school">
 
                                                         <label label class="small mb-1" for="mail">이메일</label>
                                                         <input type="email" class="form-control form-control-sm"
-                                                            id="mail" :placeholder="empDetail.mail" readonly>
+                                                            id="mail" v-model="empDetail.mail">
                                                     </div>
                                                 </div>
                                                 <!-- Form Row 2 (주소 등록) -->
@@ -320,20 +332,19 @@
                                                     <div class="form-group col-md-10">
                                                         <label class="small mb-1" for="addr">주소</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="addr" :placeholder="empDetail.addr" readonly>
+                                                            id="addr" v-model="empDetail.addr">
                                                     </div>
                                                     <!-- Form Group (상세주소) -->
                                                     <div class="form-group col-md-8">
                                                         <label class="small mb-1" for="addrdetail">상세주소</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="addrdetail" :placeholder="empDetail.addrdetail"
-                                                            readonly>
+                                                            id="addrdetail" v-model="empDetail.addrdetail">
                                                     </div>
                                                     <!-- Form Group (우편번호) -->
                                                     <div class="form-group col-md-4">
                                                         <label class="small mb-1" for="zipcode">우편번호</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="zipcode" :placeholder="empDetail.zipcode" readonly>
+                                                            id="zipcode" v-model="empDetail.zipcode">
                                                     </div>
                                                 </div>
                                                 <!-- Form Row 3 (월급통장 등록) -->
@@ -342,13 +353,14 @@
                                                     <div class="form-group col-md-4">
                                                         <label class="small mb-1" for="bankcd">은행</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="bankcd" :placeholder="empDetail.bankname" readonly>
+                                                            v-model="empDetail.bankcd" id="bankcd"
+                                                            :value="empDetail.bankname" readonly>
                                                     </div>
                                                     <!-- Form Group (계좌번호) -->
                                                     <div class="form-group col-md-8">
                                                         <label class="small mb-1" for="account">계좌번호</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="account" :placeholder="empDetail.account" readonly>
+                                                            :value="empDetail.account" id="account" readonly>
                                                     </div>
                                                 </div>
                                                 <!-- Form Row 4 (부서/직무/권한 등록) -->
@@ -357,20 +369,20 @@
                                                     <div class="form-group col-md-4">
                                                         <label class="small mb-1" for="departmentcd">부서</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="departmentcd" :placeholder="empDetail.departmentname"
+                                                            id="departmentcd" :value="empDetail.departmentname"
                                                             readonly>
                                                     </div>
                                                     <!-- Form Group (직무) -->
                                                     <div class="form-group col-md-4">
                                                         <label class="small mb-1" for="gradecd">직무</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="gradecd" :placeholder="empDetail.gradename" readonly>
+                                                            id="gradecd" :value="empDetail.gradename" readonly>
                                                     </div>
                                                     <!-- Form Group (권한) -->
                                                     <div class="form-group col-md-4">
                                                         <label class="small mb-1" for="usertype">권한</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="usertype" :placeholder="empDetail.username" readonly>
+                                                            id="usertype" :value="empDetail.username" readonly>
                                                     </div>
                                                 </div>
                                                 <!-- Form Row 5 (재직여부/입사일/퇴사일 등록) -->
@@ -382,23 +394,23 @@
                                                             id="empStatus">
                                                             <div class="form-check form-check-inline">
                                                                 <input class="form-check-input" type="radio"
-                                                                    name="empStatus" id="retire_n" 
-                                                                    value="n" :checked="empDetail.retireyn === 'n'" disabled>
-                                                                <label class="form-check-label"
-                                                                    for="retire_n">재직</label>
+                                                                    name="empStatus" id="retire_n" value="n"
+                                                                    :checked="empDetail.retireyn === 'n'" disabled>
+                                                                <label class="form-check-label" for="retire_n"
+                                                                    readonly>재직</label>
                                                             </div>
                                                             <div class="form-check form-check-inline">
                                                                 <input class="form-check-input" type="radio"
-                                                                    name="empStatus" id="rest_y" 
-                                                                    value="y" :checked="empDetail.restyn === 'y'" disabled>
+                                                                    name="empStatus" id="rest_y" value="y"
+                                                                    :checked="empDetail.restyn === 'y'" disabled>
                                                                 <label class="form-check-label" for="rest_y">휴직</label>
                                                             </div>
                                                             <div class="form-check form-check-inline">
                                                                 <input class="form-check-input" type="radio"
-                                                                    name="empStatus" id="retire_y" 
-                                                                    value="y" :checked="empDetail.retireyn === 'y'" disabled>
-                                                                <label class="form-check-label"
-                                                                    for="retire_y">퇴직</label>
+                                                                    name="empStatus" id="retire_y" value="y"
+                                                                    :checked="empDetail.retireyn === 'y'" disabled>
+                                                                <label class="form-check-label" for="retire_y"
+                                                                    readonly>퇴직</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -406,38 +418,34 @@
                                                     <div class="form-group col-md-4">
                                                         <label class="small mb-1" for="entrydate">입사일</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="entrydate" :placeholder="empDetail.entrydate" readonly>
+                                                            id="entrydate" :value="empDetail.entrydate" readonly>
                                                     </div>
                                                     <!-- Form Group (퇴사일) -->
                                                     <div class="form-group col-md-4">
                                                         <label class="small mb-1" for="retiredate">퇴사일</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="retiredate" :placeholder="empDetail.retiredate"
-                                                            readonly>
+                                                            id="retiredate" :value="empDetail.retiredate" readonly>
                                                     </div>
                                                 </div>
-                                                <!-- Form Row 6 (근무연차/연봉/퇴직금 등록) -->
+                                                <!-- Form Row 6 (경력연차/연봉/퇴직금 등록) -->
                                                 <div class="form-row">
-                                                    <!-- Form Group (근무연차) -->
+                                                    <!-- Form Group (경력연차) -->
                                                     <div class="form-group col-md-4">
-                                                        <label label class="small mb-1"
-                                                            for="privateinsurance">근무연차</label>
+                                                        <label label class="small mb-1" for="careeryears">경력연차</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="privateinsurance"
-                                                            :placeholder="empDetail.privateinsurance" readonly>
+                                                            id="careeryears" :value="careeryears" readonly>
                                                     </div>
                                                     <!-- Form Group (연봉) -->
                                                     <div class="form-group col-md-4">
                                                         <label class="small mb-1" for="yearsalary">연봉</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="yearsalary" :placeholder="empDetail.yearsalary"
-                                                            readonly>
+                                                            id="yearsalary" v-model="empDetail.yearsalary" readonly>
                                                     </div>
                                                     <!-- Form Group (퇴직금) -->
                                                     <div class="form-group col-md-4">
                                                         <label label class="small mb-1" for="retirementpay">퇴직금</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="retirementpay" :placeholder="empDetail.retirementpay"
+                                                            id="retirementpay" :value="empDetail.retirementpay"
                                                             readonly>
                                                     </div>
                                                 </div>
@@ -447,25 +455,27 @@
                                                     <div class="form-group col-md-12">
                                                         <label class="small mb-1" for="retirenote">퇴사사유</label>
                                                         <textarea class="form-control" id="retirenote"
-                                                            :placeholder="empDetail.retirenote" rows="1"
-                                                            readonly></textarea>
+                                                            :value="empDetail.retirenote" rows="1" readonly></textarea>
                                                     </div>
                                                     <!-- Form Group (비고 등록) -->
                                                     <div class="form-group col-md-12">
                                                         <label class="small mb-1" for="memo">비고</label>
                                                         <textarea class="form-control" id="memo"
-                                                            :placeholder="empDetail.memo" rows="3" readonly></textarea>
+                                                            v-model="empDetail.memo" rows="3"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
                                             <!-- 버튼 -->
                                             <div class="text-center">
                                                 <div class="modal-footer">
+                                                    <!-- <button class="btn btn-outline-danger btn-sm"
+                                                        type="submit" @click="retire">퇴사 처리
+                                                    </button> -->
                                                     <button type="button" class="btn btn-outline-dark btn-sm"
                                                         data-bs-dismiss="modal" style="width: 4rem">닫기
                                                     </button>
                                                     <button class="btn btn-outline-success shadow-sm btn-sm"
-                                                        type="submit" @click="regist" style="width: 4rem">수정
+                                                        type="submit" @click="update" style="width: 4rem">수정
                                                     </button>
                                                 </div>
                                             </div>
@@ -758,14 +768,13 @@
                                                         id="retiredate" placeholder="-" disabled>
                                                 </div>
                                             </div>
-                                            <!-- Form Row 6 (근무연차/연봉/퇴직금 등록) yearsalary retirementpay  privateinsurance -->
+                                            <!-- Form Row 6 (경력연차/연봉/퇴직금 등록) -->
                                             <div class="form-row">
-                                                <!-- Form Group (근무연차) -->
+                                                <!-- Form Group (경력연차) -->
                                                 <div class="form-group col-md-4">
-                                                    <label label class="small mb-1" for="privateinsurance">근무연차</label>
+                                                    <label label class="small mb-1" for="careeryears">경력연차</label>
                                                     <input type="text" class="form-control form-control-sm"
-                                                        id="privateinsurance" placeholder="-" v-model="privateinsurance"
-                                                        disabled>
+                                                        id="careeryears" placeholder="-" disabled>
                                                 </div>
                                                 <!-- Form Group (연봉) -->
                                                 <div class="form-group col-md-4">
@@ -786,9 +795,7 @@
                                                         disabled>
                                                 </div>
                                             </div>
-
-
-
+                                            <!-- 기타 -->
                                             <div class="form-row">
                                                 <!-- Form Group (퇴사사유 등록) -->
                                                 <div class="form-group col-md-12">
@@ -835,7 +842,8 @@
         <script>
             // 사원 조회 (리스트, 상세정보)
             // 사원 조회 시 검색 기능 (부서, 직급, 입사일자, 퇴사일자, 사번, 사원명)
-            // 페이징 
+            // 페이징
+            // 사원 퇴사 처리
             const EmpList = {
                 data() {
                     return {
@@ -856,17 +864,78 @@
                         empCnt: '',
 
                         // 사원 주민번호 조회 관련 필드
-                        preregno: '', 
-                        sufregno: '', 
+                        preregno: '',
+                        sufregno: '',
 
                         // 사원 전화번호 조회 관련 필드
-                        tel1: '', 
+                        tel1: '',
                         tel2: '',
-                        tel3: ''
+                        tel3: '',
+
+                        careeryears: '0', // 경력연차
+
+
+                        // 사원 데이터 수정 관련 필드
+                        empno: '',
+
+                        //password: '',
+                        bankcd: '',
+                        //departmentcd: '',
+                        //gradecd: '',
+                        //usertype: '',
+                        name: '',
+                        //gender: '',
+                        mail: '',
+                        tel: '',
+                        zipcode: '',
+                        addr: '',
+                        addrdetail: '',
+                        regno: '',
+                        school: '',
+                        entrydate: '',
+                        retiredate: '',
+                        //yearsalary: '', // 연봉
+                        //salary: '',
+                        retirementpay: '',
+                        account: '',
+                        memo: '',
+                        //retireyn: 'n', // 퇴직여부 (y -> 퇴직, n -> 재직)
+                        //restyn: 'n', // 휴직여부
+                        //privateinsurance: '',
+                        //paymentst: '',
+                        totalal: '',
+                        //useal: '',
+                        retirenote: '',
+
+                        // 사원 주민번호 저장 관련 필드
+                        regno1: '',
+                        regno2: '',
+
+                        // 사원 전화번호 저장 관련 필드
+                        tel1: '',
+                        tel2: '',
+                        tel3: '',
+
+                        // 사원 사진 저장 관련 필드
+                        file: '',
+                        fileno: '',
+                        filename: '',
+                        physicalpath: '',
+                        filesize: '',
+                        kind: '증명사진',
+                        relatedpath: '',
+                        dno: '',
+
+                        entrydateSearch: '20221027 ~ 20221027',
+                        retiredateSearch: ''
+
+                          // 사원 퇴사처리
+                        retireyn: ''
                     }
                 },
 
                 methods: {
+
                     // 사원 리스트 추출
                     getEmpList() {
                         axios.post("http://localhost:8888/api/hrms")
@@ -880,18 +949,34 @@
                     // 사원 추출
                     getEmp(empno) {
                         this.empDetail = this.empList[empno];
-                        
+
                         // 주민번호 앞/뒤자리 처리
                         this.preregno = (this.empDetail.regno).substr(0, 6);
-                        this.sufregno = (this.empDetail.regno).substr(7,13);
+                        this.sufregno = (this.empDetail.regno).substr(7, 13);
 
                         // 연락처 앞/뒤자리 처리
                         this.tel1 = (this.empDetail.tel).substr(0, 3);
                         this.tel2 = (this.empDetail.tel).substr(3, 4);
                         this.tel3 = (this.empDetail.tel).substr(7, 4);
+
+                        // 경력 연차 
+                        if (this.empDetail.retireyn === 'y') { // 퇴사자일 경우 퇴직날짜 기준으로 계산
+                            this.careeryears = (parseInt((this.empDetail.retiredate).substr(0, 4)) - parseInt((this.empDetail.entrydate).substr(0, 4)));
+                            console.log((this.empDetail.retiredate) - (this.empDetail.entrydate));
+                        } else { // 재직자일 경우 오늘날짜 기준으로 계산
+
+                            var strDate1 = (new Date().toDateString).substr(0, 4);
+                            var strDate2 = (this.empDetail.entrydate).substr(0, 4);
+
+                            console.log(strDate1)
+                            console.log(strDate2)
+                            this.careeryears = parseInt(strDate1) - parseInt(strDate2);
+                            console.log("ㄴㄴㄴㄴ" + this.careeryears)
+                        }
+
                     },
 
-                    // 사원 검색 시 조간: 부서
+                    // 사원 검색 시 조건: 부서
                     findByDepartment() {
                         axios.post("http://localhost:8888/api/hrms/departmentList")
                             .then((response) => {
@@ -908,7 +993,7 @@
                         console.log(department)
                     },
 
-                    // 사원 검색 시 조간: 직급
+                    // 사원 검색 시 조건: 직급
                     findByGrade() {
                         axios.post("http://localhost:8888/api/hrms/gradeList")
                             .then((response) => {
@@ -941,6 +1026,63 @@
                         this.search = search;
                         console.log(this.search);
                     },
+
+                    // 사원 데이터 수정
+                    update() {
+                        axios.patch("http://localhost:8888/api/hrms/update", {
+                            empno: this.empDetail.empno,
+
+                            //password: this.tel3,
+                            //bankcd: this.empDetail.bankcd,
+                            //departmentcd: this.departmentcd,
+                            //gradecd: this.gradecd,
+                            //usertype: this.usertype,
+                            name: this.empDetail.name,
+                            //gender: this.gender,
+                            mail: this.empDetail.mail,
+                            tel: this.empDetail.tel1 + this.empDetail.tel2 + this.empDetail.tel3,
+                            zipcode: this.empDetail.zipcode,
+                            addr: this.empDetail.addr,
+                            addrdetail: this.empDetail.addrdetail,
+                            school: this.empDetail.school,
+                            //entrydate: this.entrydate,
+                            //retiredate: this.retiredate,
+                            //yearsalary: this.yearsalary,
+                            //salary: (this.yearsalary / 12),
+                            retirementpay: this.empDetail.retirementpay,
+                            //account: this.empDetail.account,
+                            memo: this.empDetail.memo,
+                            //retireyn: this.retireyn,
+                            //restyn: this.restyn,
+                            //privateinsurance: (this.yearsalary * 0.03945),
+                            //paymentst: this.paymentst,
+                            //totalal: this.empDetail.totalal,
+                            //retirenote: this.retirenote,
+
+                            filename: this.empDetail.filename,
+                            physicalpath: this.empDetail.physicalpath,
+                            filesize: this.empDetail.filesize,
+                            //kind: this.empDetail.kind,
+                            relatedpath: this.empDetail.relatedpath,
+                            dno: this.empDetail.dno
+                        })
+                            .then((response) => {
+                                console.log("사원 정보 수정 요청");
+
+                            })
+                            .catch(error => console.error(error))
+                    },
+
+                    retire() {
+                        axios.patch("http://localhost:8888/api/hrms/retire", {
+                            empno: this.empno,
+                            retireyn: 'y'
+                        }).then((response) => {
+                            console.log("퇴사 처리 요청");
+                        }).catch(error => console.error(error))
+                    },
+
+                    ret
 
                 },
 
@@ -1148,16 +1290,6 @@
                             .catch(error => console.error(error))
                     },
 
-                    // // 수정
-                    // update() {
-                    //     axios.patch("http://localhost:8888/api/hrms/" + empno)
-                    //         .then((response) => {
-                    //             console.log(this.name);
-                    //         })
-                    //         .catch(error => console.error(error))
-                    // }
-
-
                 },
 
                 mounted() {
@@ -1246,16 +1378,14 @@
                 let start = moment().subtract(29, "days");
                 let end = moment();
 
-                function cb(start, end) {
-                    $(".date span").html(
-                        start.format('MMMM D, YYYY') + " - " + end.format('YYYY-MM-DD')
-                    );
-                }
-
                 $(".date").daterangepicker(
                     {
                         startDate: start,
                         endDate: end,
+                        locale: {
+                            "separator": " ~ ",
+                            "format": 'YYYY/MM/DD',
+                        },
                         ranges: {
                             "오늘": [moment(), moment()],
                             "어제": [
@@ -1274,10 +1404,7 @@
                             ],
                         },
                     },
-                    cb
                 );
-
-                cb(start, end);
             });
         </script>
         <!-- 달력 end -->
