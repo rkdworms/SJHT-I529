@@ -1,12 +1,16 @@
 package sjht.erp.common.vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ExpendHistoryVO {
     private int eno; // 지출내역 번호 pk
     private ExpendInformationVO dvno; // fk

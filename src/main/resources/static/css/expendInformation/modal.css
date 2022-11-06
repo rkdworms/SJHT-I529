@@ -40,3 +40,9 @@
 .detailColumn {
     border: 1px solid black;
 }
+
+a {
+
+    text-decoration: none;
+
+}
