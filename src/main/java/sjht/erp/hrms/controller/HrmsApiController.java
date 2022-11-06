@@ -8,6 +8,7 @@ import sjht.erp.hrms.dto.SelectDto;
 import sjht.erp.hrms.dto.UpdateDto;
 import sjht.erp.hrms.service.HrmsApiService;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -44,8 +45,6 @@ public class HrmsApiController {
     /* 사원 정보 수정 */
     @PatchMapping("/api/hrms/update")
     public void updateEmp (@RequestBody UpdateDto updateDto) {
-        System.out.println("수정 컨트롤러 ~~~~~~~~~~~~~~~~~~~~~~~~     ~~~~~~~~~~~~~~~~~~~~~~~~~        ~~~~~~~~~~");
-        System.out.println("ddd" + updateDto.getSchool());
         // 폼 데이터 수정 요청
         hrmsApiService.updateEmp(updateDto);
     }
@@ -87,16 +86,14 @@ public class HrmsApiController {
         return ResponseEntity.status(HttpStatus.OK).body(userMasterList);
     }
 
+    /* 퇴사 처리 (사원 삭제가 아니라 재직여부가 재직 -> 퇴직으로 변경)*/
+    @PatchMapping("/api/hrms/retire")
+    public void retireEmp (@RequestBody HashMap<String,Integer> empno) {
 
+        // 사원 퇴직 처리 요청
+        hrmsApiService.retireEmp(empno.get("empno"));
 
-
-    /* 퇴사 처리 */
-
-
-
-
-
-
+    }
 
 
 

@@ -158,7 +158,13 @@ public class HrmsApiServiceImpl implements HrmsApiService {
         return selectDtoList;
     }
 
-
+    /* 퇴사 처리 */
+    @Override
+    public void retireEmp(int empno) {
+        // 사원 퇴사 처리 요청
+        hrmsMapper.retireEmp(empno);
+        System.out.println("냥"+ empno);
+    }
 
 
 }
