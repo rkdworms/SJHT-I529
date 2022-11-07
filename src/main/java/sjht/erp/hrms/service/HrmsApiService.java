@@ -32,5 +32,5 @@ public interface HrmsApiService {
     List<SelectDto> getUserMasterList();
 
     /* 퇴사 처리 */
-    void retireEmp(int empno);
+    void retireEmp(UpdateDto updateDto);
 }

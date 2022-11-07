@@ -37,5 +37,5 @@ public interface HrmsMapper {
     List<UserMasterVO> getUserMasterList();
 
     /* 퇴사 처리 */
-    void retireEmp(int updateDto);
+    void retireEmp(UpdateDto updateDto);
 }

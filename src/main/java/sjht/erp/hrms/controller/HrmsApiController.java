@@ -86,11 +86,12 @@ public class HrmsApiController {
         return ResponseEntity.status(HttpStatus.OK).body(userMasterList);
     }
 
-    /* 퇴사 처리 (사원 삭제가 아니라 재직여부가 재직 -> 퇴직으로 변경)*/
+    /* 퇴사 처리 (사원 삭제가 아니라 재직여부가 재직 -> 퇴직으로 변경)
+    * HashMap<String,Integer> empno  */
     @PatchMapping("/api/hrms/retire")
-    public void retireEmp (@RequestBody HashMap<String,Integer> empno) {
+    public void retireEmp (@RequestBody UpdateDto updateDto) {
         // 사원 퇴사 처리 요청
-        hrmsApiService.retireEmp(empno.get("empno"));
+        hrmsApiService.retireEmp(updateDto);
     }
 
 
