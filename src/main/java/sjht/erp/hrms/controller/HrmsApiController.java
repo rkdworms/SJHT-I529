@@ -89,10 +89,8 @@ public class HrmsApiController {
     /* 퇴사 처리 (사원 삭제가 아니라 재직여부가 재직 -> 퇴직으로 변경)*/
     @PatchMapping("/api/hrms/retire")
     public void retireEmp (@RequestBody HashMap<String,Integer> empno) {
-
-        // 사원 퇴직 처리 요청
+        // 사원 퇴사 처리 요청
         hrmsApiService.retireEmp(empno.get("empno"));
-
     }
 
 

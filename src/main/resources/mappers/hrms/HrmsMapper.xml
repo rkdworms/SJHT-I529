@@ -211,9 +211,9 @@
     </select>
 
     <!-- 퇴사 처리 -->
-    <update id="retireEmp" parameterType="int">
+    <update id="retireEmp" parameterType="sjht.erp.hrms.dto.UpdateDto">
         UPDATE employee
-        SET retireyn =  <![CDATA[ 'y' ]]>, retiredate =  sysdate()
+        SET retireyn =  <![CDATA[ 'y' ]]>, retiredate =  #{retiredate}, retirenote = #{retirenote}
         WHERE empno = #{empno}
     </update>
 </mapper>

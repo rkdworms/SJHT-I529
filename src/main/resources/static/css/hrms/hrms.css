@@ -10728,7 +10728,8 @@ a.close.disabled {
   overflow-y: auto;
 }
 
-.modal {
+/* 여기 */
+.modal { 
   position: fixed;
   top: 0;
   left: 0;
@@ -10827,8 +10828,9 @@ a.close.disabled {
   outline: 0;
 }
 
+/* 여기 */
 .modal-backdrop {
-  position: fixed;
+  position: relative;
   top: 0;
   left: 0;
   z-index: 1040;
