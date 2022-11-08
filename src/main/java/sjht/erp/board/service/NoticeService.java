@@ -2,24 +2,25 @@ package sjht.erp.board.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import sjht.erp.board.dto.BoardRequest;
-import sjht.erp.board.dto.BoardResponse;
-import sjht.erp.board.mapper.BoardMapper;
+import sjht.erp.board.dto.NoticeRequest;
+import sjht.erp.board.dto.NoticeResponse;
+import sjht.erp.board.mapper.NoticeMapper;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class BoardService {
+public class NoticeService {
 
-    private final BoardMapper boardMapper;
+    private final NoticeMapper noticeMapper;
 
     /**
      * 게시글 리스트 조회
      * @return 게시글 리스트
      */
-    public List<BoardResponse> boardList() {
-        return boardMapper.boardList();
+    public List<NoticeResponse> noticeList() {
+
+        return noticeMapper.noticeList();
     }
 
     /**
@@ -27,8 +28,8 @@ public class BoardService {
      * @param bno - PK
      * @return 조회수
      */
-    public int boardCount(int bno) {
-        return boardMapper.boardCount(bno);
+    public int noticeCount(int bno) {
+        return noticeMapper.noticeCount(bno);
     }
 
     /**
@@ -36,8 +37,8 @@ public class BoardService {
      * @param bno - PK
      * @return 게시글 상세정보
      */
-    public BoardResponse boardDetail(int bno) {
-        return boardMapper.boardDetail(bno);
+    public NoticeResponse noticeDetail(int bno) {
+        return noticeMapper.noticeDetail(bno);
     }
 
     /**
@@ -45,8 +46,8 @@ public class BoardService {
      * @param request - 게시글 정보
      * @return Generated PK
      */
-    public int boardInsert(BoardRequest request) {
-        boardMapper.boardInsert(request);
+    public int noticeInsert(NoticeRequest request) {
+        noticeMapper.noticeInsert(request);
         return request.getBno();
 
     }
@@ -57,8 +58,8 @@ public class BoardService {
      * @return PK
      */
 
-    public int boardUpdate(BoardRequest request) {
-        boardMapper.boardUpdate(request);
+    public int noticeUpdate(NoticeRequest request) {
+        noticeMapper.noticeUpdate(request);
         return request.getBno();
 
     }
@@ -68,8 +69,8 @@ public class BoardService {
      * @param bno - PK
      * @return PK
      */
-    public int boardDelete(int bno) {
-        boardMapper.boardDelete(bno);
+    public int noticeDelete(int bno) {
+        noticeMapper.noticeDelete(bno);
         return bno;
     }
 

@@ -20,7 +20,10 @@ public class BoardRestController {
     // 게시글 리스트
     @PostMapping("/api/boardlist")
     public List<BoardResponse> boardList() {
+
+
         List<BoardResponse> response = boardService.boardList();
+
         return response;
     }
 
@@ -36,6 +39,7 @@ public class BoardRestController {
         boardRequest.setContent(content);
         EmployeeDto empDto = (EmployeeDto) request.getAttribute("empNo");
         boardRequest.setEmpno(empDto.getEmpno());
+
         if(boardService.boardInsert( boardRequest) != 0 ) {
             return true;
         }
@@ -65,13 +69,3 @@ public class BoardRestController {
     }
 
 }
-
-
-
-
-//    // 수정
-//    @PostMapping("/api/boardupdate")
-//    public String boardUpdate(BoardRequest request) {
-//        boardService.boardUpdate(request);
-//        return "redirect:/board";
-//    }

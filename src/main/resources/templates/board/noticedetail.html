@@ -13,7 +13,7 @@
                     <div class="col-auto mb-3">
                         <h1 class="page-header-title">
                             <div class="page-header-icon"><i data-feather="user"></i></div>
-                            게시판 - 자유 게시판
+                            게시판 - 공지사항
                         </h1>
                     </div>
                 </div>
@@ -26,9 +26,9 @@
             </div>
         </div>
     </header>
-    <div class="container mt-n10" id="board">
+    <div class="container mt-n10" id="notice">
         <div class="card mb-4">
-            <div class="card-header">수정</div>
+            <div class="card-header">상세보기</div>
             <!--코드 시작 부분-->
             <div class="card-body">
 
@@ -44,66 +44,80 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td><input type="text" id="title" th:value="${detail.title}"></td>
+                        <td th:text="${detail.title}"></td>
                         <td th:text="${detail.name}"></td>
-                        <td><textarea id="content" th:value="${detail.content}"></textarea></td>
-                        <td th:text="${detail.modifiedtime}"></td>
+                        <td th:text="${detail.content}"></td>
+                        <td th:text="${detail.createtime}"></td>
 
                     </tr>
                     </tbody>
                 </table>
                 <div class="text-right">
-                    <a href="/board" class="btn btn-dark text-right">뒤로가기</a>
-                    <button type="button" class="btn btn-dark text-left" v-on:click="boardUpdate">수정하기</button>
+                    <a href="/notice" class="btn btn-dark text-right">뒤로가기</a>
+                    <a th:href="@{|/noticemodify/${detail.bno}|}" class="btn btn-dark">수정</a>
+                    <button type="button" class="btn btn-dark text-left" v-on:click="noticeDelete()">삭제</button>
                 </div>
 
 
             </div>
         </div>
-
         <script th:inline="javascript">
         /*<![CDATA[*/
-            var title = /*[[ ${detail.title} ]]*/;
-            var content = /*[[ ${detail.content} ]]*/;
+            var bno = /*[[ ${detail.bno} ]]*/;
 
 
-
-        const board = {
+        const noticevalue = {
             data() {
                 return {
+                    checkDelete: "",
                     checkUpdate: ""
+
 
                 }
             },
 
             methods: {
 
-                boardUpdate(){
-                    var bno1 = /*[[ ${detail.bno} ]]*/;
-                    title = document.getElementById("title").value
-                    content = document.getElementById("content").value
+                noticeUpdate(){
+                var title = /*[[ ${detail.title} ]]*/;
+                var content = /*[[ ${detail.content} ]]*/;
+                console.log(title)
+                axios.post("http://localhost:8888/api/noticeupdate/" + bno,
+                {
+                    title : title,
+                    content : content
+                }
 
-                    axios.post("http://localhost:8888/api/boardupdate",
-                        {
-                            bno: bno1,
-                            title : title,
-                            content : content
-                        }
+                ).then((response) => {
+                    this.checkUpdate = response.data;
+                    console.log(this.checkUpdate)
+                    if(this.checkUpdate === true){
 
-                    ).then((response) => {
-                        this.checkUpdate = response.data;
-                        console.log(this.checkUpdate)
-                        if(this.checkUpdate === true){
-                            location.href= "http://localhost:8888/board"
+                    }
+                }).catch(error => console.error(error))
 
-                        }
-                    }).catch(error => console.error(error))
+                },
 
-                    },
+
+
+                noticeDelete(){
+                console.log(bno)
+
+                axios.post("http://localhost:8888/api/noticedelete/" + bno
+
+                ).then((response) => {
+                    this.checkDelete = response.data;
+                    console.log(this.checkDelete)
+                    if(this.checkDelete === true){
+                        location.href= "http://localhost:8888/notice"
+                    }
+                }).catch(error => console.error(error))
+
+                },
 
             },
         }
-        Vue.createApp(board).mount("#board")
+        Vue.createApp(noticevalue).mount("#notice")
 
         /*]]*/
 
@@ -112,4 +126,7 @@
     </body>
 </th:blcok>
 </html>
+
+
+
 

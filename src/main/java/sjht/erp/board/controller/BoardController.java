@@ -29,7 +29,7 @@ public class BoardController {
     // 게시글 상세
     @GetMapping("/boarddetail")
     public String boarddetail(@RequestParam int bno, Model model, HttpServletRequest request) {
-
+        boardService.boardCount(bno);
         request.getAttribute("empNo");
         BoardResponse response = boardService.boardDetail(bno);
         model.addAttribute("detail", response);
@@ -47,13 +47,10 @@ public class BoardController {
     public String boardmodify(@PathVariable("bno") int bno,
                               Model model, HttpServletRequest request) {
         request.getAttribute("empNo");
+        boardService.boardCount(bno);
         BoardResponse response = boardService.boardDetail(bno);
+
         model.addAttribute("detail", response);
 
-        System.out.println(";;;;"+bno);
-
         return "board/boardmodify"; }
-
-
-
 }
