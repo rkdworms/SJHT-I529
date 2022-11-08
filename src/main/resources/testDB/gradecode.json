@@ -5,10 +5,38 @@
 	},
 	{
 		"gradecd" : "G002",
-		"gradename" : "임원"
+		"gradename" : "주임"
 	},
 	{
 		"gradecd" : "G003",
+		"gradename" : "대리"
+	},
+	{
+		"gradecd" : "G004",
+		"gradename" : "과장"
+	},
+	{
+		"gradecd" : "G005",
+		"gradename" : "차장"
+	},
+	{
+		"gradecd" : "G006",
+		"gradename" : "부장"
+	},
+	{
+		"gradecd" : "G007",
+		"gradename" : "이사"
+	},
+	{
+		"gradecd" : "G008",
+		"gradename" : "상무"
+	},
+	{
+		"gradecd" : "G009",
+		"gradename" : "전무"
+	},
+	{
+		"gradecd" : "G010",
 		"gradename" : "대표이사"
 	}
 ]
