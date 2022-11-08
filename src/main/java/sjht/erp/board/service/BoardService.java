@@ -2,7 +2,6 @@ package sjht.erp.board.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import sjht.erp.board.dto.BoardRequest;
 import sjht.erp.board.dto.BoardResponse;
 import sjht.erp.board.mapper.BoardMapper;
@@ -20,6 +19,7 @@ public class BoardService {
      * @return 게시글 리스트
      */
     public List<BoardResponse> boardList() {
+
         return boardMapper.boardList();
     }
 
@@ -37,10 +37,10 @@ public class BoardService {
      * @param request - 게시글 정보
      * @return Generated PK
      */
-    @Transactional
-    public int boardInsert(final BoardRequest request) {
+    public int boardInsert(BoardRequest request) {
         boardMapper.boardInsert(request);
         return request.getBno();
+
     }
 
     /**
@@ -48,10 +48,17 @@ public class BoardService {
      * @param request - 게시글 정보
      * @return PK
      */
-    @Transactional
-    public int boardUpdate(final BoardRequest request) {
+
+    public int boardUpdate(BoardRequest request) {
         boardMapper.boardUpdate(request);
+//        BoardDTO boarddto = this.view(id);
+//
+//        boarddto.setTitle(model.getTitle());
+//        boarddto.setContent(model.getContent());
+//        boarddto.setId(id);
+//        Board result = boardRepository.save(boarddto.toEntity());
         return request.getBno();
+
     }
 
     /**

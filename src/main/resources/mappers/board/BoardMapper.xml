@@ -4,7 +4,7 @@
 
 <mapper namespace="sjht.erp.board.mapper.BoardMapper">
     <sql id="boardColumns">
-        bno
+          bno
         , empno
         , title
         , content
@@ -17,11 +17,19 @@
     <!-- 게시글 조회 -->
     <select id="boardList" resultType="sjht.erp.board.dto.BoardResponse">
         SELECT
-        <include refid="boardColumns" />
+            b.bno,
+            b.empno,
+            b.title,
+            b.content,
+            b.createtime,
+            b.boardtype,
+            b.boardcount,
+            e.name
         FROM
-            board
+            board b left join employee e on(b.empno = e.empno)
         ORDER BY
             bno DESC
+
 
     </select>
 
@@ -29,16 +37,23 @@
     <select id="boardDetail" parameterType="int"
             resultType="sjht.erp.board.dto.BoardResponse">
         SELECT
-            <include refid="boardColumns" />
+            b.bno,
+            b.empno,
+            b.title,
+            b.content,
+            b.createtime,
+            b.boardtype,
+            b.boardcount,
+            e.name
         FROM
-            board
+            board b left join employee e on(b.empno = e.empno)
         WHERE
-            bno = #{bno}
+            b.bno = #{bno}
     </select>
 
     <!-- 게시글 등록 -->
     <insert id="boardInsert" parameterType="sjht.erp.board.dto.BoardRequest"
-            useGeneratedKeys="true" keyProperty="bno">
+    useGeneratedKeys="true" keyProperty="bno">
         INSERT INTO board (
             bno, empno, title, content, createtime, boardcount
         ) VALUES (
@@ -48,14 +63,14 @@
             , #{content}
             , NOW()
             , 0
-            )
+        )
     </insert>
 
     <!-- 게시글 수정 -->
     <update id="boardUpdate" parameterType="sjht.erp.board.dto.BoardRequest">
         UPDATE board
         SET
-              modified = NOW()
+              modifiedtime = NOW()
             , title = #{title}
             , content = #{content}
         WHERE
@@ -70,5 +85,6 @@
         WHERE
             bno = #{bno}
     </delete>
+
 
 </mapper>
