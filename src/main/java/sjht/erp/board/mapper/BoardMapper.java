@@ -15,11 +15,7 @@ public interface BoardMapper {
      */
     List<BoardResponse> boardList();
 
-    /**
-     * 게시글 수 카운팅
-     * @return 게시글 수
-     */
-    int bcount();
+
 
     /**
      * 게시글 상세정보 조회
@@ -45,6 +41,8 @@ public interface BoardMapper {
      * @param bno - PK
      */
     void boardDelete(int bno);
+
+
 
 
 
