@@ -62,7 +62,7 @@ public class ExpendInformationServiceImpl implements ExpendInformationService {
                 InsertParameterEIDto insertParameterEIDto = InsertParameterEIDto.builder()
                         .empno(selectEIByDvno(updateParameterEIDto.getDvno()).get(i).getEmpno())
                         .dvamt(selectEIByDvno(updateParameterEIDto.getDvno()).get(i).getDvamt())
-                        .divcd(selectEIByDvno(updateParameterEIDto.getDvno()).get(i).getDivcd())
+                        .dvappname(employeeDto.getName())
                         .dvno(selectEIByDvno(updateParameterEIDto.getDvno()).get(i).getDvno())
                         .dvappdate(LocalDate.parse(selectEIByDvno(updateParameterEIDto.getDvno()).get(i).getDvappdate()))
                         .build();
