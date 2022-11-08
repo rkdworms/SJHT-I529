@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{layout/layout_form}" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="">
+<th:blcok layout:fragment="content">
+    <head>
+        <meta charset="UTF-8">
+        <link href="/css/hrms/hrms.css" rel="stylesheet"/>
+    </head>
+    <body>
+    <header class="page-header page-header-compact page-header-light border-bottom bg-white">
+        <div class="container-fluid">
+            <div class="page-header-content">
+                <div class="row align-items-center justify-content-between pt-3">
+                    <div class="col-auto mb-3">
+                        <h1 class="page-header-title">
+                            <div class="page-header-icon"><i data-feather="user"></i></div>
+                            게시판 - 자유 게시판
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <header class="page-header page-header-dark bg-gray-900 pb-10">
+        <div class="container">
+            <div class="page-header-content pt-2">
+            </div>
+        </div>
+    </header>
+    <div class="container mt-n10" id="board">
+        <div class="card mb-4">
+            <div class="card-header">글 수정</div>
+            <!--코드 시작 부분-->
+            <div class="card-body">
+
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>내용</th>
+                        <th>작성일</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><input type="text" id="title" th:value="${detail.title}"></td>
+                        <td th:text="${detail.name}"></td>
+                        <td><textarea id="content" th:value="${detail.content}"></textarea></td>
+                        <td th:text="${detail.modifiedtime}"></td>
+
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="text-right">
+                    <a href="/board" class="btn btn-dark text-right">뒤로가기</a>
+                    <button type="button" class="btn btn-dark text-left" v-on:click="boardUpdate">수정하기</button>
+                </div>
+
+
+            </div>
+        </div>
+
+        <script th:inline="javascript">
+        /*<![CDATA[*/
+            var title = /*[[ ${detail.title} ]]*/;
+            var content = /*[[ ${detail.content} ]]*/;
+
+
+
+        const board = {
+            data() {
+                return {
+                    checkUpdate: ""
+
+                }
+            },
+
+            methods: {
+
+                boardUpdate(){
+                    var bno1 = /*[[ ${detail.bno} ]]*/;
+                    title = document.getElementById("title").value
+                    content = document.getElementById("content").value
+
+                    axios.post("http://localhost:8888/api/boardupdate",
+                        {
+                            bno: bno1,
+                            title : title,
+                            content : content
+                        }
+
+                    ).then((response) => {
+                        this.checkUpdate = response.data;
+                        console.log(this.checkUpdate)
+                        if(this.checkUpdate === true){
+                            location.href= "http://localhost:8888/board"
+
+                        }
+                    }).catch(error => console.error(error))
+
+                    },
+
+            },
+        }
+        Vue.createApp(board).mount("#board")
+
+        /*]]*/
+
+        </script>
+    </div>
+    </body>
+</th:blcok>
+</html>
+
