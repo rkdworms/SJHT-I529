@@ -3,6 +3,7 @@ package sjht.erp.hrms.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import sjht.erp.hrms.dto.SelectDto;
 import sjht.erp.hrms.dto.UpdateDto;
@@ -92,7 +93,16 @@ public class HrmsApiController {
     public void retireEmp (@RequestBody UpdateDto updateDto) {
         // 사원 퇴사 처리 요청
         hrmsApiService.retireEmp(updateDto);
+
+
     }
+
+
+
+
+
+
+
 
 
 

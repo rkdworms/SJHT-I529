@@ -53,7 +53,7 @@
                                     <div>
                                         <span>총 {{ empList.length }} 명의 사원 중 검색 결과 : {{ pageList.length }} 명</span>
                                         <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-facebook button-middle"
+                                        <button type="button" class="btn btn-hrms button-middle"
                                             data-bs-toggle="modal" data-bs-target="#empRegistModal">
                                             사원 등록
                                         </button>
@@ -165,7 +165,7 @@
                                                             v-if="emp.restyn === 'y'">휴직중</span></td>
                                                     <td class="d-none d-xl-table-cell">{{ emp.retiredate }}</td>
                                                     <td>
-                                                        <button type="button" class="btn btn-facebook btn-xs"
+                                                        <button type="button" class="btn btn-hrms btn-xs"
                                                             data-bs-toggle="modal" data-bs-target="#empDetailModal"
                                                             @click="getEmp(i)">상세조회
                                                         </button>
