@@ -490,8 +490,20 @@
                         dvamt: '',                  //총금액
                         divcd: '',                  //계정 과목 번호
                         dvno: '',                   //결의 번호
-                        expendList: [],             //검색 리스트 배열
-                        modalList: []               //상세 내역 리스트 배열
+                        modalList: [],               //상세 내역 리스트 배열
+
+                        // pagination
+                        pageNum : 0,
+                        pageList:[]
+                    }
+                },
+
+                // pagination
+                props:{
+                    pageSize: {
+                        type : Number,
+                        required: false,
+                        default: 10
                     }
                 },
 
@@ -560,6 +572,39 @@
                         })
                     },
 
+                    //pagination
+                    nextPage(){
+                        this.pageNum += 1;
+                    },
+
+                    prevPage(){
+                        this.pageNum -= 1;
+                    },
+
+                },
+
+
+                computed:{
+                    pageCount(){
+                        let listLeng = this.pageList.length;
+                        listSize = this.pageSize,
+                            page = Math.floor(listLeng / listSize);
+
+                        if (listLeng==0)
+                            return 1;
+
+                        if(listLeng % listSize > 0)
+                            page += 1;
+
+                        return page;
+                    },
+
+                    paginatedData(){
+                        let start = this.pageNum * this.pageSize,
+                            end = start + this.pageSize;
+
+                        return this.pageList.slice(start, end);
+                    }
                 },
 
                 // 로그인 된 아이디의 usertype 가져오기
