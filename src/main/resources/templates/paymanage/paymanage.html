@@ -226,6 +226,8 @@
 
                         for (emp of this.selectList) {
                             emp.paymentst = this.payday
+                            emp.paysequence = this.payday.substr(2,2)+this.payday.substr(5,2)
+                            emp.netpay = emp.salary-emp.privateinsurance
                         }
 
                         axios.post("http://localhost:8888/api/hrms/paysalary", this.selectList)

@@ -41,8 +41,15 @@
     <insert id="paySalaryHistory" parameterType="sjht.erp.paymanage.dto.PayEmpDto">
         <foreach collection="list" separator=";" item="emp" index="index">
             INSERT INTO payrollhistory
-                (empno, privateinsurance, netpay, pay, paymentdate, expend)
-            VALUES (#{emp.empno},#{emp.privateinsurance},#{emp.salary}+#{emp.expend}-#{emp.privateinsurance},#{emp.salary},#{emp.paymentst},#{emp.expend})
+                (paysequence, empno, privateinsurance, netpay, pay, paymentdate, expend)
+            VALUES (#{emp.paysequence},#{emp.empno},#{emp.privateinsurance},#{emp.salary}+#{emp.expend}-#{emp.privateinsurance},#{emp.salary},#{emp.paymentst},#{emp.expend})
         </foreach>
+    </insert>
+
+
+    <insert id="paySalaryExpend" parameterType="sjht.erp.paymanage.dto.SalaryExpendDto">
+        INSERT INTO expendhistory
+        (paysequence, dvamt, empno, dvappdate, paidyn)
+        VALUES (#{paysequence}, #{dvamt}, #{empno}, now() ,'y')
     </insert>
 </mapper>
