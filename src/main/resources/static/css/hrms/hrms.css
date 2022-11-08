@@ -3585,8 +3585,8 @@ fieldset:disabled a.btn {
 
 .btn-hrms:hover {
   color: #fff;
-  background-color: #283849;
-  border-color: #283849;
+  background-color: #32475e;
+  border-color: #32475e;
 }
 
 .btn-hrms:focus,
@@ -10728,7 +10728,8 @@ a.close.disabled {
   overflow-y: auto;
 }
 
-.modal {
+/* 여기 */
+.modal { 
   position: fixed;
   top: 0;
   left: 0;
@@ -10827,8 +10828,9 @@ a.close.disabled {
   outline: 0;
 }
 
+/* 여기 */
 .modal-backdrop {
-  position: fixed;
+  position: relative;
   top: 0;
   left: 0;
   z-index: 1040;
@@ -23222,4 +23224,19 @@ textarea{
   background: white;
   border: none;
   padding: 1rem;
+}
+
+.emp-idPicture {
+  height: 200px;
+  width: 143px;
+  margin-top: 5px;
+}
+
+.emp-content {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.emp-opacity {
+  opacity: 0.7;
 }

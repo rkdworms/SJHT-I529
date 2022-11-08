@@ -19,6 +19,7 @@
 
     <body>
         <div id="empList">
+            <!-- 인사 관리 페이지 시작 -->
             <div id="layoutSidenav_content">
                 <main>
                     <!-- 메뉴 네비게이터 -->
@@ -52,9 +53,8 @@
                                     <div>
                                         <span>총 {{ empList.length }} 명의 사원 중 검색 결과 : {{ pageList.length }} 명</span>
                                         <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-facebook button-middle"
-                                            data-bs-backdrop="static" data-bs-toggle="modal"
-                                            data-bs-target="#empRegistModal">
+                                        <button type="button" class="btn btn-hrms button-middle"
+                                            data-bs-toggle="modal" data-bs-target="#empRegistModal">
                                             사원 등록
                                         </button>
                                     </div>
@@ -91,8 +91,8 @@
                                                     <label for="retireFormControlSelect">퇴직여부</label>
                                                     <select class="form-select form-control-solid"
                                                         id="retireFormControlSelect" v-model="retireyn"
-                                                        @click="setRetireyn(retireyn)">
-                                                        <option value="전체">전체</option>
+                                                        @change="setRetireyn(retireyn)">
+                                                        <option value="전체" selected>전체</option>
                                                         <option value="n">재직자</option>
                                                         <option value="y">퇴직자</option>
                                                     </select>
@@ -117,7 +117,7 @@
                                                     <div class="input-group input-group-joined input-group-solid">
                                                         <select class="form-select form-control-solid"
                                                             id="retireFormControlSelect" v-model="menu"
-                                                            v-on="setMenu(menu)">
+                                                            @change="setMenu(menu)">
                                                             <option value="전체" selected>전체</option>
                                                             <option value="searchName">사원명</option>
                                                             <option value="searchEmpno">사번</option>
@@ -125,14 +125,12 @@
                                                         <input class="form-control form-control-sm" type="text"
                                                             placeholder="검색할 직원의 사번, 이름, 연락처, 이메일을 입력해주세요."
                                                             aria-label="Search" v-model="search"
-                                                            v-on="searchEmp(search)">
+                                                            @change="searchEmp(search)">
                                                     </div>
                                                 </div>
                                             </div>
                                         </form>
-
-
-                                        <!-- 사원 리스트 -->
+                                        <!-- 사원 리스트 출력 -->
                                         <table class="table table-bordered table-hover" id="dataTable" width="100%"
                                             cellspacing="0">
                                             <thead>
@@ -142,34 +140,8 @@
                                                         headerNameList }}</th>
                                                 </tr>
                                             </thead>
-                                            <tfoot>
+                                            <tbody v-for="(emp, i) in paginatedData" key="i">
                                                 <tr>
-                                                    <th class="d-none d-xl-table-cell"
-                                                        v-for="(headerNameList, i) in headerNameList" :key="i">{{
-                                                        headerNameList }}</th>
-                                                </tr>
-                                            </tfoot>
-                                            <!-- 사원 검색 필터 -->
-                                            <tbody v-for="(emp, i) in paginatedData" key="emp.empno">
-
-
-                                                <tr>
-
-                                                            <!-- ( entrydateSearch.startDate == emp.entrydate ) &&
-
-                                                            (
-                                                            (menu === '전체' && ( search == '' || emp.empno == search || emp.name.includes(search) || emp.mail.includes(search) || emp.tel.includes(search) ) ) ||
-                                                            (menu === 'searchEmpno' && ( emp.empno == search || search == '' ) ) ||
-                                                            (menu === 'searchName' && emp.name.includes(search) )
-                                                            ) ">
-                                                     <tr v-show="(emp.departmentname === department || department === '전체') &&
-                                            (emp.gradename === grade || grade === '전체') &&
-                                            (emp.retireyn === retireyn || retireyn === '전체') &&
-
-                                            ( (menu === '전체') && ( emp.name.includes(search) || emp.empno==search || search=='' ) ||
-                                            (menu === 'searchName' && (emp.name.includes(search) ||search==='')) ||
-                                            (menu === 'searchEmpno' && (emp.empno == search || search==='')) )"> -->
-
                                                     <td>
                                                         <div style="text-align: center">
                                                             <input class="form-check-input" type="checkbox"
@@ -185,14 +157,17 @@
                                                     <td class="d-none d-xl-table-cell">{{ emp.mail }}</td>
                                                     <td class="d-none d-xl-table-cell">{{ emp.entrydate }}</td>
                                                     <td class="d-none d-xl-table-cell"><span
-                                                            v-if="emp.retireyn === 'n'">0</span></td>
+                                                            v-show="emp.retireyn === 'n'"
+                                                            class="text-success">재직</span><span
+                                                            v-show="emp.retireyn === 'y'" class="emp-opacity">퇴직</span>
+                                                    </td>
                                                     <td class="d-none d-xl-table-cell"><span
-                                                            v-if="emp.restyn === 'y'">0</span></td>
+                                                            v-if="emp.restyn === 'y'">휴직중</span></td>
                                                     <td class="d-none d-xl-table-cell">{{ emp.retiredate }}</td>
                                                     <td>
-                                                        <button type="button" class="btn btn-facebook btn-xs"
-                                                            data-bs-backdrop="static" data-bs-toggle="modal"
-                                                            data-bs-target="#empDetailModal" @click="getEmp(i)">상세조회
+                                                        <button type="button" class="btn btn-hrms btn-xs"
+                                                            data-bs-toggle="modal" data-bs-target="#empDetailModal"
+                                                            @click="getEmp(i)">상세조회
                                                         </button>
                                                     </td>
                                                 </tr>
@@ -202,11 +177,12 @@
                                             <!-- 페이징 처리 하기 -->
                                             <div class="btn-cover" style="text-align: right">
                                                 <button :disabled="pageNum === 0" @click="prevPage" class="btn-hrms">
-                                                  이전
+                                                    이전
                                                 </button>
                                                 <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
-                                                <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="btn-hrms">
-                                                  다음
+                                                <button :disabled="pageNum >= pageCount - 1" @click="nextPage"
+                                                    class="btn-hrms">
+                                                    다음
                                                 </button>
                                             </div>
                                         </footer>
@@ -215,15 +191,13 @@
                             </div>
                         </div>
                 </main>
-                <th:block th:replace="layout/footer::footer"></th:block>
             </div>
-            <!-- 여기를 수정중 입니다. 
-여기를 수정중 입니다.-->
 
             <!-- 사원 상세 조회 모달 시작 -->
             <div class="col-xl-8">
-                <div class="modal fade" id="empDetailModal" data-bs-backdrop="static" data-bs-keyboard="false"
-                    tabindex="-1" role="dialog" aria-labelledby="empDetailModalLabel" aria-hidden="true">
+                <div class="modal " id="empDetailModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                    data-bs-show="false" tabindex="-1" role="dialog" aria-labelledby="empDetailModalLabel"
+                    aria-hidden="true" style="z-index:1051;">
                     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-body p-0">
@@ -238,8 +212,8 @@
                                                 <div class="form-row">
                                                     <!-- Form Group (사원 증명사진) -->
                                                     <div class="form-group col-md-4" style="text-align: center">
-                                                        <img :src="physicalpath" style="height: 200; width:143px"
-                                                            v-model="file" onerror="this.src='/images/noProfile.png'" />
+                                                        <img class="emp-idPicture" :src="physicalpath" v-model="file"
+                                                            onerror="this.src='/images/noProfile.png'" />
                                                         <input class="form-control form-control-sm" id="idPicture"
                                                             type="file" @change="uploadImage" accept="image/*" />
                                                         <div class="invalid-feedback">
@@ -254,7 +228,7 @@
 
                                                         <label label class="small mb-1" for="name">사원명</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="name" v-model="empDetail.name">
+                                                            id="name" v-model="name">
 
                                                         <label label class="small mb-1" for="regno">주민등록번호</label>
                                                         <div>
@@ -304,37 +278,32 @@
                                                         </div>
                                                         <label label class="small mb-1" for="school">최종학력</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="school" v-model="empDetail.school">
+                                                            id="school" v-model="school">
 
                                                         <label label class="small mb-1" for="mail">이메일</label>
                                                         <input type="email" class="form-control form-control-sm"
-                                                            id="mail" v-model="empDetail.mail">
+                                                            id="mail" v-model="mail">
                                                     </div>
                                                 </div>
                                                 <!-- Form Row 2 (주소 등록) -->
                                                 <div class="form-row">
-                                                    <div class="form-group col-md-2" style="align-self: end">
-                                                        <input type="button" class="btn btn-outline-dark btn-sm"
-                                                            style="height: 26px; width: 103px; pointer-events: none; user-select: none;"
-                                                            value="주소"><br>
-                                                    </div>
                                                     <!-- Form Group (주소) -->
-                                                    <div class="form-group col-md-10">
+                                                    <div class="form-group col-md-12">
                                                         <label class="small mb-1" for="addr">주소</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="addr" v-model="empDetail.addr">
+                                                            id="addr" v-model="addr">
                                                     </div>
                                                     <!-- Form Group (상세주소) -->
                                                     <div class="form-group col-md-8">
                                                         <label class="small mb-1" for="addrdetail">상세주소</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="addrdetail" v-model="empDetail.addrdetail">
+                                                            id="addrdetail" v-model="addrdetail">
                                                     </div>
                                                     <!-- Form Group (우편번호) -->
                                                     <div class="form-group col-md-4">
                                                         <label class="small mb-1" for="zipcode">우편번호</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="zipcode" v-model="empDetail.zipcode">
+                                                            id="zipcode" v-model="zipcode">
                                                     </div>
                                                 </div>
                                                 <!-- Form Row 3 (월급통장 등록) -->
@@ -451,21 +420,103 @@
                                                     <div class="form-group col-md-12">
                                                         <label class="small mb-1" for="memo">비고</label>
                                                         <textarea class="form-control" id="memo"
-                                                            v-model="empDetail.memo" rows="3"></textarea>
+                                                            v-model="memo" rows="3"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 버튼 -->
+                                            <div class="modal-footer">
+                                                <button type="button"
+                                                    class="btn btn-outline-danger shadow-sm btn-sm float-left"
+                                                    data-bs-target="#empRetireModal" data-bs-toggle="modal"
+                                                    @click="closeModal('#empDetailModal')" style="text-align : left"
+                                                    v-show="empDetail.retireyn === 'n'">퇴사 처리
+                                                </button>
+                                                <button type="button"
+                                                    class="btn btn-outline-dark shadow-sm btn-sm float-right"
+                                                    @click="closeModal('#empDetailModal')" data-bs-dismiss="modal"
+                                                    style="width: 4rem">닫기
+                                                </button>
+                                                <button type="submit"
+                                                    class="btn btn-outline-success shadow-sm btn-sm float-right"
+                                                    @click="update" style="width: 4rem">수정
+                                                </button>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- 사원 상세 조회 모달 끝 -->
+
+            <!-- 사원 퇴사 처리 모달 시작 -->
+            <div class="col-xl-8">
+                <div class="modal " id="empRetireModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                    role="dialog" aria-labelledby="empRetireModalLabel" aria-hidden="true" style="z-index:1061;">
+                    <div class="modal-dialog modal-dialog-centered madal-default" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body p-0">
+                                <!-- details card -->
+                                <div class="card mb-4">
+                                    <div class="card-header">사원 퇴사 처리</div>
+                                    <!-- card-body -->
+                                    <div class="card-body pb-3" id="card-body-padding">
+                                        <form>
+                                            <div id="card-scroll">
+                                                <!-- Form Row 1 (기본 정보 조회) -->
+                                                <div class="form-row">
+                                                    <!-- Form Group (개인정보) -->
+                                                    <div class="form-group col-md-6">
+                                                        <label label class="small mb-1" for="empno">사번</label>
+                                                        <input type="text" class="form-control form-control-sm"
+                                                            id="empno" :value="empDetail.empno" readonly>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label label class="small mb-1" for="name">사원명</label>
+                                                        <input type="text" class="form-control form-control-sm"
+                                                            id="name" v-model="empDetail.name" readonly>
+                                                    </div>
+                                                </div>
+                                                <!-- Form Row 5 (재직여부/입사일/퇴사일 등록) -->
+                                                <div class="form-row">
+                                                    <!-- Form Group (입사일) -->
+                                                    <div class="form-group col-md-6">
+                                                        <label class="small mb-1" for="entrydate">입사일 </label>
+                                                        <input type="text" class="form-control form-control-sm"
+                                                            id="entrydate" :value="empDetail.entrydate" readonly>
+                                                    </div>
+                                                    <!-- Form Group (퇴사일) -->
+                                                    <div class="form-group col-md-6">
+                                                        <label class="small mb-1" for="retiredate">퇴사일</label>
+                                                        <input type="date" class="form-control form-control-sm"
+                                                            id="retiredate" v-model="empDetail.retiredate">
+                                                    </div>
+                                                </div>
+                                                <!-- 기타 -->
+                                                <div class="form-row">
+                                                    <!-- Form Group (퇴사사유 등록) -->
+                                                    <div class="form-group col-md-12">
+                                                        <label class="small mb-1" for="retirenote">퇴사사유</label>
+                                                        <textarea class="form-control" id="retirenote"
+                                                            v-model="empDetail.retirenote" rows="3"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
                                             <!-- 버튼 -->
                                             <div class="text-center">
                                                 <div class="modal-footer">
-                                                    <!-- <button class="btn btn-outline-danger btn-sm"
-                                                        type="submit" @click="retire">퇴사 처리
-                                                    </button> -->
-                                                    <button type="button" class="btn btn-outline-dark btn-sm"
-                                                        data-bs-dismiss="modal" style="width: 4rem">닫기
+                                                    <button type="button"
+                                                        class="btn btn-outline-danger shadow-sm btn-sm"
+                                                        data-bs-target="#empRetireCheckModal" data-bs-toggle="modal"
+                                                        @click="closeModal('#empRetireModal')">퇴사
+                                                        처리
                                                     </button>
-                                                    <button class="btn btn-outline-success shadow-sm btn-sm"
-                                                        type="submit" @click="update" style="width: 4rem">수정
+                                                    <button type="button" class="btn btn-outline-dark shadow-sm btn-sm"
+                                                        data-bs-target="#empDetailModal" data-bs-toggle="modal"
+                                                        @click="closeModal('#empRetireModal');" style="width: 4rem">닫기
                                                     </button>
                                                 </div>
                                             </div>
@@ -476,7 +527,47 @@
                         </div>
                     </div>
                 </div>
-            </div><!-- 사원 상세 조회 모달 끝 -->
+            </div><!-- 사원 퇴사 처리 모달 끝 -->
+
+            <!-- 사원 퇴사 처리 시 경고 모달 시작 -->
+            <div class="col-xl-8">
+                <div class="modal" id="empRetireCheckModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" role="dialog" aria-labelledby="empRetireCheckModalLabel" aria-hidden="true"
+                    style="z-index:1071;">
+                    <div class="modal-dialog modal-dialog-centered madal-default" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body p-0">
+                                <!-- details card -->
+                                <div class="card mb-4">
+                                    <div class="card-header">퇴사 처리</div>
+                                    <!-- card-body -->
+                                    <div class="card-body pb-3" id="card-body-padding">
+                                        <form>
+                                            <div class="emp-content">
+                                                정말로 퇴사 처리 하시겠습니까?
+                                            </div>
+                                            <!-- 버튼 -->
+                                            <div class="text-center">
+                                                <div class="modal-footer">
+                                                    <button type="submit"
+                                                        class="btn btn-outline-danger shadow-sm btn-sm" @click="retire"
+                                                        data-bs-toggle="modal">퇴사 처리
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-dark shadow-sm btn-sm"
+                                                        data-bs-target="#empRetireModal" data-bs-toggle="modal"
+                                                        @click="closeModal('#empRetireCheckModal');"
+                                                        style="width: 4rem">닫기
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- 사원 퇴사 처리 시 경고 모달 끝 -->
         </div>
         <!-- empList 끝 -->
 
@@ -499,7 +590,8 @@
                                             <div class="form-row">
                                                 <!-- Form Group (사원 증명사진) -->
                                                 <div class="form-group col-md-4" style="text-align: center">
-                                                    <img :src="physicalpath" style="height: 200; width:143px"
+                                                    <img class="emp-idPicture" :src="physicalpath"
+                                                        style="height: 200; width:143px"
                                                         onerror="this.src='/images/noProfile.png'" />
                                                     <input class="form-control form-control-sm" id="idPicture"
                                                         type="file" @change="uploadImage" accept="image/*" />
@@ -545,8 +637,8 @@
                                                             onkeyup="next(this.value, 3, 'tel2'); preventKr(this)"
                                                             onkeydown="checkNum(event, this.value)"
                                                             style="width: 30%; display: inline-block;" required>-
-                                                        <input type=" tel" class="form-control form-control-sm"
-                                                            id="tel2" v-model="tel2" maxLength="4" pattern="^[0-9]{4}"
+                                                        <input type="tel" class="form-control form-control-sm" id="tel2"
+                                                            v-model="tel2" maxLength="4" pattern="^[0-9]{4}"
                                                             onkeyup="next(this.value, 4, 'tel3'); preventKr(this)"
                                                             onkeydown="checkNum(event, this.value)"
                                                             style="width: 30%; display: inline-block;" required>-
@@ -600,11 +692,6 @@
                                             </div>
                                             <!-- Form Row 2 (주소 등록) -->
                                             <div class="form-row">
-                                                <div class="form-group col-md-2" style="align-self: end">
-                                                    <input type="button" class="btn btn-outline-dark btn-sm"
-                                                        style="height: 26px; width: 103px;" @click="execDaumPostcode()"
-                                                        value="주소 검색"><br>
-                                                </div>
                                                 <!-- Form Group (주소) -->
                                                 <div class="form-group col-md-10">
                                                     <label class="small mb-1" for="addr">주소</label>
@@ -613,6 +700,12 @@
                                                     <div class="invalid-feedback">
                                                         주소를 입력해주세요.
                                                     </div>
+                                                </div>
+                                                <!-- Form Group (주소 검색: 다음 API) -->
+                                                <div class="form-group col-md-2" style="align-self: end">
+                                                    <input type="button" class="btn btn-hrms shadow-sm btn-sm"
+                                                        style="height: 27px; width: 100px;" @click="execDaumPostcode()"
+                                                        value="주소 검색"><br>
                                                 </div>
                                                 <!-- Form Group (상세주소) -->
                                                 <div class="form-group col-md-8">
@@ -661,8 +754,7 @@
                                             <div class="form-row">
                                                 <!-- Form Group (부서) -->
                                                 <div class="form-group col-md-4">
-                                                    <label class="small mb-1" for="departmentcd">부서 {{departmentcd}}
-                                                    </label>
+                                                    <label class="small mb-1" for="departmentcd">부서</label>
                                                     <select class="form-select form-select-sm" v-model="departmentcd">
                                                         <option v-for="(department, i) in departmentList" :key="i"
                                                             :value="department.departmentcd">{{
@@ -721,30 +813,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- Form Group (재직구분 - 수정할때 다듬어서 쓰기) -->
-                                                <!-- <div class="form-group col-md-4">
-                                                    <label label class="small mb-1" for="empStatus">재직구분</label>
-                                                    <div class="form-control form-control-sm border-0" id="empStatus">
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio"
-                                                                name="empStatus" id="retire_n" v-model="retireyn">
-                                                            <label class="form-check-label" for="retire_n">재직</label>
-                                                        </div>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio"
-                                                                name="empStatus" id="rest_y" v-model="restyn">
-                                                            <label class="form-check-label" for="rest_y">휴직</label>
-                                                        </div>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio"
-                                                                name="empStatus" id="retire_y" v-model="retireyn">
-                                                            <label class="form-check-label" for="retire_y">퇴직</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="invalid-feedback">
-                                                        재직어부를 입력해주세요.
-                                                    </div>
-                                                </div>  -->
                                                 <!-- Form Group (입사일) -->
                                                 <div class="form-group col-md-4">
                                                     <label class="small mb-1" for="entrydate">입사일</label>
@@ -804,7 +872,7 @@
                                         <!-- 버튼 -->
                                         <div class="text-center">
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-outline-dark btn-sm"
+                                                <button type="button" class="btn btn-outline-dark shadow-sm btn-sm"
                                                     data-bs-dismiss="modal" style="width: 4rem">닫기
                                                 </button>
                                                 <button class="btn btn-outline-success shadow-sm btn-sm" type="submit"
@@ -822,36 +890,114 @@
         </div>
         <!-- 사원 등록 모달 끝 -->
 
-
-
-
         <!--             script start           -->
 
+        <script>
+            $('.modal').on('shown.bs.modal', function () {
+                //To relate the z-index make sure backdrop and modal are siblings
+                $(this).before($('.modal-backdrop'));
+                //Now set z-index of modal greater than backdrop
+                $(this).css("z-index", parseInt($('.modal-backdrop').css('z-index')) + 10);
+            }); 
+        </script>
+        <script>
+            // 모달 위치 초기화 - 모달 창이 열리기 전에 실행
+            $(document).on('show.bs.modal', '.modal', function () {
+                // 화면에 보여지는 모달수 추적
+                if (typeof ($('body').data('fv_open_modals')) == 'undefined') {
+                    $('body').data('fv_open_modals', 0);
+                }
 
+                // 이 모달의 z-index 속성이 정해져 있다면 무시
+                if ($(this).hasClass('fv-modal-stack')) {
+                    return;
+                }
+
+                $(this).addClass('fv-modal-stack');
+                $('body').data('fv_open_modals', $('body').data('fv_open_modals') + 1);
+                $(this).css('z-index', 1040 + (10 * $('body').data('fv_open_modals')));
+                $('.modal-backdrop').not('.fv-modal-stack').css('z-index', 1039 + (10 * $('body').data('fv_open_modals')));
+                $('.modal-backdrop').not('fv-modal-stack').addClass('fv-modal-stack');
+
+                // 모달 위치 초기화
+                $(this).find($('.modal-dialog')).css('top', 100);
+                $(this).find($('.modal-dialog')).css('right', 0);
+                $(this).find($('.modal-dialog')).css('left', 0);
+
+                $(this).find($('.modal-backdrop')).last().css("z-index", "9999");
+
+                // 모달창 드래그 기능
+                $(this).find($('.modal-dialog')).draggable({ handle: ".modal-header" });
+
+            })
+
+            // 모달창이 완전히 사라진 후 호출
+            $(document).on('hidden.bs.modal', '.modal', function (e) {
+                $(this).removeClass('fv-modal-stack');
+                $('body').data('fv_open_modals', $('body').data('fv_open_modals') - 1);
+            });
+
+            // 클릭한 모달의 화면 우선순위
+            $(document).on('click', '.modal', function () {
+                $(this).css('z-index', 1040 + (10 * $('body').data('fv_open_modals')));
+                $('body').data('fv_open_modals', $('body').data('fv_open_modals') + 1);
+
+                if (typeof ($('body').data('fv_open_modals')) == 'undefined') {
+                    $('body').data('fv_open_modals', 0);
+                }
+            });
+
+        </script>
 
         <script>
-            // 사원 조회 (리스트, 상세정보)
-            // 사원 조회 시 검색 기능 (부서, 직급, 입사일자, 퇴사일자, 사번, 사원명)
-            // 페이징
-            // 사원 퇴사 처리
+            $(document).on('shown.bs.modal', '.modal', function () {
+                const zIndex = 1040 + 10 * $('.modal:visible').length;
+                $(this).css('z-index', zIndex);
+                setTimeout(() => $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack'));
+            });
+        </script>
+        <script>
+            $('#empDetailModal').on('shown.bs.modal', function () {
+                //To relate the z-index make sure backdrop and modal are siblings
+                $(this).before($('.modal-backdrop'));
+                //Now set z-index of modal greater than backdrop
+                $(this).css("z-index", parseInt($('.modal-backdrop').css('z-index')) + 20);
+            });
+            $('#empRetireModal').on('shown.bs.modal', function () {
+                //To relate the z-index make sure backdrop and modal are siblings
+                $(this).before($('.modal-backdrop'));
+                //Now set z-index of modal greater than backdrop
+                $(this).css("z-index", parseInt($('.modal-backdrop').css('z-index')) + 20);
+            });
+            $('#empRetireCheckModal').on('shown.bs.modal', function () {
+                //To relate the z-index make sure backdrop and modal are siblings
+                $(this).before($('.modal-backdrop'));
+                //Now set z-index of modal greater than backdrop
+                $(this).css("z-index", parseInt($('.modal-backdrop').css('z-index')) + 20);
+            }); 
+        </script>
+        <script>
+            /* 
+                1. 사원 조회 (리스트, 상세정보)
+                2. 사원 조회 시 검색 기능 (부서, 직급, 입사일자, 퇴사일자, 사번, 사원명)
+                3. 페이징
+                4. 사원 퇴사 처리 
+            */
             const EmpList = {
                 data() {
                     return {
                         empList: [], // 사원 리스트
                         empDetail: [], // 사원 상세정보
-                        headerNameList: ['no', '사번', '구분', '사원명', '부서', '직급', '휴대폰', '이메일',
-                            '입사일자', '재직여부', '휴직여부', '퇴사일자', '상세조회'], // 사원 리스트 컬럼명
+                        headerNameList: ['no', '사번', '구분', '사원명', '부서', '직급', '휴대폰', '이메일', // 사원 리스트 컬럼명
+                            '입사일자', '재직여부', '휴직여부', '퇴사일자', '상세조회'],
+
                         departmentList: [], // 부서코드 리스트
                         gradeList: [], // 직급코드 리스트
                         department: '전체', // 부서코드
                         grade: '전체',  // 직급코드
-                        retireyn: '전체',
 
                         menu: '전체', // text검색 - 조건
                         search: '', // text검색 - 검색어
-                        checked: '',
-
-                        empCnt: '',
 
                         // 사원 주민번호 조회 관련 필드
                         preregno: '',
@@ -864,49 +1010,32 @@
 
                         careeryears: '0', // 경력연차
 
+                        // 사원 퇴사 처리 관련 필드
+                        retireyn: '전체',
+                        retiredate: '',
+                        retirenote: '',
 
-                        // 사원 데이터 수정 관련 필드
-                        empno: '',
-
-                        //password: '',
-                        bankcd: '',
+                        // 사원 부서 및 직급 관리 관련 필드
                         //departmentcd: '',
                         //gradecd: '',
                         //usertype: '',
+                        //yearsalary: '', // 연봉
+                        //salary: '',
+
+                        // 사원 데이터 수정 관련 필드
+                        empno: '',
                         name: '',
-                        //gender: '',
                         mail: '',
                         tel: '',
                         zipcode: '',
                         addr: '',
                         addrdetail: '',
-                        regno: '',
                         school: '',
-                        entrydate: '',
-                        retiredate: '',
-                        //yearsalary: '', // 연봉
-                        //salary: '',
                         retirementpay: '',
-                        account: '',
                         memo: '',
-                        //retireyn: 'n', // 퇴직여부 (y -> 퇴직, n -> 재직)
-                        //restyn: 'n', // 휴직여부
-                        //privateinsurance: '',
-                        //paymentst: '',
                         totalal: '',
-                        //useal: '',
-                        retirenote: '',
 
-                        // 사원 주민번호 저장 관련 필드
-                        regno1: '',
-                        regno2: '',
-
-                        // 사원 전화번호 저장 관련 필드
-                        tel1: '',
-                        tel2: '',
-                        tel3: '',
-
-                        // 사원 사진 저장 관련 필드
+                        // 사원 사진 관련 필드
                         file: '',
                         fileno: '',
                         filename: '',
@@ -917,48 +1046,50 @@
                         dno: '',
 
                         entrydateSearch: '20221027 ~ 20221027',
-                        retiredateSearch: ''
-
-                          // 사원 퇴사처리
-                        retireyn: '',
-
+                        retiredateSearch: '',
 
                         // pagination
-                        pageNum : 0,
-                        pageList:[]
+                        pageNum: 0,
+                        pageList: []
                     }
                 },
 
                 // pagination
-                props:{
+                props: {
                     pageSize: {
-                        type : Number,
+                        type: Number,
                         required: false,
-                        default: 1
+                        default: 10,
                     }
                 },
 
                 methods: {
-
-                    // 사원 리스트 추출
+                    // 사원 리스트 출력
                     getEmpList() {
                         axios.post("http://localhost:8888/api/hrms")
                             .then((response) => {
                                 this.empList = response.data;
                                 this.pageList = response.data;
-
                             })
                             .catch(error => console.error(error))
                     },
 
-
-                    // 사원 추출
+                    // 사원 출력
                     getEmp(empno) {
-                        this.empDetail = this.pageList[empno];
+                        this.empDetail = this.pageList[empno + this.pageNum * this.pageSize];
+
+                        this.name = this.empDetail.name;
+                        this.school = this.empDetail.school;
+                        this.mail = this.empDetail.mail;
+                        this.zipcode = this.empDetail.zipcode;
+                        this.addr = this.empDetail.addr;
+                        this.addrdetail = this.empDetail.addrdetail;
+                        this.memo = this.empDetail.memo;
+                        this.file = this.empDetail.file;
 
                         // 주민번호 앞/뒤자리 처리
                         this.preregno = (this.empDetail.regno).substr(0, 6);
-                        this.sufregno = (this.empDetail.regno).substr(7, 13);
+                        this.sufregno = (this.empDetail.regno).substr(6, 7);
 
                         // 연락처 앞/뒤자리 처리
                         this.tel1 = (this.empDetail.tel).substr(0, 3);
@@ -968,16 +1099,10 @@
                         // 경력 연차
                         if (this.empDetail.retireyn === 'y') { // 퇴사자일 경우 퇴직날짜 기준으로 계산
                             this.careeryears = (parseInt((this.empDetail.retiredate).substr(0, 4)) - parseInt((this.empDetail.entrydate).substr(0, 4)));
-                            console.log((this.empDetail.retiredate) - (this.empDetail.entrydate));
                         } else { // 재직자일 경우 오늘날짜 기준으로 계산
-
-                            var strDate1 = (new Date().toDateString).substr(0, 4);
+                            var strDate1 = ((new Date()).toDateString()).substr(0, 4);
                             var strDate2 = (this.empDetail.entrydate).substr(0, 4);
-
-                            console.log(strDate1)
-                            console.log(strDate2)
                             this.careeryears = parseInt(strDate1) - parseInt(strDate2);
-                            console.log("ㄴㄴㄴㄴ" + this.careeryears)
                         }
 
                     },
@@ -996,7 +1121,7 @@
                     // 선택한 부서로 셋팅 
                     setDepartments(department) {
                         this.department = department;
-                        console.log(department);
+                        this.pageNum = 0;
                         this.setPageList();
 
                     },
@@ -1015,129 +1140,122 @@
                     // 선택한 직급으로 셋팅
                     setGrades(grade) {
                         this.grade = grade;
-                        console.log(grade);
+                        this.pageNum = 0;
                         this.setPageList();
                     },
 
                     // 선택한 퇴직여부로 셋팅
                     setRetireyn(retireyn) {
                         this.retireyn = retireyn;
-                        console.log(retireyn);
+                        this.pageNum = 0;
                         this.setPageList();
                     },
 
                     // 선택한 검색 메뉴로 셋팅
                     setMenu(menu) {
                         this.menu = menu;
+                        this.setPageList();
                     },
 
                     // 선택한 검색어로 셋팅
                     searchEmp(search) {
                         this.search = search;
-                        console.log(this.search);
+                        this.pageNum = 0;
+                        this.setPageList();
                     },
 
                     // 사원 데이터 수정
                     update() {
                         axios.patch("http://localhost:8888/api/hrms/update", {
                             empno: this.empDetail.empno,
-
-                            //password: this.tel3,
-                            //bankcd: this.empDetail.bankcd,
-                            //departmentcd: this.departmentcd,
-                            //gradecd: this.gradecd,
-                            //usertype: this.usertype,
-                            name: this.empDetail.name,
-                            //gender: this.gender,
-                            mail: this.empDetail.mail,
-                            tel: this.empDetail.tel1 + this.empDetail.tel2 + this.empDetail.tel3,
-                            zipcode: this.empDetail.zipcode,
-                            addr: this.empDetail.addr,
-                            addrdetail: this.empDetail.addrdetail,
-                            school: this.empDetail.school,
-                            //entrydate: this.entrydate,
-                            //retiredate: this.retiredate,
-                            //yearsalary: this.yearsalary,
-                            //salary: (this.yearsalary / 12),
+                            name: this.name,
+                            mail: this.mail,
+                            tel: this.tel1 + this.tel2 + this.tel3,
+                            zipcode: this.zipcode,
+                            addr: this.addr,
+                            addrdetail: this.addrdetail,
+                            school: this.school,
                             retirementpay: this.empDetail.retirementpay,
-                            //account: this.empDetail.account,
-                            memo: this.empDetail.memo,
-                            //retireyn: this.retireyn,
-                            //restyn: this.restyn,
-                            //privateinsurance: (this.yearsalary * 0.03945),
-                            //paymentst: this.paymentst,
-                            //totalal: this.empDetail.totalal,
-                            //retirenote: this.retirenote,
-
+                            memo: this.memo,
                             filename: this.empDetail.filename,
                             physicalpath: this.empDetail.physicalpath,
                             filesize: this.empDetail.filesize,
-                            //kind: this.empDetail.kind,
                             relatedpath: this.empDetail.relatedpath,
                             dno: this.empDetail.dno
-                        })
-                            .then((response) => {
-                                console.log("사원 정보 수정 요청");
 
-                            })
-                            .catch(error => console.error(error))
-                    },
-
-                    retire() {
-                        axios.patch("http://localhost:8888/api/hrms/retire", {
-                            empno: this.empno,
-                            retireyn: 'y'
                         }).then((response) => {
-                            console.log("퇴사 처리 요청");
+                            console.log("사원 정보 수정");
                         }).catch(error => console.error(error))
                     },
 
+                    // 퇴사처리
+                    retire() {
+                        axios.patch("http://localhost:8888/api/hrms/retire", {
+                            empno: this.empDetail.empno,
+                            retiredate: this.empDetail.retiredate,
+                            retirenote: this.empDetail.retirenote,
+                        }).then((response) => {
+                            console.log("퇴사 처리");
+                        }).catch(error => console.error(error))
+                    },
 
-                    //pagination
-                    nextPage(){
+                    // pagination
+                    nextPage() {
                         this.pageNum += 1;
                     },
 
-                    prevPage(){
+                    prevPage() {
                         this.pageNum -= 1;
                     },
 
-                    setPageList(){
+                    setPageList() {
                         let temp = [];
-                        for(emp of this.empList){
-                            if((emp.departmentname === this.department || this.department === '전체') &&
-                                (emp.gradename === this.grade || this.grade === '전체') &&
-                                (emp.retireyn === this.retireyn || this.retireyn === '전체')){
-                                    temp.push(emp);
-                                    console.log(emp);
-                                }
+                        for (emp of this.empList) {
+                            // 사원 조회 시 검색 조건
+                            if (
+                                ((emp.departmentname === this.department) || (this.department === '전체')) &&
+                                ((emp.gradename === this.grade) || (this.grade === '전체')) &&
+                                ((emp.retireyn === this.retireyn) || (this.retireyn === '전체')) &&
+                                (
+                                    (this.menu === '전체' && (this.search == '' || emp.name.includes(this.search) || ((emp.empno).toString()).includes(this.search) || emp.mail.includes(this.search) || emp.tel.includes(this.search))) ||
+                                    (this.menu === 'searchName' && (this.search == '' || emp.name.includes(this.search))) ||
+                                    (this.menu === 'searchEmpno' && (this.search == '' || ((emp.empno).toString()).includes(this.search)))
+                                )
+                            ) {
+                                temp.push(emp);
+                            }
                         }
                         this.pageList = temp;
-                        console.log(temp);
-                        console.log(this.empList);
-                        console.log(this.pageList);
+                    },
+
+                    reload() {
+                        location.reload();
+                    },
+
+                    closeModal(modalId) {
+                        $(modalId).modal('hide');
                     }
+
                 },
 
-                computed:{
-                    pageCount(){
+                computed: {
+                    pageCount() {
                         let listLeng = this.pageList.length;
-                            listSize = this.pageSize,
+                        listSize = this.pageSize,
                             page = Math.floor(listLeng / listSize);
 
-                        if (listLeng==0)return 1;
-                        if(listLeng % listSize > 0) page += 1;
+                        if (listLeng == 0) return 1;
+                        if (listLeng % listSize > 0) page += 1;
 
                         return page;
                     },
 
-                    paginatedData(){
-
+                    paginatedData() {
                         let start = this.pageNum * this.pageSize,
-                              end = start + this.pageSize;
+                            end = start + this.pageSize;
 
                         return this.pageList.slice(start, end);
-                    }
+                    },
                 },
 
                 created() {
@@ -1150,8 +1268,9 @@
         </script>
 
         <script>
-            // 사원 정보 등록
-            // 사원 정보 수정
+            /*
+                1. 사원 정보 등록
+            */
             const RegistEmp = {
                 data() {
                     return {
@@ -1254,11 +1373,9 @@
                             kind: this.kind,
                             relatedpath: this.relatedpath,
                             dno: this.dno
-                        })
-                            .then((response) => {
-                                console.log(this.name);
-                            })
-                            .catch(error => console.error(error))
+                        }).then((response) => {
+                            console.log("사원 등록");
+                        }).catch(error => console.error(error))
                     },
 
                     // 사번 불러오기
@@ -1266,8 +1383,6 @@
                         axios.post("http://localhost:8888/api/hrms/empno")
                             .then((response) => {
                                 this.empno = response.data;
-                                console.log(this.empno)
-                                console.log(response.data)
                             })
                             .catch(error => console.error(error))
                     },
@@ -1344,17 +1459,6 @@
                             })
                             .catch(error => console.error(error))
                     },
-
-                    // // 수정
-                    // update() {
-                    //     axios.patch("http://localhost:8888/api/hrms/" + empno)
-                    //         .then((response) => {
-                    //             console.log(this.name);
-                    //         })
-                    //         .catch(error => console.error(error))
-                    // }
-
-
                 },
 
                 mounted() {
@@ -1424,10 +1528,10 @@
         <!-- 팝오버 -->
         <!-- <button type="button" class="btn btn-primary" data-toggle="popover" title="Popover title" data-content="Lorem Ipsum Dolor Lorem Ipsum Dolor Lorem Ipsum Dolor">Click</button> -->
 
-        <!-- 부트스트랩 번들 -->
+        <!-- 부트스트랩 번들 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
+            crossorigin="anonymous"></script> -->
 
 
         <!-- 달력 start -->

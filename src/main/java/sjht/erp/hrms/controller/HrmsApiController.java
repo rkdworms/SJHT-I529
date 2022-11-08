@@ -3,11 +3,13 @@ package sjht.erp.hrms.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import sjht.erp.hrms.dto.SelectDto;
 import sjht.erp.hrms.dto.UpdateDto;
 import sjht.erp.hrms.service.HrmsApiService;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -85,15 +87,17 @@ public class HrmsApiController {
         return ResponseEntity.status(HttpStatus.OK).body(userMasterList);
     }
 
-
-
-
-    /* 퇴사 처리 (사원 삭제가 아니라 재직여부가 바뀜) */
+    /* 퇴사 처리 (사원 삭제가 아니라 재직여부가 재직 -> 퇴직으로 변경)
+    * HashMap<String,Integer> empno  */
     @PatchMapping("/api/hrms/retire")
-    public void retireEmp(@RequestBody UpdateDto updateDto) {
-        // 사원 재직여부를 재직에서 퇴사로 변경 요청
+    public void retireEmp (@RequestBody UpdateDto updateDto) {
+        // 사원 퇴사 처리 요청
         hrmsApiService.retireEmp(updateDto);
+
+
     }
+
+
 
 
 

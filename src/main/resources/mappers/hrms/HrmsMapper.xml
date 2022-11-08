@@ -170,46 +170,24 @@
 
     <!-- 사원 데이터 수정 -->
     <update id="updateEmp" parameterType="sjht.erp.hrms.dto.UpdateDto">
-        UPDATE employee e, file f
+        UPDATE employee as e, file as f
         SET
-        (
-        e.password = #{e.password},
-        e.bankcd = #{e.bankcd},
-        e.departmentcd = #{e.departmentcd},
-        e.gradecd = #{e.gradecd},
-        e.usertype = #{e.usertype},
-        e.name = #{e.name},
-        e.gender = #{e.gender},
-        e.mail = #{e.mail},
-        e.tel = #{e.tel},
-        e.zipcode = #{e.zipcode},
-        e.addr = #{e.addr},
-        e.addrdetail = #{e.addrdetail},
-        e.regno = #{e.regno},
-        e.school = #{e.school},
-        e.entrydate = #{e.entrydate},
-        e.retiredate = #{e.retiredate},
-        e.yearsalary = #{e.yearsalary},
-        e.salary = #{e.salary},
-        e.retirementpay = #{e.retirementpay},
-        e.account = #{e.account},
-        e.memo = #{e.memo},
-        e.retireyn = #{e.retireyn},
-        e.restyn = #{e.restyn},
-        e.privateinsurance = #{e.privateinsurance},
-        e.paymentst = #{e.paymentst},
-        e.totalal = #{e.totalal},
-        e.useal = #{e.useal},
-        e.retirenote = #{e.retirenote},
-        f.filename = #{f.filename},
-        f.physicalpath = #{f.physicalpath},
-        f.filesize = #{f.filesize},
-        f.kind = #{f.kind},
-        f.relatedpath = #{f.relatedpath},
-        f.dno = #{f.dno}
-        )
-        WHERE  e.empno = #{f.empno}
-        AND f.kind = '증명사진'
+        e.name = #{name},
+        e.mail = #{mail},
+        e.tel = #{tel},
+        e.zipcode = #{zipcode},
+        e.addr = #{addr},
+        e.addrdetail = #{addrdetail},
+        e.school = #{school},
+        e.retirementpay = #{retirementpay},
+        e.memo = #{memo},
+        f.filename = #{filename},
+        f.physicalpath = #{physicalpath},
+        f.filesize = #{filesize},
+        f.relatedpath = #{relatedpath}
+
+        WHERE  e.empno = #{empno}
+        AND f.kind = <![CDATA[ '증명사진' ]]>
     </update>
 
     <!-- 부서 리스트 -->
@@ -234,7 +212,8 @@
 
     <!-- 퇴사 처리 -->
     <update id="retireEmp" parameterType="sjht.erp.hrms.dto.UpdateDto">
-        UPDATE employee SET retireyn = 'y'
+        UPDATE employee
+        SET retireyn =  <![CDATA[ 'y' ]]>, retiredate =  #{retiredate}, retirenote = #{retirenote}
         WHERE empno = #{empno}
     </update>
 </mapper>
