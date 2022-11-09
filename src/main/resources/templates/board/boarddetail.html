@@ -1,132 +1,115 @@
 <!DOCTYPE html>
 <html lang="en" layout:decorate="~{layout/layout_form}" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="">
 <th:blcok layout:fragment="content">
+
     <head>
         <meta charset="UTF-8">
-        <link href="/css/hrms/hrms.css" rel="stylesheet"/>
+        <link href="/css/hrms/hrms.css" rel="stylesheet" />
     </head>
+
     <body>
-    <header class="page-header page-header-compact page-header-light border-bottom bg-white">
-        <div class="container-fluid">
-            <div class="page-header-content">
-                <div class="row align-items-center justify-content-between pt-3">
-                    <div class="col-auto mb-3">
-                        <h1 class="page-header-title">
-                            <div class="page-header-icon"><i data-feather="user"></i></div>
-                            게시판 - 자유 게시판
-                        </h1>
+        <header class="page-header page-header-compact page-header-light border-bottom bg-white">
+            <div class="container-fluid">
+                <div class="page-header-content">
+                    <div class="row align-items-center justify-content-between pt-3">
+                        <div class="col-auto mb-3">
+                            <h1 class="page-header-title">
+                                <div class="page-header-icon"><i data-feather="user"></i></div>
+                                게시판 - 자유 게시판
+                            </h1>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </header>
-    <header class="page-header page-header-dark bg-gray-900 pb-10">
-        <div class="container">
-            <div class="page-header-content pt-2">
-            </div>
-        </div>
-    </header>
-    <div class="container mt-n10" id="board">
-        <div class="card mb-4">
-            <div class="card-header">상세보기</div>
-            <!--코드 시작 부분-->
-            <div class="card-body">
-
-                <table class="table table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <th>제목</th>
-                        <th>작성자</th>
-                        <th>내용</th>
-                        <th>작성일</th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td th:text="${detail.title}"></td>
-                        <td th:text="${detail.name}"></td>
-                        <td th:text="${detail.content}"></td>
-                        <td th:text="${detail.createtime}"></td>
-
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="text-right">
-                    <a href="/board" class="btn btn-dark text-right">뒤로가기</a>
-                    <a th:href="@{|/boardmodify/${detail.bno}|}" class="btn btn-dark">수정</a>
-                    <button type="button" class="btn btn-dark text-left" v-on:click="boardDelete()">삭제</button>
+        </header>
+        <header class="page-header page-header-dark bg-gray-900 pb-10">
+            <div class="container">
+                <div class="page-header-content pt-2">
                 </div>
-
-
             </div>
+        </header>
+        <div class="container mt-n10" id="board">
+            <div class="card mb-4">
+                <div class="card-header">자유 게시판</div>
+                <!--코드 시작 부분-->
+                <div class="card-body">
+                    <div class="p-3">
+                        <h1 th:text="${detail.title}"></h1>
+                        <div style="font-size: 0.9rem;" th:text="${detail.name}"></div>
+                        <div style="font-size: 0.9rem;" th:text="${detail.createtime}"></div>
+                    </div>
+                    <hr>
+                    <textarea class="form-control mb-4 p-4 " readonly th:value="${detail.content}" style="
+                    background: #ffffff;" rows="28"></textarea>
+
+                    <div class="text-right">
+                        <a href="/board" class="btn btn-hrms p-2">뒤로가기</a>
+                        <a th:href="@{|/boardmodify/${detail.bno}|}" class="btn btn-hrms p-2">수정</a>
+                        <button type="button" class="btn btn-hrms p-2" v-on:click="boardDelete()">삭제</button>
+                    </div>
+
+                </div>
+            </div>
+            <script th:inline="javascript">
+                /*<![CDATA[*/
+                var bno = /*[[ ${detail.bno} ]]*/;
+
+
+                const board = {
+                    data() {
+                        return {
+                            checkDelete: "",
+                            checkUpdate: ""
+                        }
+                    },
+
+                    methods: {
+                        boardUpdate() {
+                            var title = /*[[ ${detail.title} ]]*/;
+                            var content = /*[[ ${detail.content} ]]*/;
+                            console.log(title)
+                            axios.post("http://localhost:8888/api/boardupdate/" + bno,
+                                {
+                                    title: title,
+                                    content: content
+                                }
+
+                            ).then((response) => {
+                                this.checkUpdate = response.data;
+                                console.log(this.checkUpdate)
+                                if (this.checkUpdate === true) {
+
+                                }
+                            }).catch(error => console.error(error))
+
+                        },
+
+
+
+                        boardDelete() {
+                            console.log(bno)
+
+                            axios.post("http://localhost:8888/api/boarddelete/" + bno
+
+                            ).then((response) => {
+                                this.checkDelete = response.data;
+                                console.log(this.checkDelete)
+                                if (this.checkDelete === true) {
+                                    location.href = "http://localhost:8888/board"
+                                }
+                            }).catch(error => console.error(error))
+
+                        },
+
+                    },
+                }
+                Vue.createApp(board).mount("#board")
+
+                /*]]*/
+
+            </script>
         </div>
-        <script th:inline="javascript">
-        /*<![CDATA[*/
-            var bno = /*[[ ${detail.bno} ]]*/;
-
-
-        const board = {
-            data() {
-                return {
-                    checkDelete: "",
-                    checkUpdate: ""
-
-
-                }
-            },
-
-            methods: {
-
-                boardUpdate(){
-                var title = /*[[ ${detail.title} ]]*/;
-                var content = /*[[ ${detail.content} ]]*/;
-                console.log(title)
-                axios.post("http://localhost:8888/api/boardupdate/" + bno,
-                {
-                    title : title,
-                    content : content
-                }
-
-                ).then((response) => {
-                    this.checkUpdate = response.data;
-                    console.log(this.checkUpdate)
-                    if(this.checkUpdate === true){
-
-                    }
-                }).catch(error => console.error(error))
-
-                },
-
-
-
-                boardDelete(){
-                console.log(bno)
-
-                axios.post("http://localhost:8888/api/boarddelete/" + bno
-
-                ).then((response) => {
-                    this.checkDelete = response.data;
-                    console.log(this.checkDelete)
-                    if(this.checkDelete === true){
-                        location.href= "http://localhost:8888/board"
-                    }
-                }).catch(error => console.error(error))
-
-                },
-
-            },
-        }
-        Vue.createApp(board).mount("#board")
-
-        /*]]*/
-
-        </script>
-    </div>
     </body>
 </th:blcok>
+
 </html>
-
-
-
-

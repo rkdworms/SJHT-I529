@@ -4,7 +4,7 @@ package sjht.erp.board.dto;
 import lombok.Data;
 
 @Data
-public class BoardRequest {
+public class NoticeRequest {
 
     private int bno;            // 번호(PK)
     private int empno;          // 사원번호(FK)

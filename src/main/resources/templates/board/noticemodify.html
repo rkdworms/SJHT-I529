@@ -13,7 +13,7 @@
                     <div class="col-auto mb-3">
                         <h1 class="page-header-title">
                             <div class="page-header-icon"><i data-feather="user"></i></div>
-                            게시판 - 자유 게시판
+                            게시판 - 공지사항
                         </h1>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
             </div>
         </div>
     </header>
-    <div class="container mt-n10" id="board">
+    <div class="container mt-n10" id="notice">
         <div class="card mb-4">
             <div class="card-header">수정</div>
             <!--코드 시작 부분-->
@@ -53,8 +53,8 @@
                     </tbody>
                 </table>
                 <div class="text-right">
-                    <a href="/board" class="btn btn-dark text-right">뒤로가기</a>
-                    <button type="button" class="btn btn-dark text-left" v-on:click="boardUpdate">수정하기</button>
+                    <a href="/notice" class="btn btn-dark text-right">뒤로가기</a>
+                    <button type="button" class="btn btn-dark text-left" v-on:click="noticeUpdate">수정하기</button>
                 </div>
 
 
@@ -68,7 +68,7 @@
 
 
 
-        const board = {
+        const noticevalue = {
             data() {
                 return {
                     checkUpdate: ""
@@ -78,13 +78,13 @@
 
             methods: {
 
-                // 게시글 수정
-                boardUpdate(){
+                // 공지사항 수정
+                noticeUpdate(){
                     var bno1 = /*[[ ${detail.bno} ]]*/;
                     title = document.getElementById("title").value
                     content = document.getElementById("content").value
 
-                    axios.post("http://localhost:8888/api/boardupdate",
+                    axios.post("http://localhost:8888/api/noticeupdate",
                         {
                             bno: bno1,
                             title : title,
@@ -95,8 +95,7 @@
                         this.checkUpdate = response.data;
                         console.log(this.checkUpdate)
                         if(this.checkUpdate === true){
-                            location.href= "http://localhost:8888/board"
-
+                            location.href= "http://localhost:8888/notice"
 
                         }
                     }).catch(error => console.error(error))
@@ -105,7 +104,7 @@
 
             },
         }
-        Vue.createApp(board).mount("#board")
+        Vue.createApp(noticevalue).mount("#notice")
 
         /*]]*/
 
