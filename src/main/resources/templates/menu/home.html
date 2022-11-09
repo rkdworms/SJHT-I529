@@ -29,7 +29,7 @@
           </thead>
           <tbody>
             <tr v-for="(nlist,i) in notice" key="nlist">
-              <td colspan="6" class="noticetd"><a>{{nlist.title}}</a></td>
+              <td colspan="6" class="noticetd"><a :href="'noticedetail?bno='+nlist.bno">{{nlist.title}}</a></td>
               <td style="text-align:right" class="noticetd">{{nlist.regdate}}</td>
             </tr>
 
