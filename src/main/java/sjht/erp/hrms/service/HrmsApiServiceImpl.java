@@ -165,5 +165,12 @@ public class HrmsApiServiceImpl implements HrmsApiService {
         hrmsMapper.retireEmp(updateDto);
     }
 
+    /* 승진 및 보직 관리 */
+    @Override
+    public void promotionManage(UpdateDto updateDto) {
+        // 사원 직급 및 부서 변경 요청
+        hrmsMapper.promotionManageEmployee(updateDto);
 
+        hrmsMapper.promotionManageGrade(updateDto);
+    }
 }
