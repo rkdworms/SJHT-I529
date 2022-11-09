@@ -6,6 +6,7 @@ import sjht.erp.board.dto.BoardRequest;
 import sjht.erp.board.dto.BoardResponse;
 import sjht.erp.board.mapper.BoardMapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -16,11 +17,21 @@ public class BoardService {
 
     /**
      * 게시글 리스트 조회
+     * @param boardtype
      * @return 게시글 리스트
      */
-    public List<BoardResponse> boardList() {
+    public List<BoardResponse> boardList(String boardtype) {
 
-        return boardMapper.boardList();
+        return boardMapper.boardList(boardtype);
+    }
+
+    /**
+     * 조회수
+     * @param bno - PK
+     * @return 조회수
+     */
+    public int boardCount(int bno) {
+        return boardMapper.boardCount(bno);
     }
 
     /**
@@ -48,15 +59,8 @@ public class BoardService {
      * @param request - 게시글 정보
      * @return PK
      */
-
     public int boardUpdate(BoardRequest request) {
         boardMapper.boardUpdate(request);
-//        BoardDTO boarddto = this.view(id);
-//
-//        boarddto.setTitle(model.getTitle());
-//        boarddto.setContent(model.getContent());
-//        boarddto.setId(id);
-//        Board result = boardRepository.save(boarddto.toEntity());
         return request.getBno();
 
     }
@@ -71,5 +75,13 @@ public class BoardService {
         return bno;
     }
 
+    /**
+     * 게시글 검색
+     * @param search
+     * @return 검색리스트
+     */
+    public List<BoardResponse> searchBoardList(HashMap<String, String> search) {
 
+        return boardMapper.searchBoardList(search);
+    }
 }

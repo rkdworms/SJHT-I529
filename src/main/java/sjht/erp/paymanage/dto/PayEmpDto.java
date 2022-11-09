@@ -13,6 +13,7 @@ import java.util.Date;
 @ToString
 public class PayEmpDto {
         /*  Employee */
+        private int paysequence; // 지급 번호
         private int empno; // 사원번호
         private String name; // 사원이름
         private int salary; // 월급
@@ -21,6 +22,7 @@ public class PayEmpDto {
 
         private int expend; // 지출 금액
         private int privateinsurance; // 공제 금액
+        private int netpay;
 
         /* DepartmentCode */
         private String departmentname; //부서먕

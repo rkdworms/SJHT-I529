@@ -6,10 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import sjht.erp.hrms.dto.UpdateDto;
+
+import sjht.erp.login.dto.EmployeeDto;
 import sjht.erp.paymanage.dto.PayEmpDto;
 import sjht.erp.paymanage.service.PayManageService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -30,8 +32,10 @@ public class PayManageApiController {
     }
 
     @PostMapping("/api/hrms/paysalary")
-    public void paySalary(@RequestBody List<PayEmpDto> payEmpDtoList){
+    public void paySalary(@RequestBody List<PayEmpDto> payEmpDtoList, HttpServletRequest request){
 
-        payManageservice.payEmpDto(payEmpDtoList);
+        EmployeeDto emp = (EmployeeDto)request.getAttribute("empNo");
+
+        payManageservice.payEmpDto(payEmpDtoList, emp.getEmpno());
     }
 }

@@ -5,6 +5,7 @@
 
 <mapper namespace="sjht.erp.expendHistory.repository.ExpendHistoryMapper">
 
+    <!-- 회계 전표 전체 리스트 출력  -->
     <select id="selectExpendHistory" resultType="sjht.erp.expendHistory.dto.SelectResultEHDto"
             parameterType="sjht.erp.expendHistory.dto.SelectParameterEHDto">
         select
@@ -29,6 +30,7 @@
         order by eh.eno desc
     </select>
 
+    <!-- 회계 전표 전표 번호에 따른 상세 내역 select -->
     <select id="selectExpendHistoryByEno" resultType="sjht.erp.expendHistory.dto.SelectResultEHDto"
             parameterType="Integer">
         select
@@ -46,13 +48,22 @@
         where eno = #{eno}
     </select>
 
+    <!-- 날짜 검색에 따른 계정 과목 별 총 금액 select -->
     <select id="selectExpendHistoryByTotalPrice" resultType="sjht.erp.expendHistory.dto.SelectResultEHDto"
         parameterType="sjht.erp.expendHistory.dto.SelectParameterEHDto">
-        select ac.divname ,sum(de.price) as 'total_divcd_price'
+     select ac.divname , sum(eh.dvamt) as 'total_divcd_price'
         from erp.expendhistory as eh
-                 inner join erp.detailexpend as de on de.dvno = eh.dvno
-                 inner join erp.accountcode as ac on ac.divcd = de.divcd
+        inner join erp.payrollhistory as pr on pr.paysequence = eh.paysequence
+        inner join erp.accountcode as ac on ac.divcd = pr.divcd
+        where (date(eh.dvappdate) between #{start}  and #{end})
+        group by ac.divcd
+        union
+        select ac.divname ,sum(eh.dvamt) as 'total_divcd_price'
+        from erp.expendhistory as eh
+        inner join erp.detailexpend as de on de.dvno = eh.dvno
+        inner join erp.accountcode as ac on ac.divcd = de.divcd
         where (date(eh.dvappdate) between #{start} and #{end})
         group by ac.divcd
     </select>
+
 </mapper>

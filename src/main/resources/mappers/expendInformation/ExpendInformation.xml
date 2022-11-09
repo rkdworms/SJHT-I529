@@ -91,8 +91,8 @@
 
     <!--    결의번호 급여번호 대분류코드 사번 지출금액 날짜 -->
     <insert id="insertExpendHistory" parameterType="sjht.erp.expendInformation.dto.InsertParameterEIDto">
-        insert into erp.expendhistory(dvno, divcd, empno, dvamt, dvappdate)
-        values (#{dvno}, #{divcd}, #{empno}, #{dvamt}, #{dvappdate})
+        insert into erp.expendhistory(dvno, empno, dvamt, dvappdate, dvappname)
+        values (#{dvno}, #{empno}, #{dvamt}, #{dvappdate}, #{dvappname})
     </insert>
 
 
