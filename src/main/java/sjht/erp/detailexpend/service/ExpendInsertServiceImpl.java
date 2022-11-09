@@ -3,14 +3,17 @@ package sjht.erp.detailexpend.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sjht.erp.detailexpend.dto.request.InsertRequestDto;
-import sjht.erp.detailexpend.dto.request.SelectEmployeeDto;
-import sjht.erp.detailexpend.dto.request.UpdateMyDetailExpendRequestDto;
-import sjht.erp.detailexpend.dto.request.UpdateRequestDto;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+import sjht.erp.detailexpend.dto.request.*;
 import sjht.erp.detailexpend.dto.response.DetailResponseDto;
 import sjht.erp.detailexpend.dto.response.MyExpendListResponseDto;
 import sjht.erp.detailexpend.repository.ExpendInsertMapper;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
@@ -19,9 +22,6 @@ import java.util.List;
 public class ExpendInsertServiceImpl implements ExpendInsertService {
     @Autowired
     ExpendInsertMapper expendInsertMapper;
-
-    private int dvamt;
-
 
     public String makeDVNO() {
         String thisYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
@@ -44,17 +44,6 @@ public class ExpendInsertServiceImpl implements ExpendInsertService {
             return dvno;
         }
         return null;
-    }
-
-    @Transactional
-    @Override
-    public int inputDetail(InsertRequestDto insertRequestDto/*, MultipartFile multipartFile*/) {
-        int i = expendInsertMapper.insertExpend(insertRequestDto);
-        if (i >= 0) {
-            // 파일입력부분이 들어가야 된다.
-            return i;
-        }
-        return -1;
     }
 
     @Override
@@ -113,7 +102,7 @@ public class ExpendInsertServiceImpl implements ExpendInsertService {
     @Override
     @Transactional
     public boolean deleteOneData(int dno) {
-        return expendInsertMapper.deleteDetailExpendInteger(dno)!=0;
+        return expendInsertMapper.deleteDetailExpendInteger(dno) != 0;
     }
 
     @Override
@@ -123,6 +112,37 @@ public class ExpendInsertServiceImpl implements ExpendInsertService {
 
     @Override
     public boolean updateMyDetailExpend(UpdateMyDetailExpendRequestDto updateMyDetailExpendRequestDto) {
-        return expendInsertMapper.updateMyDetailExpend(updateMyDetailExpendRequestDto)!=0;
+        return expendInsertMapper.updateMyDetailExpend(updateMyDetailExpendRequestDto) != 0;
+    }
+
+    @Transactional
+    @Override
+    public boolean inputDetail(InsertRequestDto insertRequestDto) {
+        int i = expendInsertMapper.insertExpend(insertRequestDto);
+
+        return i != 0;
+    }
+
+    @Override
+    public boolean fileInput(MultipartFile multipartFile, int empno, String dvno) throws IOException {
+        int dno = expendInsertMapper.selectDetailExpendDnoOne(dvno);
+        System.out.println(dno);
+
+        Path directory = Paths.get("/erp/file/expend").toAbsolutePath().normalize();
+        Files.createDirectories(directory);
+        String filename = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        Path targetPath = directory.resolve(filename).normalize();
+        System.out.println(targetPath.toAbsolutePath());
+        multipartFile.transferTo(targetPath);
+        FileRequestDto fileRequestDto = new FileRequestDto(
+                multipartFile.getOriginalFilename(),
+                targetPath.toString(),
+                Math.toIntExact(multipartFile.getSize()),
+                empno,
+                1,
+                "/erp/file/expend/",    // 상대경로 사용하지 않음
+                dno
+        );
+        return expendInsertMapper.insertFile(fileRequestDto) != 0;
     }
 }
