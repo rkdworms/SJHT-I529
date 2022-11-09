@@ -128,9 +128,9 @@ public class ExpendInsertApiController {
         Path directory = Paths.get("/erp/file/expend").toAbsolutePath().normalize();
         Files.createDirectories(directory);
         String filename = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        System.out.println(filename);
         Path targetPath = directory.resolve(filename).normalize();
         System.out.println(targetPath.toAbsolutePath());
-
         if(expendInsertService.fileInput(multipartFile,empno,dvno,targetPath)){
             multipartFile.transferTo(targetPath);
             return true;

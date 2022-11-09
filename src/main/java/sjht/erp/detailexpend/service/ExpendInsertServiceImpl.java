@@ -9,7 +9,6 @@ import sjht.erp.detailexpend.dto.response.DetailResponseDto;
 import sjht.erp.detailexpend.dto.response.MyExpendListResponseDto;
 import sjht.erp.detailexpend.repository.ExpendInsertMapper;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -121,10 +120,8 @@ public class ExpendInsertServiceImpl implements ExpendInsertService {
     }
 
     @Override
-    public boolean fileInput(MultipartFile multipartFile, int empno, String dvno,Path targetPath) throws IOException {
+    public boolean fileInput(MultipartFile multipartFile, int empno, String dvno,Path targetPath){
         int dno = expendInsertMapper.selectDetailExpendDnoOne(dvno);
-        System.out.println(dno);
-
 
         FileRequestDto fileRequestDto = new FileRequestDto(
                 multipartFile.getOriginalFilename(),

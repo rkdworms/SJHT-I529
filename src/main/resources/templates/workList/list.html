@@ -731,7 +731,7 @@
                                             <td>삭제</td>
                                         </tr>
                                         </thead>
-                                        <tbody v-for="list in myDetailExpendList" key="list.dno">
+                                        <tbody v-for="(list,i) in myDetailExpendList" key="list.dno">
                                         <tr>
                                             <td>{{list.dvusedate}}</td>
                                             <td>{{list.divcd}}</td>
@@ -739,7 +739,7 @@
                                             <td>{{list.detailuse}}</td>
                                             <td>{{list.price}}</td>
                                             <td>{{list.dvmemo}}</td>
-                                            <td></td>
+                                            <td><a></a></td>
                                             <td>
                                                 <button @click="deleteOne(list.dno)" class="btn btn-dark">
                                                     삭제
@@ -825,15 +825,13 @@
                                                            id="dvmemo">
                                                 </td>
                                                 <td>
-                                                    <input v-model="file" type="file" id="myFile"
+                                                    <input @change="filechange($event)" type="file" id="myFile"
                                                            name="filename" class="custom">
                                                 </td>
                                             </tr>
                                         </table>
                                         <button type="button" class="btn btn-dark" id="saveDetailExpend" onclick=""
-                                                @click="doInsertingDetailAndFile()">저장
-                                        </button>
-                                        <button type="button" class="btn btn-dark" @click="fileInput()">테스트
+                                                @click="inputDetail()">저장
                                         </button>
                                         <button type="button" class="btn btn-dark" id="exitDetailExpend"
                                                 onclick="DetailModalClose()">종료
@@ -947,7 +945,7 @@
                     Id: "",
                     myDetailExpend: {}, // 지출결의정보
                     dno: "",
-                    Efiles:""
+                    file: ""
                 }
             },
 
@@ -1047,31 +1045,29 @@
                     }
                     axios.post("http://localhost:8888/api/insertDetail", data)
                         .then(response => {
+                            this.fileInput();
                         })
                 },
-
+                filechange(event) {
+                    this.file = event.target.files[0];
+                },
+                // 파일 입력
                 fileInput() {
-                    let file = document.getElementById("myFile").files[0];
+                    // let file = document.getElementById("myFile").files[0];
                     let formData = new FormData();
-                    formData.append("file", file);
+                    formData.append("file", this.file);
                     formData.append("dvno", this.dvno);
-                    console.log(formData.get("file"))
-                    console.log(formData.get("dvno"))
-                    axios.post("http://localhost:8888/api/uploadFile", formData,
-                        {
-                            headers: {
-                                "Content-Type": "multipart/form-data",
-                            }
-                        })
-                        .then(response => {
-                        })
-                },
-
-                // 버튼 클릭시 지출결의 정보, 파일 입력
-                doInsertingDetailAndFile(){
-                    this.inputDetail();
-                    this.fileInput();
-                    this.ReShowList();
+                    if (this.file != null) {
+                        axios.post("http://localhost:8888/api/uploadFile", formData,
+                            {
+                                headers: {
+                                    "Content-Type": "multipart/form-data",
+                                }
+                            })
+                            .then(response => {
+                                this.ReShowList();
+                            })
+                    }
                 },
 
                 // 닫기 버튼 클릭시 결의번호 삭제
@@ -1277,11 +1273,13 @@
                 },
 
             },
-            created() {
+            created
+                () {
                 this.getROLE();
                 this.getName2();
                 this.getDepartmentName()
-            },
+            }
+            ,
 
             mounted() {
                 this.showWorkTimeList();
