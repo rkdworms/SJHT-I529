@@ -15,7 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class EmployeeVO {
 
-    private int empno; // 사원번호
+    private int empno; // pk 사원번호
     private String password; // 비밀번호
     private BankCodeVO bankcd; // fk 은행코드
     private DepartmentCodeVO departmentcd; // fk 부서코드
