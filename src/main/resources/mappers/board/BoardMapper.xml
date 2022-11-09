@@ -22,6 +22,38 @@
             bno DESC
     </select>
 
+    <select id="searchBoardList" parameterType="hashMap" resultType="sjht.erp.board.dto.BoardResponse">
+        SELECT
+        b.bno,
+        b.empno,
+        b.title,
+        b.content,
+        b.createtime,
+        b.boardtype,
+        b.boardcount,
+        e.name
+        FROM
+        board b left join employee e on(b.empno = e.empno)
+        <choose>
+
+            <when test="searchtype =='all'">
+                WHERE e.name like concat('%',#{search},'%') OR b.title like concat('%',#{search},'%')
+            </when>
+            <when test="searchtype =='empname'">
+                WHERE e.name like concat('%',#{search},'%')
+            </when>
+            <when test="searchtype =='title'">
+                WHERE b.title like concat('%',#{search},'%')
+            </when>
+            <when test="search != null ">
+                WHERE b.title=''
+            </when>
+
+        </choose>
+        ORDER BY
+        bno DESC
+    </select>
+
     <!-- 조회수 -->
     <update id="boardCount">
         UPDATE

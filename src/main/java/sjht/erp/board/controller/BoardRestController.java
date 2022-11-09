@@ -1,6 +1,8 @@
 package sjht.erp.board.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sjht.erp.board.dto.BoardRequest;
 import sjht.erp.board.dto.BoardResponse;
@@ -19,12 +21,21 @@ public class BoardRestController {
 
     // 게시글 리스트
     @PostMapping("/api/boardlist")
-    public List<BoardResponse> boardList() {
-
+    public ResponseEntity<List<BoardResponse>> boardList() {
 
         List<BoardResponse> response = boardService.boardList();
 
-        return response;
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    // 검색 결과 리스트
+    @PostMapping("/api/searchboardlist")
+    public ResponseEntity<List<BoardResponse>> boardSearchList(@RequestBody HashMap<String, String> search){
+
+        List<BoardResponse> response = boardService.searchBoardList(search);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+
     }
 
 

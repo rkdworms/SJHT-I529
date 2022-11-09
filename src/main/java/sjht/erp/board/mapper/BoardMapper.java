@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import sjht.erp.board.dto.BoardRequest;
 import sjht.erp.board.dto.BoardResponse;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Mapper
@@ -46,9 +47,6 @@ public interface BoardMapper {
      */
     void boardDelete(int bno);
 
-
-
-
-
+    List<BoardResponse> searchBoardList(HashMap<String, String> search);
 }
 

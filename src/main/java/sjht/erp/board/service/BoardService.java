@@ -6,6 +6,7 @@ import sjht.erp.board.dto.BoardRequest;
 import sjht.erp.board.dto.BoardResponse;
 import sjht.erp.board.mapper.BoardMapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -56,7 +57,6 @@ public class BoardService {
      * @param request - 게시글 정보
      * @return PK
      */
-
     public int boardUpdate(BoardRequest request) {
         boardMapper.boardUpdate(request);
         return request.getBno();
@@ -74,4 +74,8 @@ public class BoardService {
     }
 
 
+    public List<BoardResponse> searchBoardList(HashMap<String, String> search) {
+
+        return boardMapper.searchBoardList(search);
+    }
 }
