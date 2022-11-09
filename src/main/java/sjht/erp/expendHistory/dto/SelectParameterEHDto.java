@@ -29,15 +29,10 @@ public class SelectParameterEHDto {
 
         if (!map.get("formStartDvRegDate").isEmpty()) {
             this.start = LocalDate.parse(map.get("formStartDvRegDate"));
-        } else {
-            this.start = LocalDate.now();
         }
 
         if (!map.get("formEndDvRegDate").isEmpty()) {
             this.end = LocalDate.parse(map.get("formEndDvRegDate"));
-        } else {
-            this.end = LocalDate.now();
         }
-
     }
 }

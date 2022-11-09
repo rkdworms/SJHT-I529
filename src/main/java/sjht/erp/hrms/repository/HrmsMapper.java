@@ -38,4 +38,10 @@ public interface HrmsMapper {
 
     /* 퇴사 처리 */
     void retireEmp(UpdateDto updateDto);
+
+    /* 승진 및 보직 관리 - employee update */
+    void promotionManageEmployee(UpdateDto updateDto);
+
+    /* 승진 및 보직 관리 - grade insert */
+    void promotionManageGrade(UpdateDto updateDto);
 }
