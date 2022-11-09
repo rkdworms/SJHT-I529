@@ -32,34 +32,34 @@
         </header>
         <div class="container mt-n10" id="board">
             <div class="card mb-4">
-                <div class="card-header">리스트</div>
+                <div class="card-header">자유게시판</div>
                 <!--코드 시작 부분-->
 
                 <div class="card-body">
                     <table class="table table-striped table-hover">
                         <thead>
-                            <th>번호</th>
-                            <th>제목</th>
-                            <th>작성자</th>
-                            <th>작성일</th>
-                            <th>조회수</th>
+                            <th class="col-1">&nbsp;</th>
+                            <th style="text-align:center">제목</th>
+                            <th class="col-1">작성자</th>
+                            <th class="col-2" style="text-align:center">작성일</th>
+                            <th class="col-1" style="text-align:center">조회</th>
                         </thead>
 
                         <tbody>
                             <tr v-for="(row, bno) in list" key="bno">
-                                <td>
+                                <td style="text-align:center">
                                     {{bno + 1}}
                                 </td>
-                                <td>
+                                <td >
                                     <a class="acolor" :href="'/boarddetail?bno=' + row.bno">{{ row.title }}</a>
                                 </td>
-                                <td>
+                                <td >
                                     {{row.name}}
                                 </td>
-                                <td>
-                                    {{row.createtime}}
+                                <td style="text-align:center">
+                                    {{date(row.createtime)}}
                                 </td>
-                                <td>
+                                <td style="text-align:center">
                                     {{row.boardcount}}
                                 </td>
                             </tr>
@@ -158,6 +158,10 @@
 
                                 prevPage() {
                                     this.pageNum -= 1;
+                                },
+
+                                date(day){
+                                    return dayjs(day).format("YYYY-MM-DD")
                                 }
 
                             },
