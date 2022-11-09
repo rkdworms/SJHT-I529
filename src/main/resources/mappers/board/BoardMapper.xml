@@ -27,16 +27,16 @@
     <!-- 게시글 검색 -->
     <select id="searchBoardList" parameterType="hashMap" resultType="sjht.erp.board.dto.BoardResponse">
         SELECT
-        b.bno,
-        b.empno,
-        b.title,
-        b.content,
-        b.createtime,
-        b.boardtype,
-        b.boardcount,
-        e.name
+            b.bno,
+            b.empno,
+            b.title,
+            b.content,
+            b.createtime,
+            b.boardtype,
+            b.boardcount,
+            e.name
         FROM
-        board b left join employee e on(b.empno = e.empno)
+            board b left join employee e on(b.empno = e.empno)
         <choose>
 
             <when test="searchtype =='all'">

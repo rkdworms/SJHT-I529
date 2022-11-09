@@ -1,10 +1,13 @@
 package sjht.erp.board.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import sjht.erp.board.dto.BoardResponse;
 import sjht.erp.board.dto.NoticeRequest;
 import sjht.erp.board.dto.NoticeResponse;
 import sjht.erp.board.service.NoticeService;
@@ -26,6 +29,16 @@ public class NoticeRestController {
         List<NoticeResponse> response = noticeService.noticeList(boardtype.get("boardtype"));
         System.out.println(boardtype.get("boardtype"));
         return response;
+    }
+
+    // 자유게시판 검색 결과 리스트
+    @PostMapping("/api/searchnoticelist")
+    public ResponseEntity<List<NoticeResponse>> noticeSearchList(@RequestBody HashMap<String, String> search){
+
+        List<NoticeResponse> response = noticeService.searchNoticeList(search);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+
     }
 
 

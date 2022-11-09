@@ -36,7 +36,7 @@
                     <div class="p-3">
                         <h1 th:text="${detail.title}"></h1>
                         <div style="font-size: 0.9rem;" th:text="${detail.name}"></div>
-                        <div style="font-size: 0.9rem;" th:text="${detail.createtime}"></div>
+                        <div style="font-size: 0.9rem;" th:text="${#temporals.format( detail.createtime, 'yyyy-MM-dd HH:mm' )}"></div>
                     </div>
                     <hr>
                     <textarea class="form-control mb-4 p-4 " readonly th:value="${detail.content}" style="
@@ -44,8 +44,8 @@
 
                     <div class="text-right">
                         <a href="/board" class="btn btn-hrms p-2">뒤로가기</a>
-                        <a th:href="@{|/boardmodify/${detail.bno}|}" class="btn btn-hrms p-2">수정</a>
-                        <button type="button" class="btn btn-hrms p-2" v-on:click="boardDelete()">삭제</button>
+                        <a v-show="name" th:href="@{|/boardmodify/${detail.bno}|}" class="btn btn-hrms p-2">수정</a>
+                        <button v-show="name" type="button" class="btn btn-hrms p-2" v-on:click="boardDelete()">삭제</button>
                     </div>
 
                 </div>
@@ -53,39 +53,31 @@
             <script th:inline="javascript">
                 /*<![CDATA[*/
                 var bno = /*[[ ${detail.bno} ]]*/;
+                var name = /*[[ ${detail.name} ]]*/;
 
 
                 const board = {
                     data() {
                         return {
                             checkDelete: "",
-                            checkUpdate: ""
+                            checkUpdate: "",
+                            name: true
+
                         }
                     },
 
                     methods: {
-                        boardUpdate() {
-                            var title = /*[[ ${detail.title} ]]*/;
-                            var content = /*[[ ${detail.content} ]]*/;
-                            console.log(title)
-                            axios.post("http://localhost:8888/api/boardupdate/" + bno,
-                                {
-                                    title: title,
-                                    content: content
-                                }
 
-                            ).then((response) => {
-                                this.checkUpdate = response.data;
-                                console.log(this.checkUpdate)
-                                if (this.checkUpdate === true) {
-
-                                }
-                            }).catch(error => console.error(error))
-
+                        // 로그인 정보에 있는 이름 가져오기
+                        getName() {
+                            axios.post("http://localhost:8888/api/getName")
+                            .then(response => {
+                                console.log(name)
+                                this.name = response.data === name
+                            })
                         },
 
-
-
+                        // 게시글 삭제
                         boardDelete() {
                             console.log(bno)
 
@@ -102,6 +94,11 @@
                         },
 
                     },
+
+                    mounted(){
+                    this.getName()
+                    }
+
                 }
                 Vue.createApp(board).mount("#board")
 

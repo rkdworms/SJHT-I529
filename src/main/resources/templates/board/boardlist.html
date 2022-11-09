@@ -46,7 +46,7 @@
                         </thead>
 
                         <tbody>
-                            <tr v-for="(row, bno) in list" key="bno">
+                            <tr v-for="(row, bno) in paginatedData" key="bno">
                                 <td style="text-align:center">
                                     {{bno + 1}}
                                 </td>
@@ -105,7 +105,7 @@
                         </div>
                     
                     <script>
-                        const boardlist = {
+                        const boardvalue = {
                             data() {
                                 return {
                                     list: [],
@@ -124,13 +124,13 @@
                                 pageSize: {
                                     type: Number,
                                     required: false,
-                                    default: 10,
+                                    default: 10
                                 }
                             },
 
                             methods: {
 
-                                //게시글 목록 불러오기
+                                // 게시글 목록 불러오기
                                 boardList() {
                                     axios.post("http://localhost:8888/api/boardlist", { boardtype : "b" }
                                     ).then((response) => {
@@ -138,7 +138,7 @@
                                     }).catch(error => console.error(error))
                                 },
 
-                                //검색 결과 목록 불러오기
+                                // 검색 결과 목록 불러오기
                                 searchList(){
                                     axios.post("http://localhost:8888/api/searchboardlist",{
                                         searchtype : this.searchtype,
@@ -152,14 +152,17 @@
                                 },
 
                                 // pagination
+                                // 페이징 앞으로
                                 nextPage() {
                                     this.pageNum += 1;
                                 },
 
+                                // 페이징 뒤로
                                 prevPage() {
                                     this.pageNum -= 1;
                                 },
 
+                                // 시간 포맷
                                 date(day){
                                     return dayjs(day).format("YYYY-MM-DD")
                                 }
@@ -190,7 +193,7 @@
                                 this.boardList();
                             }
                         }
-                        Vue.createApp(boardlist).mount("#board")
+                        Vue.createApp(boardvalue).mount("#board")
 
 
                     </script>
