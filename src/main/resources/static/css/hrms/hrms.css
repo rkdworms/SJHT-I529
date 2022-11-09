@@ -7617,6 +7617,12 @@ input[type=button].btn-block {
   display: none;
 }
 
+@media(min-width:396px){
+  .col-xxl-6{
+    min-width:396px;
+  }
+}
+
 .tab-content>.active {
   display: block;
 }

@@ -35,15 +35,15 @@
                 <div class="card-body">
                     <div class="p-3">
                         <h1 th:text="${detail.title}"></h1>
-                        <div style="font-size: 0.9rem;" th:text="${detail.name}"></div>
-                        <div style="font-size: 0.9rem;" th:text="${detail.createtime}"></div>
+                        <div style="font-size: 0.9rem; color:#363d47">{{detaillist.name}}</div>
+                        <div style="font-size: 0.9rem;" >{{date(detaillist.createtime)}}  조회 {{detaillist.boardcount}}</div>
                     </div>
                     <hr>
                     <textarea class="form-control mb-4 p-4 " readonly th:value="${detail.content}" style="
                     background: #ffffff;" rows="28"></textarea>
 
                     <div class="text-right">
-                        <a href="/board" class="btn btn-hrms p-2">뒤로가기</a>
+                        <a href="/board" class="btn btn-hrms p-2">목록</a>
                         <a th:href="@{|/boardmodify/${detail.bno}|}" class="btn btn-hrms p-2">수정</a>
                         <button type="button" class="btn btn-hrms p-2" v-on:click="boardDelete()">삭제</button>
                     </div>
@@ -59,7 +59,8 @@
                     data() {
                         return {
                             checkDelete: "",
-                            checkUpdate: ""
+                            checkUpdate: "",
+                            detaillist: /*[[ ${detail} ]]*/
                         }
                     },
 
@@ -84,7 +85,9 @@
 
                         },
 
-
+                        date(day){
+                                    return dayjs(day).format("YYYY.MM.DD. hh:mm")
+                        },
 
                         boardDelete() {
                             console.log(bno)
