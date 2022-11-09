@@ -18,9 +18,9 @@ public class NoticeService {
      * 게시글 리스트 조회
      * @return 게시글 리스트
      */
-    public List<NoticeResponse> noticeList() {
+    public List<NoticeResponse> noticeList(String boardtype) {
 
-        return noticeMapper.noticeList();
+        return noticeMapper.noticeList(boardtype);
     }
 
     /**

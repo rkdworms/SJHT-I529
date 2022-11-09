@@ -20,15 +20,16 @@ public class NoticeRestController {
 
     private final NoticeService noticeService;
 
-    // 게시글 리스트
+    // 공지사항 리스트
     @PostMapping("/api/noticelist")
-    public List<NoticeResponse> noticeList() {
-        List<NoticeResponse> response = noticeService.noticeList();
+    public List<NoticeResponse> noticeList(@RequestBody HashMap<String, String> boardtype) {
+        List<NoticeResponse> response = noticeService.noticeList(boardtype.get("boardtype"));
+        System.out.println(boardtype.get("boardtype"));
         return response;
     }
 
 
-    // 게시글 작성 POST
+    // 공지사항 글 작성
     @PostMapping("/api/noticeinsert")
     public boolean noticeInsert(@RequestBody HashMap<String, String> map,
                               HttpServletRequest request) {
@@ -47,7 +48,7 @@ public class NoticeRestController {
     }
 
 
-    // 삭제
+    // 공지사항 글 삭제
     @PostMapping("/api/noticedelete/{bno}")
     public boolean noticeDelete(@PathVariable int bno) {
 
@@ -57,7 +58,7 @@ public class NoticeRestController {
             return false;
     }
 
-    // 수정
+    // 공지사항 글 수정
     @PostMapping("/api/noticeupdate")
     public boolean noticeUpdate(
                                @RequestBody NoticeRequest noticeRequest,

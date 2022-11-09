@@ -6,10 +6,10 @@ import lombok.Data;
 @Data
 public class BoardRequest {
 
-    private int bno;
-    private int empno;
-    private String title;
-    private String content;
-    private String boardtype;
+    private int bno;            // 번호(PK)
+    private int empno;          // 사원번호(FK)
+    private String title;       // 제목
+    private String content;     // 내용
+    private String boardtype;   // 게시판 타입
 
 }

@@ -17,10 +17,12 @@ public class BoardService {
 
     /**
      * 게시글 리스트 조회
+     * @param boardtype
      * @return 게시글 리스트
      */
-    public List<BoardResponse> boardList() {
-        return boardMapper.boardList();
+    public List<BoardResponse> boardList(String boardtype) {
+
+        return boardMapper.boardList(boardtype);
     }
 
     /**
@@ -73,7 +75,11 @@ public class BoardService {
         return bno;
     }
 
-
+    /**
+     * 게시글 검색
+     * @param search
+     * @return 검색리스트
+     */
     public List<BoardResponse> searchBoardList(HashMap<String, String> search) {
 
         return boardMapper.searchBoardList(search);

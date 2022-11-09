@@ -5,7 +5,8 @@
 <mapper namespace="sjht.erp.board.mapper.NoticeMapper">
 
     <!-- 게시글 조회 -->
-    <select id="noticeList" resultType="sjht.erp.board.dto.NoticeResponse">
+    <select id="noticeList" resultType="sjht.erp.board.dto.NoticeResponse"
+    parameterType="String">
         SELECT
             b.bno,
             b.empno,
@@ -17,6 +18,8 @@
             e.name
         FROM
             board b left join employee e on(b.empno = e.empno)
+        WHERE
+            b.boardtype = #{boardtype}
         ORDER BY
             bno DESC
     </select>
@@ -53,7 +56,7 @@
     <insert id="noticeInsert" parameterType="sjht.erp.board.dto.NoticeRequest"
     useGeneratedKeys="true" keyProperty="bno">
         INSERT INTO board (
-            bno, empno, title, content, createtime, boardcount
+            bno, empno, title, content, createtime, boardcount, boardtype
         ) VALUES (
               #{bno}
             , #{empno}
@@ -61,6 +64,7 @@
             , #{content}
             , NOW()
             , 0
+            , 'a'
         )
     </insert>
 

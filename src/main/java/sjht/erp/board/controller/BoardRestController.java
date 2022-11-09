@@ -19,16 +19,16 @@ public class BoardRestController {
 
     private final BoardService boardService;
 
-    // 게시글 리스트
+    // 자유게시판 리스트
     @PostMapping("/api/boardlist")
-    public ResponseEntity<List<BoardResponse>> boardList() {
+    public ResponseEntity<List<BoardResponse>> boardList(@RequestBody HashMap<String, String> boardtype) {
 
-        List<BoardResponse> response = boardService.boardList();
+        List<BoardResponse> response = boardService.boardList(boardtype.get("boardtype"));
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    // 검색 결과 리스트
+    // 자유게시판 검색 결과 리스트
     @PostMapping("/api/searchboardlist")
     public ResponseEntity<List<BoardResponse>> boardSearchList(@RequestBody HashMap<String, String> search){
 
@@ -39,7 +39,7 @@ public class BoardRestController {
     }
 
 
-    // 게시글 작성 POST
+    // 자유게시판 작성
     @PostMapping("/api/boardinsert")
     public boolean boardInsert(@RequestBody HashMap<String, String> map,
                               HttpServletRequest request) {
@@ -51,14 +51,14 @@ public class BoardRestController {
         EmployeeDto empDto = (EmployeeDto) request.getAttribute("empNo");
         boardRequest.setEmpno(empDto.getEmpno());
 
-        if(boardService.boardInsert( boardRequest) != 0 ) {
+        if(boardService.boardInsert(boardRequest) != 0 ) {
             return true;
         }
             return false;
     }
 
 
-    // 삭제
+    // 자유게시판 글 삭제
     @PostMapping("/api/boarddelete/{bno}")
     public boolean boardDelete(@PathVariable int bno) {
         if (boardService.boardDelete(bno) != 0){
@@ -67,10 +67,9 @@ public class BoardRestController {
             return false;
     }
 
-    // 수정
+    // 자유게시판 글 수정
     @PostMapping("/api/boardupdate")
-    public boolean boardUpdate(
-                               @RequestBody BoardRequest boardRequest,
+    public boolean boardUpdate(@RequestBody BoardRequest boardRequest,
                                HttpServletRequest request) {
         request.getAttribute("empNo");
         if (boardService.boardUpdate(boardRequest) != 0 ) {

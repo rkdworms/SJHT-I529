@@ -12,9 +12,10 @@ public interface BoardMapper {
 
     /**
      * 게시글 리스트 조회
+     * @param boardtype
      * @return 게시글 리스트
      */
-    List<BoardResponse> boardList();
+    List<BoardResponse> boardList(String boardtype);
 
     /**
      * 조회수
@@ -47,6 +48,10 @@ public interface BoardMapper {
      */
     void boardDelete(int bno);
 
+    /**
+     * 게시글 검색
+     * @param search
+     */
     List<BoardResponse> searchBoardList(HashMap<String, String> search);
 }
 

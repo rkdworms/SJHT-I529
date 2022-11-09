@@ -78,6 +78,7 @@
 
             methods: {
 
+                // 게시글 수정
                 boardUpdate(){
                     var bno1 = /*[[ ${detail.bno} ]]*/;
                     title = document.getElementById("title").value
@@ -95,6 +96,7 @@
                         console.log(this.checkUpdate)
                         if(this.checkUpdate === true){
                             location.href= "http://localhost:8888/board"
+
 
                         }
                     }).catch(error => console.error(error))

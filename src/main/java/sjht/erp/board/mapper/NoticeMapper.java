@@ -11,9 +11,10 @@ public interface NoticeMapper {
 
     /**
      * 게시글 리스트 조회
+     * @param boardtype
      * @return 게시글 리스트
      */
-    List<NoticeResponse> noticeList();
+    List<NoticeResponse> noticeList(String boardtype);
 
     /**
      * 조회수

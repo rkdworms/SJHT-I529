@@ -78,28 +78,7 @@
 
             methods: {
 
-                noticeUpdate(){
-                var title = /*[[ ${detail.title} ]]*/;
-                var content = /*[[ ${detail.content} ]]*/;
-                console.log(title)
-                axios.post("http://localhost:8888/api/noticeupdate/" + bno,
-                {
-                    title : title,
-                    content : content
-                }
-
-                ).then((response) => {
-                    this.checkUpdate = response.data;
-                    console.log(this.checkUpdate)
-                    if(this.checkUpdate === true){
-
-                    }
-                }).catch(error => console.error(error))
-
-                },
-
-
-
+                // 공지시항 게시글 삭제
                 noticeDelete(){
                 console.log(bno)
 

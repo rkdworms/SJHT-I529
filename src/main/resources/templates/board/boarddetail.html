@@ -63,8 +63,8 @@
         </div>
         <script th:inline="javascript">
         /*<![CDATA[*/
-            var bno = /*[[ ${detail.bno} ]]*/;
 
+            var bno = /*[[ ${detail.bno} ]]*/;
 
         const board = {
             data() {
@@ -78,28 +78,7 @@
 
             methods: {
 
-                boardUpdate(){
-                var title = /*[[ ${detail.title} ]]*/;
-                var content = /*[[ ${detail.content} ]]*/;
-                console.log(title)
-                axios.post("http://localhost:8888/api/boardupdate/" + bno,
-                {
-                    title : title,
-                    content : content
-                }
-
-                ).then((response) => {
-                    this.checkUpdate = response.data;
-                    console.log(this.checkUpdate)
-                    if(this.checkUpdate === true){
-
-                    }
-                }).catch(error => console.error(error))
-
-                },
-
-
-
+                // 게시글 삭제
                 boardDelete(){
                 console.log(bno)
 

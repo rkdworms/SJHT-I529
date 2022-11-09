@@ -20,13 +20,13 @@ public class BoardController {
 
     private final BoardService boardService;
 
-    // 게시글 리스트
+    // 자유게시판 리스트
     @GetMapping("/board")
     public String boardlist() {
         return "board/boardlist";
     }
 
-    // 게시글 상세
+    // 자유게시판 상세
     @GetMapping("/boarddetail")
     public String boarddetail(@RequestParam int bno, Model model, HttpServletRequest request) {
         boardService.boardCount(bno);
@@ -36,13 +36,13 @@ public class BoardController {
         return "board/boarddetail";
     }
 
-    // 게시글 작성
+    // 자유게시판 작성
     @GetMapping("/boardwrite")
     public String boardwrite() {
         return "board/boardwrite";
     }
 
-   // 게시글 수정
+   // 자유게시판 수정
     @GetMapping("/boardmodify/{bno}")
     public String boardmodify(@PathVariable("bno") int bno,
                               Model model, HttpServletRequest request) {
