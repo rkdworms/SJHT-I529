@@ -16,7 +16,7 @@ public class HolidayRequestDto {
     private LocalDate startdate;
     private LocalDate enddate;
     private String reasonholiday;
-    private String approveryn = "w";
+    private String approveryn;
     private LocalDateTime registdate;
 
     public HolidayRequestDto(int empno, LocalDate startdate, LocalDate enddate, String reasonholiday) {

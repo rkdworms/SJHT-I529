@@ -29,7 +29,7 @@ public class ExpendRestController {
     }
 
     // parameterEIDto(입력 조건 dto)를 통해 조건에 맞는 리스트를 반환
-    @PostMapping("/api/param")
+    @PostMapping("/api/paramExpendInformation")
     public ResponseEntity<List<SelectResultEIDto>> expendParam(@RequestBody HashMap<String, String> map) {
         SelectParameterEIDto selectParameterEIDto = service.checkParam(map);
         List<SelectResultEIDto> result = service.selectEIByCondition(selectParameterEIDto);
@@ -37,14 +37,14 @@ public class ExpendRestController {
     }
 
     // 결의 번호 (dvno)에 따른 상세 내역을 반환
-    @RequestMapping("/api/detail")
+    @RequestMapping("/api/detailExpendInformation")
     public ResponseEntity<List<SelectResultEIDto>> expendOne(@RequestBody HashMap<String, String> map) {
         List<SelectResultEIDto> result = service.selectEIByDvno(map.get("dvno"));
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     // 임원만 가능 / 승인 반려에 따른 데이터 업데이트
-    @PostMapping("/api/update")
+    @PostMapping("/api/updateEI")
     public void updateDvappyn(@RequestBody HashMap<String,String> map, HttpServletRequest request) {
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
         service.updateEI(map, employeeDto);

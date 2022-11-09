@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class BoardResponse {
+public class NoticeResponse {
 
     private int bno;                    // 번호(PK)
     private int empno;                  // 사원번호(FK)

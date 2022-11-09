@@ -21,5 +21,5 @@ public class InsertParameterEIDto {
     private int dvamt;
     private LocalDate dvappdate;
     private String dvno;
-    private String divcd;
+    private String dvappname;
 }

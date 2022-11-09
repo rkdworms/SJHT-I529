@@ -1,5 +1,9 @@
-[{"bankcd":"B001", "bankname":"\uc2e0\ud55c\uc740\ud589"},
- {"bankcd":"B002", "bankname":"\uad6d\ubbfc\uc740\ud589"},
- {"bankcd":"B003", "bankname":"\ub18d\ud611\uc740\ud589"},
- {"bankcd":"B004", "bankname":"\uc6b0\ub9ac\uc740\ud589"},
- {"bankcd":"B005", "bankname":"\ud558\ub098\uc740\ud589"}]
+[{"bankcd":"B001", "bankname":"신한"},
+ {"bankcd":"B002", "bankname":"우리"},
+ {"bankcd":"B003", "bankname":"토스뱅크"},
+ {"bankcd":"B004", "bankname":"국민"},
+ {"bankcd":"B005", "bankname":"카카오뱅크"},
+ {"bankcd":"B006", "bankname":"기업"},
+ {"bankcd":"B007", "bankname":"농협"},
+ {"bankcd":"B008", "bankname":"하나"}
+]

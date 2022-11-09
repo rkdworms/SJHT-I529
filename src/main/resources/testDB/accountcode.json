@@ -1,4 +1,6 @@
-[{"divcd":"AC001", "divname":"\uc6d4\uae09"},
- {"divcd":"AC002", "divname":"\uc8fc\uc720\ube44"},
- {"divcd":"AC003", "divname":"\uc2dd\ub300"},
- {"divcd":"AC004", "divname":"\ubb38\ud654\ube44"}]
+[
+ {"divcd":"AC001", "divname":"월급"},
+ {"divcd":"AC002", "divname":"식비"},
+ {"divcd":"AC003", "divname":"주유비"},
+ {"divcd":"AC004", "divname":"비품 구매"}
+]
