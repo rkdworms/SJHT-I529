@@ -1,6 +1,7 @@
 package sjht.erp.detailexpend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sjht.erp.detailexpend.dto.request.InsertRequestDto;
@@ -12,6 +13,9 @@ import sjht.erp.login.dto.EmployeeDto;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 
@@ -121,7 +125,17 @@ public class ExpendInsertApiController {
     ) throws IOException {
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
         int empno = employeeDto.getEmpno();
-        return expendInsertService.fileInput(multipartFile, empno, dvno);
+        Path directory = Paths.get("/erp/file/expend").toAbsolutePath().normalize();
+        Files.createDirectories(directory);
+        String filename = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        Path targetPath = directory.resolve(filename).normalize();
+        System.out.println(targetPath.toAbsolutePath());
+
+        if(expendInsertService.fileInput(multipartFile,empno,dvno,targetPath)){
+            multipartFile.transferTo(targetPath);
+            return true;
+        }
+        return false;
     }
 
     // detailexpend정보를 리스트로 출력하기 위해서 사용하는 컨트롤러

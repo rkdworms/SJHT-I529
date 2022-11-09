@@ -7,6 +7,7 @@ import sjht.erp.detailexpend.dto.response.DetailResponseDto;
 import sjht.erp.detailexpend.dto.response.MyExpendListResponseDto;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 public interface ExpendInsertService {
@@ -32,5 +33,5 @@ public interface ExpendInsertService {
 
     boolean updateMyDetailExpend(UpdateMyDetailExpendRequestDto updateMyDetailExpendRequestDto);
 
-    boolean fileInput(MultipartFile multipartFile, int empno, String dvno) throws IOException;
+    boolean fileInput(MultipartFile multipartFile, int empno, String dvno, Path targetPath) throws IOException;
 }
