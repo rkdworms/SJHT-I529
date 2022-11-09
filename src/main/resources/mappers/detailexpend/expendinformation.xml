@@ -23,7 +23,8 @@
     <select id="selectLastOne" resultType="String">
         SELECT dvno
         FROM expendinformation
-        order by sortNo desc
+        order by substr(dvno from 1 for 4),
+                 cast(substr(dvno from 5) AS UNSIGNED) desc
         LIMIT 1
     </select>
     <!-- 모든 지출결의 정보를 출력-->
@@ -41,10 +42,7 @@
     <!--지출결의문 작성-->
     <insert id="insertExpend" parameterType="sjht.erp.detailexpend.dto.request.InsertRequestDto">
         insert into detailexpend(dvno, dvusedate, price, dvmemo, divcd, briefs, detailuse)
-        values (#{dvno},#{dvusedate},#{price},#{dvmemo},#{divcd},#{briefs},#{detailuse})
-        <selectKey keyProperty="dno" resultType="Integer" order="AFTER">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
+        values (#{dvno}, #{dvusedate}, #{price}, #{dvmemo}, #{divcd}, #{briefs}, #{detailuse})
     </insert>
 
     <!--영수증 파일 입력-->
@@ -92,6 +90,11 @@
         where dvno = #{dvno}
     </select>
 
+    <!-- 지출결의 상세보기에서 마지막 dno를 찾기 위한 쿼리문-->
+    <select id="selectDetailExpendDnoOne" parameterType="String" resultType="Integer">
+        select dno from detailexpend where dvno=#{dvno} order by dno desc limit 1
+    </select>
+
     <!--상세보기에서 목록중 하나를 삭제하기 위한 테이블-->
     <delete id="deleteDetailExpendInteger" parameterType="Integer">
         delete
@@ -124,6 +127,8 @@
                  left join departmentcode d on e.departmentcd = d.departmentcd
         where i.dvappyn = 'w'
           and i.empno = #{empno}
+        order by substr(dvno from 1 for 4),
+                 cast(substr(dvno from 5) AS UNSIGNED) desc;
     </select>
     <select id="selectMyDetailExpend" parameterType="Integer"
             resultType="sjht.erp.detailexpend.dto.response.DetailResponseDto">

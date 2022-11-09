@@ -33,4 +33,7 @@ public interface HrmsApiService {
 
     /* 퇴사 처리 */
     void retireEmp(UpdateDto updateDto);
+
+    /* 승진 및 보직관리 */
+    void promotionManage(UpdateDto updateDto);
 }

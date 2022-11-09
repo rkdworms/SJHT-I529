@@ -1039,8 +1039,8 @@ pre code {
   }
 
   .col-sm-3 {
-    flex: 0 0 25%;
-    max-width: 25%;
+    flex: 0 0 30%;
+    max-width: 50%;
   }
 
   .col-sm-4 {
@@ -3030,7 +3030,7 @@ pre code {
   padding: 0.875rem 1.125rem;
   font-size: 0.875rem;
   font-weight: 400;
-  line-height: 1;
+  line-height: 1.4;
   color: #69707a;
   background-color: #fff;
   background-clip: padding-box;
@@ -7597,7 +7597,7 @@ input[type=button].btn-block {
 .nav-pills .nav-link.active,
 .nav-pills .show>.nav-link {
   color: #fff;
-  background-color: #0061f2;
+  background-color: #334458;
 }
 
 .nav-fill>.nav-link,
@@ -7615,6 +7615,12 @@ input[type=button].btn-block {
 
 .tab-content>.tab-pane {
   display: none;
+}
+
+@media(min-width:396px){
+  .col-xxl-6{
+    min-width:396px;
+  }
 }
 
 .tab-content>.active {
@@ -8500,7 +8506,7 @@ input[type=button].btn-block {
 .badge {
   display: inline-block;
   padding: 0.25em 0.4em;
-  font-size: 75%;
+  font-size: 80%;
   font-weight: 400;
   line-height: 1;
   text-align: center;
@@ -17516,7 +17522,7 @@ a.text-danger-soft:focus {
 }
 
 .text-muted {
-  color: #a7aeb8 !important;
+  color: #4f545b !important;
 }
 
 .text-black-50 {
@@ -22668,7 +22674,7 @@ i-feather svg {
 .nav-wizard .nav-link {
   display: flex;
   align-items: center;
-  padding: 2rem;
+  flex-wrap: wrap;
 }
 
 .nav-wizard .nav-link .wizard-step-icon {
@@ -22680,7 +22686,7 @@ i-feather svg {
   flex-shrink: 0;
   margin-right: 1rem;
   border-radius: 0.35rem;
-  background-color: #0061f2;
+  background-color: #334458;
   color: white;
 }
 
@@ -22698,7 +22704,7 @@ i-feather svg {
 .nav-wizard .nav-link .wizard-step-text .wizard-step-text-name {
   font-size: 1rem;
   margin-bottom: 0.25rem;
-  color: #0061f2;
+  color: #334458;
 }
 
 .nav-wizard .nav-link .wizard-step-text .wizard-step-text-details {
@@ -22709,7 +22715,7 @@ i-feather svg {
 
 .nav-wizard .nav-link.active .wizard-step-icon {
   background-color: #fff;
-  color: #0061f2;
+  color: #334458;
 }
 
 .nav-wizard .nav-link.active .wizard-step-icon i,
@@ -23148,9 +23154,9 @@ pre[class*=language-] {
 }
 
 #card-body-padding {
-  padding-top: 40px;
-  padding-left: 60px;
-  padding-right: 60px;
+  padding-top: 10px;
+  padding-left: 50px;
+  padding-right: 50px;
 }
 
 .button-middle {
@@ -23213,10 +23219,10 @@ pre[class*=language-] {
 }
 
 .form-control{
-  height : 32.59px;
+  height : calc(0.7em + 1rem + 2px);
 }
+
 textarea{
-  
   resize: none;
 }
 
@@ -23227,9 +23233,7 @@ textarea{
 }
 
 .emp-idPicture {
-  height: 200px;
   width: 143px;
-  margin-top: 5px;
 }
 
 .emp-content {

@@ -14,7 +14,7 @@ public class FileRequestDto {
     private String physicalpath;
     private int filesize;
     private int empno;
-    private String kind; // 지추결의서 영수증
+    private int kind; // 지출결의서 영수증
     private String relatedpath;
     private int dno;
 }

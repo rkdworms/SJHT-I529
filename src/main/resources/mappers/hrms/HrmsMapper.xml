@@ -216,5 +216,52 @@
         SET retireyn =  <![CDATA[ 'y' ]]>, retiredate =  #{retiredate}, retirenote = #{retirenote}
         WHERE empno = #{empno}
     </update>
+
+    <!-- 승진 및 보직 관리 -->
+<!--    <update id="promotionManage" parameterType="sjht.erp.hrms.dto.UpdateDto">-->
+<!--        UPDATE employee as e-->
+<!--        SET e.gradecd = #{gradecd},-->
+<!--            e.departmentcd = #{departmentcd}-->
+<!--        WHERE e.empno = #{empno};-->
+
+<!--        UPDATE grade as g-->
+<!--        SET g.empno = #{empno},-->
+<!--            g.promotiondate = now(),-->
+<!--            g.prevgradecd = #{prevgradecd},-->
+<!--            g.gradecd = #{gradecd},-->
+<!--            g.prevdepartmentcd = #{prevdepartmentcd},-->
+<!--            g.departmentcd = #{departmentcd},-->
+<!--            g.appempno = #{appempno}-->
+<!--        WHERE g.empno = #{empno}-->
+<!--    </update>-->
+
+    <update id="promotionManageEmployee" parameterType="sjht.erp.hrms.dto.UpdateDto">
+        UPDATE employee
+        SET gradecd = #{gradecd},
+        departmentcd = #{departmentcd}
+        WHERE empno = #{empno}
+    </update>
+
+    <insert id="promotionManageGrade" parameterType="sjht.erp.hrms.dto.UpdateDto">
+        INSERT INTO grade (empno, promotiondate, prevgradecd, gradecd, prevdepartmentcd, departmentcd, appempno)
+        VALUES ( #{empno}, now(), #{prevgradecd}, #{gradecd}, #{prevdepartmentcd}, #{departmentcd}, #{appempno} )
+    </insert>
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

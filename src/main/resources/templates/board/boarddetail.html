@@ -35,8 +35,8 @@
                 <div class="card-body">
                     <div class="p-3">
                         <h1 th:text="${detail.title}"></h1>
-                        <div style="font-size: 0.9rem;" th:text="${detail.name}"></div>
-                        <div style="font-size: 0.9rem;" th:text="${#temporals.format( detail.createtime, 'yyyy-MM-dd HH:mm' )}"></div>
+                        <div style="font-size: 0.9rem; color:#363d47">{{detaillist.name}}</div>
+                        <div style="font-size: 0.9rem;" >{{date(detaillist.createtime)}}  조회 {{detaillist.boardcount}}</div>
                     </div>
                     <hr>
                     <textarea class="form-control mb-4 p-4 " readonly th:value="${detail.content}" style="
@@ -61,8 +61,9 @@
                         return {
                             checkDelete: "",
                             checkUpdate: "",
-                            name: true
+                            name: true,
 
+                            detaillist: /*[[ ${detail} ]]*/
                         }
                     },
 
@@ -77,7 +78,11 @@
                             })
                         },
 
-                        // 게시글 삭제
+
+                        date(day){
+                                    return dayjs(day).format("YYYY.MM.DD. hh:mm")
+                        },
+// 게시글 삭제
                         boardDelete() {
                             console.log(bno)
 

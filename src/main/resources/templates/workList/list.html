@@ -272,7 +272,7 @@
                                                            @click="getDetail(result)">상세보기</a>
                                                     </td>
                                                     <td><a class="btn btn-dark"
-                                                           @click="btnClickDeleteData(result.dvno)">삭제</a>
+                                                           @click="deleteData(result.dvno)">삭제</a>
                                                     </td>
                                                 </tr>
                                                 </tbody>
@@ -731,7 +731,7 @@
                                             <td>삭제</td>
                                         </tr>
                                         </thead>
-                                        <tbody v-for="list in myDetailExpendList" key="list.dno">
+                                        <tbody v-for="(list,i) in myDetailExpendList" key="list.dno">
                                         <tr>
                                             <td>{{list.dvusedate}}</td>
                                             <td>{{list.divcd}}</td>
@@ -739,7 +739,7 @@
                                             <td>{{list.detailuse}}</td>
                                             <td>{{list.price}}</td>
                                             <td>{{list.dvmemo}}</td>
-                                            <td></td>
+                                            <td><a></a></td>
                                             <td>
                                                 <button @click="deleteOne(list.dno)" class="btn btn-dark">
                                                     삭제
@@ -773,7 +773,7 @@
                                     <button type="button" class="btn btn-dark" id="registry" onclick=""
                                             @click="updateExpendInformation">신청
                                     </button>
-                                    <button @click="doDeleteData" type="button" class="btn btn-dark" id="close"
+                                    <button @click="deleteData" type="button" class="btn btn-dark" id="close"
                                             onclick="DetailModalHide()">닫기
                                     </button>
                                 </div>
@@ -825,13 +825,13 @@
                                                            id="dvmemo">
                                                 </td>
                                                 <td>
-                                                    <input @change="onInputFile" type="file" id="myFile"
+                                                    <input @change="filechange($event)" type="file" id="myFile"
                                                            name="filename" class="custom">
                                                 </td>
                                             </tr>
                                         </table>
                                         <button type="button" class="btn btn-dark" id="saveDetailExpend" onclick=""
-                                                @click="inputDetail">저장
+                                                @click="inputDetail()">저장
                                         </button>
                                         <button type="button" class="btn btn-dark" id="exitDetailExpend"
                                                 onclick="DetailModalClose()">종료
@@ -944,7 +944,8 @@
                     reloadDatas: [],
                     Id: "",
                     myDetailExpend: {}, // 지출결의정보
-                    dno: ""
+                    dno: "",
+                    file: ""
                 }
             },
 
@@ -1044,11 +1045,33 @@
                     }
                     axios.post("http://localhost:8888/api/insertDetail", data)
                         .then(response => {
-                            this.myDetailExpendList = response.data
-                            DetailModalClose();
+                            this.fileInput();
                         })
                 },
+                filechange(event) {
+                    this.file = event.target.files[0];
+                },
+                // 파일 입력
+                fileInput() {
+                    // let file = document.getElementById("myFile").files[0];
+                    let formData = new FormData();
+                    formData.append("file", this.file);
+                    formData.append("dvno", this.dvno);
+                    if (this.file != null) {
+                        axios.post("http://localhost:8888/api/uploadFile", formData,
+                            {
+                                headers: {
+                                    "Content-Type": "multipart/form-data",
+                                }
+                            })
+                            .then(response => {
+                                this.ReShowList();
+                            })
+                    }
+                },
+
                 // 닫기 버튼 클릭시 결의번호 삭제
+                // 리스트에서 삭제버튼 클릭시 삭제
                 deleteData() {
                     const data = {
                         dvnoOne: this.dvno
@@ -1058,48 +1081,6 @@
                             this.deleteInputData = response.data;
 
                         })
-                },
-                // 닫기 버튼 클릭시 결의번호 삭제
-                deleteDetailData() {
-                    const data = {
-                        dvnoOne: this.dvno
-                    }
-                    axios.post("http://localhost:8888/api/deleteDetailData", data)
-                        .then(response => {
-                            this.deleteDetailInputData = response.data;
-                        })
-                },
-                // 삭제 버튼 클릭시 삭제
-                btndeleteData(result) {
-                    const data = {
-                        dvnoOne: result
-                    }
-                    axios.post("http://localhost:8888/api/deleteData", data)
-                        .then(response => {
-                            this.deleteInputData = response.data;
-
-                        })
-                },
-                // 삭제 버튼 클릭시 삭제
-                btndeleteDetailData(result) {
-                    const data = {
-                        dvnoOne: result
-                    }
-                    axios.post("http://localhost:8888/api/deleteDetailData", data)
-                        .then(response => {
-                            this.deleteDetailInputData = response.data;
-                        })
-                },
-                btnClickDeleteData(result) {
-                    this.btndeleteDetailData(result)
-                    this.btndeleteData(result)
-                    window.location.reload();
-                },
-                // 닫기 버튼 클릭시 결의번호 삭제
-                doDeleteData() {
-                    this.deleteDetailData();
-                    this.deleteData();
-                    window.location.reload();
                 },
                 getDepartmentName() {
 
@@ -1151,15 +1132,12 @@
                 },
                 getDetail(result) {
                     this.reloadData = result.dvno;
-
-                    // alert(this.reloadData)
                     const data = {
                         dvnoOne: this.reloadData
                     };
                     axios.post("http://localhost:8888/api/showMyDetailExpendList", data)
                         .then(response => {
                             this.reloadDatas = response.data;
-                            // console.log(this.reloadDatas)
                         })
                 },
                 checkMyData() {
@@ -1237,10 +1215,10 @@
                     const data = {
                         dvnoOne: this.reloadData
                     }
-                    console.log(this.reloadData)
                     axios.post("http://localhost:8888/api/showMyDetailExpendList", data)
                         .then(response => {
                             this.reloadDatas = response.data
+                            DetailModalClose();
                         })
                 },
                 updateMyDetail() {
@@ -1293,12 +1271,15 @@
                             modiDetailModalClose()
                         })
                 },
+
             },
-            created() {
+            created
+                () {
                 this.getROLE();
                 this.getName2();
                 this.getDepartmentName()
-            },
+            }
+            ,
 
             mounted() {
                 this.showWorkTimeList();

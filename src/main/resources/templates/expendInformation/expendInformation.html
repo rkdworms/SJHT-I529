@@ -45,15 +45,26 @@
                                 <div class="row col-12">
                                     <!--   검색 폼 : 날짜   -->
                                     <div class="form-group col-md-4">
-                                        <label for="startdate">검색 기간</label>
+                                        <label for="startDvRegDate">검색 기간</label>
                                         <i class="mr-2 text-primary" data-feather="calendar"></i>
-                                        <input v-model="startDvRegDate" id="startDvRegDate"
-                                               class="form-control form-control-solid" type="date">
+                                        <input v-model="startDvRegDate"
+                                               id="startDvRegDate"
+                                               class="form-control form-control-solid"
+                                               type="date"
+                                               :max="maxDate"
+                                               @blur="dateValid">
+                                        <div v-show="!startDateFlag" style="color : #ec3a3a; font-size: 11px;">
+                                            &nbsp;날짜가 올바르지 않습니다.
+                                        </div>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label for="enddate">&nbsp;</label>
-                                        <input v-model="endDvRegDate" id="endDvRegDate"
-                                               class="form-control form-control-solid" type="date">
+                                        <label for="endDvRegDate">&nbsp;</label>
+                                        <input v-model="endDvRegDate"
+                                               id="endDvRegDate"
+                                               class="form-control form-control-solid"
+                                               type="date"
+                                               :max="maxDate"
+                                               @blur="dateValid">
                                     </div>
 
                                     <!--   검색 폼 : 승인 여부   -->
@@ -63,7 +74,7 @@
                                                 v-model="dvappyn">
                                             <option value="all" selected>전체</option>
                                             <option value="y">승인</option>
-                                            <option value="w">미승인</option>
+                                            <option value="w">대기</option>
                                             <option value="n">반려</option>
                                         </select>
                                     </div>
@@ -119,7 +130,7 @@
 
                                 <!-- 데이터 출력 부분 -->
                                 <tbody class="allContent">
-                                <tr id="expendList" v-for="(result, i) in expendList" :key="i">
+                                <tr id="expendList" v-for="(result, i) in paginatedData" :key="i">
 
                                     <!-- 결의 번호 -->
                                     <td>
@@ -148,12 +159,20 @@
 
                                     <!-- 총 금액 -->
                                     <td>
-                                        {{result.dvamt}}
+                                        {{currency(result.dvamt)}} 원
                                     </td>
 
                                     <!-- 승인 여부 -->
                                     <td>
-                                        {{result.dvappyn}}
+                                        <div v-if="result.dvappyn ==='y'">
+                                            승인
+                                        </div>
+                                        <div v-else-if="result.dvappyn === 'n'">
+                                            반려
+                                        </div>
+                                        <div v-else-if="result.dvappyn === 'w'">
+                                            대기
+                                        </div>
                                     </td>
 
                                     <!-- 상세 조회 버튼 -->
@@ -168,6 +187,19 @@
                             </table>
                         </div>
 
+                        <footer>
+                            <!-- 페이징 처리 하기 -->
+                            <div class="btn-cover" style="text-align: right">
+                                <button :disabled="pageNum === 0" @click="prevPage" class="btn-hrms">
+                                    이전
+                                </button>
+                                <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
+                                <button :disabled="pageNum >= pageCount - 1" @click="nextPage"
+                                        class="btn-hrms">
+                                    다음
+                                </button>
+                            </div>
+                        </footer>
 
                         <!--modal-->
                         <div class="modal fade" tabindex="-1" id="detail_modal" role="dialog"
@@ -332,33 +364,27 @@
 
                                                         <!-- 사용 일자  -->
                                                         <td class="detailColumn" style="height: 29px;">
-                                                            <input type="text" class="form-control"
-                                                                   :value="result.dvUseDate" readonly>
+                                                            {{result.dvUseDate}}
                                                         </td>
 
                                                         <!-- 분류 -->
                                                         <td class="detailColumn">
-                                                            <input type="text"
-                                                                   style="width: 100%; height: 100%; border: 0;"
-                                                                   :value="result.divname" readonly>
+                                                            {{result.divname}}
                                                         </td>
 
                                                         <!-- 사용 내역 -->
                                                         <td class="detailColumn" style="height: 29px;">
-                                                            <input type="text" class="form-control"
-                                                                   :value="result.detailuse" readonly>
+                                                            {{result.detailuse}}
                                                         </td>
 
                                                         <!-- 금액 -->
                                                         <td class="detailColumn" style="height: 29px;">
-                                                            <input type="text" class="form-control"
-                                                                   :value="result.price" readonly>
+                                                            {{currency(result.price)}} 원
                                                         </td>
 
                                                         <!-- 비고 -->
                                                         <td class="detailColumn" style="height: 29px;">
-                                                            <input type="text" class="form-control"
-                                                                   :value="result.dvmemo" readonly>
+                                                            {{result.dvmemo}}
                                                         </td>
                                                     </tr>
                                                 </div>
@@ -371,7 +397,7 @@
                                                     <!-- 총 금액이 나와야함 -->
                                                     <!-- 총 금액  -->
                                                     <td id="total_amount" class="detailColumn">
-                                                        {{dvamt}}
+                                                        {{currency(dvamt)}} 원
                                                     </td>
 
                                                     <!-- 비고 내용이 나와야함 -->
@@ -388,12 +414,16 @@
                                     <!--modal footer-->
                                     <div class="modal-footer">
                                         <div v-if="usertype">
-                                            <button type="button" class="button" id="dvappy" value="y"
-                                                    @click="updateDvapp($event)" onclick="confirm_modalShow()">승인
+                                            <button type="button" class="dvappbtn" id="dvappy" value="y"
+                                                    @click="setYN($event)"
+                                                    onclick="confirm_modalShow()">
+                                                승인
                                             </button>
-                                            <button type="button" class="button" id="dvappn" value="n"
-                                                    @click="updateDvapp($event)" onclick="confirm_modalShow()"
-                                                    style="margin-left: 10px">반려
+                                            <button type="button" class="dvappbtn" id="dvappn" value="n"
+                                                    @click="setYN($event)"
+                                                    onclick="confirm_modalShow()"
+                                                    style="margin-left: 10px">
+                                                반려
                                             </button>
                                         </div>
                                         <button type="button" class="button" id="download" onclick="">다운로드</button>
@@ -405,7 +435,7 @@
 
                                     <!--confirm modal-->
                                     <div class="modal fade" tabindex="-1" id="confirm_modal" role="dialog"
-                                         data-backdrop="static">
+                                         data-bs-backdrop="static">
                                         <div class="modal-dialog modal-dialog-centered">
                                             <div class="modal-content">
 
@@ -418,13 +448,22 @@
 
                                                 <!--modal body-->
                                                 <div class="modal-body">
-                                                    <label>처리되었습니다.</label>
+                                                    <div v-if="getYN()">
+                                                        <label>승인 처리 하시겠습니까 ?</label>
+                                                    </div>
+                                                    <div v-else>
+                                                        <label>반려 처리 하시겠습니까 ?</label>
+                                                    </div>
                                                 </div>
 
                                                 <!--modal footer-->
                                                 <div class="modal-footer">
-                                                    <button type="button" class="button" id="confirm"
+                                                    <button type="button" class="button" id="confirm_y"
+                                                            @click="updateDvapp()"
                                                             onclick="confirm_modalHide(); detail_modalHide(); ">확인
+                                                    </button>
+                                                    <button type="button" class="button" id="confirm_n"
+                                                            onclick="confirm_modalHide(); detail_modalHide(); ">취소
                                                     </button>
                                                 </div>
 
@@ -480,25 +519,28 @@
         const expend = {
             data() {
                 return {
-                    usertype: true,             //유저 권한
-                    empno: '',                  //사원 번호
-                    empname: '',                //사원 이름
-                    name: '',                   //검색 이름
-                    dvappyn: 'all',             //승인 여부
-                    startDvRegDate: '',         //시작 날짜
-                    endDvRegDate: '',           //종료 날짜
-                    dvRegDate: '',              //작성 날짜
-                    departmentname: '',         //부서명
-                    dvamt: '',                  //총금액
-                    divcd: '',                  //계정 과목 번호
-                    dvno: '',                   //결의 번호
-                    modalList: [],              //상세 내역 리스트 배열
-                    expendList: [],             //지출 결의 리스트 배열
-                    rownum: '',                 //행의 인덱스 값
+                    usertype: true,                     //유저 권한
+                    empno: '',                          //사원 번호
+                    empname: '',                        //사원 이름
+                    name: '',                           //검색 이름
+                    dvappyn: 'all',                     //승인 여부
+                    startDvRegDate: '',                 //시작 날짜
+                    endDvRegDate: '',                   //종료 날짜
+                    dvRegDate: '',                      //작성 날짜
+                    departmentname: '',                 //부서명
+                    dvamt: '',                          //총금액
+                    divcd: '',                          //계정 과목 번호
+                    dvno: '',                           //결의 번호
 
-                    // pagination
-                    pageNum: 0,
-                    pageList: []
+                    modalList: [],                      //상세 내역 리스트 배열
+                    expendList: [],                     //지출 결의 리스트 배열
+
+                    rownum: '',                         //행의 인덱스 값
+
+                    startDateFlag: true,                //시작 날짜 확인 Flag
+                    maxDate: dateToString(new Date()),  //input max 날짜 설정 ( 오늘 날짜로 )
+
+                    pageNum: 0                          // pagination
                 }
             },
 
@@ -507,11 +549,23 @@
                 pageSize: {
                     type: Number,
                     required: false,
-                    default: 10
+                    default: 5
                 }
             },
 
             methods: {
+
+                setYN($event) {
+                    let dvappButton = event.currentTarget.value;
+                    this.dvappyn = dvappButton;
+                },
+
+                getYN() {
+                    if (this.dvappyn == 'y')
+                        return true;
+                    else
+                        return false;
+                },
 
                 // 로그인 된 아이디의 usertype 가져오기
                 getUserType() {
@@ -523,15 +577,6 @@
 
                 // 조건에 따른 parameter post, 전체적인 리스트
                 postParam() {
-                    let today = new Date();
-
-                    if (this.startDvRegDate == "") {
-                        this.startDvRegDate = dateFormat(today);
-                    }
-                    if (this.endDvRegDate == "") {
-                        this.endDvRegDate = dateFormat(today);
-                    }
-
                     axios.post("http://localhost:8888/api/paramExpendInformation",
                         {
                             empno: this.empno,
@@ -549,7 +594,6 @@
 
                 // 결의 번호에 따른 데이터 받는 메소드, 결의 번호 상세 정보
                 getDvno: function (dvno, i) {
-
                     axios.post("http://localhost:8888/api/detailExpendInformation",
                         {
                             dvno: dvno
@@ -568,20 +612,43 @@
                 },
 
                 // 승인 반려에 따른 업데이트 메소드
-                updateDvapp: function (event) {
-                    let dvappButton = event.currentTarget.value;
-                    let data = this.dvno;
+                updateDvapp: function () {
                     axios.post("http://localhost:8888/api/updateEI", {
-                        dvno: data,
-                        dvappyn: dvappButton
+                        dvno: this.dvno,
+                        dvappyn: this.dvappyn
                     }).then((response) => {
-                            console.log(this.rownum);
-                            if (dvappButton == 'y')
+                            if (this.dvappyn == 'y')
                                 this.expendList[this.rownum].dvappyn = 'y';
                             else
                                 this.expendList[this.rownum].dvappyn = 'n';
                         }
                     )
+                },
+
+                // 금액 표현식
+                // ex) 1,234,567
+                currency(e) {
+                    var num = new Number(e);
+                    return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,")
+                },
+
+                // 날짜 validation
+                dateValid() {
+                    let start = Date.parse(this.startDvRegDate);
+                    let end = Date.parse(this.endDvRegDate);
+                    this.startDateFlag = ((start > end)) ? false : true;
+                },
+
+                // 날짜 초기 설정
+                setDate(){
+                    let today = new Date();
+
+                    if (this.startDvRegDate == "") {
+                        this.startDvRegDate = dateToString(today);
+                    }
+                    if (this.endDvRegDate == "") {
+                        this.endDvRegDate = dateToString(today);
+                    }
                 },
 
                 //pagination
@@ -598,9 +665,9 @@
 
             computed: {
                 pageCount() {
-                    let listLeng = this.pageList.length;
-                    listSize = this.pageSize,
-                        page = Math.floor(listLeng / listSize);
+                    let listLeng = this.expendList.length;
+                    listSize = this.pageSize;
+                    page = Math.floor(listLeng / listSize);
 
                     if (listLeng == 0)
                         return 1;
@@ -615,7 +682,7 @@
                     let start = this.pageNum * this.pageSize,
                         end = start + this.pageSize;
 
-                    return this.pageList.slice(start, end);
+                    return this.expendList.slice(start, end);
                 }
             },
 
@@ -624,12 +691,16 @@
                 this.getUserType();
             },
 
+            mounted(){
+              this.setDate();
+            },
+
 
         }
 
 
         //날짜 포멧 yyyy-MM-dd
-        function dateFormat(date) {
+        function dateToString(date) {
             let month = date.getMonth() + 1;
             let day = date.getDate();
 
@@ -638,8 +709,6 @@
 
             return date.getFullYear() + '-' + month + '-' + day;
         }
-
-
         Vue.createApp(expend).mount('#app');
 
     </script>
