@@ -155,7 +155,7 @@
                                                     <td class="d-none d-xl-table-cell">{{ emp.name }}</td>
                                                     <td class="d-none d-xl-table-cell">{{ emp.departmentname }}</td>
                                                     <td><span class="badge bg-success">{{ emp.gradename }}</span></td>
-                                                    <td class="d-none d-xl-table-cell">{{ emp.tel1 }}</td>
+                                                    <td class="d-none d-xl-table-cell">{{ emp.tel }}</td>
                                                     <td class="d-none d-xl-table-cell">{{ emp.mail }}</td>
                                                     <td class="d-none d-xl-table-cell">{{ emp.entrydate }}</td>
                                                     <td class="d-none d-xl-table-cell">
@@ -959,7 +959,7 @@
                                                         style="height: 200; width:143px"
                                                         onerror="this.src='/images/noProfile.png'" />
                                                     <input class="form-control form-control-sm" id="idPicture"
-                                                        type="file" @change="uploadImage" accept="image/*" />
+                                                        type="file" @change="uploadImage" accept="image/*" required/>
                                                     <div class="invalid-feedback">
                                                         사원의 증명사진을 첨부해주세요.
                                                     </div>
@@ -969,14 +969,12 @@
                                                     <label label class="small mb-1" for="empno">사번</label>
                                                     <input type="text" class="form-control form-control-sm" id="empno"
                                                         :placeholder="empno" disabled>
-
                                                     <label label class="small mb-1" for="name">사원명</label>
                                                     <input type="text" class="form-control form-control-sm" id="name"
                                                         placeholder="" v-model="name" required>
                                                     <div class="invalid-feedback">
                                                         사원명을 입력해주세요.
                                                     </div>
-
                                                     <label label class="small mb-1" for="regno">주민등록번호</label>
                                                     <div>
                                                         <input type="text" class="form-control form-control-sm"
@@ -994,7 +992,6 @@
                                                     <div class="invalid-feedback">
                                                         주민등록번호를 입력해주세요.
                                                     </div>
-
                                                     <label label class="small mb-1" for="tel">연락처</label>
                                                     <div>
                                                         <input type="tel" class="form-control form-control-sm" id="tel1"
@@ -1022,31 +1019,28 @@
                                                     <label label class="small mb-1" for="password">비밀번호</label>
                                                     <input type="text" class="form-control form-control-sm"
                                                         id="password" :placeholder="tel3" disabled>
-
                                                     <label label class="small mb-1" for="gender">성별</label>
                                                     <div class="form-control form-control-sm border-0">
                                                         <div class="form-check form-check-inline col-md-5">
                                                             <input class="form-check-input" type="radio" name="gender"
-                                                                id="gender" v-model="gender" value="남">
+                                                                id="gender" v-model="gender" value="남" :checked="(this.regno2.substr(0, 1) == 1) || (this.regno2.substr(0, 1) == 3)" disabled>
                                                             <label class="form-check-label" for="gender">남</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio" name="gender"
-                                                                id="gender" v-model="gender" value="여">
+                                                                id="gender" v-model="gender" value="여" :checked="(this.regno2.substr(0, 1) == 2) || (this.regno2.substr(0, 1) == 4)" disabled>
                                                             <label class="form-check-label" for="gender">여</label>
                                                         </div>
                                                     </div>
                                                     <div class="invalid-feedback">
-                                                        성별을 입력해주세요.
+                                                        주민 번호를 입력하면 자동 입력됩니다.
                                                     </div>
-
                                                     <label label class="small mb-1" for="school">최종학력</label>
                                                     <input type="text" class="form-control form-control-sm" id="school"
                                                         placeholder="중앙대학교" v-model="school" required>
                                                     <div class="invalid-feedback">
                                                         최종학력를 입력해주세요.
                                                     </div>
-
                                                     <label label class="small mb-1" for="mail">이메일</label>
                                                     <input type="email" class="form-control form-control-sm" id="mail"
                                                         placeholder="i5-29@erp.com" v-model="mail" required>
@@ -1061,7 +1055,7 @@
                                                 <div class="form-group col-md-10">
                                                     <label class="small mb-1" for="addr">주소</label>
                                                     <input type="text" class="form-control form-control-sm" id="addr"
-                                                        v-model="addr">
+                                                        v-model="addr" required>
                                                     <div class="invalid-feedback">
                                                         주소를 입력해주세요.
                                                     </div>
@@ -1069,25 +1063,25 @@
                                                 <!-- Form Group (주소 검색: 다음 API) -->
                                                 <div class="form-group col-md-2" style="align-self: end">
                                                     <input type="button" class="btn btn-hrms shadow-sm btn-sm"
-                                                        style="height: 27px; width: 100px;" @click="execDaumPostcode()"
+                                                        style="height: 27px; width: 100px; margin-bottom: 0px;" @click="execDaumPostcode()"
                                                         value="주소 검색"><br>
                                                 </div>
                                                 <!-- Form Group (상세주소) -->
                                                 <div class="form-group col-md-8">
                                                     <label class="small mb-1" for="addrdetail">상세주소</label>
                                                     <input type="text" class="form-control form-control-sm"
-                                                        id="addrdetail" v-model="addrdetail">
+                                                        id="addrdetail" v-model="addrdetail" required>
                                                     <div class="invalid-feedback">
-                                                        주소를 입력해주세요.
+                                                        상세 주소를 입력해주세요.
                                                     </div>
                                                 </div>
                                                 <!-- Form Group (우편번호) -->
                                                 <div class="form-group col-md-4">
                                                     <label class="small mb-1" for="zipcode">우편번호</label>
                                                     <input type="text" class="form-control form-control-sm" id="zipcode"
-                                                        v-model="zipcode" maxlength="6">
+                                                        v-model="zipcode" maxlength="6" required>
                                                     <div class="invalid-feedback">
-                                                        주소를 입력해주세요.
+                                                        우편번호를 입력해주세요.
                                                     </div>
                                                 </div>
                                             </div>
@@ -1097,7 +1091,7 @@
                                                 <div class="form-group col-md-4">
                                                     <label class="small mb-1" for="bankcd">은행</label>
                                                     <select class="form-select form-select-sm" id="bankcd"
-                                                        v-model="bankcd">
+                                                        v-model="bankcd" required>
                                                         <option v-for="(bank, i) in bankList" :key="i"
                                                             :value="bank.bankcd">{{ bank.bankname }}</option>
                                                     </select>
@@ -1111,7 +1105,7 @@
                                                     <input type="text" class="form-control form-control-sm" id="account"
                                                         placeholder="1000-121-123753" v-model="account"
                                                         onkeyup="preventKr(this)"
-                                                        onkeydown="checkNum(event, this.value)">
+                                                        onkeydown="checkNum(event, this.value)" required>
                                                     <div class="invalid-feedback">
                                                         계좌번호를 입력해주세요.
                                                     </div>
@@ -1122,7 +1116,7 @@
                                                 <!-- Form Group (부서) -->
                                                 <div class="form-group col-md-4">
                                                     <label class="small mb-1" for="departmentcd">부서</label>
-                                                    <select class="form-select form-select-sm" v-model="departmentcd">
+                                                    <select class="form-select form-select-sm" v-model="departmentcd" required>
                                                         <option v-for="(department, i) in departmentList" :key="i"
                                                             :value="department.departmentcd">{{
                                                             department.departmentname }}</option>
@@ -1134,7 +1128,7 @@
                                                 <!-- Form Group (직급) -->
                                                 <div class="form-group col-md-4">
                                                     <label class="small mb-1" for="gradecd">직급</label>
-                                                    <select class="form-select form-select-sm" v-model="gradecd">
+                                                    <select class="form-select form-select-sm" v-model="gradecd" required>
                                                         <option v-for="(grade, i) in gradeList" :key="i"
                                                             :value="grade.gradecd">{{ grade.gradename }}</option>
                                                     </select>
@@ -1145,7 +1139,7 @@
                                                 <!-- Form Group (권한) -->
                                                 <div class="form-group col-md-4">
                                                     <label class="small mb-1" for="usertype">권한</label>
-                                                    <select class="form-select form-select-sm" v-model="usertype">
+                                                    <select class="form-select form-select-sm" v-model="usertype" required>
                                                         <option v-for="(usertype, i) in usertypeList" :key="i"
                                                             :value="usertype.usertype">{{ usertype.username }}</option>
                                                     </select>
@@ -1163,19 +1157,18 @@
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio"
                                                                 name="empStatus" id="retire_n" v-model="retireyn"
-                                                                value="n">
-
+                                                                value="n" required>
                                                             <label class="form-check-label" for="retire_n">재직</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio"
-                                                                name="empStatus" id="rest_y" v-model="restyn" value="y">
+                                                                name="empStatus" id="rest_y" v-model="restyn" value="y" disabled>
                                                             <label class="form-check-label" for="rest_y">휴직</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio"
                                                                 name="empStatus" id="retire_y" v-model="retireyn"
-                                                                value="y">
+                                                                value="y" disabled>
                                                             <label class="form-check-label" for="retire_y">퇴직</label>
                                                         </div>
                                                     </div>
@@ -1192,7 +1185,7 @@
                                                     <input type="text" class="form-control form-control-sm"
                                                         id="yearsalary" v-model="yearsalary" maxlength="9"
                                                         onkeyup="preventKr(this)"
-                                                        onkeydown="checkNum(event, this.value)">
+                                                        onkeydown="checkNum(event, this.value)" required>
                                                     <div class="invalid-feedback">
                                                         연봉을 입력해주세요.
                                                     </div>
@@ -1414,10 +1407,14 @@
                         // 경력 연차
                         if (this.empDetail.retireyn === 'y') { // 퇴사자일 경우 퇴직날짜 기준으로 계산
                             this.careeryears = (parseInt((this.empDetail.retiredate).substr(0, 4)) - parseInt((this.empDetail.entrydate).substr(0, 4)));
+                            console.log(this.careeryears)
                         } else { // 재직자일 경우 오늘날짜 기준으로 계산
-                            var strDate1 = ((new Date()).toDateString()).substr(0, 4);
+                            var strDate1 = (dayjs().format()).substr(0, 4);
                             var strDate2 = (this.empDetail.entrydate).substr(0, 4);
+                            console.log(strDate1)
+                            console.log(strDate2)
                             this.careeryears = parseInt(strDate1) - parseInt(strDate2);
+                            console.log(this.careeryears)
                         }
 
                         // 승진 및 보직 관리 시 - 이전 직급 및 부서 정보 저장
@@ -1616,6 +1613,7 @@
                 }
             }
             Vue.createApp(EmpList).mount('#empList');
+            /*]]>*/
         </script>
 
         <script>
