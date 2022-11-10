@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import sjht.erp.detailexpend.dto.request.*;
 import sjht.erp.detailexpend.dto.response.DetailResponseDto;
+import sjht.erp.detailexpend.dto.response.FileResponseDto;
 import sjht.erp.detailexpend.dto.response.MyExpendListResponseDto;
 import sjht.erp.detailexpend.repository.ExpendInsertMapper;
 
@@ -120,6 +121,7 @@ public class ExpendInsertServiceImpl implements ExpendInsertService {
     }
 
     @Override
+    @Transactional
     public boolean fileInput(MultipartFile multipartFile, int empno, String dvno,Path targetPath){
         int dno = expendInsertMapper.selectDetailExpendDnoOne(dvno);
 
@@ -133,5 +135,10 @@ public class ExpendInsertServiceImpl implements ExpendInsertService {
                 dno
         );
         return expendInsertMapper.insertFile(fileRequestDto) != 0;
+    }
+
+    @Override
+    public List<FileResponseDto> selectFile(String dvno){
+        return expendInsertMapper.findFilesByDvno(dvno);
     }
 }

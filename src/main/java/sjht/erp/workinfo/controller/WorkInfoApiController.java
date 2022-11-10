@@ -25,7 +25,7 @@ public class WorkInfoApiController {
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
         // 리턴 리스폰스 디티오 타입 서비스 로직
         System.out.println(workInfoRequestDto.toString());
-        return workTimeService.selectWhereWorkInfo(workInfoRequestDto);
+        return  workTimeService.selectWhereWorkInfo(workInfoRequestDto);
     }
 
     // 로그인한 대상의 휴가신청리스트를 조회하는 컨트롤러
