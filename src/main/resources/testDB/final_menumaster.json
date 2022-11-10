@@ -1,0 +1,290 @@
+[
+	{
+		"menuid" : "1",
+		"usertype" : "ROLE_A",
+		"menuname" : "마이페이지",
+		"menuurl" : "None",
+		"groupnumber" : 1,
+		"odr" : 1,
+		"level" : 1
+	},
+	{
+		"menuid" : "10",
+		"usertype" : "ROLE_B",
+		"menuname" : "마이페이지",
+		"menuurl" : "None",
+		"groupnumber" : 1,
+		"odr" : 10,
+		"level" : 1
+	},
+	{
+		"menuid" : "11",
+		"usertype" : "ROLE_B",
+		"menuname" : "내정보수정",
+		"menuurl" : "/mypage",
+		"groupnumber" : 1,
+		"odr" : 11,
+		"level" : 2
+	},
+	{
+		"menuid" : "12",
+		"usertype" : "ROLE_B",
+		"menuname" : "전자결제함",
+		"menuurl" : "None",
+		"groupnumber" : 2,
+		"odr" : 12,
+		"level" : 1
+	},
+	{
+		"menuid" : "13",
+		"usertype" : "ROLE_B",
+		"menuname" : "결제 신청 및 조회(관리자)",
+		"menuurl" : "/workList",
+		"groupnumber" : 2,
+		"odr" : 13,
+		"level" : 2
+	},
+	{
+		"menuid" : "16",
+		"usertype" : "ROLE_B",
+		"menuname" : "인사및급여관리",
+		"menuurl" : "None",
+		"groupnumber" : 4,
+		"odr" : 16,
+		"level" : 1
+	},
+	{
+		"menuid" : "17",
+		"usertype" : "ROLE_B",
+		"menuname" : "인사관리",
+		"menuurl" : "/hrms/list",
+		"groupnumber" : 4,
+		"odr" : 17,
+		"level" : 2
+	},
+	{
+		"menuid" : "19",
+		"usertype" : "ROLE_B",
+		"menuname" : "급여관리",
+		"menuurl" : "/hrms/paymanage",
+		"groupnumber" : 4,
+		"odr" : 19,
+		"level" : 2
+	},
+	{
+		"menuid" : "2",
+		"usertype" : "ROLE_A",
+		"menuname" : "내정보수정",
+		"menuurl" : "/mypage",
+		"groupnumber" : 1,
+		"odr" : 2,
+		"level" : 2
+	},
+	{
+		"menuid" : "20",
+		"usertype" : "ROLE_B",
+		"menuname" : "회계관리",
+		"menuurl" : "None",
+		"groupnumber" : 5,
+		"odr" : 20,
+		"level" : 1
+	},
+	{
+		"menuid" : "21",
+		"usertype" : "ROLE_B",
+		"menuname" : "지출 결의서",
+		"menuurl" : "/expend",
+		"groupnumber" : 5,
+		"odr" : 21,
+		"level" : 2
+	},
+	{
+		"menuid" : "23",
+		"usertype" : "ROLE_B",
+		"menuname" : "게시판",
+		"menuurl" : "None",
+		"groupnumber" : 3,
+		"odr" : 23,
+		"level" : 1
+	},
+	{
+		"menuid" : "24",
+		"usertype" : "ROLE_B",
+		"menuname" : "공지사항(관리자)",
+		"menuurl" : "/notice",
+		"groupnumber" : 3,
+		"odr" : 24,
+		"level" : 2
+	},
+	{
+		"menuid" : "25",
+		"usertype" : "ROLE_B",
+		"menuname" : "자유게시판",
+		"menuurl" : "/board",
+		"groupnumber" : 3,
+		"odr" : 25,
+		"level" : 2
+	},
+	{
+		"menuid" : "26",
+		"usertype" : "ROLE_C",
+		"menuname" : "마이페이지",
+		"menuurl" : "None",
+		"groupnumber" : 1,
+		"odr" : 26,
+		"level" : 1
+	},
+	{
+		"menuid" : "27",
+		"usertype" : "ROLE_C",
+		"menuname" : "내정보수정",
+		"menuurl" : "/mypage",
+		"groupnumber" : 1,
+		"odr" : 27,
+		"level" : 2
+	},
+	{
+		"menuid" : "28",
+		"usertype" : "ROLE_C",
+		"menuname" : "전자결제함",
+		"menuurl" : "None",
+		"groupnumber" : 2,
+		"odr" : 28,
+		"level" : 1
+	},
+	{
+		"menuid" : "29",
+		"usertype" : "ROLE_C",
+		"menuname" : "결제 신청 및 조회(관리자)",
+		"menuurl" : "/workList",
+		"groupnumber" : 2,
+		"odr" : 29,
+		"level" : 2
+	},
+	{
+		"menuid" : "3",
+		"usertype" : "ROLE_A",
+		"menuname" : "전자결제함",
+		"menuurl" : "None",
+		"groupnumber" : 2,
+		"odr" : 3,
+		"level" : 1
+	},
+	{
+		"menuid" : "32",
+		"usertype" : "ROLE_C",
+		"menuname" : "인사및급여관리",
+		"menuurl" : "None",
+		"groupnumber" : 4,
+		"odr" : 32,
+		"level" : 1
+	},
+	{
+		"menuid" : "33",
+		"usertype" : "ROLE_C",
+		"menuname" : "인사관리",
+		"menuurl" : "/hrms/list",
+		"groupnumber" : 4,
+		"odr" : 33,
+		"level" : 2
+	},
+	{
+		"menuid" : "35",
+		"usertype" : "ROLE_C",
+		"menuname" : "급여관리",
+		"menuurl" : "/hrms/paymanage",
+		"groupnumber" : 4,
+		"odr" : 35,
+		"level" : 2
+	},
+	{
+		"menuid" : "37",
+		"usertype" : "ROLE_C",
+		"menuname" : "회계관리",
+		"menuurl" : "None",
+		"groupnumber" : 5,
+		"odr" : 37,
+		"level" : 1
+	},
+	{
+		"menuid" : "38",
+		"usertype" : "ROLE_C",
+		"menuname" : "지출 결의서",
+		"menuurl" : "/expend",
+		"groupnumber" : 5,
+		"odr" : 38,
+		"level" : 2
+	},
+	{
+		"menuid" : "39",
+		"usertype" : "ROLE_C",
+		"menuname" : "회계전표",
+		"menuurl" : "/expendhistory",
+		"groupnumber" : 5,
+		"odr" : 39,
+		"level" : 2
+	},
+	{
+		"menuid" : "4",
+		"usertype" : "ROLE_A",
+		"menuname" : "결제 신청 및 조회",
+		"menuurl" : "/workList",
+		"groupnumber" : 2,
+		"odr" : 4,
+		"level" : 2
+	},
+	{
+		"menuid" : "40",
+		"usertype" : "ROLE_C",
+		"menuname" : "게시판",
+		"menuurl" : "None",
+		"groupnumber" : 3,
+		"odr" : 40,
+		"level" : 1
+	},
+	{
+		"menuid" : "41",
+		"usertype" : "ROLE_C",
+		"menuname" : "공지사항(관리자)",
+		"menuurl" : "/notice",
+		"groupnumber" : 3,
+		"odr" : 41,
+		"level" : 2
+	},
+	{
+		"menuid" : "42",
+		"usertype" : "ROLE_C",
+		"menuname" : "자유게시판",
+		"menuurl" : "/board",
+		"groupnumber" : 3,
+		"odr" : 42,
+		"level" : 2
+	},
+	{
+		"menuid" : "7",
+		"usertype" : "ROLE_A",
+		"menuname" : "게시판",
+		"menuurl" : "None",
+		"groupnumber" : 3,
+		"odr" : 7,
+		"level" : 1
+	},
+	{
+		"menuid" : "8",
+		"usertype" : "ROLE_A",
+		"menuname" : "공지사항",
+		"menuurl" : "/notice",
+		"groupnumber" : 3,
+		"odr" : 8,
+		"level" : 2
+	},
+	{
+		"menuid" : "9",
+		"usertype" : "ROLE_A",
+		"menuname" : "자유 게시판",
+		"menuurl" : "/board",
+		"groupnumber" : 3,
+		"odr" : 9,
+		"level" : 2
+	}
+]
