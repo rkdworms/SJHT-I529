@@ -142,7 +142,7 @@
                                                     <td>{{resultpk.registdate}}</td>
                                                     <td>{{resultpk.approverdate}}</td>
                                                     <td>{{resultpk.approver}}</td>
-                                                    <td>{{resultpk.approveryn}}</td>
+                                                    <td>{{changeApp(resultpk.approveryn)}}</td>
                                                     <td><a v-if="Id==resultpk.empno && resultpk.approveryn=='w'"
                                                            class="btn btn-dark p-2"
                                                            onclick="modifyWorkTimeModalInput()"
@@ -267,9 +267,9 @@
                                                     <td>{{result.departmentname}}</td>
                                                     <td>{{result.dvregdate}}</td>
                                                     <td>{{result.dvamt}}</td>
-                                                    <td>{{result.dvappyn}}</td>
+                                                    <td>{{changeApp(result.dvappyn)}}</td>
                                                     <td><a class="btn btn-dark" onclick="DetailModalInput2()"
-                                                           @click="getDetail(result)">상세보기</a>
+                                                           @click="getDetail(result.dvno)">상세보기</a>
                                                     </td>
                                                     <td><a class="btn btn-dark"
                                                            @click="deleteData(result.dvno)">삭제</a>
@@ -342,14 +342,14 @@
                                                             </tr>
                                                             </thead>
                                                             <tbody v-for="i in reloadDatas" key="i.dno">
-                                                            <tr>
+                                                            <tr v-for="list in files" key="list">
                                                                 <td>{{i.dvusedate}}</td>
                                                                 <td>{{i.divcd}}</td>
                                                                 <td>{{i.briefs}}</td>
                                                                 <td>{{i.detailuse}}</td>
                                                                 <td>{{i.price}}</td>
                                                                 <td>{{i.dvmemo}}</td>
-                                                                <td></td>
+                                                                <td>{{list.filename}}</td>
                                                                 <td>
                                                                     <button @click="chooseDetailData(i.dno)"
                                                                             class="btn btn-dark"
@@ -731,15 +731,16 @@
                                             <td>삭제</td>
                                         </tr>
                                         </thead>
-                                        <tbody v-for="(list,i) in myDetailExpendList" key="list.dno">
-                                        <tr>
+                                        <tbody v-for="(list) in myDetailExpendList" key="list.dno">
+                                        <tr v-for="(file,i) in files" key="file">
                                             <td>{{list.dvusedate}}</td>
                                             <td>{{list.divcd}}</td>
                                             <td>{{list.briefs}}</td>
                                             <td>{{list.detailuse}}</td>
                                             <td>{{list.price}}</td>
                                             <td>{{list.dvmemo}}</td>
-                                            <td><a></a></td>
+                                            <td><a @click="fileDownload(file.physicalpath,file.filename)">{{file.filename}}</a>
+                                            </td>
                                             <td>
                                                 <button @click="deleteOne(list.dno)" class="btn btn-dark">
                                                     삭제
@@ -945,7 +946,7 @@
                     Id: "",
                     myDetailExpend: {}, // 지출결의정보
                     dno: "",
-                    file: ""
+                    files: []
                 }
             },
 
@@ -964,9 +965,22 @@
                     axios.post("http://localhost:8888/api/workList", data)
                         .then(response => {
                             this.allWorkTimeList = response.data;
+                            this.changeApp(app)
                         })
                         .catch(err => console.error(err))
                 },
+                changeApp(app) {
+                    if(app === 'w'){
+                        app = '대기';
+                    }
+                    else if(app==='y'){
+                        app = '승인';
+                    }else {
+                        app = '반려'
+                    }
+                    return app;
+                }
+                ,
                 updateAccept() {
                     const data = {
                         approveryn: "y",
@@ -979,7 +993,8 @@
                             alert("데이터가 수정되지 않았습니다")
                         }
                     })
-                },
+                }
+                ,
                 updateDenied() {
                     const data = {
                         approveryn: "n",
@@ -992,13 +1007,15 @@
                             alert("데이터가 수정되지 않았습니다")
                         }
                     })
-                },
+                }
+                ,
                 getName2() {
                     axios.post("http://localhost:8888/api/getName")
                         .then(response => {
                             this.name = response.data
                         })
-                },
+                }
+                ,
                 getOne(i) {
                     const data = {
                         tanos: this.allWorkTimeList[i].tano
@@ -1006,33 +1023,38 @@
                     axios.post("http://localhost:8888/api/getOne", data).then(response => {
                         this.workTimeDetail = response.data
                     });
-                },
+                }
+                ,
                 getMyWorkTimeList() {
                     axios.post("http://localhost:8888/api/getMyWorkTime")
                         .then(response => {
                             this.allWorkTimeList = response.data;
                         })
-                },
+                }
+                ,
                 showViewAboutROLE(response) {
                     if (response.data === "ROLE_C") {
                         this.getWorkTimeList();
                     } else {
                         this.getMyWorkTimeList();
                     }
-                },
+                }
+                ,
                 getROLE() {
                     axios.post("http://localhost:8888/api/getROLE").then(response => {
                         this.ROLE = response.data === "ROLE_C"
                         this.showViewAboutROLE(response)
                     })
-                },
+                }
+                ,
                 // 지출결의서신청 클릭시 결의번호 자동생성
                 inputEXPENDDVNO() {
                     axios.post("http://localhost:8888/api/insertDVNO")
                         .then(response => {
                             this.dvno = response.data;
                         })
-                },
+                }
+                ,
                 inputDetail() {
                     const data = {
                         dvno: this.dvno,
@@ -1047,10 +1069,12 @@
                         .then(response => {
                             this.fileInput();
                         })
-                },
+                }
+                ,
                 filechange(event) {
                     this.file = event.target.files[0];
-                },
+                }
+                ,
                 // 파일 입력
                 fileInput() {
                     // let file = document.getElementById("myFile").files[0];
@@ -1065,13 +1089,56 @@
                                 }
                             })
                             .then(response => {
+                                this.fileSelect();
                                 this.ReShowList();
+                                DetailModalClose();;
                             })
                     }
-                },
+                }
+                ,
+                fileSelect() {
+                    const data = {
+                        dvno: this.dvno
+                    }
+                    axios.post("http://localhost:8888/api/selectFile", data)
+                        .then(response => {
+                            this.files = response.data;
+                            console.log(this.files)
 
+                        })
+                }
+                ,
+                fileDownload(physicalpath, filename) {
+                    axios.post("http://localhost:8888/api/downloadFile",
+                        {
+                            ps: physicalpath,
+                            fn: filename
+                        },
+                        {
+                            responseType: 'blob'
+                        }).then(response => {
+                        const url = window.URL.createObjectURL((new Blob([response.data])));
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.setAttribute('download', filename);
+                        document.body.append(link);
+                        link.click();
+                    })
+                }
+                ,
                 // 닫기 버튼 클릭시 결의번호 삭제
                 // 리스트에서 삭제버튼 클릭시 삭제
+                deleteData(result) {
+                    const data = {
+                        dvnoOne: result
+                    }
+                    axios.post("http://localhost:8888/api/deleteData", data)
+                        .then(response => {
+                            this.deleteInputData = response.data;
+                            this.showMyExpendList()
+                        })
+                }
+                ,
                 deleteData() {
                     const data = {
                         dvnoOne: this.dvno
@@ -1079,16 +1146,18 @@
                     axios.post("http://localhost:8888/api/deleteData", data)
                         .then(response => {
                             this.deleteInputData = response.data;
-
+                            window.location.reload();
                         })
-                },
+                }
+                ,
                 getDepartmentName() {
 
                     axios.post("http://localhost:8888/api/getDepartment")
                         .then(response => {
                             this.departmentName = response.data;
                         })
-                },
+                }
+                ,
                 updateExpendInformation() {
                     const data = {
                         dvnoOne: this.dvno
@@ -1102,14 +1171,16 @@
                                 alert("데이터를 입력해주세요!")
                             }
                         })
-                },
+                }
+                ,
                 // 리스트에 나의 지출결의 리스트의 미승인 데이터만 보여줌
                 showMyExpendList() {
                     axios.post("http://localhost:8888/api/showMyExpendList")
                         .then(response => {
                             this.myExpendList = response.data;
                         })
-                },
+                }
+                ,
                 deleteOne(i) {
                     const data = {
                         dnum: i
@@ -1120,7 +1191,8 @@
                                 this.ReShowList();
                             }
                         })
-                },
+                }
+                ,
                 ReShowList() {
                     const data = {
                         dvnoOne: this.dvno
@@ -1128,10 +1200,12 @@
                     axios.post("http://localhost:8888/api/showMyDetailExpendList", data)
                         .then(response => {
                             this.myDetailExpendList = response.data
+
                         })
-                },
+                }
+                ,
                 getDetail(result) {
-                    this.reloadData = result.dvno;
+                    this.reloadData = result;
                     const data = {
                         dvnoOne: this.reloadData
                     };
@@ -1139,20 +1213,23 @@
                         .then(response => {
                             this.reloadDatas = response.data;
                         })
-                },
+                }
+                ,
                 checkMyData() {
                     axios.post("http://localhost:8888/api/checkMyId")
                         .then(response => {
                             this.Id = response.data
                         })
-                },
+                }
+                ,
                 showWorkTimeList() {
                     if (this.ROLE === "ROLE_C") {
                         this.getWorkTimeList()
                     } else {
                         this.getMyWorkTimeList()
                     }
-                },
+                }
+                ,
                 getWorkTimeData(resultpk) {
                     this.tano = resultpk;
                     const data = {
@@ -1165,7 +1242,8 @@
                             this.endDate = this.workTimeDetail.enddate;
                             this.reasonHoliday = this.workTimeDetail.reasonholiday
                         })
-                },
+                }
+                ,
                 updateHoliday() {
                     const data = {
                         startdate: this.startDate,
@@ -1181,7 +1259,8 @@
                                 alert("업데이트가 되지 않았습니다.")
                             }
                         })
-                },
+                }
+                ,
                 deleteMyHoliday(resultpk) {
                     const data = {
                         tano: resultpk
@@ -1194,7 +1273,8 @@
                                 alert("삭제되지 않았습니다.")
                             }
                         })
-                },
+                }
+                ,
                 chooseDetailData(i) {
                     const data = {
                         dno: i
@@ -1210,7 +1290,8 @@
                             this.dvmemo = this.myDetailExpend.dvmemo;
                             this.dno = this.myDetailExpend.dno;
                         })
-                },
+                }
+                ,
                 ReShowList2() {
                     const data = {
                         dvnoOne: this.reloadData
@@ -1219,8 +1300,10 @@
                         .then(response => {
                             this.reloadDatas = response.data
                             DetailModalClose();
+                            modifyDetailModalClose()
                         })
-                },
+                }
+                ,
                 updateMyDetail() {
                     const data = {
                         dvusedate: this.usedate,
@@ -1234,13 +1317,14 @@
                     axios.post("http://localhost:8888/api/updateMyDetailExpend", data)
                         .then(response => {
                             if (response) {
-                                modifyDetailModalClose()
+                                this.fileInput()
                                 this.ReShowList2();
                             } else {
                                 alert("오류")
                             }
                         })
-                },
+                }
+                ,
                 reUpdateExpendInformation() {
                     const data = {
                         dvnoOne: this.reloadData
@@ -1254,7 +1338,8 @@
                                 alert("데이터를 입력해주세요!")
                             }
                         })
-                },
+                }
+                ,
                 reInputDetail() {
                     const data = {
                         dvno: this.reloadData,
@@ -1270,7 +1355,8 @@
                             this.reloadDatas = response.data
                             modiDetailModalClose()
                         })
-                },
+                }
+                ,
 
             },
             created
