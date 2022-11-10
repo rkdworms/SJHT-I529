@@ -58,5 +58,6 @@ public class UpdateDto {
     private Date promotiondate; // 승진날짜
     private String prevgradecd; // 변경전 직급코드
     private String prevdepartmentcd; // 변경전 부서코드
+    private int prevyearsalary; // 변경전 연봉
     private int appempno; // 승인 담당자 사번
 }
