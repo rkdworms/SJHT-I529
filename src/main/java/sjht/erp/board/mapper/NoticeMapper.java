@@ -1,9 +1,11 @@
 package sjht.erp.board.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import sjht.erp.board.dto.BoardResponse;
 import sjht.erp.board.dto.NoticeRequest;
 import sjht.erp.board.dto.NoticeResponse;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Mapper
@@ -48,6 +50,12 @@ public interface NoticeMapper {
      * @param bno - PK
      */
     void noticeDelete(int bno);
+
+    /**
+     * 게시글 검색
+     * @param search
+     */
+    List<NoticeResponse> searchNoticeList(HashMap<String, String> search);
 
 
 

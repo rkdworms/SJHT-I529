@@ -43,4 +43,6 @@ public interface ExpendInsertMapper {
     DetailResponseDto selectMyDetailExpend(int dno);
 
     int updateMyDetailExpend(UpdateMyDetailExpendRequestDto updateMyDetailExpendRequestDto);
+
+    Integer selectDetailExpendDnoOne(String dvno);
 }

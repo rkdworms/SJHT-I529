@@ -169,6 +169,7 @@ public class HrmsApiServiceImpl implements HrmsApiService {
     @Override
     public void promotionManage(UpdateDto updateDto) {
         // 사원 직급 및 부서 변경 요청
+        System.out.println("냥"+updateDto.getAppempno());
         hrmsMapper.promotionManageEmployee(updateDto);
 
         hrmsMapper.promotionManageGrade(updateDto);

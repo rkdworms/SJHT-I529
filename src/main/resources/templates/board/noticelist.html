@@ -40,46 +40,106 @@
             <div class="card-body">
                 <table class="table table-striped table-hover">
                     <thead>
-                        <th>번호</th>
-                        <th>제목</th>
-                        <th>작성자</th>
-                        <th>작성일</th>
-                        <th>조회수</th>
+                    <th class="col-1">&nbsp;</th>
+                    <th style="text-align:center">제목</th>
+                    <th class="col-1">작성자</th>
+                    <th class="col-2" style="text-align:center">작성일</th>
+                    <th class="col-1" style="text-align:center">조회</th>
                     </thead>
 
                     <tbody>
-                    <tr v-for="(row, bno) in list" key="bno">
-                        <td>
-                            {{ "공지" }}
+                    <tr v-for="(row, bno) in paginatedData" key="bno">
+                        <td style="text-align:center">
+                            {{"공지"}}
                         </td>
-                        <td>
+                        <td >
                             <a class="acolor" :href="'/noticedetail?bno=' + row.bno">{{ row.title }}</a>
                         </td>
-                        <td>
+                        <td >
                             {{row.name}}
                         </td>
-                        <td>
-                            {{row.createtime}}
+                        <td style="text-align:center">
+                            {{date(row.createtime)}}
                         </td>
-                        <td>
+                        <td style="text-align:center">
                             {{row.boardcount}}
                         </td>
                     </tr>
                     </tbody>
                 </table>
                 <div class="text-right">
-                    <a href="/noticewrite" class="btn btn-dark text-right">글 작성</a>
+                    <a v-show="usertype" href="/noticewrite" class="btn btn-hrms p-2">글 작성</a>
+                </div>
+
+                <div class="text-center">
+                    <div class="btn-cover" style="text-align: center">
+                        <button :disabled="pageNum === 0" @click="prevPage" class="btn-hrms">
+                            이전
+                        </button>
+                        <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
+                        <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="btn-hrms">
+                            다음
+                        </button>
+                    </div>
+                </div>
+                <div class="form-row" style="justify-content: center; margin:1rem">
+                    <div class="form-group col-md-2">
+                        <select class="form-select form-control-solid" name="approveryn" id="approveryn"
+                                v-model="searchtype">
+                            <option value="all" selected>작성자+제목</option>
+                            <option value="empname">작성자</option>
+                            <option value="title">제목</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <div class="input-group input-group-joined input-group-solid">
+                            <input type="text" class="form-control form-control-sm"
+                                   id="employeeName" v-model="search" name="employeeName" placeholder="검색어를 입력해주세요.">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-1" style="display: grid;">
+                        <button type="button" @click="searchList" class="btn btn-hrms btn-md" style="margin:0;">검색
+                        </button>
+                    </div>
                 </div>
 
                 <script>
     const noticevalue = {
         data() {
             return {
-                list: []
+                list: [],
+                usertype: true,
+
+                // pagination
+                pageNum: 0,
+
+                //search
+                searchtype:"all",
+                search: ""
+            }
+        },
+
+        // pagination
+        props: {
+            pageSize: {
+                type: Number,
+                required: false,
+                default: 10
             }
         },
 
         methods: {
+
+            // 로그인 정보에 있는 usertype 가져오기
+            // workinfo/controller/WorkInfoApiController에 getRole 메소드 사용
+                getUsertype() {
+                        axios.post("http://localhost:8888/api/getROLE")
+                        .then(response => {
+                        this.usertype = response.data !== "ROLE_A"
+                    })
+                },
 
             // 공지사항 리스트
             noticeList(){
@@ -87,11 +147,65 @@
                 ).then((response) => {
                     this.list = response.data;
                 }).catch(error => console.error(error))
-            }
-        },
+            },
+
+            // 검색 결과 목록 불러오기
+            searchList(){
+                axios.post("http://localhost:8888/api/searchboardlist",{
+                    searchtype : this.searchtype,
+                    search : this.search
+                }
+                ).then((response) => {
+                    console.log(this.search)
+                    console.log(this.searchtype)
+                    this.list = response.data;
+                }).catch(error => console.error(error))
+            },
+
+            // pagination
+            // 페이징 앞으로
+            nextPage() {
+                this.pageNum += 1;
+            },
+
+            // 페이징 뒤로
+            prevPage() {
+                this.pageNum -= 1;
+            },
+
+            // 시간 포맷
+            date(day){
+            return dayjs(day).format("YYYY-MM-DD") }
+            },
+
+            computed: {
+                pageCount() {
+                    let listLeng = this.list.length;
+                    listSize = this.pageSize;
+                    page = Math.floor(listLeng / listSize);
+
+                    if (listLeng == 0) return 1;
+                    if (listLeng % listSize > 0) page += 1;
+
+                    return page;
+                },
+
+                paginatedData() {
+                    let start = this.pageNum * this.pageSize,
+                        end = start + this.pageSize;
+
+                    return this.list.slice(start, end);
+                },
+            },
+
+        mounted(){
+            this.getUsertype()
+            },
+
         created(){
             this.noticeList();
         }
+
     }
 Vue.createApp(noticevalue).mount("#notice")
 

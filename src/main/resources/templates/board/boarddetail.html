@@ -30,22 +30,23 @@
         </header>
         <div class="container mt-n10" id="board">
             <div class="card mb-4">
-                <div class="card-header">자유 게시판</div>
+                <div class="card-header">상세보기</div>
                 <!--코드 시작 부분-->
                 <div class="card-body">
                     <div class="p-3">
                         <h1 th:text="${detail.title}"></h1>
-                        <div style="font-size: 0.9rem;" th:text="${detail.name}"></div>
-                        <div style="font-size: 0.9rem;" th:text="${detail.createtime}"></div>
+                        <div style="font-size: 0.9rem; color:#363d47">{{detaillist.name}}</div>
+                        <div style="font-size: 0.9rem;" >{{date(detaillist.createtime)}}
+                            조회 {{detaillist.boardcount}}</div>
                     </div>
                     <hr>
                     <textarea class="form-control mb-4 p-4 " readonly th:value="${detail.content}" style="
                     background: #ffffff;" rows="28"></textarea>
 
                     <div class="text-right">
-                        <a href="/board" class="btn btn-hrms p-2">뒤로가기</a>
-                        <a th:href="@{|/boardmodify/${detail.bno}|}" class="btn btn-hrms p-2">수정</a>
-                        <button type="button" class="btn btn-hrms p-2" v-on:click="boardDelete()">삭제</button>
+                        <a href="/board" class="btn btn-hrms p-2">목록</a>
+                        <a v-show="name" th:href="@{|/boardmodify/${detail.bno}|}" class="btn btn-hrms p-2">수정</a>
+                        <button v-show="name" type="button" class="btn btn-hrms p-2" v-on:click="boardDelete()">삭제</button>
                     </div>
 
                 </div>
@@ -53,39 +54,36 @@
             <script th:inline="javascript">
                 /*<![CDATA[*/
                 var bno = /*[[ ${detail.bno} ]]*/;
+                var name = /*[[ ${detail.name} ]]*/;
 
 
-                const board = {
+                const boardvalue = {
                     data() {
                         return {
                             checkDelete: "",
-                            checkUpdate: ""
+                            checkUpdate: "",
+                            name: true,
+                            detaillist: /*[[ ${detail} ]]*/
+
                         }
                     },
 
                     methods: {
-                        boardUpdate() {
-                            var title = /*[[ ${detail.title} ]]*/;
-                            var content = /*[[ ${detail.content} ]]*/;
-                            console.log(title)
-                            axios.post("http://localhost:8888/api/boardupdate/" + bno,
-                                {
-                                    title: title,
-                                    content: content
-                                }
 
-                            ).then((response) => {
-                                this.checkUpdate = response.data;
-                                console.log(this.checkUpdate)
-                                if (this.checkUpdate === true) {
-
-                                }
-                            }).catch(error => console.error(error))
-
+                        // 로그인 정보에 있는 이름 가져오기
+                        getName() {
+                            axios.post("http://localhost:8888/api/getName")
+                            .then(response => {
+                                console.log(name)
+                                this.name = response.data === name
+                            })
                         },
 
-
-
+                        // 시간 포맷
+                        date(day){
+                                    return dayjs(day).format("YYYY.MM.DD. hh:mm")
+                        },
+                        // 게시글 삭제
                         boardDelete() {
                             console.log(bno)
 
@@ -102,8 +100,13 @@
                         },
 
                     },
+
+                    mounted(){
+                    this.getName()
+                    }
+
                 }
-                Vue.createApp(board).mount("#board")
+                Vue.createApp(boardvalue).mount("#board")
 
                 /*]]*/
 

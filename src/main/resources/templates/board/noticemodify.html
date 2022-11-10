@@ -32,29 +32,23 @@
             <!--코드 시작 부분-->
             <div class="card-body">
 
-                <table class="table table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <th>제목</th>
-                        <th>작성자</th>
-                        <th>내용</th>
-                        <th>작성일</th>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">제목</label>
+                    <div class="col-sm-12">
+                        <input type="text" th:value="${detail.title}" class="form-control" maxlength="50"  />
+                    </div>
+                </div>
 
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td><input type="text" id="title" th:value="${detail.title}"></td>
-                        <td th:text="${detail.name}"></td>
-                        <td><textarea id="content" th:value="${detail.content}"></textarea></td>
-                        <td th:text="${detail.modifiedtime}"></td>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">내용</label>
+                    <div class="col-sm-12">
+                        <textarea th:value="${detail.content}" class="form-control" maxlength="1000" rows="33"></textarea>
+                    </div>
+                </div>
 
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="text-right">
-                    <a href="/notice" class="btn btn-dark text-right">뒤로가기</a>
-                    <button type="button" class="btn btn-dark text-left" v-on:click="noticeUpdate">수정하기</button>
+                <div class="btn_wrap text-right">
+                    <a href="/notice" class="btn btn-hrms p-2">목록</a>
+                    <button type="button" class="btn btn-hrms p-2" v-on:click="noticeUpdate">수정</button>
                 </div>
 
 

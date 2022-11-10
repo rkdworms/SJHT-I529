@@ -100,7 +100,7 @@
     <!-- 사원 조회 시 사원 증명사진 불러오기 -->
     <select id="getIdPicture" resultType="sjht.erp.common.vo.FileVO">
         SELECT f.* from employee e, file f
-        WHERE e.empno = f.fileno AND f.kind = '증명사진';
+        WHERE e.empno = f.fileno AND f.kind = 2;
     </select>
 
     <!-- 사원 리스트 ▼ -->
@@ -217,24 +217,7 @@
         WHERE empno = #{empno}
     </update>
 
-    <!-- 승진 및 보직 관리 -->
-<!--    <update id="promotionManage" parameterType="sjht.erp.hrms.dto.UpdateDto">-->
-<!--        UPDATE employee as e-->
-<!--        SET e.gradecd = #{gradecd},-->
-<!--            e.departmentcd = #{departmentcd}-->
-<!--        WHERE e.empno = #{empno};-->
-
-<!--        UPDATE grade as g-->
-<!--        SET g.empno = #{empno},-->
-<!--            g.promotiondate = now(),-->
-<!--            g.prevgradecd = #{prevgradecd},-->
-<!--            g.gradecd = #{gradecd},-->
-<!--            g.prevdepartmentcd = #{prevdepartmentcd},-->
-<!--            g.departmentcd = #{departmentcd},-->
-<!--            g.appempno = #{appempno}-->
-<!--        WHERE g.empno = #{empno}-->
-<!--    </update>-->
-
+    <!-- 승진 및 보직 관리  - employee update -->
     <update id="promotionManageEmployee" parameterType="sjht.erp.hrms.dto.UpdateDto">
         UPDATE employee
         SET gradecd = #{gradecd},
@@ -242,10 +225,12 @@
         WHERE empno = #{empno}
     </update>
 
+    <!-- 승진 및 보직 관리  - grade insert -->
     <insert id="promotionManageGrade" parameterType="sjht.erp.hrms.dto.UpdateDto">
         INSERT INTO grade (empno, promotiondate, prevgradecd, gradecd, prevdepartmentcd, departmentcd, appempno)
         VALUES ( #{empno}, now(), #{prevgradecd}, #{gradecd}, #{prevdepartmentcd}, #{departmentcd}, #{appempno} )
     </insert>
+
 </mapper>
 
 
