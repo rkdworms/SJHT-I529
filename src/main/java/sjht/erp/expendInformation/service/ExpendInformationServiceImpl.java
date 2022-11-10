@@ -64,7 +64,8 @@ public class ExpendInformationServiceImpl implements ExpendInformationService {
 
         if (updateParameterEIDto.getDvappyn().equals("y")) {
             for (int i = 0; i < selectEIByDvno(updateParameterEIDto.getDvno()).size(); i++) {
-                if (map.get("dvno").equals(selectEIByDvno(updateParameterEIDto.getDvno()).get(i).getDvno())) {
+                if (mapper.selectEHByDvno(map.get("dvno"))) {
+                    System.out.println("dvno 있음");
                     return;
                 }
                 else{
@@ -105,6 +106,7 @@ public class ExpendInformationServiceImpl implements ExpendInformationService {
         } else
             return new SelectParameterEIDto(map);
     }
+
 
     /**
      * dvno에 따른 파일 데이터 select
