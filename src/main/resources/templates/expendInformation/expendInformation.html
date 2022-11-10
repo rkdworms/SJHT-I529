@@ -426,7 +426,9 @@
                                                 반려
                                             </button>
                                         </div>
-                                        <button type="button" class="button" id="download" onclick="">다운로드</button>
+                                        <button type="button" class="button" id="download" @click="downloadWithAxios">
+                                            다운로드
+                                        </button>
                                         <button type="button" class="button" id="close"
                                                 onclick="detail_modalHide()">닫기
                                         </button>
@@ -540,6 +542,8 @@
                     startDateFlag: true,                //시작 날짜 확인 Flag
                     maxDate: dateToString(new Date()),  //input max 날짜 설정 ( 오늘 날짜로 )
 
+                    filename :[],                       //다운로드 파일 이름
+
                     pageNum: 0                          // pagination
                 }
             },
@@ -617,6 +621,7 @@
                         dvno: this.dvno,
                         dvappyn: this.dvappyn
                     }).then((response) => {
+                            console.log(this.dvappyn)
                             if (this.dvappyn == 'y')
                                 this.expendList[this.rownum].dvappyn = 'y';
                             else
@@ -640,7 +645,7 @@
                 },
 
                 // 날짜 초기 설정
-                setDate(){
+                setDate() {
                     let today = new Date();
 
                     if (this.startDvRegDate == "") {
@@ -650,6 +655,31 @@
                         this.endDvRegDate = dateToString(today);
                     }
                 },
+
+                getFilename(){
+                    axios.post("http://localhost:8888/api/getFilename", {
+                        dvno: this.dvno
+                        }).then((response) => {
+                            this.filename = response.data;
+                    })
+                },
+
+                downloadWithAxios() {
+                    this.getFilename();
+                    axios.post("http://localhost:8888/api/download", {
+                        dvno: this.dvno,
+                        responseType: 'Blob'
+                    }).then((response) => {
+                        const data = response.data;
+                        let url = window.URL.createObjectURL(new Blob([data]));
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.setAttribute('download', this.filename);
+                        document.body.append(link);
+                        link.click();
+                    }).catch((error) => console.log(error))
+                },
+
 
                 //pagination
                 nextPage() {
@@ -691,8 +721,8 @@
                 this.getUserType();
             },
 
-            mounted(){
-              this.setDate();
+            mounted() {
+                this.setDate();
             },
 
 
@@ -709,6 +739,7 @@
 
             return date.getFullYear() + '-' + month + '-' + day;
         }
+
         Vue.createApp(expend).mount('#app');
 
     </script>

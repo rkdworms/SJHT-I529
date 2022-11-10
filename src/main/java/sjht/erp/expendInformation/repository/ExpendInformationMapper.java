@@ -1,10 +1,7 @@
 package sjht.erp.expendInformation.repository;
 
-import sjht.erp.expendInformation.dto.InsertParameterEIDto;
-import sjht.erp.expendInformation.dto.SelectParameterEIDto;
-import sjht.erp.expendInformation.dto.SelectResultEIDto;
+import sjht.erp.expendInformation.dto.*;
 import org.apache.ibatis.annotations.Mapper;
-import sjht.erp.expendInformation.dto.UpdateParameterEIDto;
 
 import java.util.List;
 
@@ -22,5 +19,6 @@ public interface ExpendInformationMapper {
 
     // 승인 처리한 한 건에 대한 insert
     void insertExpendHistory(InsertParameterEIDto insertParameterEIDto);
-
+    // dvno에 따른 file select
+    List<SelectResultFileEIDto> selectFile(String dvno);
 }

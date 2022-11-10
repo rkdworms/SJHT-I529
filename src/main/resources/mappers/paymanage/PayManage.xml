@@ -52,4 +52,11 @@
         (paysequence, dvamt, empno, dvappdate, paidyn)
         VALUES (#{paysequence}, #{dvamt}, #{empno}, now() ,'y')
     </insert>
+
+    <update id="updateExpendHistroy">
+        update
+        expendhistory
+        set paidyn = 'y'
+        where paidyn = 'n'
+    </update>
 </mapper>

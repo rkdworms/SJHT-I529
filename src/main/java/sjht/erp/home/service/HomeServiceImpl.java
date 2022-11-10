@@ -28,7 +28,7 @@ public class HomeServiceImpl implements HomeService {
         List<NoticeDto> noticeDto = new ArrayList();
 
         if (noticeVo.size() > 6) {
-            for (int i = 0; i < 6; i++) {
+            for (int i = noticeVo.size()-1; i > noticeVo.size()-7; i--) {
                 noticeDto.add(new NoticeDto(noticeVo.get(i)));
             }
         } else {
