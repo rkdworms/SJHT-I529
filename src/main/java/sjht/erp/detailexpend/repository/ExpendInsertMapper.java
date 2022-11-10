@@ -3,6 +3,7 @@ package sjht.erp.detailexpend.repository;
 import org.apache.ibatis.annotations.Mapper;
 import sjht.erp.detailexpend.dto.request.*;
 import sjht.erp.detailexpend.dto.response.DetailResponseDto;
+import sjht.erp.detailexpend.dto.response.FileResponseDto;
 import sjht.erp.detailexpend.dto.response.MyExpendListResponseDto;
 
 import java.util.List;
@@ -45,4 +46,6 @@ public interface ExpendInsertMapper {
     int updateMyDetailExpend(UpdateMyDetailExpendRequestDto updateMyDetailExpendRequestDto);
 
     Integer selectDetailExpendDnoOne(String dvno);
+
+    List<FileResponseDto> findFilesByDvno(String dvno);
 }

@@ -92,7 +92,11 @@
 
     <!-- 지출결의 상세보기에서 마지막 dno를 찾기 위한 쿼리문-->
     <select id="selectDetailExpendDnoOne" parameterType="String" resultType="Integer">
-        select dno from detailexpend where dvno=#{dvno} order by dno desc limit 1
+        select dno
+        from detailexpend
+        where dvno = #{dvno}
+        order by dno desc
+        limit 1
     </select>
 
     <!--상세보기에서 목록중 하나를 삭제하기 위한 테이블-->
@@ -146,4 +150,18 @@
             dvmemo    = #{dvmemo}
         where dno = #{dno}
     </update>
+    <select id="findFilesByDvno" resultType="sjht.erp.detailexpend.dto.response.FileResponseDto" parameterType="String">
+        select f.dno,
+               f.filename,
+               f.kind,
+               f.empno,
+               f.physicalpath,
+               f.relatedpath,
+               f.filesize,
+               f.fileno
+        from file f
+                 left join detailexpend d on f.dno = d.dno
+                 left join expendinformation e on d.dvno = e.dvno
+        where d.dvno = #{dvno}
+    </select>
 </mapper>

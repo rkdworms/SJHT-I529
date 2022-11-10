@@ -95,5 +95,13 @@
         values (#{dvno}, #{empno}, #{dvamt}, #{dvappdate}, #{dvappname})
     </insert>
 
+    <!-- 파일 정보 select -->
+    <select id="selectFile" parameterType="String" resultType="sjht.erp.expendInformation.dto.SelectResultFileEIDto">
+        select f.fileno, f.filename, f.physicalpath, f.filesize, f.kind, f.relatedpath, f.dno, ei.dvno
+        from erp.expendinformation as ei
+             inner join erp.detailexpend as de on ei.dvno = de.dvno
+             inner join erp.file as f on f.dno = de.dno
+        where ei.dvno = #{dvno}
+    </select>
 
 </mapper>

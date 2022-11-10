@@ -1,15 +1,20 @@
 package sjht.erp.expendInformation.service;
 
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
 import org.springframework.transaction.annotation.Transactional;
-import sjht.erp.expendInformation.dto.InsertParameterEIDto;
-import sjht.erp.expendInformation.dto.SelectParameterEIDto;
-import sjht.erp.expendInformation.dto.SelectResultEIDto;
-import sjht.erp.expendInformation.dto.UpdateParameterEIDto;
+import sjht.erp.expendInformation.dto.*;
 import sjht.erp.expendInformation.repository.ExpendInformationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import sjht.erp.login.dto.EmployeeDto;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -59,15 +64,20 @@ public class ExpendInformationServiceImpl implements ExpendInformationService {
 
         if (updateParameterEIDto.getDvappyn().equals("y")) {
             for (int i = 0; i < selectEIByDvno(updateParameterEIDto.getDvno()).size(); i++) {
-                InsertParameterEIDto insertParameterEIDto = InsertParameterEIDto.builder()
-                        .empno(selectEIByDvno(updateParameterEIDto.getDvno()).get(i).getEmpno())
-                        .dvamt(selectEIByDvno(updateParameterEIDto.getDvno()).get(i).getDvamt())
-                        .dvappname(employeeDto.getName())
-                        .dvno(selectEIByDvno(updateParameterEIDto.getDvno()).get(i).getDvno())
-                        .dvappdate(LocalDate.parse(selectEIByDvno(updateParameterEIDto.getDvno()).get(i).getDvappdate()))
-                        .build();
+                if (map.get("dvno").equals(selectEIByDvno(updateParameterEIDto.getDvno()).get(i).getDvno())) {
+                    return;
+                }
+                else{
+                    InsertParameterEIDto insertParameterEIDto = InsertParameterEIDto.builder()
+                            .empno(selectEIByDvno(updateParameterEIDto.getDvno()).get(i).getEmpno())
+                            .dvamt(selectEIByDvno(updateParameterEIDto.getDvno()).get(i).getDvamt())
+                            .dvappname(employeeDto.getName())
+                            .dvno(selectEIByDvno(updateParameterEIDto.getDvno()).get(i).getDvno())
+                            .dvappdate(LocalDate.parse(selectEIByDvno(updateParameterEIDto.getDvno()).get(i).getDvappdate()))
+                            .build();
 
-                insertEH(insertParameterEIDto);
+                    insertEH(insertParameterEIDto);
+                }
             }
         }
     }
@@ -95,4 +105,38 @@ public class ExpendInformationServiceImpl implements ExpendInformationService {
         } else
             return new SelectParameterEIDto(map);
     }
+
+    /**
+     * dvno에 따른 파일 데이터 select
+     * result type : SelectResultFileDto
+     */
+    @Override
+    public HashMap<String, Object> selectFile(String dvno) {
+        List<SelectResultFileEIDto> result = mapper.selectFile(dvno);
+        String path = result.get(0).getPhysicalpath();
+        String filename = result.get(0).getFilename();
+
+        try {
+            Path filePath = Paths.get(path);
+            Resource resource = new InputStreamResource(Files.newInputStream(filePath));
+
+            File file = new File(path);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentDisposition(ContentDisposition.builder("attachment").filename(file.getName()).build());
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("filename", filename);
+            map.put("resource", resource);
+            map.put("headers", headers);
+            return map;
+        } catch (Exception e) {
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("filename", filename);
+            map.put("headers", null);
+            return map;
+        }
+    }
+
+
+
 }

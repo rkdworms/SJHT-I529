@@ -15,4 +15,6 @@ public interface PayManageMapper {
     void paySalaryHistory(List<PayEmpDto> payEmpDtoList);
 
     void paySalaryExpend(SalaryExpendDto dto);
+
+    void updateExpendHistroy();
 }

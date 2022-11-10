@@ -26,5 +26,6 @@ public class PayManageService {
         payManageMapper.paySalary(payEmpDtoList);
         payManageMapper.paySalaryHistory(payEmpDtoList);
         payManageMapper.paySalaryExpend(sed);
+        payManageMapper.updateExpendHistroy();
     }
 }

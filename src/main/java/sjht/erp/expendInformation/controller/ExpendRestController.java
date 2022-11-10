@@ -1,9 +1,11 @@
 package sjht.erp.expendInformation.controller;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpServerErrorException;
 import sjht.erp.expendInformation.dto.SelectParameterEIDto;
 import sjht.erp.expendInformation.dto.SelectResultEIDto;
+import sjht.erp.expendInformation.dto.SelectResultFileEIDto;
 import sjht.erp.expendInformation.dto.UpdateParameterEIDto;
 import sjht.erp.expendInformation.service.ExpendInformationService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,7 @@ import sjht.erp.login.dto.EmployeeDto;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -48,6 +51,32 @@ public class ExpendRestController {
     public void updateDvappyn(@RequestBody HashMap<String,String> map, HttpServletRequest request) {
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
         service.updateEI(map, employeeDto);
+    }
+
+    @PostMapping("/api/download")
+    public ResponseEntity<Object> downloadFile(@RequestBody HashMap<String, String> map) {
+        HashMap<String, Object> objectHashMap = service.selectFile(map.get("dvno"));
+        System.out.println("objectHashMap = " + objectHashMap);
+        System.out.println("objectHashMap.get(\"filename\") = " + objectHashMap.get("filename"));
+        ResponseEntity<Object> result;
+        Object resource = objectHashMap.get("resource");
+        if (resource != null) {
+            HttpHeaders headers = (HttpHeaders) objectHashMap.get("headers");
+            result = new ResponseEntity<>(resource, headers, HttpStatus.OK);
+            System.out.println("result = " + result);
+        } else {
+            result = new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
+        }
+        return result;
+    }
+
+    @PostMapping("/api/getFilename")
+    public ResponseEntity<List<SelectResultFileEIDto>> getFilename(@RequestBody HashMap<String, String> map){
+        HashMap<String, Object> objectHashMap = service.selectFile(map.get("dvno"));
+        List list = new ArrayList();
+        Object filename = objectHashMap.get("filename");
+        list.add(filename);
+        return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
 
