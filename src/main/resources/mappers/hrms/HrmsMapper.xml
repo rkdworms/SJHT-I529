@@ -219,16 +219,31 @@
 
     <!-- 승진 및 보직 관리  - employee update -->
     <update id="promotionManageEmployee" parameterType="sjht.erp.hrms.dto.UpdateDto">
+<!--        UPDATE employee-->
+<!--        SET gradecd = #{gradecd},-->
+<!--        departmentcd = #{departmentcd},-->
+<!--        yearsalary = #{yearsalary},-->
+<!--        salary = #{yearsalary} / 12,-->
+<!--        privateinsurance = ((#{yearsalary} / 12) * 0.03945)-->
+<!--        WHERE empno = #{empno}-->
+
         UPDATE employee
         SET gradecd = #{gradecd},
-        departmentcd = #{departmentcd}
+            departmentcd = #{departmentcd},
+            yearsalary = #{yearsalary},
+            salary = #{yearsalary} / 12,
+            privateinsurance = ((#{yearsalary} / 12) * 0.03945),
+            retirementpay = (select (sum(p.pay) / 3)
+                            from (select pay from payrollhistory order by paymentdate desc limit 3) as p
+                            where empno = #{empno})
         WHERE empno = #{empno}
+        and DATEDIFF(now(),entrydate) >= 365
     </update>
 
     <!-- 승진 및 보직 관리  - grade insert -->
     <insert id="promotionManageGrade" parameterType="sjht.erp.hrms.dto.UpdateDto">
-        INSERT INTO grade (empno, promotiondate, prevgradecd, gradecd, prevdepartmentcd, departmentcd, appempno)
-        VALUES ( #{empno}, now(), #{prevgradecd}, #{gradecd}, #{prevdepartmentcd}, #{departmentcd}, #{appempno} )
+        INSERT INTO grade (empno, promotiondate, prevgradecd, gradecd, prevdepartmentcd, departmentcd, prevyearsalary, yearsalary, appempno)
+        VALUES ( #{empno}, now(), #{prevgradecd}, #{gradecd}, #{prevdepartmentcd}, #{departmentcd}, #{prevyearsalary}, #{yearsalary}, #{appempno} )
     </insert>
 
 </mapper>

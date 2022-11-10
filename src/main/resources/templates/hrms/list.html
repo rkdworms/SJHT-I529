@@ -155,7 +155,7 @@
                                                     <td class="d-none d-xl-table-cell">{{ emp.name }}</td>
                                                     <td class="d-none d-xl-table-cell">{{ emp.departmentname }}</td>
                                                     <td><span class="badge bg-success">{{ emp.gradename }}</span></td>
-                                                    <td class="d-none d-xl-table-cell">{{ emp.tel3 }}</td>
+                                                    <td class="d-none d-xl-table-cell">{{ emp.tel }}</td>
                                                     <td class="d-none d-xl-table-cell">{{ emp.mail }}</td>
                                                     <td class="d-none d-xl-table-cell">{{ emp.entrydate }}</td>
                                                     <td class="d-none d-xl-table-cell">
@@ -602,29 +602,38 @@
                                         <!-- Wizard navigation-->
                                         <div class="nav nav-pills nav-justified flex-column flex-xl-row nav-wizard"
                                             id="cardTab" role="tablist">
-                                            <!-- Wizard navigation item 2-->
-                                            <a class="nav-item nav-link active" id="wizard2-tab" href="#wizard2"
-                                                data-toggle="tab" role="tab" aria-controls="wizard2"
+                                            <!-- Wizard navigation item 1 -->
+                                            <a class="nav-item nav-link active" id="wizard1-tab" href="#wizard1"
+                                                data-toggle="tab" role="tab" aria-controls="wizard1"
                                                 aria-selected="true">
                                                 <div class="wizard-step-icon">1</div>
                                                 <div class="wizard-step-text">
                                                     <div class="wizard-step-text-name">직급 관리</div>
                                                 </div>
                                             </a>
-                                            <!-- Wizard navigation item 3-->
-                                            <a class="nav-item nav-link" id="wizard3-tab" href="#wizard3"
-                                                data-toggle="tab" role="tab" aria-controls="wizard3"
+                                            <!-- Wizard navigation item 2 -->
+                                            <a class="nav-item nav-link" id="wizard2-tab" href="#wizard2"
+                                                data-toggle="tab" role="tab" aria-controls="wizard2"
                                                 aria-selected="false">
                                                 <div class="wizard-step-icon">2</div>
                                                 <div class="wizard-step-text">
                                                     <div class="wizard-step-text-name">부서 관리</div>
                                                 </div>
                                             </a>
-                                            <!-- Wizard navigation item 4-->
+                                            <!-- Wizard navigation item 3 -->
+                                            <a class="nav-item nav-link" id="wizard3-tab" href="#wizard3"
+                                                data-toggle="tab" role="tab" aria-controls="wizard3"
+                                                aria-selected="false">
+                                                <div class="wizard-step-icon">3</div>
+                                                <div class="wizard-step-text">
+                                                    <div class="wizard-step-text-name">연봉 관리</div>
+                                                </div>
+                                            </a>
+                                            <!-- Wizard navigation item 4 -->
                                             <a class="nav-item nav-link" id="wizard4-tab" href="#wizard4"
                                                 data-toggle="tab" role="tab" aria-controls="wizard4"
                                                 aria-selected="false">
-                                                <div class="wizard-step-icon">3</div>
+                                                <div class="wizard-step-icon">4</div>
                                                 <div class="wizard-step-text">
                                                     <div class="wizard-step-text-name">확 인</div>
                                                 </div>
@@ -635,9 +644,9 @@
                                     <div class="card-body pb-3" id="card-body-padding">
                                         <form>
                                             <div class="tab-content" id="cardTabContent card-scroll">
-                                                <!-- Wizard tab pane item 2-->
-                                                <div class="tab-pane py-5 py-xl-5 fade show active" id="wizard2"
-                                                    role="tabpanel" aria-labelledby="wizard2-tab">
+                                                <!-- Wizard tab pane item 1 -->
+                                                <div class="tab-pane py-5 py-xl-5 fade show active" id="wizard1"
+                                                    role="tabpanel" aria-labelledby="wizard1-tab">
                                                     <div class="row justify-content-center">
                                                         <div class="col-xxl-6">
                                                             <h3 class="text-detault">Step 1</h3>
@@ -658,14 +667,14 @@
                                                                             for="name">사원명</label>
                                                                         <input type="text"
                                                                             class="form-control form-control-sm"
-                                                                            id="name" v-model="empDetail.name" readonly>
+                                                                            v-model="empDetail.name" readonly>
                                                                     </div>
                                                                     <div class="form-group col-md-4">
                                                                         <label label class="small mb-1" for="name">변경 전
                                                                             직급</label>
                                                                         <input type="text"
                                                                             class="form-control form-control-sm"
-                                                                            id="name" v-model="prevgradename" readonly>
+                                                                            v-model="prevgradename" readonly>
                                                                     </div>
                                                                 </div>
                                                                 <!-- Form Row 2 (직급 변경) -->
@@ -692,9 +701,9 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- Wizard tab pane item 3-->
-                                                <div class="tab-pane py-5 py-xl-5 fade" id="wizard3" role="tabpanel"
-                                                    aria-labelledby="wizard3-tab">
+                                                <!-- Wizard tab pane item 2 -->
+                                                <div class="tab-pane py-5 py-xl-5 fade" id="wizard2" role="tabpanel"
+                                                    aria-labelledby="wizard2-tab">
                                                     <div class="row justify-content-center">
                                                         <div class="col-xxl-6">
                                                             <h3 class="text-detault">Step 2</h3>
@@ -715,15 +724,14 @@
                                                                             for="name">사원명</label>
                                                                         <input type="text"
                                                                             class="form-control form-control-sm"
-                                                                            id="name" v-model="empDetail.name" readonly>
+                                                                            v-model="empDetail.name" readonly>
                                                                     </div>
                                                                     <div class="form-group col-md-4">
                                                                         <label label class="small mb-1" for="name">변경 전
                                                                             부서</label>
                                                                         <input type="text"
                                                                             class="form-control form-control-sm"
-                                                                            id="name" v-model="prevdepartmentname"
-                                                                            readonly>
+                                                                            v-model="prevdepartmentname" readonly>
                                                                     </div>
                                                                 </div>
                                                                 <!-- Form Row 2 (부서 변경) -->
@@ -751,12 +759,69 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <!-- Wizard tab pane item 3-->
+                                                <div class="tab-pane py-5 py-xl-5 fade" id="wizard3" role="tabpanel"
+                                                    aria-labelledby="wizard3-tab">
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-xxl-6">
+                                                            <h3 class="text-detault">Step 3</h3>
+                                                            <h5 class="card-title">급여 변경</h5>
+                                                            <form>
+                                                                <!-- Form Row 1 (기본 정보 조회) -->
+                                                                <div class="form-row">
+                                                                    <div class="form-group col-md-4">
+                                                                        <label label class="small mb-1"
+                                                                            for="empno">사번</label>
+                                                                        <input type="text"
+                                                                            class="form-control form-control-sm"
+                                                                            id="empno" :value="empDetail.empno"
+                                                                            readonly>
+                                                                    </div>
+                                                                    <div class="form-group col-md-4">
+                                                                        <label label class="small mb-1"
+                                                                            for="name">사원명</label>
+                                                                        <input type="text"
+                                                                            class="form-control form-control-sm"
+                                                                            v-model="empDetail.name" readonly>
+                                                                    </div>
+                                                                    <div class="form-group col-md-4">
+                                                                        <label label class="small mb-1" for="name">변경 전
+                                                                            연봉 (원)</label>
+                                                                        <input type="text"
+                                                                            class="form-control form-control-sm"
+                                                                            v-model="prevyearsalary" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Form Row 2 (연봉 변경) -->
+                                                                <div class="form-row">
+                                                                    <!-- Form Group (연봉) -->
+                                                                    <div class="form-group col-md-12">
+                                                                        <label class="small mb-1"
+                                                                            for="departmentcd">연봉 (원)</label>
+                                                                        <input type="text"
+                                                                            class="form-control form-control-sm"
+                                                                            v-model="empDetail.yearsalary" maxlength="9"
+                                                                            onkeyup="preventKr(this)"
+                                                                            onkeydown="checkNum(event, this.value)"
+                                                                            @change="saveyearsalary">
+                                                                        </select>
+                                                                        <div class="invalid-feedback">
+                                                                            연봉을 입력해주세요
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                 <!-- 변경 사항 확인란 -->
                                                 <div class="tab-pane py-5 py-xl-5 fade" id="wizard4" role="tabpanel"
                                                     aria-labelledby="wizard4-tab">
                                                     <div class="row justify-content-center">
                                                         <div class="col-xxl-6">
-                                                            <h3 class="text-detault">Step 3</h3>
+                                                            <h3 class="text-detault">Step 4</h3>
                                                             <h5 class="card-title">확인</h5>
 
                                                             <div class="row small text-muted">
@@ -783,6 +848,13 @@
                                                                 <div class="col">{{ prevdepartmentname }}</div>
                                                                 <div class="col">-></div>
                                                                 <div class="col">{{ changedepartmentname }}</div>
+                                                            </div>
+                                                            <div class="row small text-muted">
+                                                                <div class="col-sm-3 text-truncate"><em>연봉 변동 사항 :</em>
+                                                                </div>
+                                                                <div class="col">{{ prevyearsalary }}</div>
+                                                                <div class="col">-></div>
+                                                                <div class="col">{{ changeyearsalary }}</div>
                                                             </div>
                                                             <hr class="my-4" />
                                                             <div class="row small text-muted">
@@ -887,7 +959,7 @@
                                                         style="height: 200; width:143px"
                                                         onerror="this.src='/images/noProfile.png'" />
                                                     <input class="form-control form-control-sm" id="idPicture"
-                                                        type="file" @change="uploadImage" accept="image/*" />
+                                                        type="file" @change="uploadImage" accept="image/*" required/>
                                                     <div class="invalid-feedback">
                                                         사원의 증명사진을 첨부해주세요.
                                                     </div>
@@ -897,14 +969,12 @@
                                                     <label label class="small mb-1" for="empno">사번</label>
                                                     <input type="text" class="form-control form-control-sm" id="empno"
                                                         :placeholder="empno" disabled>
-
                                                     <label label class="small mb-1" for="name">사원명</label>
                                                     <input type="text" class="form-control form-control-sm" id="name"
                                                         placeholder="" v-model="name" required>
                                                     <div class="invalid-feedback">
                                                         사원명을 입력해주세요.
                                                     </div>
-
                                                     <label label class="small mb-1" for="regno">주민등록번호</label>
                                                     <div>
                                                         <input type="text" class="form-control form-control-sm"
@@ -922,7 +992,6 @@
                                                     <div class="invalid-feedback">
                                                         주민등록번호를 입력해주세요.
                                                     </div>
-
                                                     <label label class="small mb-1" for="tel">연락처</label>
                                                     <div>
                                                         <input type="tel" class="form-control form-control-sm" id="tel1"
@@ -950,31 +1019,28 @@
                                                     <label label class="small mb-1" for="password">비밀번호</label>
                                                     <input type="text" class="form-control form-control-sm"
                                                         id="password" :placeholder="tel3" disabled>
-
                                                     <label label class="small mb-1" for="gender">성별</label>
                                                     <div class="form-control form-control-sm border-0">
                                                         <div class="form-check form-check-inline col-md-5">
                                                             <input class="form-check-input" type="radio" name="gender"
-                                                                id="gender" v-model="gender" value="남">
+                                                                id="gender" v-model="gender" value="남" :checked="(this.regno2.substr(0, 1) == 1) || (this.regno2.substr(0, 1) == 3)" disabled>
                                                             <label class="form-check-label" for="gender">남</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio" name="gender"
-                                                                id="gender" v-model="gender" value="여">
+                                                                id="gender" v-model="gender" value="여" :checked="(this.regno2.substr(0, 1) == 2) || (this.regno2.substr(0, 1) == 4)" disabled>
                                                             <label class="form-check-label" for="gender">여</label>
                                                         </div>
                                                     </div>
                                                     <div class="invalid-feedback">
-                                                        성별을 입력해주세요.
+                                                        주민 번호를 입력하면 자동 입력됩니다.
                                                     </div>
-
                                                     <label label class="small mb-1" for="school">최종학력</label>
                                                     <input type="text" class="form-control form-control-sm" id="school"
                                                         placeholder="중앙대학교" v-model="school" required>
                                                     <div class="invalid-feedback">
                                                         최종학력를 입력해주세요.
                                                     </div>
-
                                                     <label label class="small mb-1" for="mail">이메일</label>
                                                     <input type="email" class="form-control form-control-sm" id="mail"
                                                         placeholder="i5-29@erp.com" v-model="mail" required>
@@ -989,7 +1055,7 @@
                                                 <div class="form-group col-md-10">
                                                     <label class="small mb-1" for="addr">주소</label>
                                                     <input type="text" class="form-control form-control-sm" id="addr"
-                                                        v-model="addr">
+                                                        v-model="addr" required>
                                                     <div class="invalid-feedback">
                                                         주소를 입력해주세요.
                                                     </div>
@@ -997,25 +1063,25 @@
                                                 <!-- Form Group (주소 검색: 다음 API) -->
                                                 <div class="form-group col-md-2" style="align-self: end">
                                                     <input type="button" class="btn btn-hrms shadow-sm btn-sm"
-                                                        style="height: 27px; width: 100px;" @click="execDaumPostcode()"
+                                                        style="height: 27px; width: 100px; margin-bottom: 0px;" @click="execDaumPostcode()"
                                                         value="주소 검색"><br>
                                                 </div>
                                                 <!-- Form Group (상세주소) -->
                                                 <div class="form-group col-md-8">
                                                     <label class="small mb-1" for="addrdetail">상세주소</label>
                                                     <input type="text" class="form-control form-control-sm"
-                                                        id="addrdetail" v-model="addrdetail">
+                                                        id="addrdetail" v-model="addrdetail" required>
                                                     <div class="invalid-feedback">
-                                                        주소를 입력해주세요.
+                                                        상세 주소를 입력해주세요.
                                                     </div>
                                                 </div>
                                                 <!-- Form Group (우편번호) -->
                                                 <div class="form-group col-md-4">
                                                     <label class="small mb-1" for="zipcode">우편번호</label>
                                                     <input type="text" class="form-control form-control-sm" id="zipcode"
-                                                        v-model="zipcode" maxlength="6">
+                                                        v-model="zipcode" maxlength="6" required>
                                                     <div class="invalid-feedback">
-                                                        주소를 입력해주세요.
+                                                        우편번호를 입력해주세요.
                                                     </div>
                                                 </div>
                                             </div>
@@ -1025,7 +1091,7 @@
                                                 <div class="form-group col-md-4">
                                                     <label class="small mb-1" for="bankcd">은행</label>
                                                     <select class="form-select form-select-sm" id="bankcd"
-                                                        v-model="bankcd">
+                                                        v-model="bankcd" required>
                                                         <option v-for="(bank, i) in bankList" :key="i"
                                                             :value="bank.bankcd">{{ bank.bankname }}</option>
                                                     </select>
@@ -1039,7 +1105,7 @@
                                                     <input type="text" class="form-control form-control-sm" id="account"
                                                         placeholder="1000-121-123753" v-model="account"
                                                         onkeyup="preventKr(this)"
-                                                        onkeydown="checkNum(event, this.value)">
+                                                        onkeydown="checkNum(event, this.value)" required>
                                                     <div class="invalid-feedback">
                                                         계좌번호를 입력해주세요.
                                                     </div>
@@ -1050,7 +1116,7 @@
                                                 <!-- Form Group (부서) -->
                                                 <div class="form-group col-md-4">
                                                     <label class="small mb-1" for="departmentcd">부서</label>
-                                                    <select class="form-select form-select-sm" v-model="departmentcd">
+                                                    <select class="form-select form-select-sm" v-model="departmentcd" required>
                                                         <option v-for="(department, i) in departmentList" :key="i"
                                                             :value="department.departmentcd">{{
                                                             department.departmentname }}</option>
@@ -1062,7 +1128,7 @@
                                                 <!-- Form Group (직급) -->
                                                 <div class="form-group col-md-4">
                                                     <label class="small mb-1" for="gradecd">직급</label>
-                                                    <select class="form-select form-select-sm" v-model="gradecd">
+                                                    <select class="form-select form-select-sm" v-model="gradecd" required>
                                                         <option v-for="(grade, i) in gradeList" :key="i"
                                                             :value="grade.gradecd">{{ grade.gradename }}</option>
                                                     </select>
@@ -1073,7 +1139,7 @@
                                                 <!-- Form Group (권한) -->
                                                 <div class="form-group col-md-4">
                                                     <label class="small mb-1" for="usertype">권한</label>
-                                                    <select class="form-select form-select-sm" v-model="usertype">
+                                                    <select class="form-select form-select-sm" v-model="usertype" required>
                                                         <option v-for="(usertype, i) in usertypeList" :key="i"
                                                             :value="usertype.usertype">{{ usertype.username }}</option>
                                                     </select>
@@ -1091,19 +1157,18 @@
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio"
                                                                 name="empStatus" id="retire_n" v-model="retireyn"
-                                                                value="n">
-
+                                                                value="n" required>
                                                             <label class="form-check-label" for="retire_n">재직</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio"
-                                                                name="empStatus" id="rest_y" v-model="restyn" value="y">
+                                                                name="empStatus" id="rest_y" v-model="restyn" value="y" disabled>
                                                             <label class="form-check-label" for="rest_y">휴직</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio"
                                                                 name="empStatus" id="retire_y" v-model="retireyn"
-                                                                value="y">
+                                                                value="y" disabled>
                                                             <label class="form-check-label" for="retire_y">퇴직</label>
                                                         </div>
                                                     </div>
@@ -1120,7 +1185,7 @@
                                                     <input type="text" class="form-control form-control-sm"
                                                         id="yearsalary" v-model="yearsalary" maxlength="9"
                                                         onkeyup="preventKr(this)"
-                                                        onkeydown="checkNum(event, this.value)">
+                                                        onkeydown="checkNum(event, this.value)" required>
                                                     <div class="invalid-feedback">
                                                         연봉을 입력해주세요.
                                                     </div>
@@ -1281,13 +1346,19 @@
                         // 승진 및 보직 관리 관련 필드
                         loginName: '', // 승진담당자 이름
                         loginUserEmpno: /*[[ ${loginUserEmpno} ]]*/, //승진담당자 사번
+                        today: dayjs().format('YYYY-MM-DD'), // 승인 날짜
+
                         changegradename: '', // 변경 후 직급 이름
                         changedepartmentname: '', // 변경 후 부서 이름
-                        today: dayjs().format('YYYY-MM-DD'), // 승인 날짜
+                        changeyearsalary: '', // 변경 후 급여
+
                         prevgradecd: 'this.empDetail.gradecd', // 변경 전 직급 코드
                         prevgradename: '', // 변경 전 직금 이름
+
                         prevdepartmentcd: 'this.empDetail.departmentcd', // 변경 전 부서 코드
-                        prevdepartmentname: '', // 변경 전 부서 이름 
+                        prevdepartmentname: '', // 변경 전 부서 이름
+
+                        prevyearsalary: 'this.empDetail.yearsalary', // 변경 전 급여
                     }
                 },
 
@@ -1336,10 +1407,14 @@
                         // 경력 연차
                         if (this.empDetail.retireyn === 'y') { // 퇴사자일 경우 퇴직날짜 기준으로 계산
                             this.careeryears = (parseInt((this.empDetail.retiredate).substr(0, 4)) - parseInt((this.empDetail.entrydate).substr(0, 4)));
+                            console.log(this.careeryears)
                         } else { // 재직자일 경우 오늘날짜 기준으로 계산
-                            var strDate1 = ((new Date()).toDateString()).substr(0, 4);
+                            var strDate1 = (dayjs().format()).substr(0, 4);
                             var strDate2 = (this.empDetail.entrydate).substr(0, 4);
+                            console.log(strDate1)
+                            console.log(strDate2)
                             this.careeryears = parseInt(strDate1) - parseInt(strDate2);
+                            console.log(this.careeryears)
                         }
 
                         // 승진 및 보직 관리 시 - 이전 직급 및 부서 정보 저장
@@ -1347,6 +1422,7 @@
                         this.prevgradename = this.empDetail.gradename;
                         this.prevdepartmentcd = this.empDetail.departmentcd;
                         this.prevdepartmentname = this.empDetail.departmentname;
+                        this.prevyearsalary = this.empDetail.yearsalary;
                     },
 
                     // 사원 검색 시 조건: 부서
@@ -1447,9 +1523,10 @@
                             prevdepartmentcd: this.prevdepartmentcd,
                             departmentcd: this.empDetail.departmentcd,
 
+                            appempno: this.loginUserEmpno,
 
-                            appempno: this.loginUserEmpno
-
+                            prevyearsalary: this.prevyearsalary,
+                            yearsalary: this.empDetail.yearsalary,
 
                         }).then((response) => {
                             console.log("승진 및 보직 관리")
@@ -1486,10 +1563,6 @@
                         this.pageList = temp;
                     },
 
-                    // reload() {
-                    //     location.reload();
-                    // },
-
                     // 모달 수동 닫기
                     closeModal(modalId) {
                         $(modalId).modal('hide');
@@ -1505,6 +1578,11 @@
                     savedepartmentname() {
                         this.changedepartmentname = $("#changedepartment option:selected").text();
                     },
+
+                    // 변경 후 yearsalary 저장
+                    saveyearsalary() {
+                        this.changeyearsalary = this.empDetail.yearsalary;
+                    }
 
                 },
 
@@ -1535,6 +1613,7 @@
                 }
             }
             Vue.createApp(EmpList).mount('#empList');
+            /*]]>*/
         </script>
 
         <script>
