@@ -5,8 +5,7 @@
 <mapper namespace="sjht.erp.board.mapper.NoticeMapper">
 
     <!-- 게시글 조회 -->
-    <select id="noticeList" resultType="sjht.erp.board.dto.NoticeResponse"
-    parameterType="String">
+    <select id="noticeList" resultType="sjht.erp.board.dto.NoticeResponse">
         SELECT
             b.bno,
             b.empno,
@@ -24,14 +23,47 @@
             bno DESC
     </select>
 
+    <!-- 게시글 검색 -->
+    <select id="searchNoticeList" parameterType="hashMap" resultType="sjht.erp.board.dto.NoticeResponse">
+        SELECT
+            b.bno,
+            b.empno,
+            b.title,
+            b.content,
+            b.createtime,
+            b.boardtype,
+            b.boardcount,
+            e.name
+        FROM
+            board b left join employee e on(b.empno = e.empno)
+        <choose>
+
+            <when test="searchtype =='all'">
+                WHERE e.name like concat('%',#{search},'%') OR b.title like concat('%',#{search},'%')
+            </when>
+            <when test="searchtype =='empname'">
+                WHERE e.name like concat('%',#{search},'%')
+            </when>
+            <when test="searchtype =='title'">
+                WHERE b.title like concat('%',#{search},'%')
+            </when>
+            <when test="search != null ">
+                WHERE b.title=''
+            </when>
+
+        </choose>
+        ORDER BY
+            bno DESC
+    </select>
+
     <!-- 조회수 -->
     <update id="noticeCount">
         UPDATE
-        board
+            board
         SET
-        boardcount = boardcount + 1
+            boardcount = boardcount + 1
         WHERE
-        bno = #{bno}
+            bno = #{bno}
     </update>
 
     <!-- 게시글 상세정보 -->
@@ -73,9 +105,8 @@
         UPDATE
             board
         SET
-              modifiedtime = NOW()
-            , title = #{title}
-            , content = #{content}
+            title = #{title}
+          , content = #{content}
         WHERE
             bno = #{bno}
     </update>

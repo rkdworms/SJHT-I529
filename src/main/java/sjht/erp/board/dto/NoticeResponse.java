@@ -13,7 +13,6 @@ public class NoticeResponse {
     private String content;             // 내용
     private String name;                // 이름
     private LocalDateTime createtime;   // 작성시간
-    private LocalDateTime modifiedtime; // 수정시간
     private String boardtype;           // 게시판 타입
     private int boardcount;             // 조회수
 

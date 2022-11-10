@@ -2,7 +2,6 @@
 	{
 		"menuid" : "1",
 		"usertype" : "ROLE_A",
-		"hir_menuid" : null,
 		"menuname" : "마이페이지",
 		"menuurl" : "None",
 		"groupnumber" : 1,
@@ -12,7 +11,6 @@
 	{
 		"menuid" : "10",
 		"usertype" : "ROLE_B",
-		"hir_menuid" : null,
 		"menuname" : "마이페이지",
 		"menuurl" : "None",
 		"groupnumber" : 1,
@@ -22,7 +20,6 @@
 	{
 		"menuid" : "11",
 		"usertype" : "ROLE_B",
-		"hir_menuid" : null,
 		"menuname" : "내정보수정",
 		"menuurl" : "/mypage",
 		"groupnumber" : 1,
@@ -32,7 +29,6 @@
 	{
 		"menuid" : "12",
 		"usertype" : "ROLE_B",
-		"hir_menuid" : null,
 		"menuname" : "전자결제함",
 		"menuurl" : "None",
 		"groupnumber" : 2,
@@ -42,37 +38,15 @@
 	{
 		"menuid" : "13",
 		"usertype" : "ROLE_B",
-		"hir_menuid" : null,
-		"menuname" : "접수함",
-		"menuurl" : "None",
+		"menuname" : "결제 신청 및 조회(관리자)",
+		"menuurl" : "/workList",
 		"groupnumber" : 2,
 		"odr" : 13,
 		"level" : 2
 	},
 	{
-		"menuid" : "14",
-		"usertype" : "ROLE_B",
-		"hir_menuid" : null,
-		"menuname" : "진행함",
-		"menuurl" : "None",
-		"groupnumber" : 2,
-		"odr" : 14,
-		"level" : 2
-	},
-	{
-		"menuid" : "15",
-		"usertype" : "ROLE_B",
-		"hir_menuid" : null,
-		"menuname" : "완료함",
-		"menuurl" : "None",
-		"groupnumber" : 2,
-		"odr" : 15,
-		"level" : 2
-	},
-	{
 		"menuid" : "16",
 		"usertype" : "ROLE_B",
-		"hir_menuid" : null,
 		"menuname" : "인사및급여관리",
 		"menuurl" : "None",
 		"groupnumber" : 4,
@@ -82,7 +56,6 @@
 	{
 		"menuid" : "17",
 		"usertype" : "ROLE_B",
-		"hir_menuid" : null,
 		"menuname" : "인사관리",
 		"menuurl" : "/hrms/list",
 		"groupnumber" : 4,
@@ -90,19 +63,8 @@
 		"level" : 2
 	},
 	{
-		"menuid" : "18",
-		"usertype" : "ROLE_B",
-		"hir_menuid" : null,
-		"menuname" : "근태관리",
-		"menuurl" : "/workList",
-		"groupnumber" : 4,
-		"odr" : 18,
-		"level" : 2
-	},
-	{
 		"menuid" : "19",
 		"usertype" : "ROLE_B",
-		"hir_menuid" : null,
 		"menuname" : "급여관리",
 		"menuurl" : "/hrms/paymanage",
 		"groupnumber" : 4,
@@ -112,7 +74,6 @@
 	{
 		"menuid" : "2",
 		"usertype" : "ROLE_A",
-		"hir_menuid" : null,
 		"menuname" : "내정보수정",
 		"menuurl" : "/mypage",
 		"groupnumber" : 1,
@@ -122,7 +83,6 @@
 	{
 		"menuid" : "20",
 		"usertype" : "ROLE_B",
-		"hir_menuid" : null,
 		"menuname" : "회계관리",
 		"menuurl" : "None",
 		"groupnumber" : 5,
@@ -132,7 +92,6 @@
 	{
 		"menuid" : "21",
 		"usertype" : "ROLE_B",
-		"hir_menuid" : null,
 		"menuname" : "지출 결의서",
 		"menuurl" : "/expend",
 		"groupnumber" : 5,
@@ -140,19 +99,8 @@
 		"level" : 2
 	},
 	{
-		"menuid" : "22",
-		"usertype" : "ROLE_B",
-		"hir_menuid" : null,
-		"menuname" : "회계전표",
-		"menuurl" : "/expendhistory",
-		"groupnumber" : 5,
-		"odr" : 22,
-		"level" : 2
-	},
-	{
 		"menuid" : "23",
 		"usertype" : "ROLE_B",
-		"hir_menuid" : null,
 		"menuname" : "게시판",
 		"menuurl" : "None",
 		"groupnumber" : 3,
@@ -162,8 +110,7 @@
 	{
 		"menuid" : "24",
 		"usertype" : "ROLE_B",
-		"hir_menuid" : null,
-		"menuname" : "공지사항",
+		"menuname" : "공지사항(관리자)",
 		"menuurl" : "/notice",
 		"groupnumber" : 3,
 		"odr" : 24,
@@ -172,7 +119,6 @@
 	{
 		"menuid" : "25",
 		"usertype" : "ROLE_B",
-		"hir_menuid" : null,
 		"menuname" : "자유게시판",
 		"menuurl" : "/board",
 		"groupnumber" : 3,
@@ -182,7 +128,6 @@
 	{
 		"menuid" : "26",
 		"usertype" : "ROLE_C",
-		"hir_menuid" : null,
 		"menuname" : "마이페이지",
 		"menuurl" : "None",
 		"groupnumber" : 1,
@@ -192,7 +137,6 @@
 	{
 		"menuid" : "27",
 		"usertype" : "ROLE_C",
-		"hir_menuid" : null,
 		"menuname" : "내정보수정",
 		"menuurl" : "/mypage",
 		"groupnumber" : 1,
@@ -202,7 +146,6 @@
 	{
 		"menuid" : "28",
 		"usertype" : "ROLE_C",
-		"hir_menuid" : null,
 		"menuname" : "전자결제함",
 		"menuurl" : "None",
 		"groupnumber" : 2,
@@ -212,9 +155,8 @@
 	{
 		"menuid" : "29",
 		"usertype" : "ROLE_C",
-		"hir_menuid" : null,
-		"menuname" : "접수함",
-		"menuurl" : "None",
+		"menuname" : "결제 신청 및 조회(관리자)",
+		"menuurl" : "/workList",
 		"groupnumber" : 2,
 		"odr" : 29,
 		"level" : 2
@@ -222,7 +164,6 @@
 	{
 		"menuid" : "3",
 		"usertype" : "ROLE_A",
-		"hir_menuid" : null,
 		"menuname" : "전자결제함",
 		"menuurl" : "None",
 		"groupnumber" : 2,
@@ -230,29 +171,8 @@
 		"level" : 1
 	},
 	{
-		"menuid" : "30",
-		"usertype" : "ROLE_C",
-		"hir_menuid" : null,
-		"menuname" : "진행함",
-		"menuurl" : "None",
-		"groupnumber" : 2,
-		"odr" : 30,
-		"level" : 2
-	},
-	{
-		"menuid" : "31",
-		"usertype" : "ROLE_C",
-		"hir_menuid" : null,
-		"menuname" : "완료함",
-		"menuurl" : "/board/list.do",
-		"groupnumber" : 2,
-		"odr" : 31,
-		"level" : 2
-	},
-	{
 		"menuid" : "32",
 		"usertype" : "ROLE_C",
-		"hir_menuid" : null,
 		"menuname" : "인사및급여관리",
 		"menuurl" : "None",
 		"groupnumber" : 4,
@@ -262,7 +182,6 @@
 	{
 		"menuid" : "33",
 		"usertype" : "ROLE_C",
-		"hir_menuid" : null,
 		"menuname" : "인사관리",
 		"menuurl" : "/hrms/list",
 		"groupnumber" : 4,
@@ -270,19 +189,8 @@
 		"level" : 2
 	},
 	{
-		"menuid" : "34",
-		"usertype" : "ROLE_C",
-		"hir_menuid" : null,
-		"menuname" : "근태관리",
-		"menuurl" : "/workList",
-		"groupnumber" : 4,
-		"odr" : 34,
-		"level" : 2
-	},
-	{
 		"menuid" : "35",
 		"usertype" : "ROLE_C",
-		"hir_menuid" : null,
 		"menuname" : "급여관리",
 		"menuurl" : "/hrms/paymanage",
 		"groupnumber" : 4,
@@ -292,9 +200,8 @@
 	{
 		"menuid" : "37",
 		"usertype" : "ROLE_C",
-		"hir_menuid" : null,
 		"menuname" : "회계관리",
-		"menuurl" : "/expend",
+		"menuurl" : "None",
 		"groupnumber" : 5,
 		"odr" : 37,
 		"level" : 1
@@ -302,7 +209,6 @@
 	{
 		"menuid" : "38",
 		"usertype" : "ROLE_C",
-		"hir_menuid" : null,
 		"menuname" : "지출 결의서",
 		"menuurl" : "/expend",
 		"groupnumber" : 5,
@@ -312,7 +218,6 @@
 	{
 		"menuid" : "39",
 		"usertype" : "ROLE_C",
-		"hir_menuid" : null,
 		"menuname" : "회계전표",
 		"menuurl" : "/expendhistory",
 		"groupnumber" : 5,
@@ -322,9 +227,8 @@
 	{
 		"menuid" : "4",
 		"usertype" : "ROLE_A",
-		"hir_menuid" : null,
-		"menuname" : "접수함",
-		"menuurl" : "None",
+		"menuname" : "결제 신청 및 조회",
+		"menuurl" : "/workList",
 		"groupnumber" : 2,
 		"odr" : 4,
 		"level" : 2
@@ -332,9 +236,8 @@
 	{
 		"menuid" : "40",
 		"usertype" : "ROLE_C",
-		"hir_menuid" : null,
 		"menuname" : "게시판",
-		"menuurl" : null,
+		"menuurl" : "None",
 		"groupnumber" : 3,
 		"odr" : 40,
 		"level" : 1
@@ -342,8 +245,7 @@
 	{
 		"menuid" : "41",
 		"usertype" : "ROLE_C",
-		"hir_menuid" : null,
-		"menuname" : "공지사항",
+		"menuname" : "공지사항(관리자)",
 		"menuurl" : "/notice",
 		"groupnumber" : 3,
 		"odr" : 41,
@@ -352,7 +254,6 @@
 	{
 		"menuid" : "42",
 		"usertype" : "ROLE_C",
-		"hir_menuid" : null,
 		"menuname" : "자유게시판",
 		"menuurl" : "/board",
 		"groupnumber" : 3,
@@ -360,29 +261,8 @@
 		"level" : 2
 	},
 	{
-		"menuid" : "5",
-		"usertype" : "ROLE_A",
-		"hir_menuid" : null,
-		"menuname" : "진행함",
-		"menuurl" : "None",
-		"groupnumber" : 2,
-		"odr" : 5,
-		"level" : 2
-	},
-	{
-		"menuid" : "6",
-		"usertype" : "ROLE_A",
-		"hir_menuid" : null,
-		"menuname" : "완료함",
-		"menuurl" : "None",
-		"groupnumber" : 2,
-		"odr" : 6,
-		"level" : 2
-	},
-	{
 		"menuid" : "7",
 		"usertype" : "ROLE_A",
-		"hir_menuid" : null,
 		"menuname" : "게시판",
 		"menuurl" : "None",
 		"groupnumber" : 3,
@@ -392,7 +272,6 @@
 	{
 		"menuid" : "8",
 		"usertype" : "ROLE_A",
-		"hir_menuid" : null,
 		"menuname" : "공지사항",
 		"menuurl" : "/notice",
 		"groupnumber" : 3,
@@ -402,7 +281,6 @@
 	{
 		"menuid" : "9",
 		"usertype" : "ROLE_A",
-		"hir_menuid" : null,
 		"menuname" : "자유 게시판",
 		"menuurl" : "/board",
 		"groupnumber" : 3,

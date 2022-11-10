@@ -2,10 +2,12 @@ package sjht.erp.board.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import sjht.erp.board.dto.BoardResponse;
 import sjht.erp.board.dto.NoticeRequest;
 import sjht.erp.board.dto.NoticeResponse;
 import sjht.erp.board.mapper.NoticeMapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -72,6 +74,16 @@ public class NoticeService {
     public int noticeDelete(int bno) {
         noticeMapper.noticeDelete(bno);
         return bno;
+    }
+
+    /**
+     * 게시글 검색
+     * @param search
+     * @return 검색리스트
+     */
+    public List<NoticeResponse> searchNoticeList(HashMap<String, String> search) {
+
+        return noticeMapper.searchNoticeList(search);
     }
 
 
