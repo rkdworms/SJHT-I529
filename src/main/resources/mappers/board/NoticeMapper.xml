@@ -105,9 +105,8 @@
         UPDATE
             board
         SET
-              modifiedtime = NOW()
-            , title = #{title}
-            , content = #{content}
+            title = #{title}
+          , content = #{content}
         WHERE
             bno = #{bno}
     </update>

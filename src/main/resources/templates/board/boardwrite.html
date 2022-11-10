@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="btn_wrap text-right">
-                    <a href="/board" class="btn btn-hrms p-2">뒤로가기</a>
+                    <a href="/board" class="btn btn-hrms p-2">목록</a>
                     <button type="button" class="btn btn-hrms p-2" v-on:click="boardInsert">저장</button>
                 </div>
 
@@ -55,7 +55,7 @@
         </div>
         <script>
 
-             const boardinsert = {
+             const boardvalue = {
 
         data() {
             return {
@@ -85,7 +85,7 @@
             }
         },
     }
-Vue.createApp(boardinsert).mount("#board")
+Vue.createApp(boardvalue).mount("#board")
 
         </script>
     </div>
