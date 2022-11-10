@@ -23,7 +23,8 @@ public interface ExpendInformationService {
 
     // 승인 처리한 한 건에 대한 insert 메소드
     void insertEH(InsertParameterEIDto insertParameterEIDto);
-
+    // dvno에 따른 file select
+    HashMap<String, Object> selectFile(String dvno);
     //결의 조건 검증 메소드
     SelectParameterEIDto checkParam(HashMap<String,String> map);
 }

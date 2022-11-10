@@ -26,5 +26,4 @@ public class SelectResultEIDto {
     private String dvmemo;          //비고
     private int price;              //각 금액
     private int dvamt;              //총 금액
-    private String fileno;          //파일 번호
 }
