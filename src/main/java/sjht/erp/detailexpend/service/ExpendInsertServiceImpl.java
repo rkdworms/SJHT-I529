@@ -114,10 +114,13 @@ public class ExpendInsertServiceImpl implements ExpendInsertService {
 
     @Transactional
     @Override
-    public boolean inputDetail(InsertRequestDto insertRequestDto) {
+    public int inputDetail(InsertRequestDto insertRequestDto) {
         int i = expendInsertMapper.insertExpend(insertRequestDto);
-
-        return i != 0;
+        int idx = -1;
+        if(i!=0){
+             idx = expendInsertMapper.selectDetailExpendDnoOne(insertRequestDto.getDvno());
+        }
+        return idx;
     }
 
     @Override
@@ -140,5 +143,20 @@ public class ExpendInsertServiceImpl implements ExpendInsertService {
     @Override
     public List<FileResponseDto> selectFile(String dvno){
         return expendInsertMapper.findFilesByDvno(dvno);
+    }
+
+    @Override
+    public FileResponseDto selectOneFile(int dno){
+        return expendInsertMapper.findOneFile(dno);
+    }
+
+    @Override
+    public boolean updateOneFile(MultipartFile multipartFile, Path targetPath, int dno){
+        FileUpdateRequestDto fileUpdateRequestDto = new FileUpdateRequestDto();
+        fileUpdateRequestDto.setDno(dno);
+        fileUpdateRequestDto.setFilesize((int) multipartFile.getSize());
+        fileUpdateRequestDto.setFilename(multipartFile.getOriginalFilename());
+        fileUpdateRequestDto.setPhysicalpath(targetPath.toString());
+        return expendInsertMapper.updateFileByDno(fileUpdateRequestDto)!=0;
     }
 }

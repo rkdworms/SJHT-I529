@@ -30,6 +30,7 @@ import java.util.List;
 
 @RestController
 public class ExpendInsertApiController {
+
     @Autowired
     ExpendInsertService expendInsertService;
 
@@ -161,7 +162,7 @@ public class ExpendInsertApiController {
 
     // 지출결의서를 입력해줄때 하나의 dvno에 여러개의 detailexpend 데이터가 들어갈수 있음
     @PostMapping("api/insertDetail")
-    public boolean inputDETAIL(
+    public int inputDETAIL(
             HttpServletRequest request,
             @RequestBody InsertRequestDto insertRequestDto
     ) {
@@ -177,6 +178,16 @@ public class ExpendInsertApiController {
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
         String dvno = map.get("dvno");
         return expendInsertService.selectFile(dvno);
+    }
+
+    @PostMapping("api/selectOneFile")
+    public FileResponseDto selectOneFile(
+            HttpServletRequest request,
+            @RequestBody HashMap<String, String> map
+    ){
+        EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
+        int dno = Integer.parseInt(map.get("dno"));
+        return expendInsertService.selectOneFile(dno);
     }
 
     @PostMapping("api/downloadFile")
@@ -202,5 +213,16 @@ public class ExpendInsertApiController {
         } catch (Exception e) {
             return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
         }
+    }
+
+    // 지출결의 정보의 파일 수정
+    @PostMapping("api/updateOneFile")
+    public boolean updateOneFile(
+            HttpServletRequest request,
+            @RequestPart(name = "file") MultipartFile multipartFile,
+            @RequestParam(name = "dno") String dvno
+    ){
+        EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
+        return false;
     }
 }

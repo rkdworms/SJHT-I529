@@ -48,4 +48,6 @@ public interface ExpendInsertMapper {
     Integer selectDetailExpendDnoOne(String dvno);
 
     List<FileResponseDto> findFilesByDvno(String dvno);
+    FileResponseDto findOneFile(int dno);
+    int updateFileByDno(FileUpdateRequestDto fileUpdateRequestDto);
 }

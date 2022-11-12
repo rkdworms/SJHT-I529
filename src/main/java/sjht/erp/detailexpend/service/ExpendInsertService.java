@@ -14,7 +14,7 @@ import java.util.List;
 public interface ExpendInsertService {
     String inputExpend();
 
-    boolean inputDetail(InsertRequestDto insertRequestDto/*,MultipartFile multipartFile*/);
+    int inputDetail(InsertRequestDto insertRequestDto/*,MultipartFile multipartFile*/);
 
     List<DetailResponseDto> selectDetailExpend(String dvno);
 
@@ -36,4 +36,8 @@ public interface ExpendInsertService {
 
     boolean fileInput(MultipartFile multipartFile, int empno, String dvno, Path targetPath) throws IOException;
     List<FileResponseDto> selectFile(String dvno);
+
+    FileResponseDto selectOneFile(int dno);
+
+    boolean updateOneFile(MultipartFile multipartFile, Path targetPath, int dno);
 }
