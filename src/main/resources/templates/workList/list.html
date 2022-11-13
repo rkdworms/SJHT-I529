@@ -1080,11 +1080,10 @@
                                 }
                             })
                             .then(response => {
-                                this.ReShowList();
-                                DetailModalClose();
                                 this.selectOneFile(dno)
                             })
                     }
+                    this.ReShowList();
                 },
                 // 파일 경로에 따른 다운로드
                 fileSelectOneDownload(dno) {
@@ -1174,6 +1173,7 @@
                     axios.post("http://localhost:8888/api/showMyDetailExpendList", data)
                         .then(response => {
                             this.myDetailExpendList = response.data
+                            DetailModalClose();
                         })
                 },
                 getDetail(result) {
