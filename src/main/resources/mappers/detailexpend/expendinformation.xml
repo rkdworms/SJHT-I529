@@ -86,7 +86,8 @@
     <select id="selectDetailExpend" resultType="sjht.erp.detailexpend.dto.response.DetailResponseDto"
             parameterType="String">
         select *
-        from detailexpend
+        from detailexpend d
+                 left join accountcode a on d.divcd = a.divcd
         where dvno = #{dvno}
     </select>
 
@@ -117,6 +118,8 @@
         from expendinformation
         where dvno = #{dvno}
     </delete>
+
+    <!-- 사번에 따른 expendinformation select-->
     <select id="findExpendInformationsByEmpnoAndApproveryn" parameterType="Integer"
             resultType="sjht.erp.detailexpend.dto.response.MyExpendListResponseDto">
         select dvno
@@ -134,10 +137,13 @@
         order by substr(dvno from 1 for 4),
                  cast(substr(dvno from 5) AS UNSIGNED) desc;
     </select>
+
+    <!-- -->
     <select id="selectMyDetailExpend" parameterType="Integer"
             resultType="sjht.erp.detailexpend.dto.response.DetailResponseDto">
         select *
-        from detailexpend
+        from detailexpend d
+                 left join accountcode a on d.divcd = a.divcd
         where dno = #{dno}
     </select>
     <update id="updateMyDetailExpend" parameterType="sjht.erp.detailexpend.dto.request.UpdateMyDetailExpendRequestDto">
@@ -164,4 +170,25 @@
                  left join expendinformation e on d.dvno = e.dvno
         where d.dvno = #{dvno}
     </select>
+    <select id="findOneFile" parameterType="Integer" resultType="sjht.erp.detailexpend.dto.response.FileResponseDto">
+        select f.dno,
+               f.filename,
+               f.kind,
+               f.empno,
+               f.physicalpath,
+               f.relatedpath,
+               f.filesize,
+               f.fileno
+        from file f
+                 left join detailexpend d on f.dno = d.dno
+                 left join expendinformation e on d.dvno = e.dvno
+        where d.dno = #{dno}
+    </select>
+    <update id="updateFileByDno" parameterType="sjht.erp.detailexpend.dto.request.FileUpdateRequestDto">
+        update file
+        set filesize=#{filesize},
+            physicalpath=#{physicalpath},
+            filename=#{filename}
+        where dno = #{dno}
+    </update>
 </mapper>
