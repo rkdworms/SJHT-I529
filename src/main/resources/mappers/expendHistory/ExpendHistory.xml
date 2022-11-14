@@ -9,17 +9,16 @@
     <select id="selectExpendHistory" resultType="sjht.erp.expendHistory.dto.SelectResultEHDto"
             parameterType="sjht.erp.expendHistory.dto.SelectParameterEHDto">
         select
-            eh.eno,
-            eh.dvno,
-            eh.empno,
-            eh.dvappname,
-            eh.dvappdate,
-            eh.dvamt
-        from expendhistory as eh
-            Inner Join expendinformation as ei on ei.dvno = eh.dvno
-            Inner Join erp.employee as e on e.empno = eh.empno
+        eh.eno,
+        eh.dvappdate,
+        eh.empno,
+        eh.dvappname,
+        eh.dvamt,
+        eh.paysequence,
+        eh.dvno
+        from erp.expendhistory as eh
         where
-            (date (eh.dvappdate) between #{start} and #{end})
+        (date (eh.dvappdate) between #{start} and #{end})
         <if test='empno != 0'>
             and eh.empno = #{empno}
         </if>
@@ -33,36 +32,39 @@
     <!-- 회계 전표 전표 번호에 따른 상세 내역 select -->
     <select id="selectExpendHistoryByEno" resultType="sjht.erp.expendHistory.dto.SelectResultEHDto"
             parameterType="Integer">
-        select
-            eh.eno,
-            eh.dvno,
-            eh.dvappname,
-            eh.dvappdate,
-            ac.divname,
-            de.briefs,
-            de.price,
-            eh.dvamt
+        select eh.eno,
+               eh.dvno,
+               eh.dvappname,
+               eh.dvappdate,
+               ac.divname,
+               de.briefs,
+               de.price,
+               eh.dvamt,
+               eh.paysequence,
+               ac.divcd
         from erp.expendhistory as eh
-                 Inner Join erp.detailexpend as de on de.dvno = eh.dvno
-                 Inner Join erp.accountcode as ac on ac.divcd = de.divcd
+                 left join erp.detailexpend as de on de.dvno = eh.dvno
+                 left join erp.payrollhistory as pr on pr.paysequence = eh.paysequence
+                 left join erp.accountcode as ac on ac.divcd = de.divcd or pr.divcd = ac.divcd
         where eno = #{eno}
+
     </select>
 
     <!-- 날짜 검색에 따른 계정 과목 별 총 금액 select -->
     <select id="selectExpendHistoryByTotalPrice" resultType="sjht.erp.expendHistory.dto.SelectResultEHDto"
-        parameterType="sjht.erp.expendHistory.dto.SelectParameterEHDto">
-     select ac.divname , sum(eh.dvamt) as 'total_divcd_price'
+            parameterType="sjht.erp.expendHistory.dto.SelectParameterEHDto">
+        select ac.divname, sum(eh.dvamt) as 'total_divcd_price'
         from erp.expendhistory as eh
-        inner join erp.payrollhistory as pr on pr.paysequence = eh.paysequence
-        inner join erp.accountcode as ac on ac.divcd = pr.divcd
-        where (date(eh.dvappdate) between #{start}  and #{end})
+                 inner join erp.payrollhistory as pr on pr.paysequence = eh.paysequence
+                 inner join erp.accountcode as ac on ac.divcd = pr.divcd
+        where (date (eh.dvappdate) between #{start} and #{end})
         group by ac.divcd
         union
-        select ac.divname ,sum(eh.dvamt) as 'total_divcd_price'
+        select ac.divname, sum(eh.dvamt) as 'total_divcd_price'
         from erp.expendhistory as eh
-        inner join erp.detailexpend as de on de.dvno = eh.dvno
-        inner join erp.accountcode as ac on ac.divcd = de.divcd
-        where (date(eh.dvappdate) between #{start} and #{end})
+                 inner join erp.detailexpend as de on de.dvno = eh.dvno
+                 inner join erp.accountcode as ac on ac.divcd = de.divcd
+        where (date (eh.dvappdate) between #{start} and #{end})
         group by ac.divcd
     </select>
 

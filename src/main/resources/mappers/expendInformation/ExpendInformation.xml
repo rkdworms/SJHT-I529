@@ -26,7 +26,6 @@
         departmentcode AS dc ON dc.departmentcd = e.departmentcd
         WHERE
         (DATE(dvregdate) BETWEEN #{startDvRegDate} AND #{endDvRegDate})
-
         <if test='(dvappyn=="w") or (dvappyn=="y") or (dvappyn=="n")'>
             AND dvappyn = #{dvappyn}
         </if>
@@ -44,7 +43,7 @@
         </if>
         order by
         substr(ei.dvno from 1 for 4),
-        cast(substr(ei.dvno from 5) AS UNSIGNED)
+        cast(substr(ei.dvno from 5) AS UNSIGNED) desc
     </select>
 
     <!-- 지출결의 dvno에 따른 select one     -->

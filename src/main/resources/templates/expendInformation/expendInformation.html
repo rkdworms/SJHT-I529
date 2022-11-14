@@ -293,11 +293,11 @@
                                                             style="padding: 0px; border: currentColor; text-align: right; color: black; font-size: 12px; font-weight: normal; vertical-align: top;">
                                                         <div>
                                                                     <span>
-                                                                        <strong>신청</strong>
+                                                                        <strong></strong>
                                                                     </span>
                                                             &nbsp;&nbsp;
                                                             <span>
-                                                                        <strong>승인</strong>
+                                                                        <strong></strong>
                                                                     </span>
                                                         </div>
                                                     </td>
@@ -696,8 +696,8 @@
             computed: {
                 pageCount() {
                     let listLeng = this.expendList.length;
-                    listSize = this.pageSize;
-                    page = Math.floor(listLeng / listSize);
+                    let listSize = this.pageSize;
+                    let page = Math.floor(listLeng / listSize);
 
                     if (listLeng == 0)
                         return 1;

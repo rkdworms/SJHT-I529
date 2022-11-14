@@ -3,14 +3,23 @@ package sjht.erp.hrms.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 import sjht.erp.common.vo.EmployeeVO;
 import sjht.erp.common.vo.FileVO;
+import sjht.erp.detailexpend.dto.request.FileRequestDto;
 import sjht.erp.hrms.dto.SelectDto;
 import sjht.erp.hrms.dto.UpdateDto;
 import sjht.erp.hrms.repository.HrmsMapper;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,22 +81,37 @@ public class HrmsApiServiceImpl implements HrmsApiService {
 
     /* 사원 등록 (회계,총무) */
     @Override
-    public void registEmp(UpdateDto updateDto) {
+    public void registEmp(UpdateDto updateDto, MultipartFile[] file) throws IOException {
         // 비밀 번호 등록시 인코딩
         updateDto.setPassword(passwordEncoder.encode(updateDto.getPassword()));
 
-
-
-
-
-        // 퇴직날짜 null로 셋팅 ???????????? 꼮 해줘야 널 로 들어가나? 안해줘도 널로 들어가나? /
-
-        // Vo로 바꿔서 저장할까?
-
-
-        updateDto.setRetiredate(null);
-        // DB로 저장
+        //사원 정보 등록
         hrmsMapper.registEmp(updateDto);
+
+        // 이미지 파일 저장할 경로(없으면 생성)
+        Path directory = Paths.get("src/main/resources/static/images").toAbsolutePath().normalize();
+        Files.createDirectories(directory);
+
+        String filename = StringUtils.cleanPath(Objects.requireNonNull(file[0].getOriginalFilename()));
+
+        String substring = filename.substring(filename.length() - 4);
+
+        Path targetPath = directory.resolve(updateDto.getEmpno()+ substring).normalize();
+
+        FileRequestDto fileDto = new FileRequestDto(
+                updateDto.getEmpno()+ substring,
+                targetPath.toString(),
+                Math.toIntExact(file[0].getSize()),
+                updateDto.getEmpno(),
+                2,
+                "/images/",
+                0
+        );
+
+        //증명사진 업로드
+        if(hrmsMapper.uploadFile(fileDto) != 0){
+            file[0].transferTo(targetPath);
+        }
     }
 
     /* 사원 등록 시 사번 보여주기 */
@@ -98,12 +122,38 @@ public class HrmsApiServiceImpl implements HrmsApiService {
 
     /* 사원 정보 수정 */
     @Override
-    public void updateEmp(UpdateDto updateDto) {
+    public void updateEmp(UpdateDto updateDto, MultipartFile[] file) throws IOException  {
 
+        if(file != null){
+            // 이미지 파일 저장할 경로(없으면 생성)
+            Path directory = Paths.get("src/main/resources/static/images").toAbsolutePath().normalize();
+            Files.createDirectories(directory);
 
+            String filename = StringUtils.cleanPath(Objects.requireNonNull(file[0].getOriginalFilename()));
 
+            String substring = filename.substring(filename.length() - 4);
+
+            Path targetPath = directory.resolve(updateDto.getEmpno()+ substring).normalize();
+
+            FileRequestDto fileDto = new FileRequestDto(
+                    updateDto.getEmpno()+ substring,
+                    targetPath.toString(),
+                    Math.toIntExact(file[0].getSize()),
+                    updateDto.getEmpno(),
+                    2,
+                    "/images/",
+                    0
+            );
+
+            if(hrmsMapper.updateFile(fileDto) != 0){
+                file[0].transferTo(targetPath);
+            }
+        }
+        System.out.println(updateDto.getSchool());
         // DB로 갱신
         hrmsMapper.updateEmp(updateDto);
+
+
     }
 
     /* 부서 리스트 */

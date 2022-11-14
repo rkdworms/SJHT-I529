@@ -2,6 +2,7 @@ package sjht.erp.hrms.repository;
 
 import org.apache.ibatis.annotations.Mapper;
 import sjht.erp.common.vo.*;
+import sjht.erp.detailexpend.dto.request.FileRequestDto;
 import sjht.erp.hrms.dto.UpdateDto;
 
 import java.util.List;
@@ -44,4 +45,12 @@ public interface HrmsMapper {
 
     /* 승진 및 보직 관리 - grade insert */
     void promotionManageGrade(UpdateDto updateDto);
+
+    /* 파일 업데이트(사원 등록)*/
+    int uploadFile(FileRequestDto fileDto);
+
+    /* 파일 업데이트(사원 수정)*/
+    int updateFile(FileRequestDto fileDto);
+
+    List<FileVO> getFile();
 }

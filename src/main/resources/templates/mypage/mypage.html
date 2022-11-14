@@ -359,6 +359,9 @@
             account: '',
             bankcd: '',
 
+            //사진처리
+            physicalpath:''
+
           }
         },
 
@@ -377,6 +380,9 @@
                                 this.tel1 = (this.empDetail.tel).substr(0, 3);
                                 this.tel2 = (this.empDetail.tel).substr(3, 4);
                                 this.tel3 = (this.empDetail.tel).substr(7, 4);
+
+                                // 사진 경로
+                                this.physicalpath = this.empDetail.relatedpath+this.empDetail.filename
                             })
                             .catch(error => console.error(error))
             },
