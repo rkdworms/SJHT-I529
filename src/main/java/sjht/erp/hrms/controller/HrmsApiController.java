@@ -6,12 +6,14 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import sjht.erp.hrms.dto.SelectDto;
 import sjht.erp.hrms.dto.UpdateDto;
 import sjht.erp.hrms.service.HrmsApiService;
 import sjht.erp.login.dto.EmployeeDto;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,9 +34,16 @@ public class HrmsApiController {
 
     /* 사원 등록 */
     @PostMapping("/api/hrms/regist")
-    public void registEmp (@RequestBody UpdateDto updateDto) {
+    public void registEmp (@RequestPart(value="file",required = false) MultipartFile[] file,
+                           @RequestPart(value="registDto")UpdateDto updateDto){
+
         // 폼 데이터 등록 요청
-        hrmsApiService.registEmp(updateDto);
+        try {
+            hrmsApiService.registEmp(updateDto, file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     /* 사원 등록 시 사번 보여주기 */
@@ -48,9 +57,16 @@ public class HrmsApiController {
 
     /* 사원 정보 수정 */
     @PatchMapping("/api/hrms/update")
-    public void updateEmp (@RequestBody UpdateDto updateDto) {
+    public void updateEmp (@RequestPart(value="file",required = false) MultipartFile[] file,
+                           @RequestPart(value="updateDto")UpdateDto updateDto) {
+        System.out.println(updateDto.getSchool()+"controller");
         // 폼 데이터 수정 요청
-        hrmsApiService.updateEmp(updateDto);
+        try{
+            hrmsApiService.updateEmp(updateDto, file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     /* 부서 리스트 */

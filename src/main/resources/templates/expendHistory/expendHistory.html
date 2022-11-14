@@ -129,6 +129,7 @@
                                     <th>전표 일자</th>
                                     <th>사번</th>
                                     <th>담당자</th>
+<!--                                    <th>계정 과목</th>-->
                                     <th>지출</th>
                                     <th>수입</th>
                                     <th>금액</th>
@@ -162,6 +163,10 @@
                                     <td>
                                         {{result.dvappname}}
                                     </td>
+
+<!--                                    <td>-->
+<!--                                        {{result.divname}}-->
+<!--                                    </td>-->
 
                                     <!-- 지출 -->
                                     <td>
@@ -248,11 +253,15 @@
                                                             <tr>
                                                                 <td class="header"
                                                                     style="border: 1px solid black">
-                                                                    회계 번호
+                                                                    <div v-show="modalDvno != null">회계 번호</div>
+                                                                    <div v-show="modalPaySequence != null">급여 번호</div>
                                                                 </td>
                                                                 <td class="header_detail">
-                                                                    <div style="font-size: 9pt;">
+                                                                    <div v-show="modalDvno != null" style="font-size: 9pt;">
                                                                         {{modalDvno}}
+                                                                    </div>
+                                                                    <div v-show="modalPaySequence != null" style="font-size: 9pt;">
+                                                                        {{modalPaySequence}}
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -291,11 +300,11 @@
                                                             style="padding: 0px; border: currentColor; text-align: right; color: black; font-size: 12px; font-weight: normal; vertical-align: top;">
                                                         <div>
                                                                     <span>
-                                                                        <strong>담당</strong>
+                                                                        <strong></strong>
                                                                     </span>
                                                             &nbsp;&nbsp;
                                                             <span>
-                                                                        <strong>임원</strong>
+                                                                        <strong></strong>
                                                                     </span>
                                                         </div>
                                                     </td>
@@ -356,12 +365,10 @@
                                                         <td class="detailColumn" style="height: 29px;">
                                                             {{result.divname}}
                                                         </td>
-
                                                         <!-- 적요 -->
                                                         <td class="detailColumn">
                                                             {{result.briefs}}
                                                         </td>
-
                                                         <!-- 지출 -->
                                                         <!-- 개별 지출을 보여줘야함 -->
                                                         <td class="detailColumn" style="height: 29px;">
@@ -592,12 +599,16 @@
                     formEmpno: '',                      //검색 폼 : 사번
                     formEmpname: '',                    //검색 폼 : 사원 이름
                     dvappname: '',                      //담당자
+
                     modalEno: '',                       //전표 번호
                     modalDvno: '',                      //지출 결의 번호
                     modalDvappname: '',                 //담당자
                     modalDvappdate: '',                 //회계 전표 승인 날짜
                     modalDvamt: '',                     //총 금액
+                    modalPaySequence: '',               //급여 번호
+
                     totalDivcdDvamt: '',                //계정 과목에 따른 총 금액
+
                     expendHistoryList: [],              //회계 전표 리스트
                     detailModalList: [],                //전표 번호에 따른 회계 전표 상세보기 리스트
                     summaryModalList: [],               //날짜에 따른 계정과목 별 총 금액 리스트
@@ -641,9 +652,11 @@
                             modalEno: eno
                         })
                         .then((response) => {
+                            console.log(response.data);
                             this.detailModalList = response.data;
                             this.modalEno = this.detailModalList[0].eno;
                             this.modalDvno = this.detailModalList[0].dvno;
+                            this.modalPaySequence = this.detailModalList[0].paysequence;
                             this.modalDvappname = this.detailModalList[0].dvappname;
                             this.modalDvappdate = this.detailModalList[0].dvappdate;
                             this.modalDvamt = this.detailModalList[0].dvamt;

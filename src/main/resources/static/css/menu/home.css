@@ -180,3 +180,11 @@ a:hover{
 .text-md-right {
   text-align: right !important;
 }
+
+.home {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.home::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
