@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -11,8 +12,8 @@ import java.time.LocalDateTime;
 @ToString
 public class WorkInfoRequestDto {
     private String approveryn;
-    private LocalDateTime start;
-    private LocalDateTime end;
+    private LocalDate start;
+    private LocalDate end;
     private String name;
     private int empno;
 
@@ -24,7 +25,7 @@ public class WorkInfoRequestDto {
         this.approveryn = approveryn;
     }
 
-    public WorkInfoRequestDto(String approveryn, LocalDateTime start, LocalDateTime end) {
+    public WorkInfoRequestDto(String approveryn, LocalDate start, LocalDate end) {
         this.approveryn = approveryn;
         if (start.isBefore(end)) {
             this.start = start;
@@ -46,7 +47,7 @@ public class WorkInfoRequestDto {
         }
     }
 
-    public WorkInfoRequestDto(String approveryn, LocalDateTime start, LocalDateTime end, String name) {
+    public WorkInfoRequestDto(String approveryn, LocalDate start, LocalDate end, String name) {
         this.approveryn = approveryn;
         if (start.isBefore(end)) {
             this.start = start;
@@ -67,7 +68,7 @@ public class WorkInfoRequestDto {
         }
     }
 
-    public WorkInfoRequestDto(String approveryn, LocalDateTime start, LocalDateTime end, String name, int empno) {
+    public WorkInfoRequestDto(String approveryn, LocalDate start, LocalDate end, String name, int empno) {
         this.approveryn = approveryn;
         if (start.isBefore(end)) {
             this.start = start;

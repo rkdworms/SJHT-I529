@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DetailResponseDto {
+    private String divname;
     private String dvno;
     private LocalDate dvusedate;
     private int price;

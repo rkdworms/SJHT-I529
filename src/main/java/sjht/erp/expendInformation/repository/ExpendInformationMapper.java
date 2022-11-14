@@ -21,4 +21,7 @@ public interface ExpendInformationMapper {
     void insertExpendHistory(InsertParameterEIDto insertParameterEIDto);
     // dvno에 따른 file select
     List<SelectResultFileEIDto> selectFile(String dvno);
+
+    // 회계전표 테이블에서 dvno 존재 여부 확인
+    Boolean selectEHByDvno(String dvno);
 }
