@@ -30,7 +30,7 @@
                 approveryn = (#{approveryn})
             </if>
             <if test="start != null and end != null">
-                and(TIME(registdate) between #{start} and #{end})
+                and (DATE(registdate) between #{start} and #{end})
             </if>
             <if test="name != ''">
                 and e.name = (#{name})
