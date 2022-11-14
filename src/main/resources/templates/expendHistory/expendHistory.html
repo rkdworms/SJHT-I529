@@ -73,7 +73,7 @@
                                     <div class="col-md-2"></div>
 
                                     <div class="form-group col-md-2" style="display: grid; padding:1rem;">
-                                        <button type="button" id="summary" class="btn btn-dark btn-md"
+                                        <button type="button" id="summary" class="btn btn-hrms btn-md"
                                                 data-toggle="modal" onclick="summary_modalShow()" @click="getSummary()">
                                             요 약
                                         </button>
@@ -109,7 +109,7 @@
 
                                     <!--   검색 폼 : 조회 버튼   -->
                                     <div class="form-group col-md-2" style="display: grid; padding:1rem;">
-                                        <button type="submit" @click="postParam" class="btn btn-dark btn-md">조회
+                                        <button type="submit" @click="postParam" class="btn btn-hrms btn-md">조회
                                         </button>
                                     </div>
                                 </div>
@@ -143,7 +143,7 @@
 
                                     <!-- 전표 번호 -->
                                     <td>
-                                        <button type="button" id="detail" class="modal-btn" data-toggle="modal"
+                                        <button type="button" id="detail" class="modal-btn btn-hrms" data-toggle="modal"
                                                 onclick="detail_modalShow()" @click="getEno(result.eno)">
                                             {{result.eno}}
                                         </button>
@@ -210,7 +210,7 @@
 
                                     <!--modal header-->
                                     <div class="modal-header">
-                                        <button type="button" class="btn-close" aria-label="Close"
+                                        <button type="button" class="btn-close btn-hrms" aria-label="Close"
                                                 data-dismiss="modal" onclick="detail_modalHide()"></button>
                                     </div>
 
@@ -401,7 +401,7 @@
 
                                     <!--modal footer-->
                                     <div class="modal-footer">
-                                        <button type="button" class="button" id="detail_close"
+                                        <button type="button" class="button btn-hrms" id="detail_close"
                                                 onclick="detail_modalHide()">닫기
                                         </button>
                                     </div>
@@ -419,7 +419,7 @@
 
                                     <!--modal header-->
                                     <div class="modal-header">
-                                        <button type="button" class="btn-close" aria-label="Close"
+                                        <button type="button" class="btn-close btn-hrms" aria-label="Close"
                                                 data-dismiss="modal" onclick="summary_modalHide()"></button>
                                     </div>
 
@@ -544,7 +544,7 @@
 
                                     <!--modal footer-->
                                     <div class="modal-footer">
-                                        <button type="button" class="button" id="summary_close"
+                                        <button type="button" class="button btn-hrms" id="summary_close"
                                                 onclick="summary_modalHide()">닫기
                                         </button>
                                     </div>

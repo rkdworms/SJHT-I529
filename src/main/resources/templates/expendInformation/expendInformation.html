@@ -102,7 +102,7 @@
 
                                     <!--   검색 폼 : 조회 버튼   -->
                                     <div class="form-group col-md-2" style="display: grid; padding:1rem;">
-                                        <button type="submit" @click="postParam()" class="btn btn-dark btn-md"
+                                        <button type="submit" @click="postParam()" class="btn btn-hrms btn-md"
                                                 id="submitBtn">조회
                                         </button>
                                     </div>
@@ -177,7 +177,7 @@
 
                                     <!-- 상세 조회 버튼 -->
                                     <td class="detail-btn">
-                                        <button type="button" class="modal-btn" data-toggle="modal"
+                                        <button type="button" class="modal-btn btn-hrms" data-toggle="modal"
                                                 onclick="detail_modalShow()" @click="getDvno(result.dvno , i)">상세보기
                                         </button>
                                     </td>
@@ -209,7 +209,7 @@
 
                                     <!--modal header-->
                                     <div class="modal-header">
-                                        <button type="button" class="btn-close" aria-label="Close"
+                                        <button type="button" class="btn-close btn-hrms" aria-label="Close"
                                                 data-dismiss="modal" onclick="detail_modalHide()"></button>
                                     </div>
 
@@ -414,22 +414,22 @@
                                     <!--modal footer-->
                                     <div class="modal-footer">
                                         <div v-if="usertype">
-                                            <button type="button" class="dvappbtn" id="dvappy" value="y"
+                                            <button type="button" class="dvappbtn btn-hrms" id="dvappy" value="y"
                                                     @click="setYN($event)"
                                                     onclick="confirm_modalShow()">
                                                 승인
                                             </button>
-                                            <button type="button" class="dvappbtn" id="dvappn" value="n"
+                                            <button type="button" class="dvappbtn btn-hrms" id="dvappn" value="n"
                                                     @click="setYN($event)"
                                                     onclick="confirm_modalShow()"
                                                     style="margin-left: 10px">
                                                 반려
                                             </button>
                                         </div>
-                                        <button type="button" class="button" id="download" @click="downloadWithAxios">
+                                        <button type="button" class="button btn-hrms" id="download" @click="downloadWithAxios">
                                             다운로드
                                         </button>
-                                        <button type="button" class="button" id="close"
+                                        <button type="button" class="button btn-hrms" id="close"
                                                 onclick="detail_modalHide()">닫기
                                         </button>
                                     </div>
@@ -443,7 +443,7 @@
 
                                                 <!--modal header-->
                                                 <div class="modal-header">
-                                                    <button type="button" class="btn-close" aria-label="Close"
+                                                    <button type="button" class="btn-close btn-hrms" aria-label="Close"
                                                             data-dismiss="modal"
                                                             onclick="confirm_modalHide(); detail_modalHide();"></button>
                                                 </div>
@@ -460,11 +460,11 @@
 
                                                 <!--modal footer-->
                                                 <div class="modal-footer">
-                                                    <button type="button" class="button" id="confirm_y"
+                                                    <button type="button" class="button btn-hrms" id="confirm_y"
                                                             @click="updateDvapp()"
                                                             onclick="confirm_modalHide(); detail_modalHide(); ">확인
                                                     </button>
-                                                    <button type="button" class="button" id="confirm_n"
+                                                    <button type="button" class="button btn-hrms" id="confirm_n"
                                                             onclick="confirm_modalHide(); detail_modalHide(); ">취소
                                                     </button>
                                                 </div>
