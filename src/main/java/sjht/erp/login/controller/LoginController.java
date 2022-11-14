@@ -41,7 +41,7 @@ public class LoginController {
 
         if(cookie==null )return "/login/login";
 
-        if(Arrays.stream(cookie).filter(c -> c.getName().equals("token")).findAny().isPresent()){
+        if(Arrays.stream(cookie).anyMatch(c -> c.getName().equals("token"))){
             return "/menu/home";
         }
         return "login/login";
@@ -64,8 +64,6 @@ public class LoginController {
         ResponseEntity responseEntity = null;
 
         try{
-
-
             String token = loginService.login(loginDto);
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("Authoriztion","Bearer "+token);
