@@ -244,7 +244,7 @@
                                                             onerror="this.src='/images/noProfile.png'" />
                                                         <input class="form-control form-control-sm"
                                                             id="detail-idPicture" v-model="file" type="file"
-                                                            @change="uploadImage" accept="image/*" />
+                                                            @change="uploadImage" accept="image/*"/>
                                                         <div class="invalid-feedback">
                                                             사원의 증명사진을 첨부해주세요.
                                                         </div>
@@ -1645,6 +1645,7 @@
 
                         formData.append("file", this.file);
                         formData.append("updateDto", new Blob([JSON.stringify(updateDto)], { type: "application/json" }));
+
                         axios.patch("http://localhost:8888/api/hrms/update",formData
                         ).then((response) => {
 
@@ -1739,7 +1740,7 @@
                                     (this.menu === 'searchName' && (this.search == '' || emp.name.includes(this.search))) ||
                                     (this.menu === 'searchEmpno' && (this.search == '' || ((emp.empno).toString()).includes(this.search)))
                                 ) &&
-                                (dayjs(emp.entrydate, "YYYY-MM-DD")).isBetween(dayjs(this.entrydatestart, "YYYY-MM-DD"), dayjs(this.entrydateend, "YYYY-MM-DD"))
+                                (dayjs(emp.entrydate, "YYYY-MM-DD")).isBetween(dayjs(this.entrydatestart, "YYYY-MM-DD")-1, dayjs(this.entrydateend, "YYYY-MM-DD")+1)
 
                                 // &&
                                 // (
@@ -1969,13 +1970,7 @@
                         formData.append("file", this.file);
                         formData.append("registDto", new Blob([JSON.stringify(registDto)], { type: "application/json" }));
 
-                            filename: this.filename,
-                            physicalpath: this.physicalpath,
-                            filesize: this.filesize,
-                            kind: this.kind,
-                            relatedpath: this.relatedpath,
-                            dno: this.dno
-                        }).then((response) => {
+                        axios.post("http://localhost:8888/api/hrms/regist",formData).then((response) => {
 
                             toastr.options = {
                                 closeButton: true,

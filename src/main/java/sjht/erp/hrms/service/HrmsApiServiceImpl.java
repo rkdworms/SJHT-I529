@@ -124,7 +124,7 @@ public class HrmsApiServiceImpl implements HrmsApiService {
     @Override
     public void updateEmp(UpdateDto updateDto, MultipartFile[] file) throws IOException  {
 
-        if(file[0] != null){
+        if(file != null){
             // 이미지 파일 저장할 경로(없으면 생성)
             Path directory = Paths.get("src/main/resources/static/images").toAbsolutePath().normalize();
             Files.createDirectories(directory);
