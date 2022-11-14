@@ -35,14 +35,15 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">제목</label>
                     <div class="col-sm-12">
-                        <input type="text" th:value="${detail.title}" class="form-control" maxlength="50"  />
+                        <input type="text" id="title" th:value="${detail.title}" class="form-control" maxlength="50"/>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label">내용</label>
                     <div class="col-sm-12">
-                        <textarea th:value="${detail.content}" class="form-control" maxlength="1000" rows="33"></textarea>
+                        <textarea id="content" th:value="${detail.content}" class="form-control" maxlength="1000"
+                                  rows="33"></textarea>
                     </div>
                 </div>
 
@@ -56,52 +57,50 @@
         </div>
 
         <script th:inline="javascript">
-        /*<![CDATA[*/
+            /*<![CDATA[*/
             var title = /*[[ ${detail.title} ]]*/;
             var content = /*[[ ${detail.content} ]]*/;
 
 
+            const board = {
+                data() {
+                    return {
+                        checkUpdate: ""
 
-        const board = {
-            data() {
-                return {
-                    checkUpdate: ""
+                    }
+                },
 
-                }
-            },
+                methods: {
 
-            methods: {
+                    // 게시글 수정
+                    boardUpdate() {
+                        var bno1 = /*[[ ${detail.bno} ]]*/;
+                        title = document.getElementById("title").value
+                        content = document.getElementById("content").value
 
-                // 게시글 수정
-                boardUpdate(){
-                    var bno1 = /*[[ ${detail.bno} ]]*/;
-                    title = document.getElementById("title").value
-                    content = document.getElementById("content").value
-
-                    axios.post("http://localhost:8888/api/boardupdate",
-                        {
-                            bno: bno1,
-                            title : title,
-                            content : content
-                        }
-
-                    ).then((response) => {
-                        this.checkUpdate = response.data;
-                        console.log(this.checkUpdate)
-                        if(this.checkUpdate === true){
-                            location.href= "http://localhost:8888/board"
+                        axios.post("http://localhost:8888/api/boardupdate",
+                            {
+                                bno: bno1,
+                                title: title,
+                                content: content
+                            }
+                        ).then((response) => {
+                            this.checkUpdate = response.data;
+                            console.log(this.checkUpdate)
+                            if (this.checkUpdate === true) {
+                                location.href = "http://localhost:8888/board"
 
 
-                        }
-                    }).catch(error => console.error(error))
+                            }
+                        }).catch(error => console.error(error))
 
                     },
 
-            },
-        }
-        Vue.createApp(board).mount("#board")
+                },
+            }
+            Vue.createApp(board).mount("#board")
 
-        /*]]*/
+            /*]]*/
 
         </script>
     </div>
