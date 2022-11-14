@@ -131,7 +131,7 @@
                                                     <th scope="col" v-if="ROLE">상세보기</th>
                                                 </tr>
                                                 </thead>
-                                                <tbody v-for="(resultpk,i) in allWorkTimeList" key="resultpk.tano">
+                                                <tbody v-for="(resultpk,i) in paginatedDataWorkTime" key="resultpk.tano">
                                                 <tr>
                                                     <td>{{resultpk.tano}}</td>
                                                     <td>{{resultpk.empno}}</td>
@@ -157,22 +157,21 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
-                                            <nav aria-label="Page navigation example"
-                                                 class="align-content-xl-center">
-                                                <ul class="pagination" style="justify-content: center">
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Previous">
-                                                            <span aria-hidden="true">&laquo;</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Next">
-                                                            <span aria-hidden="true">&raquo;</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
+
+
+                                            <!-- 페이징 처리 하기 -->
+                                            <div class="btn-cover" style="text-align: right">
+                                                <button :disabled="pageNum === 0" @click="prevPage" class="btn-hrms">
+                                                    이전
+                                                </button>
+                                                <span class="page-count">{{ pageNum + 1 }} / {{ pageCountWorkTime }} 페이지</span>
+                                                <button :disabled="pageNum >= pageCountWorkTime - 1" @click="nextPage"
+                                                        class="btn-hrms">
+                                                    다음
+                                                </button>
+                                            </div>
+
+
                                             <div class="modal fade" tabindex="-1" id="modify_workTime_modal"
                                                  role="dialog" data-backdrop="static">
                                                 <div class="modal-dialog modal-md 15">
@@ -243,6 +242,8 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <!-- 지출결의 텝 부분 -->
                                         <div class="tab-pane fade" id="profile" role="tabpanel"
                                              aria-labelledby="profile-tab">
                                             <table class="table table-bordered">
@@ -259,7 +260,7 @@
                                                     <th scope="col">삭제</th>
                                                 </tr>
                                                 </thead>
-                                                <tbody v-for="(result,i) in myExpendList" key="result.dvno">
+                                                <tbody v-for="(result,i) in paginatedDataExpend" key="result.dvno">
                                                 <tr>
                                                     <td>{{result.dvno}}</td>
                                                     <td>{{result.empno}}</td>
@@ -277,23 +278,23 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
-                                            <nav aria-label="Page navigation example"
-                                                 class="align-content-xl-center">
-                                                <ul class="pagination" style="justify-content: center">
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Previous">
-                                                            <span aria-hidden="true">&laquo;</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Next">
-                                                            <span aria-hidden="true">&raquo;</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
+
+
+                                            <!-- 지출결의 페이징 처리 하기 -->
+                                            <div class="btn-cover" style="text-align: right">
+                                                <button :disabled="pageNum === 0" @click="prevPage" class="btn-hrms">
+                                                    이전
+                                                </button>
+                                                <span class="page-count">{{ pageNum + 1 }} / {{ pageCountExpend }} 페이지</span>
+                                                <button :disabled="pageNum >= pageCountExpend - 1" @click="nextPage"
+                                                        class="btn-hrms">
+                                                    다음
+                                                </button>
+                                            </div>
+
+
                                         </div>
+
                                         <!-- 지출결의 리스트 상세보기 버튼 클릭시 나타나는 모달-->
                                         <div class="modal fade" tabindex="-1" id="reWrite_detail_modal"
                                              role="dialog" data-backdrop="static">
@@ -341,7 +342,7 @@
                                                                 <td>삭제</td>
                                                             </tr>
                                                             </thead>
-                                                            <tbody v-for="i in reloadDatas" key="i.dno">
+                                                            <tbody v-for="i in paginatedDataReloadDatas" key="i.dno">
                                                             <tr>
                                                                 <td>{{i.dvusedate}}</td>
                                                                 <td>{{i.divname}}</td>
@@ -365,24 +366,21 @@
                                                             </tr>
                                                             </tbody>
                                                         </table>
-                                                        <nav aria-label="Page navigation example"
-                                                             class="align-content-xl-center">
-                                                            <ul class="pagination" style="justify-content: center">
-                                                                <li class="page-item">
-                                                                    <a class="page-link" href="#"
-                                                                       aria-label="Previous">
-                                                                        <span aria-hidden="true">&laquo;</span>
-                                                                    </a>
-                                                                </li>
-                                                                <li class="page-item"><a class="page-link"
-                                                                                         href="#">1</a></li>
-                                                                <li class="page-item">
-                                                                    <a class="page-link" href="#" aria-label="Next">
-                                                                        <span aria-hidden="true">&raquo;</span>
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </nav>
+
+
+                                                        <!-- 페이징 처리 하기 -->
+                                                        <div class="btn-cover" style="text-align: right">
+                                                            <button :disabled="pageNum === 0" @click="prevPage" class="btn-hrms">
+                                                                이전
+                                                            </button>
+                                                            <span class="page-count">{{ pageNum + 1 }} / {{ pageCountReloadDatas }} 페이지</span>
+                                                            <button :disabled="pageNum >= pageCountReloadDatas - 1" @click="nextPage"
+                                                                    class="btn-hrms">
+                                                                다음
+                                                            </button>
+                                                        </div>
+
+
                                                         <button type="button" class="btn btn-dark"
                                                                 onclick="modiDetailModalInput()">
                                                             결의작성
@@ -425,11 +423,9 @@
                                                                     </td>
                                                                     <td>
                                                                         <select v-model="divcd" class="form-select">
-                                                                            <option value="AC001">월급</option>
-                                                                            <option value="AC002">주유비</option>
-                                                                            <option value="AC003">식대</option>
-                                                                            <option value="AC004">문화비</option>
-                                                                            <option value="AC005">기타</option>
+                                                                            <option value="AC002">식비</option>
+                                                                            <option value="AC003">주유비</option>
+                                                                            <option value="AC004">비품 구매</option>
                                                                         </select>
                                                                     </td>
                                                                     <td>
@@ -555,11 +551,9 @@
                                                                     </td>
                                                                     <td>
                                                                         <select v-model="divcd" class="form-select">
-                                                                            <option value="AC001">월급</option>
-                                                                            <option value="AC002">주유비</option>
-                                                                            <option value="AC003">식대</option>
-                                                                            <option value="AC004">문화비</option>
-                                                                            <option value="AC005">기타</option>
+                                                                            <option value="AC002">식비</option>
+                                                                            <option value="AC003">주유비</option>
+                                                                            <option value="AC004">비품 구매</option>
                                                                         </select>
                                                                     </td>
                                                                     <td>
@@ -730,7 +724,7 @@
                                             <td>삭제</td>
                                         </tr>
                                         </thead>
-                                        <tbody v-for="(list) in myDetailExpendList" key="list.dno">
+                                        <tbody v-for="(list) in paginatedDataDetail" key="list.dno">
                                         <tr>
                                             <td>{{list.dvusedate}}</td>
                                             <td>{{list.divname}}</td>
@@ -748,21 +742,22 @@
                                         </tr>
                                         </tbody>
                                     </table>
-                                    <nav aria-label="Page navigation example" class="align-content-xl-center">
-                                        <ul class="pagination" style="justify-content: center">
-                                            <li class="page-item">
-                                                <a class="page-link" href="#" aria-label="Previous">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                </a>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item">
-                                                <a class="page-link" href="#" aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
+
+
+                                    <!-- 페이징 처리 하기 -->
+                                    <div class="btn-cover" style="text-align: right">
+                                        <button :disabled="pageNum === 0" @click="prevPage" class="btn-hrms">
+                                            이전
+                                        </button>
+                                        <span class="page-count">{{ pageNum + 1 }} / {{ pageCountDetail }} 페이지</span>
+                                        <button :disabled="pageNum >= pageCountDetail - 1" @click="nextPage"
+                                                class="btn-hrms">
+                                            다음
+                                        </button>
+                                    </div>
+
+
+
                                     <button type="button" class="btn btn-dark" id="enterInputExpend"
                                             onclick="DetailModalInput()">
                                         결의작성
@@ -805,11 +800,9 @@
                                                 </td>
                                                 <td>
                                                     <select v-model="divcd" id="divcd" class="form-select">
-                                                        <option value="AC001">월급</option>
-                                                        <option value="AC002">주유비</option>
-                                                        <option value="AC003">식대</option>
-                                                        <option value="AC004">문화비</option>
-                                                        <option value="AC005">기타</option>
+                                                        <option value="AC002">식비</option>
+                                                        <option value="AC003">주유비</option>
+                                                        <option value="AC004">비품 구매</option>
                                                     </select>
                                                 </td>
                                                 <td><input v-model="briefs" type="text" class="form-control"
@@ -907,9 +900,12 @@
             </div>
         </div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.6.1.js"
             integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
     <script src="/./js/worklist/listModal.js"></script>
+
+
     <script>
         const EXPEND = {
             data() {
@@ -947,7 +943,18 @@
                     dno: "",
                     files: [],
                     filename: [], // dno에 따른 파일 정보
-                    filepath: []
+                    filepath: [],
+
+                    pageNum: 0                          // pagination
+                }
+            },
+
+            // pagination
+            props: {
+                pageSize: {
+                    type: Number,
+                    required: false,
+                    default: 1
                 }
             },
             methods: {
@@ -1339,6 +1346,16 @@
                             modiDetailModalClose()
                         })
                 },
+
+                //pagination
+                nextPage() {
+                    this.pageNum += 1;
+                },
+
+                prevPage() {
+                    this.pageNum -= 1;
+                },
+
             },
             created() {
                 this.getROLE();
@@ -1349,10 +1366,102 @@
                 this.showWorkTimeList();
                 this.showMyExpendList();
                 this.checkMyData();
-            }
+            },
+
+            computed: {
+                pageCountExpend() {
+                    let listLeng = this.myExpendList.length;
+                    listSize = this.pageSize;
+                    page = Math.floor(listLeng / listSize);
+
+                    if (listLeng == 0)
+                        return 1;
+
+                    if (listLeng % listSize > 0)
+                        page += 1;
+
+                    return page;
+                },
+
+                //page slice
+                paginatedDataExpend() {
+                    let start = this.pageNum * this.pageSize;
+                    let end = start + this.pageSize;
+
+                    return this.myExpendList.slice(start, end);
+                },
+
+                pageCountReloadDatas() {
+                    let listLeng = this.myExpendList.length;
+                    listSize = this.pageSize;
+                    page = Math.floor(listLeng / listSize);
+
+                    if (listLeng == 0)
+                        return 1;
+
+                    if (listLeng % listSize > 0)
+                        page += 1;
+
+                    return page;
+                },
+
+                //page slice
+                paginatedDataReloadDatas() {
+                    let start = this.pageNum * this.pageSize;
+                    let end = start + this.pageSize;
+
+                    return this.myExpendList.slice(start, end);
+                },
+
+                pageCountDetail() {
+                    let listLeng = this.myDetailExpendList.length;
+                    listSize = this.pageSize;
+                    page = Math.floor(listLeng / listSize);
+
+                    if (listLeng == 0)
+                        return 1;
+
+                    if (listLeng % listSize > 0)
+                        page += 1;
+
+                    return page;
+                },
+
+                //page slice
+                paginatedDataDetail() {
+                    let start = this.pageNum * this.pageSize;
+                    let end = start + this.pageSize;
+
+                    return this.myDetailExpendList.slice(start, end);
+                },
+
+                pageCountWorkTime() {
+                    let listLeng = this.allWorkTimeList.length;
+                    listSize = this.pageSize;
+                    page = Math.floor(listLeng / listSize);
+
+                    if (listLeng == 0)
+                        return 1;
+
+                    if (listLeng % listSize > 0)
+                        page += 1;
+
+                    return page;
+                },
+
+                //page slice
+                paginatedDataWorkTime() {
+                    let start = this.pageNum * this.pageSize;
+                    let end = start + this.pageSize;
+
+                    return this.allWorkTimeList.slice(start, end);
+                }
+            },
+
         }
         Vue.createApp(EXPEND).mount("#app");
     </script>
+
     <script>
         const WORKTIME = {
             data() {
