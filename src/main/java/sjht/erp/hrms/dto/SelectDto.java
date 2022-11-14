@@ -99,14 +99,14 @@ public class SelectDto {
         if (employeeVO.getEntrydate() == null) {
             this.entrydate = "";
         } else {
-            this.entrydate = employeeVO.getEntrydate().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+            this.entrydate = employeeVO.getEntrydate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         }
 
         // retiredate 초기화 시 null 체크
         if (employeeVO.getRetiredate() == null) {
             this.retiredate = "";
         } else {
-            this.retiredate = employeeVO.getRetiredate().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+            this.retiredate = employeeVO.getRetiredate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         }
 
         // Bank 초기화 시 null 체크
