@@ -134,7 +134,7 @@ public class ExpendInsertServiceImpl implements ExpendInsertService {
                 Math.toIntExact(multipartFile.getSize()),
                 empno,
                 1,
-                "/erp/file/expend/",    // 상대경로 사용하지 않음
+                "/erp/file/hrms/",    // 상대경로 사용하지 않음
                 dno
         );
         return expendInsertMapper.insertFile(fileRequestDto) != 0;

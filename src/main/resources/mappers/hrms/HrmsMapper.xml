@@ -6,7 +6,7 @@
 <mapper namespace="sjht.erp.hrms.repository.HrmsMapper">
 
     <!-- 사원 등록 -->
-    <insert id="registEmp" parameterType="map">
+    <insert id="registEmp" parameterType="sjht.erp.hrms.dto.UpdateDto">
         INSERT INTO employee
         (password,
         bankcd,
@@ -65,25 +65,18 @@
         #{totalal},
         #{useal},
         #{retirenote} );
+    </insert>
 
-        INSERT INTO file
-        (fileno,
-        filename,
-        physicalpath,
-        filesize,
-        empno,
-        kind,
-        relatedpath,
-        dno)
-        VALUES
-        ( #{fileno},
-        #{filename},
+    <!--파일 등록-->
+    <insert id="uploadFile" parameterType="sjht.erp.detailexpend.dto.request.FileRequestDto">
+        insert into file
+        (filename, physicalpath, filesize, empno, kind, relatedpath)
+        values (#{filename},
         #{physicalpath},
         #{filesize},
         #{empno},
         #{kind},
-        #{relatedpath},
-        #{dno} )
+        #{relatedpath})
     </insert>
 
     <!-- 사원 등록 시 사번 보여주기 -->
@@ -100,7 +93,7 @@
     <!-- 사원 조회 시 사원 증명사진 불러오기 -->
     <select id="getIdPicture" resultType="sjht.erp.common.vo.FileVO">
         SELECT f.* from employee e, file f
-        WHERE e.empno = f.fileno AND f.kind = 2;
+        WHERE e.empno = f.empno AND f.kind = 2;
     </select>
 
     <!-- 사원 리스트 ▼ -->
@@ -168,27 +161,28 @@
     </resultMap>
     <!-- 사원 리스트 ▲ -->
 
+    <!-- 파일 리스트 -->
+    <select id="getFile" resultType="sjht.erp.common.vo.FileVO">
+        SELECT * FROM file
+    </select>
+
     <!-- 사원 데이터 수정 -->
     <update id="updateEmp" parameterType="sjht.erp.hrms.dto.UpdateDto">
-        UPDATE employee as e, file as f
+        UPDATE employee
         SET
-        e.name = #{name},
-        e.mail = #{mail},
-        e.tel = #{tel},
-        e.zipcode = #{zipcode},
-        e.addr = #{addr},
-        e.addrdetail = #{addrdetail},
-        e.school = #{school},
-        e.retirementpay = #{retirementpay},
-        e.memo = #{memo},
-        f.filename = #{filename},
-        f.physicalpath = #{physicalpath},
-        f.filesize = #{filesize},
-        f.relatedpath = #{relatedpath}
-
-        WHERE  e.empno = #{empno}
-        AND f.kind = <![CDATA[ '증명사진' ]]>
+        name = #{name},
+        mail = #{mail},
+        tel = #{tel},
+        zipcode = #{zipcode},
+        addr = #{addr},
+        addrdetail = #{addrdetail},
+        school = #{school},
+        retirementpay = #{retirementpay},
+        memo = #{memo}
+        WHERE  empno = #{empno}
     </update>
+
+
 
     <!-- 부서 리스트 -->
     <select id="getDepartmentList" resultType="sjht.erp.common.vo.DepartmentCodeVO">
@@ -213,7 +207,7 @@
     <!-- 퇴사 처리 -->
     <update id="retireEmp" parameterType="sjht.erp.hrms.dto.UpdateDto">
         UPDATE employee
-        SET retireyn =  <![CDATA[ 'y' ]]>, retiredate =  #{retiredate}, retirenote = #{retirenote}
+        SET retireyn =  <![CDATA[ 'y' ]]>, retiredate =  #{retiredate}, retirenote = #{retirenote}, password = null
         WHERE empno = #{empno}
     </update>
 
@@ -239,6 +233,18 @@
         WHERE empno = #{empno}
         and DATEDIFF(now(),entrydate) >= 365
     </update>
+
+<update id="updateFile" parameterType="sjht.erp.detailexpend.dto.request.FileRequestDto">
+UPDATE file
+SET
+filename = #{filename},
+physicalpath = #{physicalpath},
+filesize = #{filesize},
+empno = #{empno},
+kind = #{kind},
+relatedpath = #{relatedpath}
+WHERE  empno = #{empno} AND kind = 2
+</update>
 
     <!-- 승진 및 보직 관리  - grade insert -->
     <insert id="promotionManageGrade" parameterType="sjht.erp.hrms.dto.UpdateDto">
