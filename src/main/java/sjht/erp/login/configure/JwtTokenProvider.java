@@ -76,7 +76,6 @@ public class JwtTokenProvider {
 
             return !claims.getBody().getExpiration().before(new Date());
         } catch(SecurityException | MalformedJwtException | IllegalArgumentException exception){
-            logger.info("잘못된 Jwt 토큰입니다.");
         } catch(ExpiredJwtException exception){
 
             Cookie myCookie = new Cookie("token", null);
@@ -84,12 +83,9 @@ public class JwtTokenProvider {
             myCookie.setPath("/"); // 모든 경로에서 삭제 됬음을 알린다.
             response.addCookie(myCookie);
 
-            logger.info("만료된 Jwt 토큰입니다.");
-
             return true;
 
         } catch(UnsupportedJwtException exception){
-            logger.info("지원하지 않는 Jwt 토큰입니다.");
         }
 
         return false;
