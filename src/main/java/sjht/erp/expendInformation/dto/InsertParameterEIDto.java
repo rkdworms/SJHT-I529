@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
  * eno auto increment
  * paysequence 급여 관리 쪽
  */
-
 @Getter
 @Setter
 @Builder
