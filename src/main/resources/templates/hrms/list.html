@@ -1388,6 +1388,7 @@
 
                         departmentList: [], // 부서코드 리스트
                         gradeList: [], // 직급코드 리스트
+                        fileList: [],
                         department: '전체', // 부서코드
                         grade: '전체',  // 직급코드
 
@@ -1429,13 +1430,7 @@
 
                         // 사원 사진 관련 필드
                         file: '',
-                        fileno: '',
-                        filename: '',
                         physicalpath: '',
-                        filesize: '',
-                        kind: '증명사진',
-                        relatedpath: '',
-                        dno: '',
 
                         // pagination
                         pageNum: 0,
@@ -1489,7 +1484,7 @@
                         this.addr = this.empDetail.addr;
                         this.addrdetail = this.empDetail.addrdetail;
                         this.memo = this.empDetail.memo;
-                        this.file = this.empDetail.file;
+                        this.physicalpath = this.empDetail.relatedpath+this.empDetail.filename
 
                         // 주민번호 앞/뒤자리 처리
                         this.prevregno = (this.empDetail.regno).substr(0, 6);
@@ -1516,6 +1511,21 @@
                         this.prevdepartmentcd = this.empDetail.departmentcd;
                         this.prevdepartmentname = this.empDetail.departmentname;
                         this.prevyearsalary = this.empDetail.yearsalary;
+                    },
+
+                    //파일 업로드
+                    uploadImage(event) {
+                        const input = event.target.files[0];
+                        if (input) {
+
+                            const reader = new FileReader();
+                            reader.readAsDataURL(input);
+                            this.file = input
+
+                            reader.onload = (e) => {
+                                this.physicalpath = e.target.result;
+                            }
+                        }
                     },
 
                     // 사원 검색 시 조건: 부서
@@ -1618,7 +1628,9 @@
 
                     // 사원 데이터 수정
                     update() {
-                        axios.patch("http://localhost:8888/api/hrms/update", {
+
+                        const formData = new FormData();
+                        const updateDto = {
                             empno: this.empDetail.empno,
                             name: this.name,
                             mail: this.mail,
@@ -1629,13 +1641,12 @@
                             school: this.school,
                             retirementpay: this.empDetail.retirementpay,
                             memo: this.memo,
-                            filename: this.empDetail.filename,
-                            physicalpath: this.empDetail.physicalpath,
-                            filesize: this.empDetail.filesize,
-                            relatedpath: this.empDetail.relatedpath,
-                            dno: this.empDetail.dno
+                        }
 
-                        }).then((response) => {
+                        formData.append("file", this.file);
+                        formData.append("updateDto", new Blob([JSON.stringify(updateDto)], { type: "application/json" }));
+                        axios.patch("http://localhost:8888/api/hrms/update",formData
+                        ).then((response) => {
 
                             toastr.options = {
                                 closeButton: true,
@@ -1903,8 +1914,6 @@
 
                         // 사원 사진 저장 관련 필드
                         file: '',
-                        fileno: '',
-                        filename: '',
                         physicalpath: '',
                         filesize: '',
                         kind: 2,
@@ -1923,7 +1932,10 @@
                 methods: {
                     // 사원 등록 
                     regist() {
-                        axios.post("http://localhost:8888/api/hrms/regist", {
+
+                        const formData = new FormData();
+                        const registDto = {
+                            empno: this.empno,
                             password: this.tel3,
                             bankcd: this.bankcd,
                             departmentcd: this.departmentcd,
@@ -1939,7 +1951,7 @@
                             regno: this.regno1 + this.regno2,
                             school: this.school,
                             entrydate: this.entrydate,
-                            retiredate: this.retiredate,
+                            retiredate: null,
                             yearsalary: this.yearsalary,
                             salary: (this.yearsalary / 12),
                             retirementpay: this.retirementpay,
@@ -1951,7 +1963,11 @@
                             paymentst: this.paymentst,
                             totalal: this.totalal,
                             useal: this.useal,
-                            retirenote: this.retirenote,
+                            retirenote: this.retirenote
+                        };
+
+                        formData.append("file", this.file);
+                        formData.append("registDto", new Blob([JSON.stringify(registDto)], { type: "application/json" }));
 
                             filename: this.filename,
                             physicalpath: this.physicalpath,
@@ -1983,18 +1999,19 @@
                             .catch(error => console.error(error))
                     },
 
-                    // 사원 사진 등록 
+
+
                     uploadImage(event) {
-                        var input = event.target;
-                        if (input.files && input.files[0]) {
-                            var reader = new FileReader();
+                        const input = event.target.files[0];
+                        if (input) {
+
+                            const reader = new FileReader();
+                            reader.readAsDataURL(input);
+                            this.file = input
+
                             reader.onload = (e) => {
                                 this.physicalpath = e.target.result;
-                                console.log(e.target.result);
-
-                                console.log("e.target.file" + this.file[0]);
                             }
-                            reader.readAsDataURL(input.files[0]);
                         }
                     },
 
