@@ -61,6 +61,37 @@
                                             <!-- 부서 검색 -->
                                             <div class="form-group col-md-1-3">
                                                 <label for="departmentFormControlSelect">부서</label>
+
+                                                <!-- Toast button trigger -->
+                                                <button class="btn btn-primary mb-3" id="toastBasicTrigger"
+                                                    @click="toast">?</button>
+                                                <!-- Toast container -->
+                                                <div style="position: absolute; bottom: 1rem; right: 1rem;">
+                                                    <!-- Toast -->
+                                                    <div class="toast" id="toastBasic" role="alert"
+                                                        aria-live="assertive" aria-atomic="true" data-delay="5000">
+                                                        <div class="toast-header">
+                                                            <i data-feather="bell"></i>
+                                                            <strong class="mr-auto">Toast with Autohide</strong>
+                                                            <small class="text-muted ml-2">just now</small>
+                                                            <button class="ml-2 mb-1 close" type="button"
+                                                                data-dismiss="toast" aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="toast-body">
+                                                            <!-- Pie chart example-->
+                                                            <div class="card mb-4">
+                                                                <div class="chart-pie"><canvas id="myPieChart"
+                                                                        width="100%" height="50"></canvas></div>
+                                                                <div class="card-footer small text-muted">Updated
+                                                                    yesterday at 11:59 PM</div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
                                                 <select class="form-select form-control-solid"
                                                     id="departmentFormControlSelect" v-model="department"
                                                     @change="setDepartments(department)">
@@ -165,7 +196,7 @@
                                                     </td>
                                                     <td class="d-none d-xl-table-cell">{{ parsetel(emp.tel) }}</td>
                                                     <td class="d-none d-xl-table-cell">{{ emp.mail }}</td>
-                                                    <td class="d-none d-xl-table-cell">{{ currency(emp.salary) }}</td> 
+                                                    <td class="d-none d-xl-table-cell">{{ currency(emp.salary) }}</td>
                                                     <td class="d-none d-xl-table-cell">
                                                         <span v-show="emp.retireyn === 'n'"
                                                             class="text-success">재직</span>
@@ -432,15 +463,15 @@
                                                     <div class="form-group col-md-4">
                                                         <label class="small mb-1" for="yearsalary">연봉</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="detail-yearsalary" :value="currency(empDetail.yearsalary)" 
-                                                            readonly>
+                                                            id="detail-yearsalary"
+                                                            :value="currency(empDetail.yearsalary)" readonly>
                                                     </div>
                                                     <!-- Form Group (퇴직금) -->
                                                     <div class="form-group col-md-4">
                                                         <label label class="small mb-1" for="retirementpay">퇴직금</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="detail-retirementpay" :value="currency(empDetail.retirementpay)"
-                                                            readonly>
+                                                            id="detail-retirementpay"
+                                                            :value="currency(empDetail.retirementpay)" readonly>
                                                     </div>
                                                 </div>
                                                 <!-- 기타 -->
@@ -1019,18 +1050,17 @@
                     <div class="modal-content" style="width: 750px; height: 860px;">
                         <div class="modal-body p-0">
                             <!-- details card -->
-                            <form class="validation-form form-reset" novalidate role="form text-left">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <span>사원 등록</span>
-                                        <button type="button"
-                                            class="btn btn-outline-dark shadow-sm btn-sm emp-gray reset"
-                                            style="width: 4rem; float: right;" data-bs-dismiss="modal" @click="reset">닫기
-                                        </button>
-                                    </div>
-                                    <!-- card-body -->
-                                    <div class="card-body pb-3" id="card-body-padding">
 
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <span>사원 등록</span>
+                                    <button type="button" class="btn btn-outline-dark shadow-sm btn-sm emp-gray reset"
+                                        style="width: 4rem; float: right;" data-bs-dismiss="modal" @click="reset">닫기
+                                    </button>
+                                </div>
+                                <!-- card-body -->
+                                <div class="card-body pb-3" id="card-body-padding">
+                                    <form class="validation-form" novalidate role="form text-left">
                                         <div id="card-scroll">
                                             <!-- Form Row 1 (기본 정보 등록) -->
                                             <div class="form-row">
@@ -1299,9 +1329,11 @@
                                                 </button>
                                             </div>
                                         </div>
-                                    </div>
+                                    </form>
+
                                 </div>
-                            </form>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -1330,15 +1362,17 @@
             // 사원 등록 validation
             window.addEventListener('load', () => {
                 const forms = document.getElementsByClassName('validation-form');
+                const subbutton = document.getElementById('regist');
 
                 Array.prototype.filter.call(forms, (form) => {
-                    form.addEventListener('submit', function (event) {
+                    subbutton.addEventListener('click', function (event) {
                         if (form.checkValidity() === false) {
                             event.preventDefault();
                             event.stopPropagation();
                         }
 
                         form.classList.add('was-validated');
+
                     }, false);
                 });
             }, false);
@@ -1388,7 +1422,6 @@
 
                         departmentList: [], // 부서코드 리스트
                         gradeList: [], // 직급코드 리스트
-                        fileList: [],
                         department: '전체', // 부서코드
                         grade: '전체',  // 직급코드
 
@@ -1616,8 +1649,8 @@
                     },
 
                     // 전화번호 - 처리
-                    parsetel(tel){
-                        return tel.substr(0, 3)+'-'+ tel.substr(3, 4) + '-' + tel.substr(7, 4)
+                    parsetel(tel) {
+                        return tel.substr(0, 3) + '-' + tel.substr(3, 4) + '-' + tel.substr(7, 4)
                     },
 
                     // 숫자 세자리마다 , 처리
@@ -1760,34 +1793,12 @@
                         $(modalId).modal('hide');
                     },
 
-                    //reset(modalId) {
-                    // $(modalId).each(function () {
-                    //     this.reset();
-                    // });
-
-                    //$(modalId)[0].reset();
-                    //},
-
-                    reset(modalId) {
-                        return $(modalId).each(function () {
-                            var type = this.type,
-                                tag = this.tagName.toLowerCase();
-                            if (tag === 'form') {
-                                return $(':input', this).clearForm();
-                            }
-                            if (
-                                type === 'text' ||
-                                type === 'password' ||
-                                type === 'hidden' ||
-                                tag === 'textarea'
-                            ) {
-                                this.value = '';
-                            } else if (type === 'checkbox' || type === 'radio') {
-                                this.checked = false;
-                            } else if (tag === 'select') {
-                                this.selectedIndex = -1;
-                            }
-                        });
+                    // 부서 툴팁
+                    toast() {
+                        //$("#toastBasicTrigger").on("click", function (e) {
+                        //e.preventDefault();
+                        $("#toastBasic").toast("show");
+                        //});
                     },
 
                     // 변경 후 grade name 저장
@@ -2068,6 +2079,7 @@
                             .catch(error => console.error(error))
                     },
 
+                    // 닫기 버튼 누르면 초기화
                     reset() {
                         this.password = '',
                             this.bankcd = '',
@@ -2104,6 +2116,13 @@
                             this.tel1 = '',
                             this.tel2 = '',
                             this.tel3 = ''
+
+
+                        // validation 초기화
+                        const forms = document.getElementsByClassName('validation-form');
+                        for(form of forms){
+                            form.classList.remove('was-validated');
+                        }
                     }
                 },
 
@@ -2117,7 +2136,7 @@
             }
             Vue.createApp(RegistEmp).mount('#empRegist');
         </script>
-        <script>
+        <!-- <script>
             // 문서에 있는 모든 form을 리셋
             $('.reset').click(function () {
                 $('.form-reset')[0].reset();
@@ -2150,7 +2169,7 @@
                     }
                 });
             };
-        </script>
+        </script> -->
 
         <!-- 다음 주소 API -->
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
