@@ -16,6 +16,5 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler(connectPath)
                 .addResourceLocations(FILE_ROOT.toUri().toString());
-        System.out.println(FILE_ROOT.toUri().toString());
     }
 }
