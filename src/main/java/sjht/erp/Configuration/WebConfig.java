@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 public class WebConfig implements WebMvcConfigurer {
 
     private String connectPath = "/images/*";
-    final Path FILE_ROOT = Paths.get("/Users/kangjaegeun/Downloads/erp/src/main/resources/static/images").toAbsolutePath().normalize();
+    final Path FILE_ROOT = Paths.get("C:/Users/CMY/git/erp/src/main/resources/static/images").toAbsolutePath().normalize();
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler(connectPath)
