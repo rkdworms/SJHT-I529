@@ -104,4 +104,8 @@
         where ei.dvno = #{dvno}
     </select>
 
+    <select id="selectEHByDvno" parameterType="String" resultType="Boolean">
+        select IF(COUNT(*) = 1, 1, 0) from erp.expendhistory where dvno = #{dvno}
+    </select>
+
 </mapper>

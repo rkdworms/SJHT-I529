@@ -131,7 +131,7 @@
                                                     <th scope="col" v-if="ROLE">상세보기</th>
                                                 </tr>
                                                 </thead>
-                                                <tbody v-for="(resultpk,i) in allWorkTimeList" key="resultpk.tano">
+                                                <tbody v-for="(resultpk,i) in paginatedDataWorkTime" key="resultpk.tano">
                                                 <tr>
                                                     <td>{{resultpk.tano}}</td>
                                                     <td>{{resultpk.empno}}</td>
@@ -157,22 +157,21 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
-                                            <nav aria-label="Page navigation example"
-                                                 class="align-content-xl-center">
-                                                <ul class="pagination" style="justify-content: center">
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Previous">
-                                                            <span aria-hidden="true">&laquo;</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Next">
-                                                            <span aria-hidden="true">&raquo;</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
+
+
+                                            <!-- 페이징 처리 하기 -->
+                                            <div class="btn-cover" style="text-align: right">
+                                                <button :disabled="pageNum === 0" @click="prevPage" class="btn-hrms">
+                                                    이전
+                                                </button>
+                                                <span class="page-count">{{ pageNum + 1 }} / {{ pageCountWorkTime }} 페이지</span>
+                                                <button :disabled="pageNum >= pageCountWorkTime - 1" @click="nextPage"
+                                                        class="btn-hrms">
+                                                    다음
+                                                </button>
+                                            </div>
+
+
                                             <div class="modal fade" tabindex="-1" id="modify_workTime_modal"
                                                  role="dialog" data-backdrop="static">
                                                 <div class="modal-dialog modal-md 15">
@@ -243,6 +242,8 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <!-- 지출결의 텝 부분 -->
                                         <div class="tab-pane fade" id="profile" role="tabpanel"
                                              aria-labelledby="profile-tab">
                                             <table class="table table-bordered">
@@ -259,7 +260,7 @@
                                                     <th scope="col">삭제</th>
                                                 </tr>
                                                 </thead>
-                                                <tbody v-for="(result,i) in myExpendList" key="result.dvno">
+                                                <tbody v-for="(result,i) in paginatedDataExpend" key="result.dvno">
                                                 <tr>
                                                     <td>{{result.dvno}}</td>
                                                     <td>{{result.empno}}</td>
@@ -272,28 +273,28 @@
                                                            @click="getDetail(result.dvno)">상세보기</a>
                                                     </td>
                                                     <td><a class="btn btn-dark"
-                                                           @click="deleteData(result.dvno)">삭제</a>
+                                                           @click="deleteDataByDvno(result.dvno)">삭제</a>
                                                     </td>
                                                 </tr>
                                                 </tbody>
                                             </table>
-                                            <nav aria-label="Page navigation example"
-                                                 class="align-content-xl-center">
-                                                <ul class="pagination" style="justify-content: center">
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Previous">
-                                                            <span aria-hidden="true">&laquo;</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Next">
-                                                            <span aria-hidden="true">&raquo;</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
+
+
+                                            <!-- 지출결의 페이징 처리 하기 -->
+                                            <div class="btn-cover" style="text-align: right">
+                                                <button :disabled="pageNum === 0" @click="prevPage" class="btn-hrms">
+                                                    이전
+                                                </button>
+                                                <span class="page-count">{{ pageNum + 1 }} / {{ pageCountExpend }} 페이지</span>
+                                                <button :disabled="pageNum >= pageCountExpend - 1" @click="nextPage"
+                                                        class="btn-hrms">
+                                                    다음
+                                                </button>
+                                            </div>
+
+
                                         </div>
+
                                         <!-- 지출결의 리스트 상세보기 버튼 클릭시 나타나는 모달-->
                                         <div class="modal fade" tabindex="-1" id="reWrite_detail_modal"
                                              role="dialog" data-backdrop="static">
@@ -337,19 +338,20 @@
                                                                 <td>금액</td>
                                                                 <td>비고</td>
                                                                 <td>첨부파일</td>
-                                                                <td>편집</td>
+                                                                <td>수정</td>
                                                                 <td>삭제</td>
                                                             </tr>
                                                             </thead>
-                                                            <tbody v-for="i in reloadDatas" key="i.dno">
-                                                            <tr v-for="list in files" key="list">
+                                                            <tbody v-for="i in paginatedDataReloadDatas" key="i.dno">
+                                                            <tr>
                                                                 <td>{{i.dvusedate}}</td>
-                                                                <td>{{i.divcd}}</td>
+                                                                <td>{{i.divname}}</td>
                                                                 <td>{{i.briefs}}</td>
                                                                 <td>{{i.detailuse}}</td>
                                                                 <td>{{i.price}}</td>
                                                                 <td>{{i.dvmemo}}</td>
-                                                                <td>{{list.filename}}</td>
+                                                                <td><a @click="fileSelectOneDownload(i.dno)">{{selectOneFile(i.dno)}}</a>
+                                                                </td>
                                                                 <td>
                                                                     <button @click="chooseDetailData(i.dno)"
                                                                             class="btn btn-dark"
@@ -364,24 +366,21 @@
                                                             </tr>
                                                             </tbody>
                                                         </table>
-                                                        <nav aria-label="Page navigation example"
-                                                             class="align-content-xl-center">
-                                                            <ul class="pagination" style="justify-content: center">
-                                                                <li class="page-item">
-                                                                    <a class="page-link" href="#"
-                                                                       aria-label="Previous">
-                                                                        <span aria-hidden="true">&laquo;</span>
-                                                                    </a>
-                                                                </li>
-                                                                <li class="page-item"><a class="page-link"
-                                                                                         href="#">1</a></li>
-                                                                <li class="page-item">
-                                                                    <a class="page-link" href="#" aria-label="Next">
-                                                                        <span aria-hidden="true">&raquo;</span>
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </nav>
+
+
+                                                        <!-- 페이징 처리 하기 -->
+                                                        <div class="btn-cover" style="text-align: right">
+                                                            <button :disabled="pageNum === 0" @click="prevPage" class="btn-hrms">
+                                                                이전
+                                                            </button>
+                                                            <span class="page-count">{{ pageNum + 1 }} / {{ pageCountReloadDatas }} 페이지</span>
+                                                            <button :disabled="pageNum >= pageCountReloadDatas - 1" @click="nextPage"
+                                                                    class="btn-hrms">
+                                                                다음
+                                                            </button>
+                                                        </div>
+
+
                                                         <button type="button" class="btn btn-dark"
                                                                 onclick="modiDetailModalInput()">
                                                             결의작성
@@ -424,11 +423,9 @@
                                                                     </td>
                                                                     <td>
                                                                         <select v-model="divcd" class="form-select">
-                                                                            <option value="AC001">월급</option>
-                                                                            <option value="AC002">주유비</option>
-                                                                            <option value="AC003">식대</option>
-                                                                            <option value="AC004">문화비</option>
-                                                                            <option value="AC005">기타</option>
+                                                                            <option value="AC002">식비</option>
+                                                                            <option value="AC003">주유비</option>
+                                                                            <option value="AC004">비품 구매</option>
                                                                         </select>
                                                                     </td>
                                                                     <td>
@@ -554,11 +551,9 @@
                                                                     </td>
                                                                     <td>
                                                                         <select v-model="divcd" class="form-select">
-                                                                            <option value="AC001">월급</option>
-                                                                            <option value="AC002">주유비</option>
-                                                                            <option value="AC003">식대</option>
-                                                                            <option value="AC004">문화비</option>
-                                                                            <option value="AC005">기타</option>
+                                                                            <option value="AC002">식비</option>
+                                                                            <option value="AC003">주유비</option>
+                                                                            <option value="AC004">비품 구매</option>
                                                                         </select>
                                                                     </td>
                                                                     <td>
@@ -578,7 +573,7 @@
                                                                                class="form-control">
                                                                     </td>
                                                                     <td>
-                                                                        <input @change="onInputFile" type="file"
+                                                                        <input @change="filechange($event)" type="file"
                                                                                name="filename" class="custom">
                                                                     </td>
                                                                 </tr>
@@ -686,8 +681,6 @@
                             </div>
                         </div>
                     </div>
-
-
                     <!-- 결의번호별 지출결의정보-->
                     <div class="modal fade" tabindex="-1" id="detail_modal" role="dialog" data-backdrop="static">
                         <div class="modal-dialog modal-xl mt-15">
@@ -731,15 +724,15 @@
                                             <td>삭제</td>
                                         </tr>
                                         </thead>
-                                        <tbody v-for="(list) in myDetailExpendList" key="list.dno">
-                                        <tr v-for="(file,i) in files" key="file">
+                                        <tbody v-for="(list) in paginatedDataDetail" key="list.dno">
+                                        <tr>
                                             <td>{{list.dvusedate}}</td>
-                                            <td>{{list.divcd}}</td>
+                                            <td>{{list.divname}}</td>
                                             <td>{{list.briefs}}</td>
                                             <td>{{list.detailuse}}</td>
                                             <td>{{list.price}}</td>
                                             <td>{{list.dvmemo}}</td>
-                                            <td><a @click="fileDownload(file.physicalpath,file.filename)">{{file.filename}}</a>
+                                            <td><a @click="fileSelectOneDownload(list.dno)">{{filename[list.dno]}}</a>
                                             </td>
                                             <td>
                                                 <button @click="deleteOne(list.dno)" class="btn btn-dark">
@@ -749,21 +742,22 @@
                                         </tr>
                                         </tbody>
                                     </table>
-                                    <nav aria-label="Page navigation example" class="align-content-xl-center">
-                                        <ul class="pagination" style="justify-content: center">
-                                            <li class="page-item">
-                                                <a class="page-link" href="#" aria-label="Previous">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                </a>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item">
-                                                <a class="page-link" href="#" aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
+
+
+                                    <!-- 페이징 처리 하기 -->
+                                    <div class="btn-cover" style="text-align: right">
+                                        <button :disabled="pageNum === 0" @click="prevPage" class="btn-hrms">
+                                            이전
+                                        </button>
+                                        <span class="page-count">{{ pageNum + 1 }} / {{ pageCountDetail }} 페이지</span>
+                                        <button :disabled="pageNum >= pageCountDetail - 1" @click="nextPage"
+                                                class="btn-hrms">
+                                            다음
+                                        </button>
+                                    </div>
+
+
+
                                     <button type="button" class="btn btn-dark" id="enterInputExpend"
                                             onclick="DetailModalInput()">
                                         결의작성
@@ -806,11 +800,9 @@
                                                 </td>
                                                 <td>
                                                     <select v-model="divcd" id="divcd" class="form-select">
-                                                        <option value="AC001">월급</option>
-                                                        <option value="AC002">주유비</option>
-                                                        <option value="AC003">식대</option>
-                                                        <option value="AC004">문화비</option>
-                                                        <option value="AC005">기타</option>
+                                                        <option value="AC002">식비</option>
+                                                        <option value="AC003">주유비</option>
+                                                        <option value="AC004">비품 구매</option>
                                                     </select>
                                                 </td>
                                                 <td><input v-model="briefs" type="text" class="form-control"
@@ -908,9 +900,12 @@
             </div>
         </div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.6.1.js"
             integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
     <script src="/./js/worklist/listModal.js"></script>
+
+
     <script>
         const EXPEND = {
             data() {
@@ -946,10 +941,22 @@
                     Id: "",
                     myDetailExpend: {}, // 지출결의정보
                     dno: "",
-                    files: []
+                    files: [],
+                    filename: [], // dno에 따른 파일 정보
+                    filepath: [],
+
+                    pageNum: 0                          // pagination
                 }
             },
 
+            // pagination
+            props: {
+                pageSize: {
+                    type: Number,
+                    required: false,
+                    default: 1
+                }
+            },
             methods: {
                 getWorkTimeList() {
 
@@ -970,17 +977,15 @@
                         .catch(err => console.error(err))
                 },
                 changeApp(app) {
-                    if(app === 'w'){
+                    if (app === 'w') {
                         app = '대기';
-                    }
-                    else if(app==='y'){
+                    } else if (app === 'y') {
                         app = '승인';
-                    }else {
+                    } else {
                         app = '반려'
                     }
                     return app;
-                }
-                ,
+                },
                 updateAccept() {
                     const data = {
                         approveryn: "y",
@@ -993,8 +998,7 @@
                             alert("데이터가 수정되지 않았습니다")
                         }
                     })
-                }
-                ,
+                },
                 updateDenied() {
                     const data = {
                         approveryn: "n",
@@ -1007,15 +1011,13 @@
                             alert("데이터가 수정되지 않았습니다")
                         }
                     })
-                }
-                ,
+                },
                 getName2() {
                     axios.post("http://localhost:8888/api/getName")
                         .then(response => {
                             this.name = response.data
                         })
-                }
-                ,
+                },
                 getOne(i) {
                     const data = {
                         tanos: this.allWorkTimeList[i].tano
@@ -1023,38 +1025,35 @@
                     axios.post("http://localhost:8888/api/getOne", data).then(response => {
                         this.workTimeDetail = response.data
                     });
-                }
-                ,
+                },
                 getMyWorkTimeList() {
                     axios.post("http://localhost:8888/api/getMyWorkTime")
                         .then(response => {
                             this.allWorkTimeList = response.data;
                         })
-                }
-                ,
+                },
                 showViewAboutROLE(response) {
                     if (response.data === "ROLE_C") {
                         this.getWorkTimeList();
                     } else {
                         this.getMyWorkTimeList();
                     }
-                }
-                ,
+                },
+                // 로그인 권한 가져오기
                 getROLE() {
                     axios.post("http://localhost:8888/api/getROLE").then(response => {
                         this.ROLE = response.data === "ROLE_C"
                         this.showViewAboutROLE(response)
                     })
-                }
-                ,
+                },
                 // 지출결의서신청 클릭시 결의번호 자동생성
                 inputEXPENDDVNO() {
                     axios.post("http://localhost:8888/api/insertDVNO")
                         .then(response => {
                             this.dvno = response.data;
                         })
-                }
-                ,
+                },
+                // 지출결의정보 상세입력 부분
                 inputDetail() {
                     const data = {
                         dvno: this.dvno,
@@ -1067,16 +1066,15 @@
                     }
                     axios.post("http://localhost:8888/api/insertDetail", data)
                         .then(response => {
-                            this.fileInput();
+                            this.fileInput(response.data);
                         })
-                }
-                ,
+                },
+                //파일 정보를 가져오는 메소드
                 filechange(event) {
                     this.file = event.target.files[0];
-                }
-                ,
+                },
                 // 파일 입력
-                fileInput() {
+                fileInput(dno) {
                     // let file = document.getElementById("myFile").files[0];
                     let formData = new FormData();
                     formData.append("file", this.file);
@@ -1089,46 +1087,33 @@
                                 }
                             })
                             .then(response => {
-                                this.fileSelect();
-                                this.ReShowList();
-                                DetailModalClose();;
+                                this.selectOneFile(dno)
                             })
                     }
-                }
-                ,
-                fileSelect() {
+                    this.ReShowList();
+                },
+                // 파일 경로에 따른 다운로드
+                fileSelectOneDownload(dno) {
                     const data = {
-                        dvno: this.dvno
-                    }
-                    axios.post("http://localhost:8888/api/selectFile", data)
-                        .then(response => {
-                            this.files = response.data;
-                            console.log(this.files)
-
-                        })
-                }
-                ,
-                fileDownload(physicalpath, filename) {
-                    axios.post("http://localhost:8888/api/downloadFile",
-                        {
-                            ps: physicalpath,
-                            fn: filename
-                        },
+                        ps: this.filepath[dno],
+                        fn: this.filename[dno]
+                    };
+                    console.log(data);
+                    axios.post("http://localhost:8888/api/downloadFile", data,
                         {
                             responseType: 'blob'
                         }).then(response => {
                         const url = window.URL.createObjectURL((new Blob([response.data])));
                         const link = document.createElement('a');
                         link.href = url;
-                        link.setAttribute('download', filename);
+                        link.setAttribute('download', this.filename[dno]);
                         document.body.append(link);
                         link.click();
                     })
-                }
-                ,
+                },
                 // 닫기 버튼 클릭시 결의번호 삭제
                 // 리스트에서 삭제버튼 클릭시 삭제
-                deleteData(result) {
+                deleteDataByDvno(result) {
                     const data = {
                         dvnoOne: result
                     }
@@ -1137,8 +1122,7 @@
                             this.deleteInputData = response.data;
                             this.showMyExpendList()
                         })
-                }
-                ,
+                },
                 deleteData() {
                     const data = {
                         dvnoOne: this.dvno
@@ -1148,16 +1132,14 @@
                             this.deleteInputData = response.data;
                             window.location.reload();
                         })
-                }
-                ,
+                },
                 getDepartmentName() {
 
                     axios.post("http://localhost:8888/api/getDepartment")
                         .then(response => {
                             this.departmentName = response.data;
                         })
-                }
-                ,
+                },
                 updateExpendInformation() {
                     const data = {
                         dvnoOne: this.dvno
@@ -1171,16 +1153,15 @@
                                 alert("데이터를 입력해주세요!")
                             }
                         })
-                }
-                ,
+                },
                 // 리스트에 나의 지출결의 리스트의 미승인 데이터만 보여줌
                 showMyExpendList() {
                     axios.post("http://localhost:8888/api/showMyExpendList")
                         .then(response => {
                             this.myExpendList = response.data;
+                            modifyDetailModalClose();
                         })
-                }
-                ,
+                },
                 deleteOne(i) {
                     const data = {
                         dnum: i
@@ -1191,8 +1172,7 @@
                                 this.ReShowList();
                             }
                         })
-                }
-                ,
+                },
                 ReShowList() {
                     const data = {
                         dvnoOne: this.dvno
@@ -1200,10 +1180,9 @@
                     axios.post("http://localhost:8888/api/showMyDetailExpendList", data)
                         .then(response => {
                             this.myDetailExpendList = response.data
-
+                            DetailModalClose();
                         })
-                }
-                ,
+                },
                 getDetail(result) {
                     this.reloadData = result;
                     const data = {
@@ -1213,23 +1192,28 @@
                         .then(response => {
                             this.reloadDatas = response.data;
                         })
-                }
-                ,
+                },
+                selectOneFile(data) {
+                    axios.post("http://localhost:8888/api/selectOneFile", {dno: data})
+                        .then(response => {
+                            this.filename[data] = response.data.filename;
+                            this.filepath[data] = response.data.physicalpath;
+                        })
+                    return this.filename[data];
+                },
                 checkMyData() {
                     axios.post("http://localhost:8888/api/checkMyId")
                         .then(response => {
                             this.Id = response.data
                         })
-                }
-                ,
+                },
                 showWorkTimeList() {
                     if (this.ROLE === "ROLE_C") {
                         this.getWorkTimeList()
                     } else {
                         this.getMyWorkTimeList()
                     }
-                }
-                ,
+                },
                 getWorkTimeData(resultpk) {
                     this.tano = resultpk;
                     const data = {
@@ -1242,8 +1226,7 @@
                             this.endDate = this.workTimeDetail.enddate;
                             this.reasonHoliday = this.workTimeDetail.reasonholiday
                         })
-                }
-                ,
+                },
                 updateHoliday() {
                     const data = {
                         startdate: this.startDate,
@@ -1259,8 +1242,7 @@
                                 alert("업데이트가 되지 않았습니다.")
                             }
                         })
-                }
-                ,
+                },
                 deleteMyHoliday(resultpk) {
                     const data = {
                         tano: resultpk
@@ -1273,8 +1255,7 @@
                                 alert("삭제되지 않았습니다.")
                             }
                         })
-                }
-                ,
+                },
                 chooseDetailData(i) {
                     const data = {
                         dno: i
@@ -1290,8 +1271,7 @@
                             this.dvmemo = this.myDetailExpend.dvmemo;
                             this.dno = this.myDetailExpend.dno;
                         })
-                }
-                ,
+                },
                 ReShowList2() {
                     const data = {
                         dvnoOne: this.reloadData
@@ -1302,8 +1282,20 @@
                             DetailModalClose();
                             modifyDetailModalClose()
                         })
-                }
-                ,
+                },
+                fileUpdateByDno(dno) {
+                    const formData = new FormData();
+                    formData.append("file", this.file);
+                    formData.append("dno", dno);
+                    axios.post("http://localhost:8888/api/updateOneFile", formData,
+                        {
+                            headers: {
+                                "Content-Type": "multipart/form-data",
+                            }
+                        }).then(response => {
+
+                    })
+                },
                 updateMyDetail() {
                     const data = {
                         dvusedate: this.usedate,
@@ -1317,14 +1309,13 @@
                     axios.post("http://localhost:8888/api/updateMyDetailExpend", data)
                         .then(response => {
                             if (response) {
-                                this.fileInput()
+
                                 this.ReShowList2();
                             } else {
                                 alert("오류")
                             }
                         })
-                }
-                ,
+                },
                 reUpdateExpendInformation() {
                     const data = {
                         dvnoOne: this.reloadData
@@ -1338,8 +1329,7 @@
                                 alert("데이터를 입력해주세요!")
                             }
                         })
-                }
-                ,
+                },
                 reInputDetail() {
                     const data = {
                         dvno: this.reloadData,
@@ -1355,27 +1345,123 @@
                             this.reloadDatas = response.data
                             modiDetailModalClose()
                         })
-                }
-                ,
+                },
+
+                //pagination
+                nextPage() {
+                    this.pageNum += 1;
+                },
+
+                prevPage() {
+                    this.pageNum -= 1;
+                },
 
             },
-            created
-                () {
+            created() {
                 this.getROLE();
                 this.getName2();
                 this.getDepartmentName()
-            }
-            ,
-
+            },
             mounted() {
                 this.showWorkTimeList();
                 this.showMyExpendList();
                 this.checkMyData();
-            }
-        }
+            },
 
+            computed: {
+                pageCountExpend() {
+                    let listLeng = this.myExpendList.length;
+                    listSize = this.pageSize;
+                    page = Math.floor(listLeng / listSize);
+
+                    if (listLeng == 0)
+                        return 1;
+
+                    if (listLeng % listSize > 0)
+                        page += 1;
+
+                    return page;
+                },
+
+                //page slice
+                paginatedDataExpend() {
+                    let start = this.pageNum * this.pageSize;
+                    let end = start + this.pageSize;
+
+                    return this.myExpendList.slice(start, end);
+                },
+
+                pageCountReloadDatas() {
+                    let listLeng = this.myExpendList.length;
+                    listSize = this.pageSize;
+                    page = Math.floor(listLeng / listSize);
+
+                    if (listLeng == 0)
+                        return 1;
+
+                    if (listLeng % listSize > 0)
+                        page += 1;
+
+                    return page;
+                },
+
+                //page slice
+                paginatedDataReloadDatas() {
+                    let start = this.pageNum * this.pageSize;
+                    let end = start + this.pageSize;
+
+                    return this.myExpendList.slice(start, end);
+                },
+
+                pageCountDetail() {
+                    let listLeng = this.myDetailExpendList.length;
+                    listSize = this.pageSize;
+                    page = Math.floor(listLeng / listSize);
+
+                    if (listLeng == 0)
+                        return 1;
+
+                    if (listLeng % listSize > 0)
+                        page += 1;
+
+                    return page;
+                },
+
+                //page slice
+                paginatedDataDetail() {
+                    let start = this.pageNum * this.pageSize;
+                    let end = start + this.pageSize;
+
+                    return this.myDetailExpendList.slice(start, end);
+                },
+
+                pageCountWorkTime() {
+                    let listLeng = this.allWorkTimeList.length;
+                    listSize = this.pageSize;
+                    page = Math.floor(listLeng / listSize);
+
+                    if (listLeng == 0)
+                        return 1;
+
+                    if (listLeng % listSize > 0)
+                        page += 1;
+
+                    return page;
+                },
+
+                //page slice
+                paginatedDataWorkTime() {
+                    let start = this.pageNum * this.pageSize;
+                    let end = start + this.pageSize;
+
+                    return this.allWorkTimeList.slice(start, end);
+                }
+            },
+
+        }
         Vue.createApp(EXPEND).mount("#app");
     </script>
+
     <script>
         const WORKTIME = {
             data() {
@@ -1421,9 +1507,6 @@
         }
         Vue.createApp(WORKTIME).mount('#workTime_modal')
     </script>
-
     </body>
-
 </th:blcok>
-
 </html>
