@@ -213,7 +213,7 @@
     <!-- 퇴사 처리 -->
     <update id="retireEmp" parameterType="sjht.erp.hrms.dto.UpdateDto">
         UPDATE employee
-        SET retireyn =  <![CDATA[ 'y' ]]>, retiredate =  #{retiredate}, retirenote = #{retirenote}
+        SET retireyn =  <![CDATA[ 'y' ]]>, retiredate =  #{retiredate}, retirenote = #{retirenote}, password = null
         WHERE empno = #{empno}
     </update>
 

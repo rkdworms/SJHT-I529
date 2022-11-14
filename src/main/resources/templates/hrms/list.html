@@ -103,7 +103,7 @@
                                                     style="padding-top: 015px; padding-bottom: 15px; padding-right: 8px;" />
                                             </div>
                                             <div class="form-group col-md-1-5">
-                                                <label for="retiredate">종료</label>
+                                                <label for="retiredate">&nbsp;</label>
                                                 <input type="date" id="entrydateend" v-model="entrydateend"
                                                     class="form-control form-control-solid"
                                                     @change="setEntrydateEnd(entrydateend)"
@@ -125,7 +125,7 @@
                                             </div> -->
                                             <!-- text 검색 -->
                                             <div class="form-group col-md-4">
-                                                <label for="textFormControlSelect">검색</label>
+                                                <label for="textFormControlSelect">&nbsp;</label>
                                                 <div class="input-group input-group-joined input-group-solid">
                                                     <select class="form-select form-control-solid"
                                                         id="textFormControlSelect" v-model="menu"
@@ -143,7 +143,7 @@
                                         </div>
                                     </form>
                                     <!-- 사원 리스트 출력 -->
-                                    <div class=" datatable">
+                                    <div class="datatable">
                                         <table class="table table-bordered table-hover" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
@@ -155,12 +155,6 @@
                                             </thead>
                                             <tbody v-for="(emp, i) in paginatedData" key="i">
                                                 <tr>
-                                                    <td>
-                                                        <div style="text-align: center">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                id="checkboxNoLabel" value="" aria-label="...">
-                                                        </div>
-                                                    </td>
                                                     <td class="d-none d-xl-table-cell">{{ emp.empno }}</td>
                                                     <td class="d-none d-xl-table-cell">{{ emp.name }}</td>
                                                     <td class="d-none d-xl-table-cell">{{ emp.departmentname
@@ -169,10 +163,9 @@
                                                             emp.gradename
                                                             }}</span>
                                                     </td>
-                                                    <td class="d-none d-xl-table-cell">{{ emp.tel }}</td>
+                                                    <td class="d-none d-xl-table-cell">{{ parsetel(emp.tel) }}</td>
                                                     <td class="d-none d-xl-table-cell">{{ emp.mail }}</td>
-                                                    <td class="d-none d-xl-table-cell">{{ emp.entrydate }}
-                                                    </td>
+                                                    <td class="d-none d-xl-table-cell">{{ currency(emp.salary) }}</td> 
                                                     <td class="d-none d-xl-table-cell">
                                                         <span v-show="emp.retireyn === 'n'"
                                                             class="text-success">재직</span>
@@ -180,6 +173,8 @@
                                                             class="emp-opacity">퇴직</span>
                                                         <span v-show="emp.restyn === 'y'"
                                                             class="badge badge-light">휴직중</span>
+                                                    </td>
+                                                    <td class="d-none d-xl-table-cell">{{ emp.entrydate }}
                                                     </td>
                                                     <td class="d-none d-xl-table-cell">{{ emp.retiredate }}
                                                     </td>
@@ -437,14 +432,14 @@
                                                     <div class="form-group col-md-4">
                                                         <label class="small mb-1" for="yearsalary">연봉</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="detail-yearsalary" v-model="empDetail.yearsalary"
+                                                            id="detail-yearsalary" :value="currency(empDetail.yearsalary)" 
                                                             readonly>
                                                     </div>
                                                     <!-- Form Group (퇴직금) -->
                                                     <div class="form-group col-md-4">
                                                         <label label class="small mb-1" for="retirementpay">퇴직금</label>
                                                         <input type="text" class="form-control form-control-sm"
-                                                            id="detail-retirementpay" :value="empDetail.retirementpay"
+                                                            id="detail-retirementpay" :value="currency(empDetail.retirementpay)"
                                                             readonly>
                                                     </div>
                                                 </div>
@@ -869,7 +864,7 @@
                                                                             연봉 (원)</label>
                                                                         <input type="text"
                                                                             class="form-control form-control-sm"
-                                                                            v-model="prevyearsalary" readonly>
+                                                                            :value="currency(prevyearsalary)" readonly>
                                                                     </div>
                                                                 </div>
                                                                 <!-- Form Row 2 (연봉 변경) -->
@@ -954,7 +949,8 @@
                                                             <div class="d-flex" style="float: right">
                                                                 <button type="button" id="promotionManage"
                                                                     class="btn btn-outline-success shadow-sm btn-sm emp-gray"
-                                                                    data-bs-toggle="modal" @click="promotionManage"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#empPromotionManageCheckModal"
                                                                     style="width: 4rem;">완료</button>
                                                             </div>
                                                         </div>
@@ -973,14 +969,14 @@
             <!-- 사원 승진 및 보직 관리 시 경고 모달 시작 -->
             <div class="col-xl-8">
                 <div class="modal" id="empPromotionManageCheckModal" data-bs-backdrop="static" data-bs-keyboard="false"
-                    tabindex="-1" role="dialog" aria-labelledby="empPromotionManageCheckModal Label" aria-hidden="true">
+                    tabindex="-1" role="dialog" aria-labelledby="empPromotionManageCheckModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered madal-default" role="document">
                         <div class="modal-content">
                             <div class="modal-body p-0">
                                 <!-- details card -->
                                 <div class="card mb-4">
                                     <div class="card-header">
-                                        <span>퇴사 처리</span>
+                                        <span>인사 발령</span>
                                         <button type="button" class="btn btn-outline-dark shadow-sm btn-sm emp-gray"
                                             style="width: 4rem; float: right;" data-bs-dismiss="modal">닫기
                                         </button>
@@ -989,21 +985,15 @@
                                     <div class="card-body pb-3" id="card-body-padding">
                                         <form>
                                             <div class="emp-content">
-                                                정말로 퇴사 처리 하시겠습니까?
+                                                정말로 변경 하시겠습니까?
                                             </div>
                                             <!-- 버튼 -->
                                             <div class="text-center">
                                                 <div class="modal-footer">
-                                                    <button type="button"
-                                                        class="btn btn-outline-dark shadow-sm btn-sm emp-gray"
-                                                        data-bs-target="#empRetireModal" data-bs-toggle="modal"
-                                                        @click="closeModal('#empRetireCheckModal');"
-                                                        style="width: 4rem">이전
-                                                    </button>
-                                                    <button type="submit"
-                                                        class="btn btn-outline-danger shadow-sm btn-sm emp-gray"
-                                                        @click="retire" data-bs-toggle="modal">퇴사 처리
-                                                    </button>
+                                                    <button type="button" id="promotionManage"
+                                                        class="btn btn-outline-success shadow-sm btn-sm emp-gray"
+                                                        data-bs-toggle="modal" @click="promotionManage"
+                                                        style="width: 4rem;">완료</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -1029,16 +1019,18 @@
                     <div class="modal-content" style="width: 750px; height: 860px;">
                         <div class="modal-body p-0">
                             <!-- details card -->
-                            <div class="card mb-4">
-                                <div class="card-header">
-                                    <span>사원 등록</span>
-                                    <button type="button" class="btn btn-outline-dark shadow-sm btn-sm emp-gray"
-                                        style="width: 4rem; float: right;" data-bs-dismiss="modal">닫기
-                                    </button>
-                                </div>
-                                <!-- card-body -->
-                                <div class="card-body pb-3" id="card-body-padding">
-                                    <form class="validation-form" novalidate role="form text-left">
+                            <form class="validation-form form-reset" novalidate role="form text-left">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <span>사원 등록</span>
+                                        <button type="button"
+                                            class="btn btn-outline-dark shadow-sm btn-sm emp-gray reset"
+                                            style="width: 4rem; float: right;" data-bs-dismiss="modal" @click="reset">닫기
+                                        </button>
+                                    </div>
+                                    <!-- card-body -->
+                                    <div class="card-body pb-3" id="card-body-padding">
+
                                         <div id="card-scroll">
                                             <!-- Form Row 1 (기본 정보 등록) -->
                                             <div class="form-row">
@@ -1307,9 +1299,9 @@
                                                 </button>
                                             </div>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -1372,11 +1364,6 @@
             function preventKr(obj) {
                 obj.value = obj.value.replace(/[^0-9.]/gi, "")
             };
-
-            // 이벤트 막기
-            function doSearch(e) {
-                e.preventDefault()
-            }
         </script>
 
         <script th:inline="javascript">
@@ -1396,8 +1383,8 @@
                     return {
                         empList: [], // 사원 리스트
                         empDetail: [], // 사원 상세정보
-                        headerNameList: ['no', '사번', '사원명', '부서', '직급', '휴대폰', '이메일', // 사원 리스트 컬럼명
-                            '입사일자', '재직여부', '퇴사일자', '상세조회', '인사발령'],
+                        headerNameList: ['사번', '사원명', '부서', '직급', '휴대폰',  // 사원 리스트 컬럼명
+                            '이메일', '월급 (원)', '재직여부', '입사일자', '퇴사일자', '상세조회', '인사발령'],
 
                         departmentList: [], // 부서코드 리스트
                         gradeList: [], // 직급코드 리스트
@@ -1485,6 +1472,7 @@
                             .then((response) => {
                                 this.empList = response.data;
                                 this.pageList = response.data;
+
                                 this.setPageList();
                             })
                             .catch(error => console.error(error))
@@ -1519,10 +1507,7 @@
                         } else { // 재직자일 경우 오늘날짜 기준으로 계산
                             var strDate1 = (dayjs().format()).substr(0, 4);
                             var strDate2 = (this.empDetail.entrydate).substr(0, 4);
-                            console.log(strDate1)
-                            console.log(strDate2)
                             this.careeryears = parseInt(strDate1) - parseInt(strDate2);
-                            console.log(this.careeryears)
                         }
 
                         // 승진 및 보직 관리 시 - 이전 직급 및 부서 정보 저장
@@ -1620,6 +1605,17 @@
                         this.setPageList();
                     },
 
+                    // 전화번호 - 처리
+                    parsetel(tel){
+                        return tel.substr(0, 3)+'-'+ tel.substr(3, 4) + '-' + tel.substr(7, 4)
+                    },
+
+                    // 숫자 세자리마다 , 처리
+                    currency(e) {
+                        var num = new Number(e);
+                        return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,")
+                    },
+
                     // 사원 데이터 수정
                     update() {
                         axios.patch("http://localhost:8888/api/hrms/update", {
@@ -1650,7 +1646,7 @@
                             };
                             toastr.success('사원 정보 수정 완료', 'suscess!');
                             this.getEmpList();
-                            
+
                         }).catch(error => console.error(error))
                     },
 
@@ -1671,7 +1667,6 @@
                                 timeOut: 2300
                             };
                             toastr.success('퇴사 처리 완료', 'suscess!');
-                            //setTimeout("location.reload()", 2400);
                             this.getEmpList();
 
                         }).catch(error => console.error(error))
@@ -1724,8 +1719,6 @@
 
 
                             // 사원 조회 시 검색 조건
-                            console.log("달력 " + dayjs(emp.entrydate, "YYYY-MM-DD"))
-                            console.log("오늘 " + dayjs().format("YYYY-MM-DD"))
                             if (
                                 ((emp.departmentname === this.department) || (this.department === '전체')) &&
                                 ((emp.gradename === this.grade) || (this.grade === '전체')) &&
@@ -1755,10 +1748,39 @@
                         $(modalId).modal('hide');
                     },
 
+                    //reset(modalId) {
+                    // $(modalId).each(function () {
+                    //     this.reset();
+                    // });
+
+                    //$(modalId)[0].reset();
+                    //},
+
+                    reset(modalId) {
+                        return $(modalId).each(function () {
+                            var type = this.type,
+                                tag = this.tagName.toLowerCase();
+                            if (tag === 'form') {
+                                return $(':input', this).clearForm();
+                            }
+                            if (
+                                type === 'text' ||
+                                type === 'password' ||
+                                type === 'hidden' ||
+                                tag === 'textarea'
+                            ) {
+                                this.value = '';
+                            } else if (type === 'checkbox' || type === 'radio') {
+                                this.checked = false;
+                            } else if (tag === 'select') {
+                                this.selectedIndex = -1;
+                            }
+                        });
+                    },
+
                     // 변경 후 grade name 저장
                     savegradename() {
                         this.changegradename = $("#changegrade option:selected").text();
-
                     },
 
                     // 변경 후 department name 저장
@@ -1827,7 +1849,7 @@
             }
             Vue.createApp(EmpList).mount('#empList');
 
-            $('input[name="entrydaterange"]').daterangepicker();
+            // $('input[name="entrydaterange"]').daterangepicker();
             /*]]>*/
         </script>
 
@@ -2033,6 +2055,44 @@
                             })
                             .catch(error => console.error(error))
                     },
+
+                    reset() {
+                        this.password = '',
+                            this.bankcd = '',
+                            this.departmentcd = '',
+                            this.gradecd = '',
+                            this.usertype = '',
+                            this.name = '',
+                            this.gender = '',
+                            this.mail = '',
+                            this.tel = '',
+                            this.zipcode = '',
+                            this.addr = '',
+                            this.addrdetail = '',
+                            this.regno = '',
+                            this.school = '',
+                            this.retiredate = '',
+                            this.yearsalary = '',
+                            this.salary = '',
+                            this.retirementpay = '',
+                            this.account = '',
+                            this.memo = '',
+                            this.privateinsurance = '',
+                            this.paymentst = '',
+                            this.totalal = '',
+                            this.useal = '',
+                            this.retirenote = '',
+                            this.filename = '',
+                            this.physicalpath = '',
+                            this.filesize = '',
+                            this.relatedpath = '',
+                            this.dno = '',
+                            this.regno1 = '',
+                            this.regno2 = '',
+                            this.tel1 = '',
+                            this.tel2 = '',
+                            this.tel3 = ''
+                    }
                 },
 
                 mounted() {
@@ -2044,6 +2104,40 @@
                 }
             }
             Vue.createApp(RegistEmp).mount('#empRegist');
+        </script>
+        <script>
+            // 문서에 있는 모든 form을 리셋
+            $('.reset').click(function () {
+                $('.form-reset')[0].reset();
+
+                // $('.form-reset').each(function () {
+                //     this.reset();
+                // });
+            });
+        </script>
+
+        <script>
+            $.fn.clearForm = function () {
+                return this.each(function () {
+                    var type = this.type,
+                        tag = this.tagName.toLowerCase();
+                    if (tag === 'form') {
+                        return $(':input', this).clearForm();
+                    }
+                    if (
+                        type === 'text' ||
+                        type === 'password' ||
+                        type === 'hidden' ||
+                        tag === 'textarea'
+                    ) {
+                        this.value = '';
+                    } else if (type === 'checkbox' || type === 'radio') {
+                        this.checked = false;
+                    } else if (tag === 'select') {
+                        this.selectedIndex = -1;
+                    }
+                });
+            };
         </script>
 
         <!-- 다음 주소 API -->
