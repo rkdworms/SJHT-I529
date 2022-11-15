@@ -16,7 +16,7 @@ public class DetailResponseDto {
     private String dvno;
     private LocalDate dvusedate;
     private int price;
-    private String dememo;
+    private String dvmemo;
     private String divcd;
     private String briefs;
     private String detailuse;

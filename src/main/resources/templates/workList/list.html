@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" layout:decorate="~{layout/layout_form}">
 <th:blcok layout:fragment="content">
-
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <link href="/css/hrms/hrms.css" rel="stylesheet"/>
         <title>Work Time List</title>
     </head>
-
     <body>
     <header class="page-header page-header-compact page-header-light border-bottom bg-white">
         <div class="container-fluid">
@@ -45,15 +43,14 @@
                                             <label for="startdate">시작날짜:&numsp;</label>
                                             <i class="mr-2 text-primary" data-feather="calendar"></i>
                                             <input class="form-control form-control-solid" v-model="startDvRegDate"
-                                                   type="date" id="startDvRegDate" name="startDate" placeholder="날짜입력">
+                                                   @blur="dateValid" type="date" id="startDvRegDate" name="startDate" placeholder="날짜입력">
                                         </div>
-
                                         <!--종료 날짜 검색-->
                                         <div class="form-group col-md-2">
                                             <label for="enddate">퇴사일자&nbsp;</label>
                                             <i class="mr-2 text-primary" data-feather="calendar"></i>
                                             <input class="form-control form-control-solid" v-model="endDvRegDate"
-                                                   type="date" id="endDvRegDate" name="endDate" placeholder="날짜입력">
+                                                   @blur="dateValid" type="date" id="endDvRegDate" name="endDate" placeholder="날짜입력">
                                         </div>
 
                                         <!--사원명 검색-->
@@ -64,7 +61,6 @@
                                                        id="employeeName" v-model="employeeName" name="employeeName">
                                             </div>
                                         </div>
-
                                         <!--사번 검색-->
                                         <div class="form-group col-md-2">
                                             <label for="empno">사번</label>
@@ -73,7 +69,6 @@
                                                        id="employeeNo" v-model="employeeNo" name="employeeNo">
                                             </div>
                                         </div>
-
                                         <!--승인 여부 검색-->
                                         <div class="form-group col-md-2">
                                             <label for="approveyn">승인 여부</label>
@@ -85,12 +80,14 @@
                                                 <option value="n">반려</option>
                                             </select>
                                         </div>
-
                                         <div class="form-group col-md-2" style="display: grid; padding:1rem;">
                                             <button type="button" @click="getWorkTimeList"
                                                     class="btn btn-dark btn-md">조회
                                             </button>
                                         </div>
+                                    </div>
+                                    <div v-show="!startDateFlag" style="color : #ec3a3a; font-size: 11px;">
+                                        &nbsp;날짜가 올바르지 않습니다.
                                     </div>
                                 </form>
                                 <div class="container" style="margin-top: 20px">
@@ -131,7 +128,8 @@
                                                     <th scope="col" v-if="ROLE">상세보기</th>
                                                 </tr>
                                                 </thead>
-                                                <tbody v-for="(resultpk,i) in paginatedDataWorkTime" key="resultpk.tano">
+                                                <tbody v-for="(resultpk,i) in paginatedDataWorkTime"
+                                                       key="resultpk.tano">
                                                 <tr>
                                                     <td>{{resultpk.tano}}</td>
                                                     <td>{{resultpk.empno}}</td>
@@ -157,8 +155,6 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
-
-
                                             <!-- 페이징 처리 하기 -->
                                             <div class="btn-cover" style="text-align: right">
                                                 <button :disabled="pageNum === 0" @click="prevPage" class="btn-hrms">
@@ -170,8 +166,6 @@
                                                     다음
                                                 </button>
                                             </div>
-
-
                                             <div class="modal fade" tabindex="-1" id="modify_workTime_modal"
                                                  role="dialog" data-backdrop="static">
                                                 <div class="modal-dialog modal-md 15">
@@ -242,7 +236,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <!-- 지출결의 텝 부분 -->
                                         <div class="tab-pane fade" id="profile" role="tabpanel"
                                              aria-labelledby="profile-tab">
@@ -267,7 +260,7 @@
                                                     <td>{{result.name}}</td>
                                                     <td>{{result.departmentname}}</td>
                                                     <td>{{result.dvregdate}}</td>
-                                                    <td>{{result.dvamt}}</td>
+                                                    <td>{{currency(result.dvamt)}}</td>
                                                     <td>{{changeApp(result.dvappyn)}}</td>
                                                     <td><a class="btn btn-dark" onclick="DetailModalInput2()"
                                                            @click="getDetail(result.dvno)">상세보기</a>
@@ -278,8 +271,6 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
-
-
                                             <!-- 지출결의 페이징 처리 하기 -->
                                             <div class="btn-cover" style="text-align: right">
                                                 <button :disabled="pageNum === 0" @click="prevPage" class="btn-hrms">
@@ -294,7 +285,6 @@
 
 
                                         </div>
-
                                         <!-- 지출결의 리스트 상세보기 버튼 클릭시 나타나는 모달-->
                                         <div class="modal fade" tabindex="-1" id="reWrite_detail_modal"
                                              role="dialog" data-backdrop="static">
@@ -327,7 +317,6 @@
                                                                 <td>{{departmentName}}</td>
                                                             </tr>
                                                         </table>
-
                                                         <table class="table table-bordered">
                                                             <thead class="table-light">
                                                             <tr>
@@ -348,7 +337,7 @@
                                                                 <td>{{i.divname}}</td>
                                                                 <td>{{i.briefs}}</td>
                                                                 <td>{{i.detailuse}}</td>
-                                                                <td>{{i.price}}</td>
+                                                                <td>{{currency(i.price)}}</td>
                                                                 <td>{{i.dvmemo}}</td>
                                                                 <td><a @click="fileSelectOneDownload(i.dno)">{{selectOneFile(i.dno)}}</a>
                                                                 </td>
@@ -366,15 +355,15 @@
                                                             </tr>
                                                             </tbody>
                                                         </table>
-
-
                                                         <!-- 페이징 처리 하기 -->
                                                         <div class="btn-cover" style="text-align: right">
-                                                            <button :disabled="pageNum === 0" @click="prevPage" class="btn-hrms">
+                                                            <button :disabled="pageNum === 0" @click="prevPage"
+                                                                    class="btn-hrms">
                                                                 이전
                                                             </button>
                                                             <span class="page-count">{{ pageNum + 1 }} / {{ pageCountReloadDatas }} 페이지</span>
-                                                            <button :disabled="pageNum >= pageCountReloadDatas - 1" @click="nextPage"
+                                                            <button :disabled="pageNum >= pageCountReloadDatas - 1"
+                                                                    @click="nextPage"
                                                                     class="btn-hrms">
                                                                 다음
                                                             </button>
@@ -445,7 +434,7 @@
                                                                                class="form-control">
                                                                     </td>
                                                                     <td>
-                                                                        <input @change="onInputFile" type="file"
+                                                                        <input @change="" type="file"
                                                                                name="filename" class="custom">
                                                                     </td>
                                                                 </tr>
@@ -481,7 +470,7 @@
                                                                     <td>파일</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td><input v-model="useDate" type="date"
+                                                                    <td><input v-model="usedate" type="date"
                                                                                class="form-control">
                                                                     </td>
                                                                     <td>
@@ -496,7 +485,7 @@
                                                                                class="form-control">
                                                                     </td>
                                                                     <td>
-                                                                        <input v-model="usedetail" type="text"
+                                                                        <input v-model="useDetail" type="text"
                                                                                class="form-control">
                                                                     </td>
                                                                     <td>
@@ -508,7 +497,7 @@
                                                                                class="form-control">
                                                                     </td>
                                                                     <td>
-                                                                        <input @change="onInputFile" type="file"
+                                                                        <input @change="filechange($event)" type="file"
                                                                                name="filename" class="custom">
                                                                     </td>
                                                                 </tr>
@@ -708,7 +697,6 @@
                                             <td>{{departmentName}}</td>
                                         </tr>
                                     </table>
-
                                     <table class="table table-bordered">
                                         <thead class="table-light">
                                         <tr>
@@ -728,7 +716,7 @@
                                             <td>{{list.divname}}</td>
                                             <td>{{list.briefs}}</td>
                                             <td>{{list.detailuse}}</td>
-                                            <td>{{list.price}}</td>
+                                            <td>{{currency(list.price)}}</td>
                                             <td>{{list.dvmemo}}</td>
                                             <td><a @click="fileSelectOneDownload(list.dno)">{{filename[list.dno]}}</a>
                                             </td>
@@ -753,7 +741,6 @@
                                             다음
                                         </button>
                                     </div>
-
 
 
                                     <button type="button" class="btn btn-dark" id="enterInputExpend"
@@ -816,7 +803,7 @@
                                                            id="dvmemo">
                                                 </td>
                                                 <td>
-                                                    <input @change="filechange($event)" type="file" id="myFile"
+                                                    <input @change="filechange($event)" type="file"
                                                            name="filename" class="custom">
                                                 </td>
                                             </tr>
@@ -865,8 +852,11 @@
                                 </colgroup>
                                 <tr>
                                     <td class="table-light">날짜</td>
-                                    <td><input type="date" class="form-control" v-model="startdate"></td>
-                                    <td><input type="date" class="form-control" v-model="enddate"></td>
+                                    <td><input @blur="dateValid" type="date" class="form-control" v-model="startdate"></td>
+                                    <td><input @blur="dateValid" type="date" class="form-control" v-model="enddate"></td>
+                                    <div v-show="!startDateFlag" style="color : #ec3a3a; font-size: 11px;">
+                                        &nbsp;날짜가 올바르지 않습니다.
+                                    </div>
                                 </tr>
                             </table>
                         </div>
@@ -898,12 +888,9 @@
             </div>
         </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.6.1.js"
             integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
     <script src="/./js/worklist/listModal.js"></script>
-
-
     <script>
         const EXPEND = {
             data() {
@@ -942,22 +929,31 @@
                     files: [],
                     filename: [], // dno에 따른 파일 정보
                     filepath: [],
-
-                    pageNum: 0                          // pagination
+                    pageNum: 0,                          // pagination
+                    startDateFlag: true,                //시작 날짜 확인 Flag
                 }
             },
-
             // pagination
             props: {
                 pageSize: {
                     type: Number,
                     required: false,
-                    default: 1
+                    default: 5
                 }
             },
             methods: {
+                //날짜 validation
+                dateValid() {
+                    let start = Date.parse(this.startDvRegDate);
+                    let end = Date.parse(this.endDvRegDate);
+                    this.startDateFlag = ((start > end)) ? false : true;
+                },
+                // 가격 정규화
+                currency(e) {
+                    var num = new Number(e);
+                    return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,")
+                },
                 getWorkTimeList() {
-
                     const data = {
                         approveryn: this.approveryn,
                         start: this.startDvRegDate,
@@ -1062,6 +1058,10 @@
                         briefs: this.briefs,
                         detailuse: this.useDetail
                     }
+                    console.log(data);
+                    if (this.divcd === '') {
+                        alert("분류코드를 입력해주세요");
+                    }
                     axios.post("http://localhost:8888/api/insertDetail", data)
                         .then(response => {
                             this.fileInput(response.data);
@@ -1073,7 +1073,6 @@
                 },
                 // 파일 입력
                 fileInput(dno) {
-                    // let file = document.getElementById("myFile").files[0];
                     let formData = new FormData();
                     formData.append("file", this.file);
                     formData.append("dvno", this.dvno);
@@ -1189,6 +1188,7 @@
                     axios.post("http://localhost:8888/api/showMyDetailExpendList", data)
                         .then(response => {
                             this.reloadDatas = response.data;
+                            console.log(this.reloadDatas);
                         })
                 },
                 selectOneFile(data) {
@@ -1279,6 +1279,7 @@
                             this.reloadDatas = response.data
                             DetailModalClose();
                             modifyDetailModalClose()
+                            modiDetailModalClose();
                         })
                 },
                 fileUpdateByDno(dno) {
@@ -1291,7 +1292,7 @@
                                 "Content-Type": "multipart/form-data",
                             }
                         }).then(response => {
-
+                        this.ReShowList2();
                     })
                 },
                 updateMyDetail() {
@@ -1307,8 +1308,7 @@
                     axios.post("http://localhost:8888/api/updateMyDetailExpend", data)
                         .then(response => {
                             if (response) {
-
-                                this.ReShowList2();
+                                this.fileUpdateByDno(this.dno)
                             } else {
                                 alert("오류")
                             }
@@ -1328,6 +1328,7 @@
                             }
                         })
                 },
+                // 지출결의정보 상세입력 부분
                 reInputDetail() {
                     const data = {
                         dvno: this.reloadData,
@@ -1338,22 +1339,39 @@
                         briefs: this.briefs,
                         detailuse: this.useDetail
                     }
+                    console.log(data);
+                    if (this.divcd === '') {
+                        alert("분류코드를 입력해주세요");
+                    }
                     axios.post("http://localhost:8888/api/insertDetail", data)
                         .then(response => {
-                            this.reloadDatas = response.data
-                            modiDetailModalClose()
+                            this.fileInput2(response.data);
                         })
                 },
-
+                fileInput2(dno) {
+                    let formData = new FormData();
+                    formData.append("file", this.file);
+                    formData.append("dvno", this.reloadData);
+                    if (this.file != null) {
+                        axios.post("http://localhost:8888/api/uploadFile", formData,
+                            {
+                                headers: {
+                                    "Content-Type": "multipart/form-data",
+                                }
+                            })
+                            .then(response => {
+                                this.selectOneFile(dno)
+                            })
+                    }
+                    this.ReShowList2();
+                },
                 //pagination
                 nextPage() {
                     this.pageNum += 1;
                 },
-
                 prevPage() {
                     this.pageNum -= 1;
                 },
-
             },
             created() {
                 this.getROLE();
@@ -1365,14 +1383,13 @@
                 this.showMyExpendList();
                 this.checkMyData();
             },
-
             computed: {
                 pageCountExpend() {
                     let listLeng = this.myExpendList.length;
                     listSize = this.pageSize;
                     page = Math.floor(listLeng / listSize);
 
-                    if (listLeng == 0)
+                    if (listLeng === 0)
                         return 1;
 
                     if (listLeng % listSize > 0)
@@ -1380,7 +1397,6 @@
 
                     return page;
                 },
-
                 //page slice
                 paginatedDataExpend() {
                     let start = this.pageNum * this.pageSize;
@@ -1388,28 +1404,26 @@
 
                     return this.myExpendList.slice(start, end);
                 },
-
                 pageCountReloadDatas() {
-                    let listLeng = this.myExpendList.length;
+                    let listLeng = this.myDetailExpendList.length;
                     listSize = this.pageSize;
                     page = Math.floor(listLeng / listSize);
 
                     if (listLeng == 0)
                         return 1;
+
                     if (listLeng % listSize > 0)
                         page += 1;
 
                     return page;
                 },
-
                 //page slice
                 paginatedDataReloadDatas() {
                     let start = this.pageNum * this.pageSize;
                     let end = start + this.pageSize;
 
-                    return this.myExpendList.slice(start, end);
+                    return this.reloadDatas.slice(start, end);
                 },
-
                 pageCountDetail() {
                     let listLeng = this.myDetailExpendList.length;
                     listSize = this.pageSize;
@@ -1423,7 +1437,6 @@
 
                     return page;
                 },
-
                 //page slice
                 paginatedDataDetail() {
                     let start = this.pageNum * this.pageSize;
@@ -1431,7 +1444,6 @@
 
                     return this.myDetailExpendList.slice(start, end);
                 },
-
                 pageCountWorkTime() {
                     let listLeng = this.allWorkTimeList.length;
                     listSize = this.pageSize;
@@ -1445,7 +1457,6 @@
 
                     return page;
                 },
-
                 //page slice
                 paginatedDataWorkTime() {
                     let start = this.pageNum * this.pageSize;
@@ -1454,7 +1465,6 @@
                     return this.allWorkTimeList.slice(start, end);
                 }
             },
-
         }
         Vue.createApp(EXPEND).mount("#app");
     </script>
@@ -1467,10 +1477,16 @@
                     startdate: '',
                     enddate: '',
                     reasonholiday: '',
-                    boolData: true
+                    boolData: true,
+                    startDateFlag: true,                //시작 날짜 확인 Flag
                 }
             },
             methods: {
+                dateValid() {
+                    let start = Date.parse(this.startdate);
+                    let end = Date.parse(this.enddate);
+                    this.startDateFlag = ((start > end)) ? false : true;
+                },
                 getName() {
                     axios.post("http://localhost:8888/api/getName")
                         .then(response => {
@@ -1500,7 +1516,6 @@
             },
             mounted() {
             }
-
         }
         Vue.createApp(WORKTIME).mount('#workTime_modal')
     </script>

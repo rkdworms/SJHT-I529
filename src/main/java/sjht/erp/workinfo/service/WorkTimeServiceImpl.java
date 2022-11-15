@@ -16,7 +16,10 @@ public class WorkTimeServiceImpl implements WorkTimeService {
 
     @Override
     public List<WorkInfoResponseDto> selectWhereWorkInfo(WorkInfoRequestDto workInfoRequestDto) {
-
+        if(workInfoRequestDto.getStart().isAfter(workInfoRequestDto.getEnd())){
+            workInfoRequestDto.setStart(null);
+            workInfoRequestDto.setEnd(null);
+        }
         if (workTimeManagerMapper.findWorkTimeInfo(workInfoRequestDto)!=null) {
             return workTimeManagerMapper.findWorkTimeInfo(workInfoRequestDto);
         }
