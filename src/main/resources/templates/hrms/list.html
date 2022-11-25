@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
             integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="
             crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
     </head>
 
     <body>
@@ -42,7 +43,50 @@
                     <!-- Main content: 사원 검색 & 사원 리스트 -->
                     <div class="container mt-n10">
                         <div class="card mb-4">
-                            <div class="card-header">사원 리스트</div>
+                            <div class="card-header">
+                                <div>사원 리스트 </div>
+
+
+                                <!-- 도넛 시작 -->
+                                <!-- <div class="col-lg-6"> -->
+                                <!-- Pie chart example-->
+                                <!-- <div class="card h-100">
+                                        <div class="card-header">Traffic Sources</div>
+                                        <div class="card-body">
+                                            <div class="chart-pie mb-4"><canvas id="myPieChart" width="100%"
+                                                    height="50"></canvas></div>
+                                            <div class="list-group list-group-flush">
+                                                <div
+                                                    class="list-group-item d-flex align-items-center justify-content-between small px-0 py-2">
+                                                    <div class="mr-3">
+                                                        <i class="fas fa-circle fa-sm mr-1 text-blue"></i>
+                                                        Direct
+                                                    </div>
+                                                    <div class="font-weight-500 text-dark">85%</div>
+                                                </div>
+                                                <div
+                                                    class="list-group-item d-flex align-items-center justify-content-between small px-0 py-2">
+                                                    <div class="mr-3">
+                                                        <i class="fas fa-circle fa-sm mr-1 text-purple"></i>
+                                                        Social
+                                                    </div>
+                                                    <div class="font-weight-500 text-dark">15%</div>
+                                                </div>
+                                                <div
+                                                    class="list-group-item d-flex align-items-center justify-content-between small px-0 py-2">
+                                                    <div class="mr-3">
+                                                        <i class="fas fa-circle fa-sm mr-1 text-green"></i>
+                                                        Referral
+                                                    </div>
+                                                    <div class="font-weight-500 text-dark">30%</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <!-- 도넛 끝 -->
+
+                            </div>
                             <div class="boardTop">
                                 <div class="card-body">
                                     <div>
@@ -109,20 +153,6 @@
                                                     @change="setEntrydateEnd(entrydateend)"
                                                     style="padding-top: 015px; padding-bottom: 15px; padding-right: 8px;" />
                                             </div>
-                                            <!-- 퇴사일자 검색 (Date Range Picker) -->
-                                            <!-- <div class="form-group col-md-1-5">
-                                                <label for="retiredate">퇴사일자&nbsp;</label>
-                                                <i class="mr-2 text-primary" data-feather="calendar"></i>
-                                                <input type="date" id="retiredatestart" v-model="retiredatestart"
-                                                    class="form-control form-control-solid"
-                                                    @change="setRetiredateStart(retiredatestart)" />
-                                            </div>
-                                            <div class="form-group col-md-1-5">
-                                                <label for="retiredate">&nbsp;</label>
-                                                <input type="date" id="retiredateend" v-model="retiredateend"
-                                                    class="form-control form-control-solid"
-                                                    @change="setRetiredateEnd(retiredateend)" />
-                                            </div> -->
                                             <!-- text 검색 -->
                                             <div class="form-group col-md-4">
                                                 <label for="textFormControlSelect">&nbsp;</label>
@@ -155,7 +185,8 @@
                                             </thead>
                                             <tbody v-for="(emp, i) in paginatedData" key="i">
                                                 <tr>
-                                                    <td class="d-none d-xl-table-cell emp-content">{{ emp.empno }}</td>
+                                                    <td class="d-none d-xl-table-cell emp-content">{{ emp.empno }}
+                                                    </td>
                                                     <td class="d-none d-xl-table-cell">{{ emp.name }}</td>
                                                     <td class="d-none d-xl-table-cell">{{ emp.departmentname
                                                         }}</td>
@@ -165,7 +196,8 @@
                                                     </td>
                                                     <td class="d-none d-xl-table-cell">{{ parsetel(emp.tel) }}</td>
                                                     <td class="d-none d-xl-table-cell">{{ emp.mail }}</td>
-                                                    <td class="d-none d-xl-table-cell">{{ currency(emp.salary) }}</td>
+                                                    <td class="d-none d-xl-table-cell">{{ currency(emp.salary) }}
+                                                    </td>
                                                     <td class="d-none d-xl-table-cell emp-content">
                                                         <span v-show="emp.retireyn === 'n'"
                                                             class="text-success ">재직</span>
@@ -290,10 +322,8 @@
                                                     </div>
                                                     <!-- Form Group (개인정보2) -->
                                                     <div class="form-group col-md-4">
-                                                        <label label class="small mb-1"></label>
-                                                        <div class="form-control form-control-sm"
-                                                            style="border: #ffffff;"></div>
-                                                        <label label class="small mb-1" for="gender">성별</label>
+                                                        <label label class="small mb-1" for="gender"
+                                                            style="margin-top: 56px;">성별</label>
                                                         <div class="form-control form-control-sm border-0">
                                                             <div class="form-check form-check-inline col-md-5">
                                                                 <input class="form-check-input" type="radio"
@@ -526,8 +556,6 @@
                     </div>
                 </div>
             </div><!-- 사원 정보 수정 시 경고 모달 끝 -->
-
-
 
             <!-- 사원 퇴사 처리 모달 시작 -->
             <div class="col-xl-8">
@@ -1005,11 +1033,8 @@
                 </div>
             </div><!-- 사원 승진 및 보직 관리 시 경고 모달 끝 -->
 
-
         </div>
         <!-- empList 끝 -->
-
-
 
         <!-- 사원 등록 모달 시작 -->
         <div class="col-xl-8" id="empRegist">
@@ -1019,7 +1044,6 @@
                     <div class="modal-content" style="width: 750px; height: 860px;">
                         <div class="modal-body p-0">
                             <!-- details card -->
-
                             <div class="card mb-4">
                                 <div class="card-header">
                                     <span>사원 등록</span>
@@ -1146,8 +1170,8 @@
                                                 </div>
                                                 <!-- Form Group (주소 검색: 다음 API) -->
                                                 <div class="form-group col-md-2" style="align-self: end">
-                                                    <input type="button" class="btn btn-hrms shadow-sm btn-sm"
-                                                        style="height: 27px; width: 100px; margin-bottom: 0px;"
+                                                    <input type="button"
+                                                        class="btn btn-hrms shadow-sm btn-sm btn-postcode"
                                                         @click="execDaumPostcode()" value="주소 검색"><br>
                                                 </div>
                                                 <!-- Form Group (상세주소) -->
@@ -1282,7 +1306,7 @@
                                             <div class="modal-footer">
                                                 <button id="regist"
                                                     class="btn btn-outline-success shadow-sm btn-sm emp-gray"
-                                                    type="button" @click="regist" data-bs-dismiss="modal"
+                                                    type="button" @click="regist" :data-bs-dismiss="modal"
                                                     style="width: 4rem">등록
                                                 </button>
                                             </div>
@@ -1300,7 +1324,9 @@
         <!--             script start           -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.7/plugin/isBetween.min.js"></script>
 
-
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+            crossorigin="anonymous"></script>
 
 
         <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script> -->
@@ -1312,7 +1338,6 @@
             src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
         <link rel="stylesheet" type="text/css"
             href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" /> -->
-
 
         <script>
             // 사원 등록 validation
@@ -1354,10 +1379,12 @@
             function preventKr(obj) {
                 obj.value = obj.value.replace(/[^0-9.]/gi, "")
             };
+
         </script>
 
         <script th:inline="javascript">
             dayjs.extend(dayjs_plugin_isBetween);
+
 
             /*<![CDATA[*/
             /* 
@@ -1385,8 +1412,6 @@
                         search: '', // text검색 - 검색어
                         entrydatestart: dayjs().subtract(10, "year").format("YYYY-MM-DD"), // 검색 - 입사일자 시작일
                         entrydateend: dayjs().format("YYYY-MM-DD"), // 검색 - 입사일자 종료일
-                        // retiredatestart: '', // 검색 - 퇴사일자 시작일
-                        // retiredateend: '', // 검색 - 퇴사일자 종료일
 
                         // 사원 주민번호 조회 관련 필드
                         prevregno: '',
@@ -1437,6 +1462,13 @@
                         prevdepartmentcd: 'this.empDetail.departmentcd', // 변경 전 부서 코드
                         prevdepartmentname: '', // 변경 전 부서 이름
                         prevyearsalary: 'this.empDetail.yearsalary', // 변경 전 급여
+
+                        dcnt1: 0,
+                        dcnt2: 0,
+                        dcnt3: 0,
+                        dcnt4: 0,
+                        dcnt5: 0,
+                        dcnt6: 0,
                     }
                 },
 
@@ -1716,7 +1748,6 @@
                         let temp = [];
                         for (emp of this.empList) {
 
-
                             // 사원 조회 시 검색 조건
                             if (
                                 ((emp.departmentname === this.department) || (this.department === '전체')) &&
@@ -1728,13 +1759,6 @@
                                     (this.menu === 'searchEmpno' && (this.search == '' || ((emp.empno).toString()).includes(this.search)))
                                 ) &&
                                 (dayjs(emp.entrydate, "YYYY-MM-DD")).isBetween(dayjs(this.entrydatestart, "YYYY-MM-DD") - 1, dayjs(this.entrydateend, "YYYY-MM-DD") + 1)
-
-                                // &&
-                                // (
-                                //     (emp.retireyn == 'y')
-                                //     &&
-                                //     (dayjs(emp.retiredate, "YYYY-MM-DD")).isBetween(dayjs(this.retiredatestart, "YYYY-MM-DD"), dayjs(this.retiredateend, "YYYY-MM-DD"))
-                                // )
                             ) {
                                 temp.push(emp);
                             }
@@ -1748,12 +1772,20 @@
                     },
 
                     // 부서 툴팁
-                    toast() {
-                        //$("#toastBasicTrigger").on("click", function (e) {
-                        //e.preventDefault();
-                        $("#toastBasic").toast("show");
-                        //});
+                    toast(e) {
+                        // $("#toastBasicTrigger").on("click", function (e) {
+                        //     e.preventDefault();
+                        //     $("#toastBasic").toast("show");
+                        // });
+
+                        // $("#toastNoAutohideTrigger").on("click", function (e) {
+                        // e.preventDefault();
+                        // $("#toastNoAutohide").toast("show");
+                        // });
+
                     },
+
+
 
                     // 변경 후 grade name 저장
                     savegradename() {
@@ -1770,30 +1802,84 @@
                         this.changeyearsalary = this.empDetail.yearsalary;
                     },
 
-                    // 달력
-                    calendar() {
-
-                        $('#demo').daterangepicker({
-                            "locale": {
-                                "format": "YYYY-MM-DD",
-                                "separator": " ~ ",
-                                "applyLabel": "확인",
-                                "cancelLabel": "취소",
-                                "fromLabel": "From",
-                                "toLabel": "To",
-                                "customRangeLabel": "Custom",
-                                "weekLabel": "W",
-                                "daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
-                                "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-                            },
-                            "startDate": new Date(),
-                            "endDate": new Date(),
-                            "drops": "auto"
-                        }), function (start, end) {
-
+                    // 그래프
+                    chart() {
+                        for (emp of this.empList) {
+                            if (emp.departmentcd == 'D001') {
+                                this.dcnt1++;
+                            } else if (emp.departmentcd == 'D002') {
+                                this.dcnt2++;
+                            } else if (emp.departmentcd == 'D003') {
+                                this.dcnt3++;
+                            } else if (emp.departmentcd == 'D004') {
+                                this.dcnt4++;
+                            } else if (emp.departmentcd == 'D005') {
+                                this.dcnt5++;
+                            } else if (emp.departmentcd == 'D006') {
+                                this.dcnt6++;
+                            }
                         }
-                        this.setPageList();
-                    },
+
+                        console.log(this.empList)
+                        console.log(this.dcnt1)
+
+                        // Set new default font family and font color to mimic Bootstrap's default styling
+                        // (Chart.defaults.global.defaultFontFamily = "Metropolis"),
+                        //     '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+                        // Chart.defaults.global.defaultFontColor = "#858796";
+
+                        // Pie Chart Example
+                        var ctx = document.getElementById("myPieChart");
+                        var myPieChart = new Chart(ctx, {
+                            type: "doughnut",
+                            data: {
+                                labels: ["1", "2", "3", "4", "5", "6"],
+                                datasets: [{
+                                    data: ["1", "2", "3", "4", "5", "6"],
+                                    backgroundColor: [
+                                        "rgba(0, 97, 242, 1)",
+                                        "rgba(0, 172, 105, 1)",
+                                        "rgba(88, 0, 232, 1)",
+                                        "rgba(0, 97, 242, 1)",
+                                        "rgba(0, 172, 105, 1)",
+                                        "rgba(88, 0, 232, 1)"
+                                    ],
+                                    hoverBackgroundColor: [
+                                        "rgba(0, 97, 242, 0.9)",
+                                        "rgba(0, 172, 105, 0.9)",
+                                        "rgba(88, 0, 232, 0.9)",
+                                        "rgba(0, 97, 242, 0.9)",
+                                        "rgba(0, 172, 105, 0.9)",
+                                        "rgba(88, 0, 232, 0.9)"
+                                    ],
+                                    hoverBorderColor: "rgba(234, 236, 244, 1)"
+                                }]
+                            },
+                            options: {
+                                maintainAspectRatio: false,
+                                tooltips: {
+                                    backgroundColor: "rgb(255,255,255)",
+                                    bodyFontColor: "#858796",
+                                    borderColor: "#dddfeb",
+                                    borderWidth: 1,
+                                    xPadding: 15,
+                                    yPadding: 15,
+                                    displayColors: false,
+                                    caretPadding: 10
+                                },
+                                legend: {
+                                    display: false
+                                },
+                                cutoutPercentage: 80
+                            }
+                        });
+
+
+                    }
+
+
+
+
 
                 },
 
@@ -1822,6 +1908,10 @@
                     this.findByDepartment();
                     this.findByGrade();
                 },
+
+                mounted() {
+                    // this.chart();
+                }
             }
             Vue.createApp(EmpList).mount('#empList');
 
@@ -1889,15 +1979,14 @@
                         bankList: [],
                         departmentList: [],
                         gradeList: [],
-                        usertypeList: []
-
+                        usertypeList: [],
+                        modal: ''
                     }
                 },
 
                 methods: {
                     // 사원 등록 
                     regist() {
-
                         const formData = new FormData();
                         const registDto = {
                             empno: this.empno,
@@ -1944,6 +2033,9 @@
                                 timeOut: 2300
                             };
                             toastr.success('사원 등록 완료', 'suscess!');
+
+                            this.closeModal('#empRegistModal');
+
                             this.getEmpList();
 
                         }).catch(error => console.error(error))
@@ -1989,7 +2081,6 @@
                                 }
 
                                 this.zipcode = result.zonecode; // 새우편번호 
-
                             }
                         }).open();
                     },
@@ -2002,7 +2093,6 @@
                             })
                             .catch(error => console.error(error))
                     },
-
 
                     // 부서 코드 리스트 
                     getDepartmentList() {
@@ -2041,6 +2131,11 @@
                             this.usertype = 'ROLE_C'
                         }
                         console.log(this.usertype)
+                    },
+
+                    // 모달 수동 닫기
+                    closeModal(modalId) {
+                        $(modalId).modal('hide');
                     },
 
                     // 닫기 버튼 누르면 초기화
@@ -2089,6 +2184,7 @@
                     }
                 },
 
+
                 mounted() {
                     this.getBankList();
                     this.getDepartmentList();
@@ -2099,47 +2195,9 @@
             }
             Vue.createApp(RegistEmp).mount('#empRegist');
         </script>
-        <!-- <script>
-            // 문서에 있는 모든 form을 리셋
-            $('.reset').click(function () {
-                $('.form-reset')[0].reset();
-
-                // $('.form-reset').each(function () {
-                //     this.reset();
-                // });
-            });
-        </script>
-
-        <script>
-            $.fn.clearForm = function () {
-                return this.each(function () {
-                    var type = this.type,
-                        tag = this.tagName.toLowerCase();
-                    if (tag === 'form') {
-                        return $(':input', this).clearForm();
-                    }
-                    if (
-                        type === 'text' ||
-                        type === 'password' ||
-                        type === 'hidden' ||
-                        tag === 'textarea'
-                    ) {
-                        this.value = '';
-                    } else if (type === 'checkbox' || type === 'radio') {
-                        this.checked = false;
-                    } else if (tag === 'select') {
-                        this.selectedIndex = -1;
-                    }
-                });
-            };
-        </script> -->
 
         <!-- 다음 주소 API -->
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
-
-
-
 
         <!-- 달력 start -->
         <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
@@ -2149,89 +2207,15 @@
         <link rel="stylesheet" type="text/css"
             href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" /> -->
 
-        <script>
-            // 입사일자, 퇴사일자 달력으로 검색 (Date Range Picker)
-            // $(function () {
-            //     let start = moment().subtract(29, "days");
-            //     let end = moment();
-
-            //     function cb(start, end) {
-            //         $(".date").html(
-            //             start.format('YY-MM-DD') + " / " + end.format('YY-MM-DD'),
-
-            //         );
-            //     }
-
-            //     $(".date").daterangepicker(
-            //         {
-            //             startDate: start,
-            //             endDate: end,
-            //             locale: {
-            //                 "separator": " ~ ",
-            //                 "format": 'YY-MM-DD',
-            //             },
-            //             ranges: {
-            //                 "오늘": [moment(), moment()],
-            //                 "어제": [
-            //                     moment().subtract(1, "days"),
-            //                     moment().subtract(1, "days"),
-            //                 ],
-            //                 "최근 7일": [moment().subtract(6, "days"), moment()],
-            //                 "최근 30일": [moment().subtract(29, "days"), moment()],
-            //                 "이번 달": [
-            //                     moment().startOf("month"),
-            //                     moment().endOf("month"),
-            //                 ],
-            //                 "지난 달": [
-            //                     moment().subtract(1, "month").startOf("month"),
-            //                     moment().subtract(1, "month").endOf("month"),
-            //                 ],
-            //             },
-            //         },
-            //         cb(start, end)
-            //     );
-
-            // });
-        </script>
-        <!-- 달력 end -->
-
-        <script>
-            // $(function () {
-            //     $('#demo').daterangepicker({
-            //         "locale": {
-            //             "format": "YYYY-MM-DD",
-            //             "separator": " ~ ",
-            //             "applyLabel": "확인",
-            //             "cancelLabel": "취소",
-            //             "fromLabel": "From",
-            //             "toLabel": "To",
-            //             "customRangeLabel": "Custom",
-            //             "weekLabel": "W",
-            //             "daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
-            //             "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-            //         },
-            //         "startDate": new Date(),
-            //         "endDate": new Date(),
-            //         "drops": "auto"
-            //     }, function (start, end, label) {
-            //         console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
-            //     });
-            // });
-
-            // $('input[name="entrydaterange"]').daterangepicker()
-        </script>
-
-
-
-
-
         <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script> -->
+
+        <script src="js/jquery-3.1.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
             crossorigin="anonymous"></script>
         <script src="/js/hrms/hrms.js"></script>
 
 
-        <script src="js/jquery-3.1.1.min.js"></script>
+
 
 
         <!-- Toastr -->
@@ -2239,6 +2223,56 @@
             integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+
+
+        <script>
+            // // Set new default font family and font color to mimic Bootstrap's default styling
+            // (Chart.defaults.global.defaultFontFamily = "Metropolis"),
+            //     '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+            // Chart.defaults.global.defaultFontColor = "#858796";
+
+            // // Pie Chart Example
+            // var ctx = document.getElementById("myPieChart");
+            // var myPieChart = new Chart(ctx, {
+            //     type: "doughnut",
+            //     data: {
+            //         labels: ["Direct", "Referral", "Social"],
+            //         datasets: [{
+            //             data: [85, 30, 15],
+            //             backgroundColor: [
+            //                 "rgba(0, 97, 242, 1)",
+            //                 "rgba(0, 172, 105, 1)",
+            //                 "rgba(88, 0, 232, 1)"
+            //             ],
+            //             hoverBackgroundColor: [
+            //                 "rgba(0, 97, 242, 0.9)",
+            //                 "rgba(0, 172, 105, 0.9)",
+            //                 "rgba(88, 0, 232, 0.9)"
+            //             ],
+            //             hoverBorderColor: "rgba(234, 236, 244, 1)"
+            //         }]
+            //     },
+            //     options: {
+            //         maintainAspectRatio: false,
+            //         tooltips: {
+            //             backgroundColor: "rgb(255,255,255)",
+            //             bodyFontColor: "#858796",
+            //             borderColor: "#dddfeb",
+            //             borderWidth: 1,
+            //             xPadding: 15,
+            //             yPadding: 15,
+            //             displayColors: false,
+            //             caretPadding: 10
+            //         },
+            //         legend: {
+            //             display: false
+            //         },
+            //         cutoutPercentage: 80
+            //     }
+            // });
+
+
+        </script>
     </body>
 </th:blcok>
 

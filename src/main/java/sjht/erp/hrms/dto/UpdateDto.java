@@ -2,7 +2,6 @@ package sjht.erp.hrms.dto;
 
 import lombok.*;
 
-import java.io.File;
 import java.util.Date;
 
 @Data

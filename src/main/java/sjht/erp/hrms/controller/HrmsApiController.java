@@ -2,19 +2,14 @@ package sjht.erp.hrms.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sjht.erp.hrms.dto.SelectDto;
 import sjht.erp.hrms.dto.UpdateDto;
 import sjht.erp.hrms.service.HrmsApiService;
-import sjht.erp.login.dto.EmployeeDto;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
