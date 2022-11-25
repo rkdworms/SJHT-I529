@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import sjht.erp.hrms.service.HrmsService;
+import sjht.erp.hrms.service.HrmsApiService;
 import sjht.erp.login.dto.EmployeeDto;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class HrmsController {
 
-    private final HrmsService hrmsService;
+    private final HrmsApiService hrmsApiService;
 
     @GetMapping("/hrms/list")
     public String getEmplists (HttpServletRequest request, Model model) {

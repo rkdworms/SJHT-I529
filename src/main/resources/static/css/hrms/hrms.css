@@ -10744,7 +10744,6 @@ a.close.disabled {
   overflow-y: auto;
 }
 
-/* 여기 */
 .modal {
   position: fixed;
   top: 0;
@@ -10755,6 +10754,7 @@ a.close.disabled {
   height: 100%;
   overflow: hidden;
   outline: 0;
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .modal-dialog {
@@ -10846,7 +10846,6 @@ a.close.disabled {
   outline: 0;
 }
 
-/* 여기 */
 .modal-backdrop {
   position: relative;
   top: 0;
@@ -17588,10 +17587,6 @@ a.text-danger-soft:focus {
     box-shadow: none !important;
   }
 
-  /* a:not(.btn) {
-    text-decoration: none;
-  } */
-
   abbr[title]::after {
     content: " (" attr(title) ")";
   }
@@ -23252,7 +23247,8 @@ textarea {
 }
 
 .emp-idPicture {
-  width: 143px;
+  width: 140px;
+  height: 189px;
 }
 
 .emp-content {
@@ -23266,4 +23262,12 @@ textarea {
 
 .emp-gray {
   border-color: rgb(228, 228, 228);
+}
+
+.btn-postcode {
+  height: 27px;
+  width: 94px;
+  margin-bottom: 0px;
+  padding-left: 12px;
+  padding-right: 12px;
 }
