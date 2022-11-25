@@ -155,7 +155,7 @@
                                             </thead>
                                             <tbody v-for="(emp, i) in paginatedData" key="i">
                                                 <tr>
-                                                    <td class="d-none d-xl-table-cell">{{ emp.empno }}</td>
+                                                    <td class="d-none d-xl-table-cell emp-content">{{ emp.empno }}</td>
                                                     <td class="d-none d-xl-table-cell">{{ emp.name }}</td>
                                                     <td class="d-none d-xl-table-cell">{{ emp.departmentname
                                                         }}</td>
@@ -166,9 +166,9 @@
                                                     <td class="d-none d-xl-table-cell">{{ parsetel(emp.tel) }}</td>
                                                     <td class="d-none d-xl-table-cell">{{ emp.mail }}</td>
                                                     <td class="d-none d-xl-table-cell">{{ currency(emp.salary) }}</td>
-                                                    <td class="d-none d-xl-table-cell">
+                                                    <td class="d-none d-xl-table-cell emp-content">
                                                         <span v-show="emp.retireyn === 'n'"
-                                                            class="text-success">재직</span>
+                                                            class="text-success ">재직</span>
                                                         <span v-show="emp.retireyn === 'y'"
                                                             class="emp-opacity">퇴직</span>
                                                         <span v-show="emp.restyn === 'y'"
@@ -240,7 +240,7 @@
                                                 <div class="form-row">
                                                     <!-- Form Group (사원 증명사진) -->
                                                     <div class="form-group col-md-4" style="text-align: center">
-                                                        <img class="emp-idPicture" :src="physicalpath"
+                                                        <img class="emp-idPicture" vspace="40" :src="physicalpath"
                                                             onerror="this.src='/images/noProfile.png'" />
                                                         <input class="form-control form-control-sm"
                                                             id="detail-idPicture" v-model="file" type="file"
@@ -424,7 +424,7 @@
                                                 <div class="form-row">
                                                     <!-- Form Group (경력연차) -->
                                                     <div class="form-group col-md-4">
-                                                        <label label class="small mb-1" for="careeryears">경력연차</label>
+                                                        <label label class="small mb-1" for="careeryears">근속연수</label>
                                                         <input type="text" class="form-control form-control-sm"
                                                             id="detail-careeryears" :value="careeryears" readonly>
                                                     </div>
@@ -1035,7 +1035,7 @@
                                             <div class="form-row">
                                                 <!-- Form Group (사원 증명사진) -->
                                                 <div class="form-group col-md-4" style="text-align: center">
-                                                    <img class="emp-idPicture" :src="physicalpath"
+                                                    <img class="emp-idPicture" vspace="40" :src="physicalpath"
                                                         style="height: 200; width:143px"
                                                         onerror="this.src='/images/noProfile.png'" />
                                                     <input class="form-control form-control-sm" id="idPicture"
@@ -2161,6 +2161,8 @@
 
             //         );
             //     }
+
+
 
             //     $(".date").daterangepicker(
             //         {

@@ -123,22 +123,6 @@ public class ExpendInsertServiceImpl implements ExpendInsertService {
         return idx;
     }
 
-    @Override
-    @Transactional
-    public boolean fileInput(MultipartFile multipartFile, int empno, String dvno,Path targetPath){
-        int dno = expendInsertMapper.selectDetailExpendDnoOne(dvno);
-
-        FileRequestDto fileRequestDto = new FileRequestDto(
-                multipartFile.getOriginalFilename(),
-                targetPath.toString(),
-                Math.toIntExact(multipartFile.getSize()),
-                empno,
-                1,
-                "/erp/file/hrms/",    // 상대경로 사용하지 않음
-                dno
-        );
-        return expendInsertMapper.insertFile(fileRequestDto) != 0;
-    }
 
     @Override
     public List<FileResponseDto> selectFile(String dvno){
@@ -159,4 +143,21 @@ public class ExpendInsertServiceImpl implements ExpendInsertService {
         fileUpdateRequestDto.setPhysicalpath(targetPath.toString());
         return expendInsertMapper.updateFileByDno(fileUpdateRequestDto)!=0;
     }
+    @Override
+    @Transactional
+    public boolean fileInput(MultipartFile multipartFile, int empno, String dvno,Path targetPath){
+        int dno = expendInsertMapper.selectDetailExpendDnoOne(dvno);
+
+        FileRequestDto fileRequestDto = new FileRequestDto(
+                multipartFile.getOriginalFilename(),
+                targetPath.toString(),
+                Math.toIntExact(multipartFile.getSize()),
+                empno,
+                1,
+                "/erp/file/expend/",    // 상대경로 사용하지 않음
+                dno
+        );
+        return expendInsertMapper.insertFile(fileRequestDto) != 0;
+    }
+
 }

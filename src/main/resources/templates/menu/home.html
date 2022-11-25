@@ -42,18 +42,20 @@
 
       <div class="home find shadow-lg rounded">
         <div class="search">
-          <input type="text" class="form-control" placeholder="검색할 임직원의 이름이나 부서를 입력하세요." aria-label="First name" v-model="find" v-on="findEmployee(find)">
+          <input type="text" class="form-control" placeholder="검색할 임직원의 이름이나 부서를 입력하세요." aria-label="First name"
+            v-model="find" v-on="findEmployee(find)">
         </div>
         <div style="overflow : auto; height:36rem;">
           <div class="list-group employee-list">
             <div v-for="list in employee" key="list">
-              <button type="button" class="list-group-item list-group-item-action" v-show="find === '' || list.name.includes(find) || list.department.includes(find)">
+              <button type="button" class="list-group-item list-group-item-action"
+                v-show="find === '' || list.name.includes(find) || list.department.includes(find)">
                 {{list.department}}&nbsp>&nbsp{{list.name}}&nbsp{{list.grade}}
               </button>
             </div>
           </div>
         </div>
-        
+
       </div>
 
       <!--결제함 dashboard-->
@@ -75,7 +77,8 @@
         </ul>
 
         <div class="tab-content" id="myTabContent">
-          <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+          <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+            tabindex="0">
           </div>
           <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
             <div class="col-card">
@@ -84,20 +87,22 @@
                   <div class="card-header">휴가</div>
                   <div class="card-body">
                     <p class="card-text">
-                    휴가기간:{{list.startdate}}~{{list.enddate}}
+                      휴가기간 :<br>
+                      {{list.startdate}} ~<br>
+                      {{list.enddate}}
                     </p>
                   </div>
-                  <div class="card-footer">결제 신청일:{{list.regdate}}</div>
+                  <div class="card-footer">결제 신청일 : {{list.regdate}}</div>
                   <a class="stretched-link" href="#"></a>
                 </div>
                 <div class="card_result" v-else>
                   <div class="card-header">지출 결의</div>
                   <div class="card-body">
                     <p class="card-text">
-                    금액:{{list.amt}}원
+                      금액 : {{currency(list.amt)}}원
                     </p>
                   </div>
-                  <div class="card-footer">결제 신청일:{{list.regdate}}</div>
+                  <div class="card-footer">결제 신청일 : {{list.regdate}}</div>
                   <a class="stretched-link" href="#"></a>
                 </div>
               </div>
@@ -110,20 +115,22 @@
                   <div class="card-header">휴가</div>
                   <div class="card-body">
                     <p class="card-text">
-                    휴가기간:{{list.startdate}}~{{list.enddate}}
+                      휴가기간 :<br>
+                      {{list.startdate}} ~<br>
+                      {{list.enddate}}
                     </p>
                   </div>
-                  <div class="card-footer">결제 신청일:{{list.regdate}}</div>
+                  <div class="card-footer">결제 신청일 : {{list.regdate}}</div>
                   <a class="stretched-link" href="#"></a>
                 </div>
                 <div class="card_result" v-else>
                   <div class="card-header">지출 결의</div>
                   <div class="card-body">
                     <p class="card-text">
-                    금액:{{list.amt}}원
+                      금액 : {{currency(list.amt)}}원
                     </p>
                   </div>
-                  <div class="card-footer">결제 신청일:{{list.regdate}}</div>
+                  <div class="card-footer">결제 신청일 : {{list.regdate}}</div>
                   <a class="stretched-link" href="#"></a>
                 </div>
               </div>
@@ -131,19 +138,19 @@
           </div>
         </div>
       </div>
-      
+
     </div>
     <script>
       const Home = {
         data() {
           return {
-            opacity : "opacity : 0",
+            opacity: "opacity : 0",
             notice: [],
             done: [],
             receive: [],
             employee: [],
             find: '',
-            
+
           }
         },
 
@@ -166,7 +173,7 @@
               .catch(error => console.error(error))
           },
 
-          getEmployeelist(){
+          getEmployeelist() {
             axios.post("http://localhost:8888/api/home/find")
               .then((response) => {
                 this.employee = response.data;
@@ -174,9 +181,12 @@
               .catch(error => console.error(error))
           },
 
-          findEmployee(find){
-            this.find = find;
-            console.log(find);
+          findEmployee(find) {
+          },
+
+          currency(e) {
+            var num = new Number(e);
+            return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,")
           }
 
         },
