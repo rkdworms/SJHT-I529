@@ -44,7 +44,6 @@ public class ExpendInsertApiController {
         return expendInsertService.inputExpend();
     }
 
-
     // detailexpend 테이블에 데이터를 입력하고 난 다음, expendinformation테이블의 해당 Dvno를 입력한 데이터를 토대로 계산한 값을 업데이트 해줌
     @PostMapping("/api/updateExpendInformation")
     public boolean updateExpendInfo(HttpServletRequest request, @RequestBody HashMap<String, String> map) {
@@ -126,27 +125,6 @@ public class ExpendInsertApiController {
         return expendInsertService.updateMyDetailExpend(updateMyDetailExpendRequestDto);
     }
 
-    // 파일 업로드 하는 컨트롤러
-    @PostMapping("api/uploadFile")
-    public boolean uploadFile(
-            HttpServletRequest request,
-            @RequestPart(name = "file") MultipartFile multipartFile,
-            @RequestParam(name = "dvno") String dvno
-    ) throws IOException {
-        EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
-        int empno = employeeDto.getEmpno();
-        Path directory = Paths.get("/erp/file/expend").toAbsolutePath().normalize();
-        Files.createDirectories(directory);
-        String filename = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        System.out.println(filename);
-        Path targetPath = directory.resolve(filename).normalize();
-        System.out.println(targetPath.toAbsolutePath());
-        if (expendInsertService.fileInput(multipartFile, empno, dvno, targetPath)) {
-            multipartFile.transferTo(targetPath);
-            return true;
-        }
-        return false;
-    }
 
     // detailexpend정보를 리스트로 출력하기 위해서 사용하는 컨트롤러
     @PostMapping("api/showMyDetailExpendList")
@@ -156,7 +134,6 @@ public class ExpendInsertApiController {
     ) {
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
         String dvno = map.get("dvnoOne");
-        System.out.println(dvno);
         return expendInsertService.selectDetailExpend(dvno);
     }
 
@@ -166,6 +143,7 @@ public class ExpendInsertApiController {
             HttpServletRequest request,
             @RequestBody InsertRequestDto insertRequestDto
     ) {
+        System.out.println(insertRequestDto);
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
         return expendInsertService.inputDetail(insertRequestDto);
     }
@@ -184,7 +162,7 @@ public class ExpendInsertApiController {
     public FileResponseDto selectOneFile(
             HttpServletRequest request,
             @RequestBody HashMap<String, String> map
-    ){
+    ) {
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
         int dno = Integer.parseInt(map.get("dno"));
         return expendInsertService.selectOneFile(dno);
@@ -220,9 +198,40 @@ public class ExpendInsertApiController {
     public boolean updateOneFile(
             HttpServletRequest request,
             @RequestPart(name = "file") MultipartFile multipartFile,
-            @RequestParam(name = "dno") String dvno
-    ){
+            @RequestParam(name = "dno") int dno
+    ) throws IOException {
         EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
+        Path directory = Paths.get("/erp/file/expend").toAbsolutePath().normalize();
+        Files.createDirectories(directory);
+        String filename = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        System.out.println(filename);
+        Path targetPath = directory.resolve(filename).normalize();
+        if (expendInsertService.updateOneFile(multipartFile, targetPath, dno)) {
+            multipartFile.transferTo(targetPath);
+            return true;
+        }
+        return false;
+    }
+
+    // 파일 업로드 하는 컨트롤러
+    @PostMapping("api/uploadFile")
+    public boolean uploadFile(
+            HttpServletRequest request,
+            @RequestPart(name = "file") MultipartFile multipartFile,
+            @RequestParam(name = "dvno") String dvno
+    ) throws IOException {
+        EmployeeDto employeeDto = (EmployeeDto) request.getAttribute("empNo");
+        int empno = employeeDto.getEmpno();
+        Path directory = Paths.get("/erp/file/expend").toAbsolutePath().normalize();
+        Files.createDirectories(directory);
+        String filename = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        System.out.println(filename);
+        Path targetPath = directory.resolve(filename).normalize();
+        System.out.println(targetPath.toAbsolutePath());
+        if (expendInsertService.fileInput(multipartFile, empno, dvno, targetPath)) {
+            multipartFile.transferTo(targetPath);
+            return true;
+        }
         return false;
     }
 }

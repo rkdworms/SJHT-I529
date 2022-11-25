@@ -1,14 +1,14 @@
 package sjht.erp.detailexpend.dto.request;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class InsertRequestDto {
     private int dno;
     private String dvno;

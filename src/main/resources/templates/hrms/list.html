@@ -272,7 +272,7 @@
                                                 <div class="form-row">
                                                     <!-- Form Group (사원 증명사진) -->
                                                     <div class="form-group col-md-4" style="text-align: center">
-                                                        <img class="emp-idPicture" :src="physicalpath"
+                                                        <img class="emp-idPicture" vspace="40" :src="physicalpath"
                                                             onerror="this.src='/images/noProfile.png'" />
                                                         <input class="form-control form-control-sm"
                                                             id="detail-idPicture" v-model="file" type="file"
@@ -556,6 +556,8 @@
                     </div>
                 </div>
             </div><!-- 사원 정보 수정 시 경고 모달 끝 -->
+
+
 
             <!-- 사원 퇴사 처리 모달 시작 -->
             <div class="col-xl-8">
@@ -1033,8 +1035,11 @@
                 </div>
             </div><!-- 사원 승진 및 보직 관리 시 경고 모달 끝 -->
 
+
         </div>
         <!-- empList 끝 -->
+
+
 
         <!-- 사원 등록 모달 시작 -->
         <div class="col-xl-8" id="empRegist">
@@ -1044,6 +1049,7 @@
                     <div class="modal-content" style="width: 750px; height: 860px;">
                         <div class="modal-body p-0">
                             <!-- details card -->
+
                             <div class="card mb-4">
                                 <div class="card-header">
                                     <span>사원 등록</span>
@@ -1748,6 +1754,7 @@
                         let temp = [];
                         for (emp of this.empList) {
 
+
                             // 사원 조회 시 검색 조건
                             if (
                                 ((emp.departmentname === this.department) || (this.department === '전체')) &&
@@ -1784,8 +1791,6 @@
                         // });
 
                     },
-
-
 
                     // 변경 후 grade name 저장
                     savegradename() {
@@ -2080,7 +2085,7 @@
                                     this.addr = result.jibunAddress; // 지번주소 선택 
                                 }
 
-                                this.zipcode = result.zonecode; // 새우편번호 
+                                this.zipcode = result.zonecode; // 새우편번호
                             }
                         }).open();
                     },

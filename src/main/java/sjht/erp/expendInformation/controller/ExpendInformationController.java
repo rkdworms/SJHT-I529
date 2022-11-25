@@ -13,7 +13,6 @@ public class ExpendInformationController {
 
     @RequestMapping("/expend")
     public String expend(){
-            System.out.println("Controller expend");
         return "expendInformation/expendInformation";
     }
 

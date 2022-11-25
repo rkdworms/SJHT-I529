@@ -27,10 +27,7 @@ public class ExpendHistoryRestController {
 
     @PostMapping("/api/expendHistoryParam")
     public ResponseEntity<List<SelectResultEHDto>> expendParam(@RequestBody HashMap<String, String> map){
-        System.out.println("expendParam before");
         List<SelectResultEHDto> result = service.selectByCondition(map);
-        System.out.println("result = " + result);
-        System.out.println("expendParam after");
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

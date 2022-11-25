@@ -11,7 +11,6 @@ public class ExpendHistoryController {
 
     @RequestMapping("/expendhistory")
     public String expendHistory(){
-            System.out.println("Controller expendHistory");
         return "expendHistory/expendHistory";
     }
 
