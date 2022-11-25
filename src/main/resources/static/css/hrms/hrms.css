@@ -23249,6 +23249,8 @@ textarea {
 .emp-idPicture {
   width: 140px;
   height: 189px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 .emp-content {
